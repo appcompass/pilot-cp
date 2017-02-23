@@ -1,16 +1,20 @@
 <template lang="jade">
-p.control
+div.control
   label.label {{ label }}
   input.input(
     type="text",
     @input="$emit('input', {value: $event.target.value, pointer: pointer})",
-    :value="data"
+    :value="data",
+    :class="{'is-danger': errors}",
   )
+  p.help(v-if="errors")
+    ul
+      li(v-for="error in errors") {{ error }}
 </template>
 
 <script>
 export default {
   name: 'string',
-  props: ['pointer', 'data', 'label']
+  props: ['pointer', 'data', 'label', 'errors']
 }
 </script>

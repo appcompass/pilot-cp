@@ -1,5 +1,4 @@
 import StringType from './FormBuilder/String'
-import BooleanType from './FormBuilder/Boolean'
 import TextType from './FormBuilder/Text'
 import SecretType from './FormBuilder/Secret'
 import FileType from './FormBuilder/File'
@@ -8,6 +7,7 @@ import FieldsetType from './FormBuilder/Fieldset'
 import CodeeditorType from './FormBuilder/Codeeditor'
 import PageEditorType from './FormBuilder/PageEditor'
 import MenuEditorType from './FormBuilder/MenuEditor'
+import BooleanType from './FormBuilder/Boolean'
 import WysiwygType from './FormBuilder/Wysiwyg'
 import LinkType from './FormBuilder/Link'
 import DynamicType from './FormBuilder/Dynamic'
@@ -17,7 +17,6 @@ import FormBuilderType from './FormBuilder/FormBuilder'
 import MapType from './FormBuilder/Map'
 import LoginFormType from './FormBuilder/LoginForm'
 export var String = StringType
-export var Boolean = BooleanType
 export var Text = TextType
 export var Secret = SecretType
 export var File = FileType
@@ -26,6 +25,7 @@ export var Fieldset = FieldsetType
 export var Codeeditor = CodeeditorType
 export var PageEditor = PageEditorType
 export var MenuEditor = MenuEditorType
+export var Boolean = BooleanType
 export var Wysiwyg = WysiwygType
 export var Link = LinkType
 export var Dynamic = DynamicType

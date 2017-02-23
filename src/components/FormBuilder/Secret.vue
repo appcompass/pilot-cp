@@ -13,6 +13,7 @@ div
 <script>
 export default {
   name: 'secret',
+  props: ['pointer'],
   data () {
     return {
       edit: false,
@@ -23,8 +24,7 @@ export default {
   methods: {
     input () {
       if (this.pass1 === this.pass2) {
-        console.log('Ok!')
-        this.$emit('input', this.pass1)
+        this.$emit('input', {value: this.pass1, pointer: this.pointer})
       }
     }
   }

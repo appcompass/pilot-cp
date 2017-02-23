@@ -14,6 +14,7 @@ Vue.use(VueRouter)
 Vue.use(VueResource)
 
 Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token')
+Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 // Vue.http.options.root = ''
 
 Vue.http.interceptors.push((request, next) => {

@@ -23,6 +23,7 @@ div
             :data="value(field.name)",
             :source="field.source",
             :label="field.label",
+            :errors="field.errors"
             @input="set"
           )
           footer
@@ -66,12 +67,9 @@ export default {
       loading: true,
       model: undefined,
       route: undefined,
-      navigation: undefined
+      navigation: undefined,
+      errors: null
     }
-  },
-  beforeRouteEnter (to, from, next) {
-    // @TODO put breadcrumbs here
-    return next()
   },
   created () {
     this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
@@ -84,8 +82,8 @@ export default {
     }
 
   },
-  beforeCreate () {
-    // console.log(this.components)
+  mounted () {
+    // console.log(this.$children)
   },
   methods: {
     refresh () {
@@ -120,6 +118,9 @@ export default {
     },
     set (data) {
       this.$set(this.collection, data.pointer, data.value)
+      if (this.errors != null) {
+        this.clearErrors()
+      }
     },
     value (fieldName) {
       return _.get(this.collection, fieldName)
@@ -133,11 +134,25 @@ export default {
             // fetch a fresh copy of the resource just updated
             this.refresh()
           })
-        })
-        .catch((response) => {
+        }, response => {
           this.loading = false
-          swal({title: 'Error', text: response.data.errors, type: 'error'})
+          if (response.status === 422) {
+            this.edit.fields.forEach((field, index) => {
+              this.errors = response.data
+              if (response.data[field.name]) {
+                this.$set(this.edit.fields[index], 'errors', response.data[field.name])
+              }
+            })
+          } else {
+            swal({title: 'Error', text: response.data.errors, type: 'error'})
+          }
         })
+    },
+    clearErrors () {
+      this.edit.fields.forEach((field, index) => {
+        this.$set(this.edit.fields[index], 'errors', null)
+      })
+      this.errors = null
     }
   }
 }
