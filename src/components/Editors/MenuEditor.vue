@@ -1,9 +1,10 @@
 <template lang="jade">
 .columns
+  pre
   .column.is-4
       h1.title Pages
-      Sortable.menu-list(:list="data.repo.pages", :element="'ul'", :options="{animation: 300, group: 'items', clone: true}")
-        li.repo__item(v-for="(item, index) in data.repo.pages", @dblclick="add(item)")
+      Sortable.menu-list(:list="data.collection.repo.pages", :element="'ul'", :options="{animation: 50, group: 'items', clone: true}")
+        li.repo__item(v-for="(item, index) in data.collection.repo.pages", @dblclick="add(item)")
           p {{ item.title }}
 
       h1.title(style="margin-top: 3rem") Widgets
@@ -11,29 +12,29 @@
         span.icon.is-small
           i.fa.fa-link
         span New Widget
-      Sortable.menu-list(:list="data.repo.links", :element="'ul'", :options="{animation: 300, group: 'items', clone: true}")
-        li.repo__item(v-for="(item, index) in data.repo.links", @dblclick="add(item)")
+      Sortable.menu-list(:list="data.collection.repo.links", :element="'ul'", :options="{animation: 50, group: 'items', clone: true}")
+        li.repo__item(v-for="(item, index) in data.collection.repo.links", @dblclick="add(item)")
           p {{ item.title }}
             small.icon.is-small.pull-right
               i.fa.fa-trash(@click="deleteLink(item)")
 
   .column.is-8
       h1.title Menu:
-      MenuElement(:menu="data.menu", @deleted="deleted")
-      Sortable.empty(v-if="!data.menu.length", :list="data.menu",  :options="{handle: '.handle', animation: 300, group: 'items'}")
+      MenuElement(:menu="data.collection.menu", @deleted="deleted")
+      Sortable.empty(v-if="!data.collection.menu.length", :list="data.collection.menu",  :options="{handle: '.handle', animation: 50, group: 'items'}")
 
 </template>
 
 <script>
 import Sortable from '../VueSortable'
-import MenuElement from './MenuElement'
+import MenuElement from '../FormBuilder/MenuElement'
 import Modal from '../Modal'
 import swal from 'sweetalert'
 import _ from 'lodash'
 
 export default {
   components: { Sortable, MenuElement },
-  props: [ 'data', 'value', 'pointer' ],
+  props: [ 'data', 'errors' ],
   name: 'menu-editor',
   data () {
     return {
@@ -44,20 +45,20 @@ export default {
   created () {},
   methods: {
     add (item) {
-      this.data.menu.push(_.clone(item, {}, true))
+      this.data.collection.menu.push(_.clone(item, {}, true))
     },
     deleted (item) {
       // mark items for deletion
       if (item.navigatable_id != null) {
-        this.data.deletions.push(item.id)
+        this.data.collection.deletions.push(item.id)
       }
     },
     storeLink (payload) {
       // get a MenuItem instance from the backend
       this.$http.post(process.env.API_SERVER + 'menus/', payload)
         .then((response) => {
-          this.data.repo.links.push(response.body.link)
-          this.data.menu.push(response.body.menuitem)
+          this.data.collection.repo.links.push(response.body.link)
+          this.data.collection.menu.push(response.body.menuitem)
         })
     },
     createLink (item) {
@@ -82,7 +83,7 @@ export default {
       }, () => {
         this.$http.delete(process.env.API_SERVER + 'menus/links/' + link.id)
           .then(response => {
-            this.data.repo.links.splice(this.data.repo.links.indexOf(link), 1)
+            this.data.collection.repo.links.splice(this.data.collection.repo.links.indexOf(link), 1)
             swal({title: 'Deleted', type: 'success', timer: 500, showConfirmButton: false})
           }, response => {
             swal({title: 'Error', text: 'Errors while deleting widget', type: 'error'})

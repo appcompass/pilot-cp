@@ -1,7 +1,7 @@
 <template lang="jade">
 p.control
   Dropzone(
-    :url="$route.fullPath"
+    :url="$route.params.model"
   )
 </template>
 

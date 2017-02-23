@@ -6,7 +6,6 @@ import SelectType from './FormBuilder/Select'
 import FieldsetType from './FormBuilder/Fieldset'
 import CodeeditorType from './FormBuilder/Codeeditor'
 import PageEditorType from './FormBuilder/PageEditor'
-import MenuEditorType from './FormBuilder/MenuEditor'
 import BooleanType from './FormBuilder/Boolean'
 import WysiwygType from './FormBuilder/Wysiwyg'
 import LinkType from './FormBuilder/Link'
@@ -24,7 +23,6 @@ export var Select = SelectType
 export var Fieldset = FieldsetType
 export var Codeeditor = CodeeditorType
 export var PageEditor = PageEditorType
-export var MenuEditor = MenuEditorType
 export var Boolean = BooleanType
 export var Wysiwyg = WysiwygType
 export var Link = LinkType
