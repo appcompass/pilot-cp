@@ -1,8 +1,7 @@
 <template lang="jade">
 p.control
-  label.label File
   Dropzone(
-    :url="$route.params.model"
+    :url="$route.fullPath"
   )
 </template>
 
