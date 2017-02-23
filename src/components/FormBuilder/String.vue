@@ -5,7 +5,7 @@ div.control
     type="text",
     @input="$emit('input', {value: $event.target.value, pointer: pointer})",
     :value="data",
-    :class="{'is-danger': errors}",
+    :class="{'is-danger': errors}"
   )
   p.help(v-if="errors")
     ul
