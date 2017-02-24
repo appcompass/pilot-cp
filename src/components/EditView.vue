@@ -1,6 +1,5 @@
 <template lang="jade">
 div(v-if="!loading")
-
   .columns
     .column.is-10
       div(:is="data.edit.editor + 'Editor'", :data="data", :errors="errors", @refresh="refresh")
@@ -37,7 +36,6 @@ import FormEditor from './Editors/FormEditor'
 import MenuEditor from './Editors/MenuEditor'
 
 import swal from 'sweetalert'
-// import _ from 'lodash'
 
 export default {
   name: 'EditView',
@@ -66,8 +64,8 @@ export default {
   },
   watch: {
     '$route' (to, from) {
+      console.log('Route change')
       this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-      this.refresh()
     }
 
   },

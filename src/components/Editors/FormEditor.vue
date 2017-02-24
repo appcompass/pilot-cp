@@ -25,36 +25,11 @@ div
           :errors="field.errors"
           @input="set"
         )
-
-
-        //- footer
-          p.control
-            .pull-right
-              a.button.is-primary(
-                :class="{'is-loading': loading}",
-                :disable="loading",
-                @click="update"
-              ) Save
-
-  //-   .column.is-3.is-offset-1(v-if="navigation && navigation.length")
-  //-     h1.menu-label Sub Navigation
-  //-     aside.menu
-  //-       ul.menu-list
-  //-         li(v-for="item in navigation")
-  //-           router-link(:to="{name: 'sub', params: {model: model.split('/')[model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}") {{ item.title }}
-
-  //- div.columns
-  //-   .column.is-12
-  //-     router-view
-
 </template>
 
 <script>
 import * as Components from '../Components'
-// import State from '../State'
-// import Auth from '../Auth'
 
-// import swal from 'sweetalert'
 import _ from 'lodash'
 
 export default {
@@ -67,24 +42,11 @@ export default {
       loading: false,
       model: undefined,
       route: undefined
-      // navigation: undefined
     }
   },
   created () {
     this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-    // this.route = this.model.split('/')[this.model.split('/').length - 2]
-    // State.get(this.route)
-    //   .then(subnav => {
-    //     this.navigation = subnav
-    //   }, (response) => {
-    //     swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
-    //   })
   },
-  // watch: {
-  //   '$route' (to, from) {
-  //     this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-  //   }
-  // },
   methods: {
     set (data) {
       this.$set(this.data.collection, data.pointer, data.value)
