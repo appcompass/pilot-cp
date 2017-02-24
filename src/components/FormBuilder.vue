@@ -56,7 +56,8 @@ div
           :content="val",
         )
 
-    div(v-if="field.fields.length")
+    //- NOT SURE ABOUT THIS ONE, BUT ALLOWS RECURSIVE FORMS
+    div(v-if="field.fields.length && !Array.isArray(value(field))")
       FormBuilder.fieldset(
         :form="field.fields",
         :errors="field.errors",
