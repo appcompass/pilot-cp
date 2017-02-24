@@ -12,6 +12,8 @@ div
         :pointer="field.name",
         :data="value(field)",
         :value="value(field)",
+        :errors="field.errors",
+        :source="field.source"
         @input="set"
       )
 
@@ -24,6 +26,8 @@ div
         :pointer="field.name",
         :data="single",
         :value="single",
+        :errors="field.errors",
+        :source="field.source",
         @input="function(e) { return set(e, subFieldIndex); }"
       )
 
@@ -47,8 +51,18 @@ div
         FormBuilder.fieldset(
           v-if="!val.isCollapsed",
           :form="field.fields",
+          :errors="field.errors",
+          :source="field.source",
           :content="val",
         )
+
+    div(v-if="field.fields.length")
+      FormBuilder.fieldset(
+        :form="field.fields",
+        :errors="field.errors",
+        :source="field.source",
+        :content="value(field)"
+      )
 </template>
 
 <script>
@@ -58,7 +72,7 @@ import Sortable from './VueSortable'
 
 export default {
   name: 'FormBuilder',
-  props: [ 'form', 'content' ],
+  props: [ 'form', 'content', 'errors' ],
   components: { Sortable },
   data () {
     return {
@@ -115,6 +129,8 @@ export default {
     // sets a value
     set (data, index) {
       // based on index
+      this.$emit('input', data)
+
       if (Array.isArray(this.content[data.pointer])) {
         if (index) {
           this.$set(this.content[data.pointer], index, data.value)

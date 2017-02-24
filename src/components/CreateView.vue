@@ -3,7 +3,8 @@ div.columns
   .column.is-three-quarters
     h1.title.is-4 New: {{ $route.params.model.split('_')[$route.params.model.split('_').length - 1].replace(/s\s*$/, "") }}
     form
-      FormField(v-for="field in create.fields", :field="field", :value="value(field.name)")
+      {{ collection }}
+      FormBuilder(:form="create.fields", :content="collection", @input="set", :errros="errors")
 
     footer
       .pull-right
@@ -18,10 +19,11 @@ import * as Components from './Components'
 import swal from 'sweetalert'
 import FormField from './FormBuilder/FormField'
 import _ from 'lodash'
+import FormBuilder from './FormBuilder'
 
 export default {
   name: 'CreateView',
-  components: { FormField },
+  components: { FormField, FormBuilder },
   data () {
     return {
       Components,

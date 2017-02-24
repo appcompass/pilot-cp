@@ -15,18 +15,19 @@ div
           .span Back
 
       .section
-        FormField(v-for="field in data.edit.fields", :field="field", :value="value(field.name)")
+        FormBuilder(:form="data.edit.fields", :content="data.collection", @input="set", :errros="errors")
 </template>
 
 <script>
 import * as Components from '../Components'
 import FormField from '../FormBuilder/FormField'
+import FormBuilder from '../FormBuilder'
 import _ from 'lodash'
 
 export default {
   name: 'FormEditor',
   props: ['data', 'errors'],
-  components: { FormField },
+  components: { FormField, FormBuilder },
   data () {
     return {
       Components,

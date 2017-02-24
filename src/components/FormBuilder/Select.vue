@@ -1,9 +1,8 @@
 <template lang="jade">
 .control
   label.label {{ label }}
-  select
-    option(v-for="(option, index) in source", :value="option.id || index") {{ option }}
-  //- {{ data }} {{ source }}
+  select(@input="$emit('input', {value: $event.target.value, pointer: pointer})", v-model="data.data")
+    option(v-for="option in data.source", :value="option.id") {{ option.name }}
 </template>
 
 <script>
