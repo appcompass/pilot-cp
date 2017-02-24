@@ -7,7 +7,7 @@ div
           h1.title Missing List View Form
           h2.subtitle List Form not provided, please provide one.
 
-    .column(v-else, :class="{'is-8': navigation && navigation.length, 'is-10': !navigation || !navigation.length}")
+    .column.is-12(v-else)
       h1.title.is-4 Edit: {{ $route.params.model.split('_').pop() }}
         a.button.is-pulled-right(@click="$router.go(-1)")
           span.icon.is-small
@@ -15,7 +15,6 @@ div
           .span Back
 
       .section
-        //- form
         span(
           v-for="field in data.edit.fields",
           :is="Components[field.type]",
@@ -26,6 +25,8 @@ div
           :errors="field.errors"
           @input="set"
         )
+
+
         //- footer
           p.control
             .pull-right
@@ -35,25 +36,25 @@ div
                 @click="update"
               ) Save
 
-    .column.is-3.is-offset-1(v-if="navigation && navigation.length")
-      h1.menu-label Sub Navigation
-      aside.menu
-        ul.menu-list
-          li(v-for="item in navigation")
-            router-link(:to="{name: 'sub', params: {model: model.split('/')[model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}") {{ item.title }}
+  //-   .column.is-3.is-offset-1(v-if="navigation && navigation.length")
+  //-     h1.menu-label Sub Navigation
+  //-     aside.menu
+  //-       ul.menu-list
+  //-         li(v-for="item in navigation")
+  //-           router-link(:to="{name: 'sub', params: {model: model.split('/')[model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}") {{ item.title }}
 
   //- div.columns
-    .column.is-12
-      router-view
+  //-   .column.is-12
+  //-     router-view
 
 </template>
 
 <script>
 import * as Components from '../Components'
-import State from '../State'
+// import State from '../State'
 // import Auth from '../Auth'
 
-import swal from 'sweetalert'
+// import swal from 'sweetalert'
 import _ from 'lodash'
 
 export default {
@@ -65,26 +66,25 @@ export default {
       resource: undefined,
       loading: false,
       model: undefined,
-      route: undefined,
-      navigation: undefined
+      route: undefined
+      // navigation: undefined
     }
   },
   created () {
     this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-    this.route = this.model.split('/')[this.model.split('/').length - 2]
-    State.get(this.route)
-      .then(subnav => {
-        this.navigation = subnav
-      }, (response) => {
-        swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
-      })
+    // this.route = this.model.split('/')[this.model.split('/').length - 2]
+    // State.get(this.route)
+    //   .then(subnav => {
+    //     this.navigation = subnav
+    //   }, (response) => {
+    //     swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
+    //   })
   },
-  watch: {
-    '$route' (to, from) {
-      this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-    }
-
-  },
+  // watch: {
+  //   '$route' (to, from) {
+  //     this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
+  //   }
+  // },
   methods: {
     set (data) {
       this.$set(this.data.collection, data.pointer, data.value)

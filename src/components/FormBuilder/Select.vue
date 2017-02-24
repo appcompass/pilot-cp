@@ -1,11 +1,13 @@
 <template lang="jade">
-div
-  | {{ data }}
+.control
+  label.label {{ label }}
+  select
+  {{ data }} {{ source }}
 </template>
 
 <script>
 export default {
   name: 'Select',
-  props: ['data', 'pointer']
+  props: ['data', 'label', 'pointer', 'source']
 }
 </script>
