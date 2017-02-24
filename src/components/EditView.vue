@@ -1,27 +1,38 @@
 <template lang="jade">
 div(v-if="!loading")
-  div(:is="data.edit.editor + 'Editor'", :data="data", :errors="errors", @refresh="refresh")
 
-  div.columns
+  .columns
+    .column.is-10
+      div(:is="data.edit.editor + 'Editor'", :data="data", :errors="errors", @refresh="refresh")
+
+    .column.is-2(v-if="navigation && navigation.length")
+      h1.menu-label Sub Navigation
+      aside.menu
+        ul.menu-list
+          li(v-for="item in navigation")
+            router-link(:to="{name: 'sub', params: {model: model.split('/')[model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}") {{ item.title }}
+
+  .columns
     .column.is-10
       footer
         p.control
-          .pull-right
-            a.button.is-primary(
-              :class="{'is-loading': loading}",
-              :disable="submitted",
-              @click.prevent="update"
-            ) Save
+          a.button.is-primary(
+            :class="{'is-loading': loading}",
+            :disable="submitted",
+            @click.prevent="update"
+          ) Save
 
   div.columns
     .column.is-12
-      router-view
+      transition(name="route", mode="out-in")
+        router-view(name="sub")
 
 
 </template>
 
 <script>
 import Auth from './Auth'
+import State from './State'
 import FormEditor from './Editors/FormEditor'
 import MenuEditor from './Editors/MenuEditor'
 
@@ -35,7 +46,7 @@ export default {
     return {
       data: undefined,
       submitted: false,
-      loading: true,
+      loading: false,
       model: undefined,
       route: undefined,
       navigation: undefined,
@@ -45,6 +56,13 @@ export default {
   created () {
     this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
     this.refresh()
+    this.route = this.model.split('/')[this.model.split('/').length - 2]
+    State.get(this.route)
+      .then(subnav => {
+        this.navigation = subnav
+      }, (response) => {
+        swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
+      })
   },
   watch: {
     '$route' (to, from) {
@@ -100,5 +118,10 @@ export default {
   text-transform: capitalize !important
 .router-link-active
   color: $primary-color !important
-
+.route-enter-active
+  transition: all .2s
+  opacity: 1
+.route-leave-active
+  transition: all .2s
+  opacity: 0
 </style>

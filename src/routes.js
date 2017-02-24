@@ -28,8 +28,10 @@ export default [
     children: [
       {
         path: ':sub',
-        component: ListView,
-        name: 'sub'
+        name: 'sub',
+        components: {
+          sub: ListView
+        }
       }
     ]
   }

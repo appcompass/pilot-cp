@@ -21,11 +21,7 @@ export default {
 .route-enter-active
   transition: all .2s
   opacity: 1
-
 .route-leave-active
   transition: all .2s
   opacity: 0
-
-.navigation
-  background: red
 </style>
