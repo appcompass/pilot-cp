@@ -1,5 +1,5 @@
 <template lang="jade">
-span
+div
   span(
     :is="Components[field.type]",
     :pointer="field.name",
@@ -10,14 +10,15 @@ span
     :label="field.label"
     @input="set"
   )
-  FormField(v-for="sub in field.fields", :field="field", :value="value")
+  fieldset(v-if="field.fields.length")
+    FormField(v-for="sub in field.fields", :field="sub", :value="value")
 </template>
 
 <script>
 import * as Components from '../Components'
 
 export default {
-  name: 'SingleField',
+  name: 'FormField',
   props: ['field', 'value'],
   data () {
     return {
@@ -31,3 +32,11 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+fieldset
+  margin: 1rem
+  background: rgba(240, 240, 240, 0.4)
+  padding: 1rem !important
+  border: 1px solid #ddd
+</style>
