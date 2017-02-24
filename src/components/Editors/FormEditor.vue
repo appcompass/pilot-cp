@@ -51,16 +51,11 @@ export default {
     set (data) {
       this.$set(this.data.collection, data.pointer, data.value)
       if (this.errors != null) {
-        this.clearErrors()
+        this.$emit('clearErrors')
       }
     },
     value (fieldName) {
       return _.get(this.data.collection, fieldName)
-    },
-    clearErrors () {
-      this.data.edit.fields.forEach((field, index) => {
-        this.$set(this.data.edit.fields[index], 'errors', null)
-      })
     }
   }
 }

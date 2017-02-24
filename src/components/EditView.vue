@@ -3,7 +3,7 @@ div
 
   .columns
     .column.is-10(v-if="data")
-      div(:is="data.edit.editor + 'Editor'", :data="data", :errors="errors", @refresh="refresh")
+      div(:is="data.edit.editor + 'Editor'", :data="data", :errors="errors", @refresh="refresh", @clearErrors="clearErrors")
 
     .column.is-2(v-if="navigation && navigation.length")
       h1.menu-label Sub Navigation
@@ -47,7 +47,7 @@ export default {
     return {
       data: undefined,
       submitted: false,
-      loading: false,
+      loading: true,
       model: undefined,
       route: undefined,
       navigation: undefined,
@@ -64,7 +64,13 @@ export default {
 
   },
   methods: {
-    nav (route) {
+    routeChanged () {
+      this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
+      this.route = this.model.split('/')[this.model.split('/').length - 2]
+      this.setNav(this.route)
+      this.refresh()
+    },
+    setNav (route) {
       State.get(route)
         .then(subnav => {
           this.navigation = subnav
@@ -72,33 +78,40 @@ export default {
           swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
         })
     },
-    routeChanged () {
-      this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-      this.route = this.model.split('/')[this.model.split('/').length - 2]
-      this.nav(this.route)
-      this.refresh()
-    },
     update () {
       this.submitted = true
       this.$http.put(process.env.API_SERVER + this.$route.fullPath.split('_').join('/'), this.data.collection)
         .then((response) => {
-          this.submitted = false
           swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
             this.refresh()
           })
         }, response => {
-          this.submitted = false
           if (response.status === 422) {
-            this.data.edit.fields.forEach((field, index) => {
-              this.errors.push(response.data)
-              if (response.data[field.name]) {
-                this.$set(this.data.edit.fields[index], 'errors', response.data[field.name])
-              }
-            })
+            this.setErrors(response.data)
           } else {
             swal({title: 'Error', text: response.data.errors, type: 'error'})
           }
         })
+    },
+    setErrors (errors) {
+      // this.$set(this.errors, errors)
+      let swalErrors = '<ul>'
+      this.data.edit.fields.forEach((field, index) => {
+        if (errors[field.name]) {
+          let error = errors[field.name]
+          swalErrors += '<li>' + error + '</li>'
+          this.errors.push(error)
+          this.$set(this.data.edit.fields[index], 'errors', error)
+        }
+      })
+      swalErrors += '</ul>'
+      swal({title: 'Validation Errors Dawg', text: swalErrors, html: true, type: 'error'})
+    },
+    clearErrors () {
+      this.data.edit.fields.forEach((field, index) => {
+        this.$set(this.errors, [])
+        this.$set(this.data.edit.fields[index], 'errors', null)
+      })
     },
     refresh () {
       var api = process.env.API_SERVER

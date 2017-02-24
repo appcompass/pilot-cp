@@ -1,7 +1,7 @@
 <template lang="jade">
 div.columns
   .column.is-three-quarters
-    h1.title.is-4 New: {{ $route.params.model.slice(0, -1) }}
+    h1.title.is-4 New: {{ $route.params.model.split('_')[$route.params.model.split('_').length - 1].replace(/s\s*$/, "") }}
     form
       .control(v-for="field in create.fields")
         label.label(v-bind:class="{checkbox: field.type === 'boolean'}") {{ field.label }}
@@ -9,7 +9,8 @@ div.columns
           :is="Components[field.type]",
           v-bind:pointer="field.name"
           v-bind:data="value(field.name)"
-          v-bind:value="value(field.name)"
+          v-bind:value="value(field.name)",
+          :errors="field.errors",
           @input="set"
         )
     footer
@@ -27,31 +28,26 @@ div.columns
 
 <script>
 import * as Components from './Components'
-import Formstring from './FormBuilder/String'
-import Formtext from './FormBuilder/Text'
-import Formsecret from './FormBuilder/Secret'
-import Formboolean from './FormBuilder/Boolean'
 import swal from 'sweetalert'
 import _ from 'lodash'
 
 export default {
   name: 'CreateView',
-  components: { Formstring, Formtext, Formsecret, Formboolean },
+  components: {},
   data () {
     return {
       Components,
       create: {},
-      collection: {}
+      collection: {},
+      errors: []
     }
   },
   created () {
     var api = process.env.API_SERVER
 
-    // this.model = this.$route.params.modelslice(1).split('/').join('_')
     this.model = this.$route.params.model.split('_').join('/')
-    console.log(this.model)
 
-    this.$http.get(api + this.$route.path)
+    this.$http.get(api + this.model)
       .then((response) => {
         this.create = response.data.edit
         this.resource = this.$resource(api + this.model)
@@ -59,6 +55,7 @@ export default {
   },
   methods: {
     set (data) {
+      this.clearErrors()
       _.set(this.collection, data.pointer, data.value)
     },
     value (fieldName) {
@@ -71,10 +68,33 @@ export default {
           }, () => {
             this.$router.push({name: 'edit', params: { model: response.data.model, id: response.data.id }})
           })
+        }, response => {
+          if (response.status === 422) {
+            this.setErrors(response.data)
+          } else {
+            swal({title: 'Error', text: response.data.errors, type: 'error'})
+          }
         })
-        .catch((response) => {
-          swal('Error', response.data.errors, 'error')
-        })
+    },
+    setErrors (errors) {
+      // this.$set(this.errors, errors)
+      let swalErrors = '<ul>'
+      this.create.fields.forEach((field, index) => {
+        if (errors[field.name]) {
+          let error = errors[field.name]
+          swalErrors += '<li>' + error + '</li>'
+          this.errors.push(error)
+          this.$set(this.create.fields[index], 'errors', error)
+        }
+      })
+      swalErrors += '</ul>'
+      swal({title: 'Validation Errors Dawg', text: swalErrors, html: true, type: 'error'})
+    },
+    clearErrors () {
+      this.create.fields.forEach((field, index) => {
+        this.$set(this.errors, [])
+        this.$set(this.create.fields[index], 'errors', null)
+      })
     }
   }
 }
