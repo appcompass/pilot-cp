@@ -86,7 +86,7 @@ export default {
       if (to.path === from.path) {
         return
       }
-      this.model = to.path
+      this.model = to.path.slice(1).split('/').join('_')
       this.loading = true
 
       this.sorters = {}
@@ -114,7 +114,7 @@ export default {
     update () {
       var api = process.env.API_SERVER
       this.loading = true
-      this.model = this.$route.path
+      this.model = this.$route.path.slice(1).split('/').join('_')
       this.$http.get(api + this.$route.path.slice(1), {
         params: {
           page: this.pagination.current_page,

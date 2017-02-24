@@ -9,9 +9,10 @@ div
   .control(v-if="edit")
     input.input(type="password", v-model="pass2", placeholder="Password Again", @input="input", :class="{'is-danger': errors}")
 
-  p.help(v-if="errors")
+  p.help
     ul
       li(v-for="error in errors") {{ error }}
+      li(v-if="!matching") Passwords don't match
 
 </template>
 
@@ -23,14 +24,17 @@ export default {
     return {
       edit: false,
       pass1: undefined,
-      pass2: undefined
+      pass2: undefined,
+      matching: false
     }
   },
   methods: {
     input () {
       if (this.pass1 === this.pass2) {
-        this.errors.push(['Passwords do not match.'])
+        this.matching = true
         this.$emit('input', {value: this.pass1, pointer: this.pointer})
+      } else {
+        this.matching = false
       }
     }
   }
