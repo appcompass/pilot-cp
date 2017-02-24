@@ -1,7 +1,8 @@
 <template lang="jade">
-div(v-if="!loading")
+div
+
   .columns
-    .column.is-10
+    .column.is-10(v-if="data")
       div(:is="data.edit.editor + 'Editor'", :data="data", :errors="errors", @refresh="refresh")
 
     .column.is-2(v-if="navigation && navigation.length")
@@ -15,11 +16,12 @@ div(v-if="!loading")
     .column.is-10
       footer
         p.control
-          a.button.is-primary(
-            :class="{'is-loading': loading}",
-            :disable="submitted",
-            @click.prevent="update"
-          ) Save
+          .pull-right
+            a.button.is-primary(
+              :class="{'is-loading': loading}",
+              :disable="submitted",
+              @click.prevent="update"
+            ) Save
 
   div.columns
     .column.is-12
@@ -36,6 +38,7 @@ import FormEditor from './Editors/FormEditor'
 import MenuEditor from './Editors/MenuEditor'
 
 import swal from 'sweetalert'
+// import _ from 'lodash'
 
 export default {
   name: 'EditView',
@@ -52,24 +55,29 @@ export default {
     }
   },
   created () {
-    this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-    this.refresh()
-    this.route = this.model.split('/')[this.model.split('/').length - 2]
-    State.get(this.route)
-      .then(subnav => {
-        this.navigation = subnav
-      }, (response) => {
-        swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
-      })
+    this.routeChanged()
   },
   watch: {
     '$route' (to, from) {
-      console.log('Route change')
-      this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
+      this.routeChanged()
     }
 
   },
   methods: {
+    nav (route) {
+      State.get(route)
+        .then(subnav => {
+          this.navigation = subnav
+        }, (response) => {
+          swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
+        })
+    },
+    routeChanged () {
+      this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
+      this.route = this.model.split('/')[this.model.split('/').length - 2]
+      this.nav(this.route)
+      this.refresh()
+    },
     update () {
       this.submitted = true
       this.$http.put(process.env.API_SERVER + this.$route.fullPath.split('_').join('/'), this.data.collection)
