@@ -1,6 +1,9 @@
 <template lang="jade">
 div#editor
-  span(v-html="data")
+    span(v-for="(item, index) in data")
+      span.title.is-6 {{ index }}
+      pre
+        span {{ item }}
 </template>
 
 <script>
