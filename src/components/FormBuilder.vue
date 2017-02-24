@@ -53,16 +53,16 @@ div
           :form="field.fields",
           :errors="field.errors",
           :source="field.source",
-          :content="val",
+          :content="val"
         )
 
-    //- NOT SURE ABOUT THIS ONE, BUT ALLOWS RECURSIVE FORMS
+    //- NOT SURE ABOUT THIS ONE, BUT ALLOWS RECURSIVE FORMS (field is not repeatable, it's just a set of children)
     div(v-if="field.fields.length && !Array.isArray(value(field))")
       FormBuilder.fieldset(
         :form="field.fields",
         :errors="field.errors",
         :source="field.source",
-        :content="value(field)"
+        :content="value(field)",
       )
 </template>
 
@@ -117,9 +117,8 @@ export default {
           data: c,
           source: field.source
         }
-      }
       // if it returns an array we look at index, if preset
-      if (index >= 0 && Array.isArray(c)) {
+      } else if (index >= 0 && Array.isArray(c)) {
         // return that specific value
         return c[index]
       } else {
@@ -130,15 +129,15 @@ export default {
     // sets a value
     set (data, index) {
       // based on index
-      this.$emit('input', data)
-
-      if (Array.isArray(this.content[data.pointer])) {
+      if (this.content && Array.isArray(this.content[data.pointer])) {
         if (index) {
-          this.$set(this.content[data.pointer], index, data.value)
+          this.$set(this.content[data.pointer.split('.').join('][')], index, data.value)
         }
       // or on an object
       } else {
-        _.set(this.content, data.pointer, data.value)
+        console.log(this.content)
+        this.$set(this.content, data.pointer, data.value)
+        // _.set(this.content, data.pointer, data.value)
       }
     },
     // collapse a structure

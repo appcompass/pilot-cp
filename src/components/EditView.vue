@@ -25,7 +25,7 @@ div
 
   div.columns
     .column.is-12
-      transition(name="route", mode="out-in")
+      transition(:name="route", mode="out-in")
         router-view(name="sub")
 
 
@@ -36,13 +36,14 @@ import Auth from './Auth'
 import State from './State'
 import FormEditor from './Editors/FormEditor'
 import MenuEditor from './Editors/MenuEditor'
+import GalleryEditor from './Editors/GalleryEditor'
 
 import swal from 'sweetalert'
 // import _ from 'lodash'
 
 export default {
   name: 'EditView',
-  components: { FormEditor, MenuEditor },
+  components: { FormEditor, MenuEditor, GalleryEditor },
   data () {
     return {
       data: undefined,
@@ -138,7 +139,7 @@ export default {
 .router-link-active
   color: $primary-color !important
 .route-enter-active
-  transition: all .2s
+  transition: all .4s
   opacity: 1
 .route-leave-active
   transition: all .2s
