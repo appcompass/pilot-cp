@@ -135,9 +135,7 @@ export default {
         }
       // or on an object
       } else {
-        console.log(this.content)
         this.$set(this.content, data.pointer, data.value)
-        // _.set(this.content, data.pointer, data.value)
       }
     },
     // collapse a structure

@@ -32,5 +32,9 @@ export default {
 }
 </script>
 
-<style lang="styl">
+<style lang="sass" scoped>
+.textarea
+  height: 19rem !important
+  background: #999 !important
+  color: #fff !important
 </style>

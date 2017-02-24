@@ -1,5 +1,5 @@
 <template lang="jade">
-div
+div(v-if="data")
   p.control(v-for="(item, index) in data.source")
     input.radio(
       type="radio",
