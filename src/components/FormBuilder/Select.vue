@@ -2,7 +2,8 @@
 .control
   label.label {{ label }}
   select
-  {{ data }} {{ source }}
+    option(v-for="(option, index) in source", :value="option.id || index") {{ option }}
+  //- {{ data }} {{ source }}
 </template>
 
 <script>
