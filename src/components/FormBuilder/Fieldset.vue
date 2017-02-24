@@ -1,4 +1,5 @@
 <template lang="jade">
+p Fieldset
 </template>
 
 <script>

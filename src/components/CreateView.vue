@@ -3,37 +3,25 @@ div.columns
   .column.is-three-quarters
     h1.title.is-4 New: {{ $route.params.model.split('_')[$route.params.model.split('_').length - 1].replace(/s\s*$/, "") }}
     form
-      .control(v-for="field in create.fields")
-        label.label(v-bind:class="{checkbox: field.type === 'boolean'}") {{ field.label }}
-        span(
-          :is="Components[field.type]",
-          v-bind:pointer="field.name"
-          v-bind:data="value(field.name)"
-          v-bind:value="value(field.name)",
-          :errors="field.errors",
-          @input="set"
-        )
+      FormField(v-for="field in create.fields", :field="field", :value="value(field.name)")
+
     footer
-      p.control
-        .pull-right
+      .pull-right
+          a.button(@click="$router.go(-1)") Cancel
           a.button.is-primary(@click="save") Save
 
   .column.is-one-quarter
-    p.control
-      a.button(@click="$router.go(-1)")
-        span.icon.is-small
-          span.fa.fa-angle-left
-        .span Back
 </template>
 
 <script>
 import * as Components from './Components'
 import swal from 'sweetalert'
+import FormField from './FormBuilder/FormField'
 import _ from 'lodash'
 
 export default {
   name: 'CreateView',
-  components: {},
+  components: { FormField },
   data () {
     return {
       Components,
