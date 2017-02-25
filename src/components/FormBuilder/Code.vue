@@ -1,33 +1,43 @@
 <template lang="jade">
 div#editor
-    span(v-for="(item, index) in data")
-      span.title.is-6 {{ index }}
-      textarea.textarea(v-html="item", @input="$emit('input', {pointer: pointer + '.' + index, data: $event.target.value})", v-model="data[index]")
+    p Data {{ data || 'empty' }} Source {{ source }}
+    span(v-for="(item, index) in copy")
+      span.title.is-6 {{ item.key }}
+      textarea.textarea(v-html="item.value", @input="set", v-model="item.value")
 </template>
 
 <script>
-// import ace from https://github.com/ajaxorg/ace
-
-// @TODO this works when the incoming data object looks like
-// data {
-//   layouts: {
-//     error:
-//     public
-//   }
-// }
-// this will push values composing a sub-pointer that looks like layouts.error or layouts.public
-// this is a good generic case for object.sub pointers
+import _ from 'lodash'
 
 export default {
-  name: 'Codeeditor',
-  props: ['pointer', 'data'],
+  name: 'Code',
+  props: ['pointer', 'data', 'source'],
   data () {
     return {
+      copy: []
     }
   },
-  beforeDestroy () {
-  },
   mounted () {
+    if (_.isEmpty(this.data) && !_.isEmpty(this.source)) {
+      if (!_.isEmpty(this.source)) {
+        this.source.forEach((item) => {
+          this.copy.push({key: item, value: undefined})
+        })
+      }
+    } else {
+      for (let e of Object.keys(this.data)) {
+        this.copy.push({key: e, value: this.data[e]})
+      }
+    }
+  },
+  methods: {
+    set (event) {
+      let res = {}
+      this.copy.forEach(function (item) {
+        res[item.key] = item.value
+      })
+      this.$emit('input', {pointer: this.pointer, value: res})
+    }
   }
 }
 </script>

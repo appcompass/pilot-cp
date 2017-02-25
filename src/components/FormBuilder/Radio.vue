@@ -1,6 +1,6 @@
 <template lang="jade">
 div(v-if="data")
-  p.control(v-for="(item, index) in data.source")
+  p.control(v-for="(item, index) in source")
     input.radio(
       type="radio",
       @change="$emit('input', {pointer: pointer, value: data.data})",
@@ -11,9 +11,10 @@ div(v-if="data")
 </template>
 
 <script>
+// @TODO source moved from data.source to it's own property, check if that works
 export default {
   name: 'Radio',
-  props: ['data', 'pointer'],
+  props: ['data', 'pointer', 'source'],
   data () {
     return {
       selected: null

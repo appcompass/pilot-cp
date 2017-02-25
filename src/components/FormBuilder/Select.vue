@@ -2,8 +2,8 @@
 .control
   label.label {{ label }}
   span.select
-    select(@change="set", v-model="data.data", :class="{'is-danger': errors}")
-      option(v-for="option in data.source", :value="option.id") {{ option.label }}
+    select(@change="set", :value="data", :class="{'is-danger': errors}")
+      option(v-for="option in source", :value="option.id") {{ option.label }}
 </template>
 
 <script>
