@@ -1,14 +1,15 @@
 <template lang="jade">
 .control
   label.label {{ label }}
-  select(@change="set", v-model="data.data")
-    option(v-for="option in data.source", :value="option.id") {{ option.label }}
+  span.select
+    select(@change="set", v-model="data.data", :class="{'is-danger': errors}")
+      option(v-for="option in data.source", :value="option.id") {{ option.label }}
 </template>
 
 <script>
 export default {
   name: 'Select',
-  props: ['data', 'label', 'pointer', 'source'],
+  props: ['data', 'label', 'pointer', 'source', 'errors'],
   methods: {
     set (event) {
       this.$emit('input', {value: event.target.value, pointer: this.pointer})
@@ -16,3 +17,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+select.is-danger
+  border-color: red !important
+</style>

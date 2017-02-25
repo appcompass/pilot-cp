@@ -15,7 +15,7 @@ div
           .span Back
 
       .section
-        FormBuilder(:form="data.edit.fields", :content="data.collection", :errros="errors")
+        FormBuilder(:form="data.edit.fields", :content="data.collection", :errros="errors", @clearErrors="function(data) { $emit('clearErrors', data) }")
 </template>
 
 <script>
@@ -41,12 +41,6 @@ export default {
     this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
   },
   methods: {
-    // set (data) {
-    //   this.$set(this.data.collection, data.pointer, data.value)
-    //   if (this.errors != null) {
-    //     this.$emit('clearErrors')
-    //   }
-    // },
     value (fieldName) {
       return _.get(this.data.collection, fieldName)
     }
