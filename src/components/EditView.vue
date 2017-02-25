@@ -3,7 +3,7 @@ div
 
   .columns
     .column.is-10(v-if="data")
-      div(:is="data.edit.editor + 'Editor'", :data="data", :errors="errors", @refresh="refresh", @clearErrors="clearErrors")
+      div(:is="data.edit.editor + 'Editor'", :data="data", :errors="errors", @refresh="refresh", @clearErrors="clearErrors(data.edit.fields)")
 
     .column.is-2(v-if="navigation && navigation.length")
       h1.menu-label Sub Navigation
@@ -95,23 +95,46 @@ export default {
         })
     },
     setErrors (errors) {
-      // this.$set(this.errors, errors)
-      let swalErrors = '<ul>'
-      this.data.edit.fields.forEach((field, index) => {
-        if (errors[field.name]) {
-          let error = errors[field.name]
-          swalErrors += '<li>' + error + '</li>'
-          this.errors.push(error)
-          this.$set(this.data.edit.fields[index], 'errors', error)
+      // let vm = this
+      var res
+      function lookup (fieldname, fields, partcount) {
+        // look up field.nested.name in fields
+        if (partcount == null) {
+          partcount = 0
         }
-      })
+        let itemname = fieldname.split('.')[partcount]
+        fields.forEach((item, index) => {
+          if (item.name === itemname && item.fields.length) {
+            res = lookup(fieldname, item.fields, partcount + 1)
+          } else if (item.name === itemname && item.fields.length === 0) {
+            res = item
+          }
+        })
+        return res
+      }
+
+      let swalErrors = '<ul>'
+
+      for (const key of Object.keys(errors)) {
+        let obj = lookup(key, this.data.edit.fields)
+        this.$set(obj, 'errors', errors[key])
+        errors[key].forEach((error) => {
+          swalErrors += '<li>' + error + '</li>'
+        })
+      }
       swalErrors += '</ul>'
       swal({title: 'Validation Errors Dawg', text: swalErrors, html: true, type: 'error'})
     },
-    clearErrors () {
-      this.data.edit.fields.forEach((field, index) => {
+    clearErrors (fields) {
+      if (!fields) {
+        fields = this.data.edit.fields
+      }
+      fields.forEach((field, index) => {
         this.$set(this.errors, [])
-        this.$set(this.data.edit.fields[index], 'errors', null)
+        this.$set(fields[index], 'errors', null)
+        if (field.fields.length) {
+          this.clearErrors(field.fields)
+        }
       })
     },
     refresh () {

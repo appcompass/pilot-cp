@@ -53,7 +53,8 @@ div
           :form="field.fields",
           :errors="field.errors",
           :source="field.source",
-          :content="val"
+          :content="val",
+          @clearErrors="$emit('clearErrors')"
         )
 
     //- NOT SURE ABOUT THIS ONE, BUT ALLOWS RECURSIVE FORMS (field is not repeatable, it's just a set of children)
@@ -63,6 +64,7 @@ div
         :errors="field.errors",
         :source="field.source",
         :content="value(field)",
+        @clearErrors="$emit('clearErrors', {fields: field.fields})"
       )
 </template>
 
@@ -128,6 +130,7 @@ export default {
     },
     // sets a value
     set (data, index) {
+      this.$emit('clearErrors')
       // based on index
       if (this.content && Array.isArray(this.content[data.pointer])) {
         if (index) {

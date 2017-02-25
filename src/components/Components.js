@@ -4,7 +4,6 @@ import SecretType from './FormBuilder/Secret'
 import FileType from './FormBuilder/File'
 import SelectType from './FormBuilder/Select'
 import FieldsetType from './FormBuilder/Fieldset'
-import CodeeditorType from './FormBuilder/Codeeditor'
 import PageEditorType from './FormBuilder/PageEditor'
 import BooleanType from './FormBuilder/Boolean'
 import WysiwygType from './FormBuilder/Wysiwyg'
@@ -15,13 +14,14 @@ import PageSectionSelectType from './FormBuilder/PageSectionSelect'
 import FormBuilderType from './FormBuilder/FormBuilder'
 import MapType from './FormBuilder/Map'
 import LoginFormType from './FormBuilder/LoginForm'
+import ConfigType from './FormBuilder/Config'
+import CodeType from './FormBuilder/Code'
 export var String = StringType
 export var Text = TextType
 export var Secret = SecretType
 export var File = FileType
 export var Select = SelectType
 export var Fieldset = FieldsetType
-export var Codeeditor = CodeeditorType
 export var PageEditor = PageEditorType
 export var Boolean = BooleanType
 export var Wysiwyg = WysiwygType
@@ -32,3 +32,5 @@ export var PageSectionSelect = PageSectionSelectType
 export var FormBuilder = FormBuilderType
 export var Map = MapType
 export var LoginForm = LoginFormType
+export var Config = ConfigType
+export var Code = CodeType
