@@ -76,7 +76,7 @@ export default {
         .then(subnav => {
           this.navigation = subnav
         }, (response) => {
-          swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
+          // swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
         })
     },
     update () {
