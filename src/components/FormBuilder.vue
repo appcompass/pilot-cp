@@ -34,17 +34,13 @@ div
     //- MULTI FIELD REPEATABLE SORTABLE (sub-form present, has multiple values and field.config.repeatable is true)
     Sortable(v-if="field.config.repeatable && field.fields.length", :list="value(field)", :options="{handle: '.handle', animation: 150, group: 'items'}")
       div(v-for="(val, index) in value(field)")
-
         span.icon.is-small(@click="collapse(value(field, index), true)", v-if="!value(field, index).isCollapsed")
           i.fa.fa-minus-square-o
-
         span.icon.is-small(@click="collapse(value(field, index), false)", v-if="value(field, index).isCollapsed")
           i.fa.fa-plus-square
         span  {{ value(field, index).title || '' }}
-
         a.icon.is-small.pull-right(@click="unlink(field, index)")
           i.fa.fa-trash-o
-
         a.icon.is-small.pull-right.handle(v-if="value(field, index).isCollapsed")
           i.fa.fa-arrows
 
@@ -112,21 +108,11 @@ export default {
     // _.get the element in content object
     value (field, index) {
       let c = _.get(this.content, field.name)
-
-      // in case field has a source we want that as data source
-      if (field.source) {
-        return {
-          data: c,
-          source: field.source
-        }
-      // if it returns an array we look at index, if preset
-      } else if (index >= 0 && Array.isArray(c)) {
-        // return that specific value
-        return c[index]
-      } else {
-        // else return whatever you found (single value, whole array)
-        return c
+      // if there aint content
+      if (c == null && field.fields.length) {
+        this.$set(this.content, field.name, {})
       }
+      return index >= 0 && Array.isArray(c) ? c[index] : c
     },
     // sets a value
     set (data, index) {

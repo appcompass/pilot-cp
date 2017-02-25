@@ -2,7 +2,8 @@
 div
   h1 Config
     ul
-      li(v-for="(value, key, index) in copy")
+      {{ data }}
+      li(v-if="copy", v-for="(value, key, index) in copy")
         input(v-model="value.key", @input="set")
         input(v-model="value.value", @input="set")
       li
@@ -10,19 +11,27 @@ div
 </template>
 
 <script>
-// import _ from 'lodash'
+import _ from 'lodash'
 
 export default {
   name: 'Config',
-  props: ['data', 'pointer'],
+  props: ['data', 'pointer', 'source'],
   data () {
     return {
       copy: []
     }
   },
   created () {
-    for (let e of Object.keys(this.data)) {
-      this.copy.push({key: e, value: this.data[e]})
+    if (_.isEmpty(this.data)) {
+      if (!_.isEmpty(this.source)) {
+        this.source.forEach((item) => {
+          this.copy.push({key: item, value: undefined})
+        })
+      }
+    } else {
+      for (let e of Object.keys(this.data)) {
+        this.copy.push({key: e, value: this.data[e]})
+      }
     }
   },
   methods: {
