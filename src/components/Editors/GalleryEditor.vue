@@ -7,7 +7,7 @@ div
       .span Back
 
   pre
-    {{ data }}
+    | {{ data }}
 </template>
 
 <script>

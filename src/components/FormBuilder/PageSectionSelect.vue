@@ -2,7 +2,7 @@
 div
   h1 PageSectionSelect Coming Soon
   pre
-    {{ data }}
+    | {{ data }}
 </template>
 
 <script>

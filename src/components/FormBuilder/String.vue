@@ -12,7 +12,7 @@ div
       ul(v-if="errors")
         li(v-for="error in errors") {{ error }}
     p.help
-      {{ help }}
+      | {{ help }}
 </template>
 
 <script>
