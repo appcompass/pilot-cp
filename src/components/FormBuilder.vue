@@ -13,7 +13,8 @@ div
         :data="value(field)",
         :value="value(field)",
         :errors="field.errors",
-        :source="field.source"
+        :source="field.source",
+        :help="field.help",
         @input="set"
       )
 
@@ -28,6 +29,7 @@ div
         :value="single",
         :errors="field.errors",
         :source="field.source",
+        :help="field.help",
         @input="function(e) { return set(e, subFieldIndex); }"
       )
 
@@ -47,8 +49,6 @@ div
         FormBuilder.fieldset(
           v-if="!val.isCollapsed",
           :form="field.fields",
-          :errors="field.errors",
-          :source="field.source",
           :content="val",
           @clearErrors="$emit('clearErrors')"
         )
@@ -57,8 +57,6 @@ div
     div(v-if="field.fields.length && !Array.isArray(value(field))")
       FormBuilder.fieldset(
         :form="field.fields",
-        :errors="field.errors",
-        :source="field.source",
         :content="value(field)",
         @clearErrors="$emit('clearErrors', {fields: field.fields})"
       )
