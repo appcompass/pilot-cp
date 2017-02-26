@@ -115,6 +115,7 @@ export default {
     },
     // sets a value
     set (data, index) {
+      // @TODO this will be field based instead of clearing ALL the errors
       this.$emit('clearErrors')
       // based on index
       if (this.content && Array.isArray(this.content[data.pointer])) {
