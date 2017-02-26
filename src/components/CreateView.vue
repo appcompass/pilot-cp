@@ -3,7 +3,13 @@ div.columns
   .column.is-three-quarters
     h1.title.is-4 New: {{ $route.params.model.split('_')[$route.params.model.split('_').length - 1].replace(/s\s*$/, "") }}
     form
-      FormBuilder(:form="create.fields", :content="collection", @input="set", :errros="errors", @clearErrors="clearErrors(create.fields)")
+      FormBuilder(
+        :form="create.fields",
+        :content="collection",
+        :errros="errors",
+        @input="set",
+        @clearErrors="clearErrors(create.fields)"
+      )
 
     footer
       .pull-right
@@ -14,10 +20,11 @@ div.columns
 </template>
 
 <script>
-import * as Components from './Components'
 import swal from 'sweetalert'
-import FormField from './FormBuilder/FormField'
 import _ from 'lodash'
+
+import * as Components from './Components'
+import FormField from './FormBuilder/FormField'
 import FormBuilder from './FormBuilder'
 
 export default {
