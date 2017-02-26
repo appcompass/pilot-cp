@@ -1,9 +1,8 @@
 <template lang="jade">
 div#editor
-    p Data {{ data || 'empty' }} Source {{ source }}
-    span(v-for="(item, index) in copy")
-      span.title.is-6 {{ item.key }}
-      textarea.textarea(v-html="item.value", @input="set", v-model="item.value")
+  span(v-for="(item, index) in copy")
+    span.title.is-6 {{ item.key }}
+    textarea.textarea(v-html="item.value", @input="set", v-model="item.value")
 </template>
 
 <script>
@@ -11,7 +10,7 @@ import _ from 'lodash'
 
 export default {
   name: 'Code',
-  props: ['pointer', 'data', 'source'],
+  props: ['pointer', 'data', 'source', 'label'],
   data () {
     return {
       copy: []

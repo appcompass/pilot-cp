@@ -80,24 +80,27 @@ export default {
     }
   },
   methods: {
-    // adds a repeatable
+    // adds a repeatable, generating empty objects from forms
     clone (fieldName, fieldIndex) {
       // when cloning check if we're cloning a fieldset or a single repeatable (with multiple values)
+
+      // make sure the content field is able to receive data
+      if (!this.content[fieldName]) {
+        this.$set(this.content, fieldName, [])
+      }
 
       // Fieldset (we have a fields subset)- get the fields
       if (this.form[fieldIndex].fields.length) {
         let dataObject = Object.create({})
-        this.form[fieldIndex].fields.forEach((item) => {
-          dataObject[item.name] = null
+        this.form[fieldIndex].fields.forEach((field) => {
+          dataObject[field.name] = null
+          if (field.fields.length) {
+            console.log('clone sub')
+          }
         })
-        // make sure the content field is able to receive dataplus
-        if (!this.content[fieldName]) {
-          this.$set(this.content, fieldName, [])
-        }
         this.content[fieldName].push(dataObject)
 
       // Single Field - keep old data and make it an array
-      // @TODO, what if backend expects an array -> cast to make sure
       } else {
         if (!Array.isArray(this.content[fieldName])) {
           this.$set(this.content, fieldName, [this.content[fieldName]])
@@ -105,10 +108,8 @@ export default {
         this.content[fieldName].push('')
       }
     },
-    // _.get the element in content object
     value (field, index) {
       let c = _.get(this.content, field.name)
-      // if there aint content
       if (c == null && field.fields.length) {
         this.$set(this.content, field.name, {})
       }
