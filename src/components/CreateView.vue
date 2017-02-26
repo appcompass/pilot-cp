@@ -3,8 +3,7 @@ div.columns
   .column.is-three-quarters
     h1.title.is-4 New: {{ $route.params.model.split('_')[$route.params.model.split('_').length - 1].replace(/s\s*$/, "") }}
     form
-      {{ collection }}
-      FormBuilder(:form="create.fields", :content="collection", @input="set", :errros="errors")
+      FormBuilder(:form="create.fields", :content="collection", @input="set", :errros="errors", @clearErrors="clearErrors(create.fields)")
 
     footer
       .pull-right
@@ -67,23 +66,44 @@ export default {
         })
     },
     setErrors (errors) {
-      // this.$set(this.errors, errors)
-      let swalErrors = '<ul>'
-      this.create.fields.forEach((field, index) => {
-        if (errors[field.name]) {
-          let error = errors[field.name]
-          swalErrors += '<li>' + error + '</li>'
-          this.errors.push(error)
-          this.$set(this.create.fields[index], 'errors', error)
+      // let vm = this
+      var res
+      function lookup (fieldname, fields, partcount) {
+        // look up field.nested.name in fields
+        if (partcount == null) {
+          partcount = 0
         }
-      })
+        let itemname = fieldname.split('.')[partcount]
+        fields.forEach((item, index) => {
+          if (item.name === itemname && item.fields.length) {
+            res = lookup(fieldname, item.fields, partcount + 1)
+          } else if (item.name === itemname && item.fields.length === 0) {
+            res = item
+          }
+        })
+        return res
+      }
+      let swalErrors = '<ul>'
+      for (const key of Object.keys(errors)) {
+        let obj = lookup(key, this.create.fields)
+        this.$set(obj, 'errors', errors[key])
+        errors[key].forEach((error) => {
+          swalErrors += '<li>' + error + '</li>'
+        })
+      }
       swalErrors += '</ul>'
       swal({title: 'Validation Errors Dawg', text: swalErrors, html: true, type: 'error'})
     },
-    clearErrors () {
-      this.create.fields.forEach((field, index) => {
+    clearErrors (fields) {
+      if (!fields) {
+        fields = this.create.fields
+      }
+      fields.forEach((field, index) => {
         this.$set(this.errors, [])
-        this.$set(this.create.fields[index], 'errors', null)
+        this.$set(fields[index], 'errors', null)
+        if (field.fields.length) {
+          this.clearErrors(field.fields)
+        }
       })
     }
   }

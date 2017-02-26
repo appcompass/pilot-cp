@@ -1,13 +1,27 @@
 <template lang="jade">
-div
-  h1 Config
-    ul
-      {{ data }}
-      li(v-if="copy", v-for="(value, key, index) in copy")
-        input(v-model="value.key", @input="set")
-        input(v-model="value.value", @input="set")
-      li
-        a.button.is-primary(@click="copy.push([])") Add
+ul
+  h1.title.is6 {{ label }}
+  table.table.is-narrow
+    thead
+      tr
+        th Key
+        th Value
+    tbody
+      tr(v-if="copy", v-for="(value, key, index) in copy")
+        td
+          p.control
+            input.input(v-model="value.key", @input="set")
+        td
+          span.columns
+            p.control.column.is-10
+              input.input(v-model="value.value", @input="set")
+            span.column.is-2
+              a.icon.is-small.pull-left(@click="copy.splice(index, 1)")
+                i.fa.fa-close
+      tfoot
+        tr
+          td
+            a.button.is-primary(@click="copy.push([])") Add
 </template>
 
 <script>
@@ -15,7 +29,7 @@ import _ from 'lodash'
 
 export default {
   name: 'Config',
-  props: ['data', 'pointer', 'source'],
+  props: ['data', 'pointer', 'source', 'label'],
   data () {
     return {
       copy: []
