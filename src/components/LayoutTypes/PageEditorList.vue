@@ -5,14 +5,16 @@ div
       Container(v-for="container in collection.data", :container="container", @edit="edit")
     .column.is-6
       a.button.is-primary(@click="store") Save
-      FormBuilder(:form="form", :content="content")
+      FormBuilder(:form="form", :content="content", :errors="errors", @set="set")
 </template>
 
 <script>
-import Container from '../Container'
-import FormBuilder from '../FormBuilder'
 import swal from 'sweetalert'
 import _ from 'lodash'
+
+import Container from '../Container'
+import FormBuilder from '../FormBuilder'
+import Errors from '../Errors'
 
 export default {
   name: 'PageEditorList',
@@ -22,6 +24,7 @@ export default {
     return {
       form: null,
       content: null,
+      errors: new Errors(),
       id: null // id being edited
     }
   },
@@ -41,6 +44,21 @@ export default {
             this.content = response.data.collection.content
           }
         })
+    },
+    set (data) {
+      let pointer = data.pointer.split('.')[0]
+      let clone = _.cloneDeep(this.content)
+      let content = _.get(clone, pointer)
+
+      // did we find out content is an array?
+      if (Array.isArray(content)) {
+        if (data.index > -1) {
+          clone[pointer][data.index][data.pointer.split('.').pop()] = data.value
+        }
+      } else {
+        _.set(clone, pointer, data.value)
+      }
+      this.content = Object.assign({}, clone)
     },
     store () {
       this.$http.put(process.env.API_SERVER + 'pages/' + this.$route.params.id + '/contents/' + this.id, this.content)

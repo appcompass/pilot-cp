@@ -22,8 +22,13 @@ export default {
         this.source.forEach((item) => {
           this.copy.push({key: item, value: undefined})
         })
+      } else {
+        console.log('here s the issue')
+        this.copy.push({})
+        // this.$set(this.copy, {})
+        // this.copy.push({key: item, value: undefined})
       }
-    } else {
+    } else if (this.data) {
       for (let e of Object.keys(this.data)) {
         this.copy.push({key: e, value: this.data[e]})
       }

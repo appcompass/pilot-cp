@@ -41,6 +41,8 @@ export default {
         this.source.forEach((item) => {
           this.copy.push({key: item, value: undefined})
         })
+      } else {
+        this.copy.push({})
       }
     } else {
       for (let e of Object.keys(this.data)) {

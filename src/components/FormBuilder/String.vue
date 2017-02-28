@@ -6,11 +6,11 @@ div
       type="text",
       @input="$emit('input', {value: $event.target.value, pointer: pointer})",
       :value="data",
-      :class="{'is-danger': errors}"
+      :class="{'is-danger': errors.get(pointer)}"
     )
     p.help.is-danger
-      ul(v-if="errors")
-        li(v-for="error in errors") {{ error }}
+      ul
+        li(v-for="error in errors.get(pointer)") {{ error }}
     p.help
       {{ help }}
 </template>
