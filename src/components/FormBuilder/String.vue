@@ -12,7 +12,7 @@ div
       ul
         li(v-for="error in errors.get(pointer)") {{ error }}
     p.help
-      {{ help }}
+      | {{ help }}
 </template>
 
 <script>
