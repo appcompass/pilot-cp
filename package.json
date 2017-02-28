@@ -1,8 +1,8 @@
 {
-  "name": "pilot",
+  "name": "pilotmcs-cp",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "Federico <federico@p3in.com>",
+  "description": "A Pilot CMS Control Panel",
+  "author": "Plus 3 Interative, LLC <support@p3in.com>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
