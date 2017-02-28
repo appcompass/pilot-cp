@@ -1,12 +1,12 @@
 import StringType from './FormBuilder/String'
 import BooleanType from './FormBuilder/Boolean'
-import SecretType from './FormBuilder/Secret'
 import TextType from './FormBuilder/Text'
+import SecretType from './FormBuilder/Secret'
 import FileType from './FormBuilder/File'
 import SelectType from './FormBuilder/Select'
 import FieldsetType from './FormBuilder/Fieldset'
-import ConfigType from './FormBuilder/Config'
 import CodeType from './FormBuilder/Code'
+import ConfigType from './FormBuilder/Config'
 import PageEditorType from './FormBuilder/PageEditor'
 import WysiwygType from './FormBuilder/Wysiwyg'
 import LinkType from './FormBuilder/Link'
@@ -18,13 +18,13 @@ import MapType from './FormBuilder/Map'
 import LoginFormType from './FormBuilder/LoginForm'
 export var String = StringType
 export var Boolean = BooleanType
-export var Secret = SecretType
 export var Text = TextType
+export var Secret = SecretType
 export var File = FileType
 export var Select = SelectType
 export var Fieldset = FieldsetType
-export var Config = ConfigType
 export var Code = CodeType
+export var Config = ConfigType
 export var PageEditor = PageEditorType
 export var Wysiwyg = WysiwygType
 export var Link = LinkType

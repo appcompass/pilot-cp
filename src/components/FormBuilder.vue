@@ -4,33 +4,17 @@ div
     label.label(v-if="!field.config.repeatable") {{ field.label }}
     a.icon.is-small(v-if="field.config.repeatable", @click="clone(field.name, fieldIndex)")
       i.fa.fa-plus
-
     //- SINGLE VALUE (single value returned from content for field)
     span(
         v-if="!Array.isArray(value(field))",
         :is="Components[field.type]",
-        :pointer="field.name",
+        :pointer="getPath(field.name)",
         :data="value(field)",
         :value="value(field)",
-        :errors="field.errors",
+        :errors="errors",
         :source="field.source",
         :help="field.help",
         @input="set"
-      )
-
-    //- SINGLE FIELD REPEATABLE (multiple values but no sub-form) -- value(field) returns an array
-    div(v-if="Array.isArray(value(field)) && !field.fields.length", v-for="(single, subFieldIndex) in value(field)")
-      span.pull-right.icon.is-small(@click="unlink(field, subFieldIndex)")
-        i.fa.fa-trash-o
-      span(
-        :is="Components[field.type]",
-        :pointer="field.name",
-        :data="single",
-        :value="single",
-        :errors="field.errors",
-        :source="field.source",
-        :help="field.help",
-        @input="function(e) { return set(e, subFieldIndex); }"
       )
 
     //- MULTI FIELD REPEATABLE SORTABLE (sub-form present, has multiple values and field.config.repeatable is true)
@@ -50,15 +34,19 @@ div
           v-if="!val.isCollapsed",
           :form="field.fields",
           :content="val",
-          @clearErrors="$emit('clearErrors')"
+          :parent="getPath(field.name)",
+          :errors="errors",
+          @set="function(e) { return set(e, index) }"
         )
 
-    //- NOT SURE ABOUT THIS ONE, BUT ALLOWS RECURSIVE FORMS (field is not repeatable, it's just a set of children)
+    //- RECURSIVE FORMS (field is not repeatable, it's just a set of children)
     div(v-if="field.fields.length && !Array.isArray(value(field))")
       FormBuilder.fieldset(
         :form="field.fields",
         :content="value(field)",
-        @clearErrors="$emit('clearErrors', {fields: field.fields})"
+        :parent="getPath(field.name)",
+        :errors="errors",
+        @set="set"
       )
 </template>
 
@@ -69,7 +57,7 @@ import Sortable from './VueSortable'
 
 export default {
   name: 'FormBuilder',
-  props: [ 'form', 'content', 'errors' ],
+  props: [ 'form', 'content', 'parent', 'errors' ],
   components: { Sortable },
   data () {
     return {
@@ -78,6 +66,13 @@ export default {
     }
   },
   methods: {
+    getPath (fieldname) {
+      if (fieldname == null) {
+        return this.parent == null ? '' : this.parent
+      } else {
+        return this.parent == null ? fieldname : this.parent + '.' + fieldname
+      }
+    },
     // adds a repeatable, generating empty objects from forms
     clone (fieldName, fieldIndex) {
       // when cloning check if we're cloning a fieldset or a single repeatable (with multiple values)
@@ -107,25 +102,22 @@ export default {
       }
     },
     value (field, index) {
+      // check if there's content set
       let c = _.get(this.content, field.name)
+
+      // no content (create or empty property) with nested fields
       if (c == null && field.fields.length) {
-        this.$set(this.content, field.name, {})
+        field.fields.forEach((single) => {
+          _.set(this.content, field.name, {})
+          // this.$set(this.content, field.name, {})
+        })
       }
+
       return index >= 0 && Array.isArray(c) ? c[index] : c
     },
     // sets a value
     set (data, index) {
-      // @TODO this will be field based instead of clearing ALL the errors
-      this.$emit('clearErrors')
-      // based on index
-      if (this.content && Array.isArray(this.content[data.pointer])) {
-        if (index) {
-          this.$set(this.content[data.pointer.split('.').join('][')], index, data.value)
-        }
-      // or on an object
-      } else {
-        this.$set(this.content, data.pointer, data.value)
-      }
+      this.$emit('set', {value: data.value, pointer: data.pointer, index: index})
     },
     // collapse a structure
     collapse (item, collapsed) {

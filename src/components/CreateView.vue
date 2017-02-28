@@ -6,9 +6,8 @@ div.columns
       FormBuilder(
         :form="create.fields",
         :content="collection",
-        :errros="errors",
-        @input="set",
-        @clearErrors="clearErrors(create.fields)"
+        :errors="errors",
+        @input="set"
       )
 
     footer
@@ -26,6 +25,7 @@ import _ from 'lodash'
 import * as Components from './Components'
 import FormField from './FormBuilder/FormField'
 import FormBuilder from './FormBuilder'
+import Errors from './Errors'
 
 export default {
   name: 'CreateView',
@@ -35,7 +35,7 @@ export default {
       Components,
       create: {},
       collection: {},
-      errors: []
+      errors: new Errors()
     }
   },
   created () {
@@ -66,52 +66,15 @@ export default {
           })
         }, response => {
           if (response.status === 422) {
-            this.setErrors(response.data)
+            let errors = new Errors()
+            errors.set(response.data)
+            this.$nextTick(() => {
+              this.errors = Object.create(errors)
+            })
           } else {
             swal({title: 'Error', text: response.data.errors, type: 'error'})
           }
         })
-    },
-    setErrors (errors) {
-      // let vm = this
-      var res
-      function lookup (fieldname, fields, partcount) {
-        // look up field.nested.name in fields
-        if (partcount == null) {
-          partcount = 0
-        }
-        let itemname = fieldname.split('.')[partcount]
-        fields.forEach((item, index) => {
-          if (item.name === itemname && item.fields.length) {
-            res = lookup(fieldname, item.fields, partcount + 1)
-          } else if (item.name === itemname && item.fields.length === 0) {
-            res = item
-          }
-        })
-        return res
-      }
-      let swalErrors = '<ul>'
-      for (const key of Object.keys(errors)) {
-        let obj = lookup(key, this.create.fields)
-        this.$set(obj, 'errors', errors[key])
-        errors[key].forEach((error) => {
-          swalErrors += '<li>' + error + '</li>'
-        })
-      }
-      swalErrors += '</ul>'
-      swal({title: 'Validation Errors Dawg', text: swalErrors, html: true, type: 'error'})
-    },
-    clearErrors (fields) {
-      if (!fields) {
-        fields = this.create.fields
-      }
-      fields.forEach((field, index) => {
-        this.$set(this.errors, [])
-        this.$set(fields[index], 'errors', null)
-        if (field.fields.length) {
-          this.clearErrors(field.fields)
-        }
-      })
     }
   }
 }

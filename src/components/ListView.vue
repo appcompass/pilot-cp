@@ -42,7 +42,8 @@
           :collection="collection",
           :model="model",
           :search="search",
-          :forms="{list: list, edit: edit}"
+          :forms="{list: list, edit: edit}",
+          @set="set"
         )
 
       Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
@@ -111,6 +112,20 @@ export default {
         this.update()
       }
     }, 500),
+    set (data) {
+      // console.log('ListView got data')
+      // console.log(data)
+      console.log(this.collection)
+      // let copy = _.cloneDeep(this.collection.content)
+      // console.log(data)
+      // if (data.index > -1) {
+        // _.set(copy, data.pointer[data.index], data.value)
+      // } else {
+        // _.set(copy, data.pointer, data.value)
+      // }
+      // console.log(copy)
+      // this.collection = Object.assign({}, copy)
+    },
     update () {
       var api = process.env.API_SERVER
       this.loading = true

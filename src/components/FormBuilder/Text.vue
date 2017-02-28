@@ -2,10 +2,14 @@
 div
   p.control
     label.label {{ label }}
-    textarea.textarea(@input="$emit('input', {value: $event.target.value, pointer: pointer})", :value="data", :class="{'is-danger': errors}")
+    textarea.textarea(
+      @input="$emit('input', {value: $event.target.value, pointer: pointer})",
+      :class="{'is-danger': errors.get([pointer])}",
+      :value="data"
+    )
     p.help.is-danger
-      ul(v-if="errors")
-        li(v-for="error in errors") {{ error }}
+      ul
+        li(v-for="error in errors.get(pointer)") {{ error }}
     p.help
       {{ help }}
 

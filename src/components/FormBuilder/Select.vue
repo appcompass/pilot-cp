@@ -3,12 +3,12 @@ div
   p.control
     label.label {{ label }}
     span.select
-      select(@change="set", :value="data", :class="{'is-danger': errors}")
+      select(@change="set", :value="data", :class="{'is-danger': errors.get(pointer)}")
         option(v-for="option in source", :value="option.id") {{ option.label }}
 
     p.help.is-danger
-      ul(v-if="errors")
-        li(v-for="error in errors") {{ error }}
+      ul
+        li(v-for="error in errors.get(pointer)") {{ error }}
     p.help
       {{ help }}
 </template>

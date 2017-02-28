@@ -3,7 +3,13 @@ div
 
   .columns
     .column.is-10(v-if="data")
-      div(:is="data.edit.editor + 'Editor'", :data="data", :errors="errors", @refresh="refresh", @clearErrors="clearErrors(data.edit.fields)")
+      div(
+        :is="data.edit.editor + 'Editor'",
+        :data="data",
+        :errors="errors",
+        @refresh="refresh",
+        @set="set"
+      )
 
     .column.is-2(v-if="navigation && navigation.length")
       h1.menu-label Sub Navigation
@@ -32,14 +38,15 @@ div
 </template>
 
 <script>
+import swal from 'sweetalert'
+import Errors from './Errors'
+import _ from 'lodash'
+
 import Auth from './Auth'
 import State from './State'
 import FormEditor from './Editors/FormEditor'
 import MenuEditor from './Editors/MenuEditor'
 import GalleryEditor from './Editors/GalleryEditor'
-
-import swal from 'sweetalert'
-// import _ from 'lodash'
 
 export default {
   name: 'EditView',
@@ -52,7 +59,7 @@ export default {
       model: undefined,
       route: undefined,
       navigation: undefined,
-      errors: []
+      errors: new Errors()
     }
   },
   created () {
@@ -62,7 +69,6 @@ export default {
     '$route' (to, from) {
       this.routeChanged()
     }
-
   },
   methods: {
     routeChanged () {
@@ -79,6 +85,19 @@ export default {
           // swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
         })
     },
+    set (data) {
+      let copy = _.cloneDeep(this.data.collection)
+      _.set(copy, data.pointer, data.value)
+      this.data.collection = Object.assign({}, copy)
+
+      copy = _.cloneDeep(this.errors.errors)
+      let errors = new Errors()
+      errors.set(copy)
+      errors.unset(data.pointer)
+      this.$nextTick(() => {
+        this.errors = errors
+      })
+    },
     update () {
       this.submitted = true
       this.$http.put(process.env.API_SERVER + this.$route.fullPath.split('_').join('/'), this.data.collection)
@@ -88,54 +107,17 @@ export default {
           })
         }, response => {
           if (response.status === 422) {
-            this.setErrors(response.data)
+            // let errors = this.errors.set(response.data)
+            let errors = new Errors()
+            errors.set(response.data)
+            this.$nextTick(() => {
+              this.errors = errors
+              // this.errors = Object.assign({}, errors)
+            })
           } else {
             swal({title: 'Error', text: response.data.errors, type: 'error'})
           }
         })
-    },
-    setErrors (errors) {
-      // let vm = this
-      var res
-      function lookup (fieldname, fields, partcount) {
-        // look up field.nested.name in fields
-        if (partcount == null) {
-          partcount = 0
-        }
-        let itemname = fieldname.split('.')[partcount]
-        fields.forEach((item, index) => {
-          if (item.name === itemname && item.fields.length) {
-            res = lookup(fieldname, item.fields, partcount + 1)
-          } else if (item.name === itemname && item.fields.length === 0) {
-            res = item
-          }
-        })
-        return res
-      }
-
-      let swalErrors = '<ul>'
-
-      for (const key of Object.keys(errors)) {
-        let obj = lookup(key, this.data.edit.fields)
-        this.$set(obj, 'errors', errors[key])
-        errors[key].forEach((error) => {
-          swalErrors += '<li>' + error + '</li>'
-        })
-      }
-      swalErrors += '</ul>'
-      swal({title: 'Validation Errors Dawg', text: swalErrors, html: true, type: 'error'})
-    },
-    clearErrors (fields) {
-      if (!fields) {
-        fields = this.data.edit.fields
-      }
-      fields.forEach((field, index) => {
-        this.$set(this.errors, [])
-        this.$set(fields[index], 'errors', null)
-        if (field.fields.length) {
-          this.clearErrors(field.fields)
-        }
-      })
     },
     refresh () {
       var api = process.env.API_SERVER
