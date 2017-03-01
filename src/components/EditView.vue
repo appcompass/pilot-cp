@@ -34,7 +34,6 @@ div
       transition(:name="route", mode="out-in")
         router-view(name="sub")
 
-
 </template>
 
 <script>
@@ -47,10 +46,11 @@ import State from './State'
 import FormEditor from './Editors/FormEditor'
 import MenuEditor from './Editors/MenuEditor'
 import GalleryEditor from './Editors/GalleryEditor'
+import PageEditor from './Editors/PageEditor.vue'
 
 export default {
   name: 'EditView',
-  components: { FormEditor, MenuEditor, GalleryEditor },
+  components: { FormEditor, MenuEditor, GalleryEditor, PageEditor },
   data () {
     return {
       data: undefined,
@@ -86,10 +86,13 @@ export default {
         })
     },
     set (data) {
+      console.log('Edit')
+
       let copy = _.cloneDeep(this.data.collection)
       _.set(copy, data.pointer, data.value)
       this.data.collection = Object.assign({}, copy)
 
+      // remove error from the stack. awkwardly
       copy = _.cloneDeep(this.errors.errors)
       let errors = new Errors()
       errors.set(copy)

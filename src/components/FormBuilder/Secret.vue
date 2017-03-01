@@ -5,13 +5,13 @@ div
       input(type="checkbox", v-model="edit")
       |  Change Password
   .control(v-if="edit")
-    input.input(type="password", v-model="pass1", placeholder="Password", @input="input", :class="{'is-danger': errors}")
+    input.input(type="password", v-model="pass1", placeholder="Password", @input="input", :class="{'is-danger': errors.get(pointer)}")
   .control(v-if="edit")
-    input.input(type="password", v-model="pass2", placeholder="Password Again", @input="input", :class="{'is-danger': errors}")
+    input.input(type="password", v-model="pass2", placeholder="Password Again", @input="input", :class="{'is-danger': errors.get(pointer)}")
 
   p.help
     ul
-      li(v-for="error in errors") {{ error }}
+      li(v-for="error in errors.get(pointer)") {{ error }}
       li(v-if="!matching") Passwords don't match
 
 </template>
