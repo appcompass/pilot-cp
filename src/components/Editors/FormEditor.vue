@@ -9,12 +9,15 @@ div
 
     .column.is-12(v-else)
       h1.title.is-4 Edit: {{ $route.params.model.split('_').pop() }}
+        span.icon.is-small(@click="visible = !visible")
+          i.icon.fa.fa-minus-square(v-if="visible")
+          i.icon.fa.fa-plus-square(v-else)
         a.button.is-pulled-right(@click="$router.go(-1)")
           span.icon.is-small
             span.fa.fa-angle-left
           .span Back
 
-      .section
+      .section(v-if="visible")
         FormBuilder(:form="form", @set="set")
 </template>
 
@@ -33,7 +36,8 @@ export default {
       resource: undefined,
       loading: false,
       model: undefined,
-      route: undefined
+      route: undefined,
+      visible: true
     }
   },
   created () {

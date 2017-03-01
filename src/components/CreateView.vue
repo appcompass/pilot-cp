@@ -18,7 +18,6 @@ div.columns
 
 <script>
 import swal from 'sweetalert'
-// import _ from 'lodash'
 
 import * as Components from './Components'
 import FormBuilder from './FormBuilder'
@@ -34,9 +33,7 @@ export default {
     }
   },
   created () {
-    // this.form.errors(this.errors)
     var api = process.env.API_SERVER
-    // this.errors = this.form.errors
     this.model = this.$route.params.model.split('_').join('/')
     this.$http.get(api + this.model)
       .then((response) => {
@@ -48,7 +45,6 @@ export default {
   },
   methods: {
     set (data) {
-      console.log('CreateView got set')
       this.form.set(data)
     },
     save () {
