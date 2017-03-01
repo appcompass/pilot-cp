@@ -1,13 +1,13 @@
 <template lang="jade">
 div
-  {{ form.fields }}
+  //- {{ form.fields }}
   .columns
     .page.column.is-6
       Container(v-for="container in form.collection.data", :container="container", @edit="edit")
     .column.is-6
       //- a.button.is-primary(@click="store") Save
       //- FormBuilder(:form="form.fields", :content="form.collection.page", :errors="form.errors", @set="set")
-      FormBuilder(v-if="section", :form="section.form", :content="section.content", :errors="form.errors", @set="set")
+      //- FormBuilder(v-if="section", :form="section.form", :content="section.content", :errors="form.errors", @set="set")
   //- .columns
     .column.is-full
 </template>
@@ -15,6 +15,7 @@ div
 <script>
 import swal from 'sweetalert'
 import _ from 'lodash'
+import Form from '../Helpers/Form'
 
 import Container from '../Container'
 import FormBuilder from '../FormBuilder'
@@ -39,6 +40,9 @@ export default {
       this.id = id
       this.$http.get(process.env.API_SERVER + 'pages/' + this.$route.params.id + '/contents/' + id)
         .then(response => {
+          let form = new Form()
+          form.init(response.data.form, response.data.content)
+          console.log(form)
           this.section = response.data.collection
           // @TODO backend sends in an empty array instead of object in case no content is present
           if (Array.isArray(response.data.collection.content)) {

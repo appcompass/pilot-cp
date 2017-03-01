@@ -16,8 +16,8 @@ class Form {
     // @TODO initi data recursively -> empty object based on form struct
   }
 
-  init (data, collection) {
-    let form = _.cloneDeep(data)
+  init (formStructure, collection) {
+    let form = _.cloneDeep(formStructure)
     this.fields = _.cloneDeep(form.fields)
     _.unset(form, 'fields')
     this.form = _.cloneDeep(form)
@@ -28,8 +28,6 @@ class Form {
   }
 
   set (data) {
-    console.log(data)
-    console.log(this.collection)
     _.set(this.collection, data.pointer, data.value)
     this.collection = Object.assign({}, this.collection)
     this.errors.unset(data.pointer)
@@ -53,25 +51,8 @@ class Form {
   }
 
   get (path, index) {
-    // check if there's content set
     let c = _.get(this.collection, path)
-
-    // console.log(path)
-    return c
-
-    // console.log(path)
-
-    // no content (create or empty property) with nested fields
-    // if (c == null && field.fields.length) {
-    //   field.fields.forEach((single) => {
-    //     // @TODO vue dot.separated resolution seems a bit wonky, investigate
-    //     // also check if we should clone this dude
-    //     _.set(this.content, field.name, {})
-    //     this.$set(this.content, field.name, {})
-    //   })
-    // }
-
-    // return index >= 0 && Array.isArray(c) ? c[index] : c
+    return index >= 0 && Array.isArray(c) ? c[index] : c
   }
 
 }

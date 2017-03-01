@@ -10,11 +10,18 @@ div
         :is="Components[field.type]",
         :pointer="getPath(field.name)",
         :data="form.get(getPath(field.name))",
-        :value="form.get(getPath(field.name))",
         :errors="form.errors",
         :source="field.source",
         :help="field.help",
         @input="set"
+      )
+
+    //- RECURSIVE FORMS (field is not repeatable, it's just a set of children)
+    div(v-if="field.fields.length && !Array.isArray(value(getPath(field.name)))")
+      FormBuilder.fieldset(
+        :form="form.split(field)",
+        :parent="getPath(field.name)"
+        @set="set"
       )
 
     //- MULTI FIELD REPEATABLE SORTABLE (sub-form present, has multiple values and field.config.repeatable is true)
@@ -36,20 +43,11 @@ div
           :parent="getPath(field.name)",
           @set="function(e) { return set(e, index) }"
         )
-
-    //- RECURSIVE FORMS (field is not repeatable, it's just a set of children)
-    div(v-if="field.fields.length && !Array.isArray(value(getPath(field.name)))")
-      FormBuilder.fieldset(
-        :form="form.split(field)",
-        :parent="getPath(field.name)"
-        @set="set"
-      )
 </template>
 
 <script>
 import * as Components from './Components'
 import Sortable from './VueSortable'
-// import Form from './Helpers/Form'
 
 export default {
   name: 'FormBuilder',
