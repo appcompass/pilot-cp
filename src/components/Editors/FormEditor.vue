@@ -15,7 +15,7 @@ div
           .span Back
 
       .section
-        FormBuilder(:form="form.fields", :content="form.collection", :errors="form.errors", @set="set", :formdude="form")
+        FormBuilder(:form="form", @set="set")
 </template>
 
 <script>

@@ -28,6 +28,8 @@ class Form {
   }
 
   set (data) {
+    console.log(data)
+    console.log(this.collection)
     _.set(this.collection, data.pointer, data.value)
     this.collection = Object.assign({}, this.collection)
     this.errors.unset(data.pointer)
@@ -37,10 +39,24 @@ class Form {
     this.errors.set(errors)
   }
 
+  split (point) {
+    let form = new Form()
+    _.extend(form, this.form)
+    form.fields = point.fields
+    form.init(form, this.collection)
+    form.errors = this.errors
+    return form
+  }
+
+  mapFields (fields) {
+
+  }
+
   get (path, index) {
     // check if there's content set
     let c = _.get(this.collection, path)
 
+    // console.log(path)
     return c
 
     // console.log(path)
