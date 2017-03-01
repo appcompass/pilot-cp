@@ -4,11 +4,14 @@ div.columns
     h1.title.is-4 New: {{ $route.params.model.split('_')[$route.params.model.split('_').length - 1].replace(/s\s*$/, "") }}
     form
       FormBuilder(
-        :form="create.fields",
-        :content="collection",
-        :errors="errors",
-        @input="set"
+        :form="form.fields",
+        :content="form.collection",
+        :errors="form.errors",
+        :formdude="form",
+        @set="set"
       )
+
+      {{ form.collection }}
 
     footer
       .pull-right
@@ -20,45 +23,40 @@ div.columns
 
 <script>
 import swal from 'sweetalert'
-import _ from 'lodash'
+// import _ from 'lodash'
 
 import * as Components from './Components'
-import FormField from './FormBuilder/FormField'
 import FormBuilder from './FormBuilder'
-import Errors from './Errors'
+import Form from './Helpers/Form'
 
 export default {
   name: 'CreateView',
-  components: { FormField, FormBuilder },
+  components: { FormBuilder },
   data () {
     return {
       Components,
-      create: {},
-      collection: {},
-      errors: new Errors()
+      form: new Form()
     }
   },
   created () {
+    // this.form.errors(this.errors)
     var api = process.env.API_SERVER
-
+    // this.errors = this.form.errors
     this.model = this.$route.params.model.split('_').join('/')
-
     this.$http.get(api + this.model)
       .then((response) => {
-        this.create = response.data.edit
+        this.form.init(response.data.edit)
+
+        this.create = response.data.edit // @TODO created same as edit? -f
         this.resource = this.$resource(api + this.model)
       })
   },
   methods: {
     set (data) {
-      this.clearErrors()
-      _.set(this.collection, data.pointer, data.value)
-    },
-    value (fieldName) {
-      return _.get(this.collection, fieldName)
+      this.form.set(data)
     },
     save () {
-      this.resource.save(this.collection)
+      this.resource.save(this.form.collection)
         .then((response) => {
           swal({title: 'Success', text: response.data.message, type: 'success'
           }, () => {
@@ -66,11 +64,7 @@ export default {
           })
         }, response => {
           if (response.status === 422) {
-            let errors = new Errors()
-            errors.set(response.data)
-            this.$nextTick(() => {
-              this.errors = Object.create(errors)
-            })
+            this.form.fails(response.data)
           } else {
             swal({title: 'Error', text: response.data.errors, type: 'error'})
           }

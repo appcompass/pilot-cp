@@ -5,15 +5,22 @@ div
       span.icon.is-small
         span.fa.fa-angle-left
       .span Back
-
+  FormBuilder(:form="data.edit.fields", :content="data.collection", :errors="errors")
   pre
     | {{ data }}
 </template>
 
 <script>
+import FormBuilder from '../FormBuilder'
+
 export default {
   name: 'GalleryEditor',
-  props: ['data', 'errors']
+  props: ['data', 'errors'],
+  components: { FormBuilder },
+  data () {
+    return {
+    }
+  }
 }
 </script>
 

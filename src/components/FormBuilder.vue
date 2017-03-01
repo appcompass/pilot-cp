@@ -9,8 +9,8 @@ div
         v-if="!Array.isArray(value(field))",
         :is="Components[field.type]",
         :pointer="getPath(field.name)",
-        :data="value(field)",
-        :value="value(field)",
+        :data="formdude.get(getPath(field.name))",
+        :value="formdude.get(getPath(field.name))",
         :errors="errors",
         :source="field.source",
         :help="field.help",
@@ -45,6 +45,7 @@ div
         :form="field.fields",
         :content="value(field)",
         :parent="getPath(field.name)",
+        :formdude="formdude",
         :errors="errors",
         @set="set"
       )
@@ -52,12 +53,12 @@ div
 
 <script>
 import * as Components from './Components'
-import _ from 'lodash'
+// import _ from 'lodash'
 import Sortable from './VueSortable'
 
 export default {
   name: 'FormBuilder',
-  props: [ 'form', 'content', 'parent', 'errors' ],
+  props: [ 'form', 'content', 'parent', 'errors', 'formdude' ],
   components: { Sortable },
   data () {
     return {
@@ -88,6 +89,7 @@ export default {
         this.form[fieldIndex].fields.forEach((field) => {
           dataObject[field.name] = null
           if (field.fields.length) {
+            // @TODO this should become recursive
             console.log('clone sub')
           }
         })
@@ -102,18 +104,7 @@ export default {
       }
     },
     value (field, index) {
-      // check if there's content set
-      let c = _.get(this.content, field.name)
-
-      // no content (create or empty property) with nested fields
-      if (c == null && field.fields.length) {
-        field.fields.forEach((single) => {
-          _.set(this.content, field.name, {})
-          // this.$set(this.content, field.name, {})
-        })
-      }
-
-      return index >= 0 && Array.isArray(c) ? c[index] : c
+      return this.formdude.get(field, index)
     },
     // sets a value
     set (data, index) {
