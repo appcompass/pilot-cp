@@ -1,6 +1,6 @@
 <template lang="jade">
 div
-  span(v-if="form", v-for="(field, fieldIndex) in form")
+  span(v-if="form", v-for="(field, fieldIndex) in form.fields")
     label.label(v-if="!field.config.repeatable") {{ field.label }}
     a.icon.is-small(v-if="field.config.repeatable", @click="clone(field.name, fieldIndex)")
       i.fa.fa-plus
@@ -9,9 +9,9 @@ div
         v-if="!Array.isArray(value(field))",
         :is="Components[field.type]",
         :pointer="getPath(field.name)",
-        :data="formdude.get(getPath(field.name))",
-        :value="formdude.get(getPath(field.name))",
-        :errors="errors",
+        :data="form.get(getPath(field.name))",
+        :value="form.get(getPath(field.name))",
+        :errors="form.errors",
         :source="field.source",
         :help="field.help",
         @input="set"
@@ -32,33 +32,28 @@ div
 
         FormBuilder.fieldset(
           v-if="!val.isCollapsed",
-          :form="field.fields",
-          :content="val",
+          :form="form.split(field)",
           :parent="getPath(field.name)",
-          :errors="errors",
           @set="function(e) { return set(e, index) }"
         )
 
     //- RECURSIVE FORMS (field is not repeatable, it's just a set of children)
-    div(v-if="field.fields.length && !Array.isArray(value(field))")
+    div(v-if="field.fields.length && !Array.isArray(value(getPath(field.name)))")
       FormBuilder.fieldset(
-        :form="field.fields",
-        :content="value(field)",
-        :parent="getPath(field.name)",
-        :formdude="formdude",
-        :errors="errors",
+        :form="form.split(field)",
+        :parent="getPath(field.name)"
         @set="set"
       )
 </template>
 
 <script>
 import * as Components from './Components'
-// import _ from 'lodash'
 import Sortable from './VueSortable'
+// import Form from './Helpers/Form'
 
 export default {
   name: 'FormBuilder',
-  props: [ 'form', 'content', 'parent', 'errors', 'formdude' ],
+  props: [ 'form', 'parent' ],
   components: { Sortable },
   data () {
     return {
@@ -79,8 +74,8 @@ export default {
       // when cloning check if we're cloning a fieldset or a single repeatable (with multiple values)
 
       // make sure the content field is able to receive data
-      if (!this.content[fieldName]) {
-        this.$set(this.content, fieldName, [])
+      if (!this.form.collection[fieldName]) {
+        this.$set(this.form.collection, fieldName, [])
       }
 
       // Fieldset (we have a fields subset)- get the fields
@@ -93,18 +88,18 @@ export default {
             console.log('clone sub')
           }
         })
-        this.content[fieldName].push(dataObject)
+        this.form.collection[fieldName].push(dataObject)
 
       // Single Field - keep old data and make it an array
       } else {
-        if (!Array.isArray(this.content[fieldName])) {
-          this.$set(this.content, fieldName, [this.content[fieldName]])
+        if (!Array.isArray(this.form.collection[fieldName])) {
+          this.$set(this.form.collection, fieldName, [this.form.collection[fieldName]])
         }
-        this.content[fieldName].push('')
+        this.form.collection[fieldName].push('')
       }
     },
     value (field, index) {
-      return this.formdude.get(field, index)
+      return this.form.get(field, index)
     },
     // sets a value
     set (data, index) {
@@ -116,7 +111,7 @@ export default {
     },
     // remove branch
     unlink (field, index) {
-      this.content[field.name].splice(index, 1)
+      this.form.collection[field.name].splice(index, 1)
     }
   }
 }

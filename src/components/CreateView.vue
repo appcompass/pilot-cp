@@ -4,14 +4,9 @@ div.columns
     h1.title.is-4 New: {{ $route.params.model.split('_')[$route.params.model.split('_').length - 1].replace(/s\s*$/, "") }}
     form
       FormBuilder(
-        :form="form.fields",
-        :content="form.collection",
-        :errors="form.errors",
-        :formdude="form",
+        :form="form",
         @set="set"
       )
-
-      {{ form.collection }}
 
     footer
       .pull-right
@@ -53,6 +48,7 @@ export default {
   },
   methods: {
     set (data) {
+      console.log('CreateView got set')
       this.form.set(data)
     },
     save () {

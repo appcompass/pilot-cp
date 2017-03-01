@@ -1,13 +1,14 @@
 <template lang="jade">
 div
+  {{ form.fields }}
   .columns
     .page.column.is-6
-      Container(v-for="container in data.collection.data", :container="container", @edit="edit")
+      Container(v-for="container in form.collection.data", :container="container", @edit="edit")
     .column.is-6
-      a.button.is-primary(@click="store") Save
-      FormBuilder(:form="data.edit.fields", :content="data.collection.page", :errors="errors", @set="set")
-      FormBuilder(v-if="section", :form="section.form", :content="section.content", :errors="errors", @set="set")
-  .columns
+      //- a.button.is-primary(@click="store") Save
+      //- FormBuilder(:form="form.fields", :content="form.collection.page", :errors="form.errors", @set="set")
+      FormBuilder(v-if="section", :form="section.form", :content="section.content", :errors="form.errors", @set="set")
+  //- .columns
     .column.is-full
 </template>
 
@@ -21,7 +22,7 @@ import FormBuilder from '../FormBuilder'
 export default {
   name: 'PageEditor',
   components: { Container, FormBuilder },
-  props: ['data', 'errors'],
+  props: ['data', 'errors', 'form'],
   data () {
     return {
       section: null,

@@ -5,7 +5,6 @@ div
       div(
         :is="form.form.editor + 'Editor'",
         :form="form",
-        :errors="form.errors",
         @refresh="refresh",
         @set="set"
       )
@@ -37,7 +36,6 @@ div
 
 <script>
 import swal from 'sweetalert'
-import Errors from './Helpers/Errors'
 
 import Auth from './Auth'
 import State from './State'
@@ -57,8 +55,7 @@ export default {
       model: undefined,
       route: undefined,
       navigation: undefined,
-      form: new Form(),
-      errors: new Errors()
+      form: new Form()
     }
   },
   created () {
