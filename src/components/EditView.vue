@@ -1,12 +1,11 @@
 <template lang="jade">
 div
-
   .columns
-    .column.is-10(v-if="data")
+    .column.is-10(v-if="form.form.editor")
       div(
-        :is="data.edit.editor + 'Editor'",
-        :data="data",
-        :errors="errors",
+        :is="form.form.editor + 'Editor'",
+        :form="form",
+        :errors="form.errors",
         @refresh="refresh",
         @set="set"
       )
@@ -38,8 +37,7 @@ div
 
 <script>
 import swal from 'sweetalert'
-import Errors from './Errors'
-import _ from 'lodash'
+import Errors from './Helpers/Errors'
 
 import Auth from './Auth'
 import State from './State'
@@ -47,18 +45,19 @@ import FormEditor from './Editors/FormEditor'
 import MenuEditor from './Editors/MenuEditor'
 import GalleryEditor from './Editors/GalleryEditor'
 import PageEditor from './Editors/PageEditor.vue'
+import Form from './Helpers/Form'
 
 export default {
   name: 'EditView',
   components: { FormEditor, MenuEditor, GalleryEditor, PageEditor },
   data () {
     return {
-      data: undefined,
       submitted: false,
       loading: true,
       model: undefined,
       route: undefined,
       navigation: undefined,
+      form: new Form(),
       errors: new Errors()
     }
   },
@@ -81,42 +80,21 @@ export default {
       State.get(route)
         .then(subnav => {
           this.navigation = subnav
-        }, (response) => {
-          // swal({title: 'Error', text: 'Can\'t fetch subnav', type: 'error'})
         })
     },
     set (data) {
-      console.log('Edit')
-
-      let copy = _.cloneDeep(this.data.collection)
-      _.set(copy, data.pointer, data.value)
-      this.data.collection = Object.assign({}, copy)
-
-      // remove error from the stack. awkwardly
-      copy = _.cloneDeep(this.errors.errors)
-      let errors = new Errors()
-      errors.set(copy)
-      errors.unset(data.pointer)
-      this.$nextTick(() => {
-        this.errors = errors
-      })
+      this.form.set(data)
     },
     update () {
       this.submitted = true
-      this.$http.put(process.env.API_SERVER + this.$route.fullPath.split('_').join('/'), this.data.collection)
+      this.$http.put(process.env.API_SERVER + this.$route.fullPath.split('_').join('/'), this.form.collection)
         .then((response) => {
           swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
             this.refresh()
           })
         }, response => {
           if (response.status === 422) {
-            // let errors = this.errors.set(response.data)
-            let errors = new Errors()
-            errors.set(response.data)
-            this.$nextTick(() => {
-              this.errors = errors
-              // this.errors = Object.assign({}, errors)
-            })
+            this.form.fails(response.data)
           } else {
             swal({title: 'Error', text: response.data.errors, type: 'error'})
           }
@@ -127,7 +105,7 @@ export default {
       this.loading = true
       this.$http.get(api + this.model)
         .then((response) => {
-          this.data = response.data
+          this.form.init(response.data.edit, response.data.collection)
           this.loading = false
         }, (response) => {
           if (!Auth.user.authenticated) {

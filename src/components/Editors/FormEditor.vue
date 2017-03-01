@@ -1,7 +1,7 @@
 <template lang="jade">
 div
   div.columns
-    .column.hero.is-danger(v-if="!data.edit")
+    .column.hero.is-danger(v-if="!form.fields")
       .hero-body
         .container
           h1.title Missing List View Form
@@ -15,18 +15,17 @@ div
           .span Back
 
       .section
-        FormBuilder(:form="data.edit.fields", :content="data.collection", :errors="errors", @set="set")
+        FormBuilder(:form="form.fields", :content="form.collection", :errors="form.errors", @set="set", :formdude="form")
 </template>
 
 <script>
 import * as Components from '../Components'
 import FormField from '../FormBuilder/FormField'
 import FormBuilder from '../FormBuilder'
-import _ from 'lodash'
 
 export default {
   name: 'FormEditor',
-  props: ['data', 'errors'],
+  props: ['form'],
   components: { FormField, FormBuilder },
   data () {
     return {
@@ -43,9 +42,6 @@ export default {
   methods: {
     set (data) {
       this.$emit('set', data)
-    },
-    value (fieldName) {
-      return _.get(this.data.collection, fieldName)
     }
   }
 }

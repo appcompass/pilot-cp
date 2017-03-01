@@ -3,14 +3,11 @@ import _ from 'lodash'
 class Errors {
 
   constructor () {
-    this.errors = {}
+    this.errors = Object.create({})
   }
 
   set (errors) {
-    for (let key of Object.keys(errors)) {
-      _.set(this.errors, key, errors[key])
-    }
-    return this
+    this.errors = Object.assign({}, errors)
   }
 
   get (path) {
@@ -22,13 +19,13 @@ class Errors {
   }
 
   unset (path) {
-    // this.errors = {}
-    // return this
-    // console.log(path, _.get(this.errors, path))
+    if (!this.errors) {
+      return
+    }
     _.unset(this.errors, path)
-    // console.log(path, _.get(this.errors, path))
-    return this
+    this.errors = Object.assign({}, this.errors)
   }
 }
 
 export default Errors
+
