@@ -8,14 +8,12 @@ div
         @refresh="refresh",
         @set="set"
       )
-
     .column.is-2(v-if="navigation && navigation.length")
       h1.menu-label Sub Navigation
       aside.menu
         ul.menu-list
           li(v-for="item in navigation")
             router-link(:to="{name: 'sub', params: {model: model.split('/')[model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}") {{ item.title }}
-
   .columns
     .column.is-10
       footer
@@ -100,7 +98,11 @@ export default {
     refresh () {
       var api = process.env.API_SERVER
       this.loading = true
-      this.$http.get(api + this.model)
+      this.$http.get(api + this.model, {
+        params: {
+          page: 1
+        }
+      })
         .then((response) => {
           this.form.init(response.data.edit, response.data.collection)
           this.loading = false
