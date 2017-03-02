@@ -31,15 +31,16 @@ export default {
       },
       sending (something, xhr, formData) {
         formData.append('disk', vm.disk)
+      },
+      success (file, response) {
+        vm.$emit('input', {pointer: null, value: response.model})
+        // console.log(response)
+        return true
       }
     })
-    this.dropzone.on('complete', this.complete)
     this.dropzone.on('addedfile', this.addedfile)
   },
   methods: {
-    complete (file) {
-      console.log(file)
-    },
     addedfile (file) {
       // let vm = this
     },

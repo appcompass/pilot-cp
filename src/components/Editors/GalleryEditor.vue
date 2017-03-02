@@ -14,7 +14,7 @@ div
         p Photos: {{ form.collection.photoCount }}
         p Videos: {{ form.collection.videoCount }}
         p Last Updated:
-        p Owner: {{ form.collection.user_id }}
+        p Owner: {{ form.collection.user.email || form.collection.user.full_name }}
     .column.is-half
       FormBuilder(:form="form", @set="set", @disk-pleez="disk")
 
@@ -42,12 +42,12 @@ div
           .content
             p.help
               ul
-                li User: {{ photo.user_id }}
                 li Path: {{ photo.path }}
-                li Url: {{ photo.url }}
+                li Url:&nbsp;{{ photo.url }}
                 li Created: {{ photo.created_at }}
                 li Size: {{ photo.dimensions }}
-                li Stoage: {{ photo.storage.name }}
+                li Storage: {{ photo.storage.name }}
+                li User: {{ photo.user.email }}
 
 </template>
 
@@ -93,10 +93,14 @@ export default {
       return this.selected.indexOf(index) > -1
     },
     set (data) {
-      this.$emit('set', data)
+      console.log(data)
+      if (data.pointer === 'photo') {
+        this.form.collection.photos.push(data.value)
+      }
+      // this.$emit('set', data)
     },
     disk (cb) {
-      cb(this.form.collection.disk)
+      cb(this.form.collection.galleryable ? this.form.collection.galleryable.storage.name : null)
     }
   }
 }
