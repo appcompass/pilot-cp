@@ -2,7 +2,7 @@
 p.control
   Dropzone(
     :url="$route.fullPath + '/photos/'",
-    @set='set',
+    @input='set',
     @disk-pleez="disk"
   )
 </template>
@@ -16,6 +16,7 @@ export default {
   props: ['pointer', 'data', 'label'],
   methods: {
     set (data) {
+      data.pointer = this.pointer
       this.$emit('input', data)
     },
     disk (cb) {
