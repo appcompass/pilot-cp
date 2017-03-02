@@ -163,8 +163,10 @@ export default {
       return this.selected.indexOf(index) > -1
     },
     set (data) {
+      // @TODO this is ugly, we need a good way to tell if a media has been uploaded
+      //  -- set another prop in the event
       if (data.pointer === 'photo') {
-        this.form.collection.photos.push(data.value)
+        this.update()
       } else {
         this.form.set(data)
       }
