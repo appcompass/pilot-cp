@@ -13,8 +13,8 @@
 
         .content
           ul
-            li Attr1: Val
-            li Attr2: Val
+            li Photos: {{ gallery.photoCount }}
+            li Videos: {{ gallery.videoCount }}
             li Attr3: Val
           p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non officia suscipit quos.
           small 08:38 AM

@@ -13,7 +13,8 @@ div
         :errors="form.errors",
         :source="field.source",
         :help="field.help",
-        @input="set"
+        @input="set",
+        @disk-pleez="disk"
       )
 
     //- RECURSIVE FORMS (field is not repeatable, it's just a set of children)
@@ -102,6 +103,9 @@ export default {
     // sets a value
     set (data, index) {
       this.$emit('set', {value: data.value, pointer: data.pointer, index: index})
+    },
+    disk (cb) {
+      this.$emit('disk-pleez', cb)
     },
     // collapse a structure
     collapse (item, collapsed) {

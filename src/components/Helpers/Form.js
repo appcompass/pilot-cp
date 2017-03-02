@@ -12,6 +12,7 @@ class Form {
   }
 
   data (data) {
+    // object assign makes sure the change is noticed
     this.collection = Object.assign({}, data)
     // @TODO initi data recursively -> empty object based on form struct
   }
