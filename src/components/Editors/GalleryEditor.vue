@@ -6,17 +6,16 @@ div
         span.icon.is-small
           span.fa.fa-angle-left
         .span Back
-  .columns.actions
-    .column.is-6
+  .columns
+    .column.is-half
       .content
         h1 Gallery: {{ form.collection.name || 'New Gallery' }}
         p Name: {{ form.collection.name || 'New Gallery' }}
         p Photos: {{ form.collection.photoCount }}
         p Videos: {{ form.collection.videoCount }}
         p Last Updated:
-        p User: {{ form.collection.user_id }}
-        p Storage: {{ form.collection.photos[0].storage.name }}
-    .column.is-6
+        p Owner: {{ form.collection.user_id }}
+    .column.is-half
       FormBuilder(:form="form", @set="set", @disk-pleez="disk")
 
   .columns
@@ -50,8 +49,6 @@ div
                 li Size: {{ photo.dimensions }}
                 li Stoage: {{ photo.storage.name }}
 
-  pre
-    | {{ form }}
 </template>
 
 <script>
@@ -107,13 +104,15 @@ export default {
 
 <style lang="sass" scoped>
 li.gallery
-  float: left
   white-space: nowrap
 .card
-  transition: box-shadow 0.5s
+  transition: all 1s
+  .card-header
+    transition: all 1s
 .selected
-  border: 1px solid white
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 3px rgba(10, 56, 125, 0.1)
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 5px rgba(10, 56, 125, 0.1)
+  .card-header
+    background-color: rgba(0, 57, 128, 0.2)
 .card-header-icon
   color: #333
   padding: 0.5rem 0.25rem
