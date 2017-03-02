@@ -11,8 +11,6 @@ div
       .content
         h1 Gallery: {{ form.collection.name || 'New Gallery' }}
         p Name: {{ form.collection.name || 'New Gallery' }}
-        p Photos: {{ form.collection.photos.length }}
-        p Videos: {{ form.collection.videos.length }}
         p Last Updated:
         p Owner: {{ form.collection.user.email || form.collection.user.full_name }}
     .column.is-half
@@ -41,7 +39,7 @@ div
           i.fa.fa-trash-o
         span Delete
 
-
+  Pagination(:p="pagination")
   Sortable.columns.is-multiline(:list="form.collection.photos", :options="{animation: 150, handle: '.handle', group: 'items'}", :element="'div'")
     .column(v-for="(photo, index) in form.collection.photos", :class="'is-' + size")
       .card(:class="{selected: isSelected(photo.id)}")
@@ -65,7 +63,9 @@ div
                 li Created: {{ photo.created_at }}
                 li Size: {{ photo.dimensions }}
                 li Storage: {{ photo.storage.name }}
-                li User: {{ photo.user.email }}
+                li User: {{ photo.user ? photo.user.email : '' }}
+
+  Pagination(:p="pagination")
 </template>
 
 <script>
@@ -74,18 +74,50 @@ import Sortable from '../VueSortable'
 import _ from 'lodash'
 import moment from 'moment-js'
 import swal from 'sweetalert'
+import Pagination from '../Pagination'
 
 export default {
   name: 'GalleryEditor',
   props: ['form'],
-  components: { FormBuilder, Sortable },
+  components: { FormBuilder, Sortable, Pagination },
   data () {
     return {
-      size: 2,
+      size: 3,
+      pagination: {
+        surrounded: 3,
+        current_page: 1
+      },
       selected: []
     }
   },
+  created () {
+    this.update()
+  },
+  watch: {
+    'pagination.current_page' (nv, ov) {
+      this.update()
+    }
+  },
   methods: {
+    update () {
+      this.$http.get(process.env.API_SERVER + 'galleries/' + this.form.collection.id + '/photos', {
+        params: {
+          page: this.pagination.current_page
+        }
+      })
+        .then((response) => {
+          this.$set(this.form.collection, 'photos', response.data.collection.data.data)
+          this.pagination = _.omit(response.data.collection.data, ['data'])
+        })
+    },
+    next () {
+      this.pagination.current_page++
+      this.update()
+    },
+    prev () {
+      this.pagination.current_page--
+      this.update()
+    },
     toggle (index) {
       if (this.selected.indexOf(index) > -1) {
         this.selected.splice(this.selected.indexOf(index), 1)
@@ -104,10 +136,9 @@ export default {
         })
     },
     selectall () {
-      let all = _.map(this.form.collection.photos, (photo) => {
-        return photo.id
+      _.map(this.form.collection.photos, (photo) => {
+        this.selected.push(photo.id)
       })
-      this.selected = all
     },
     selectnone () {
       this.selected.splice(0, this.selected.length)
@@ -124,12 +155,13 @@ export default {
     set (data) {
       if (data.pointer === 'photo') {
         this.form.collection.photos.push(data.value)
+      } else {
+        this.form.set(data)
       }
-      // @TODO move form in here!
-      let collection = _.cloneDeep(this.form.collection)
-      _.set(collection, data.pointer, data.value)
-      this.form.collection = Object.assign({}, collection)
-      // this.$set(this.form.collection, data.pointer, data.value)
+      // @TODO move Form in here!
+      // let collection = _.cloneDeep(this.form.collection)
+      // _.set(collection, data.pointer, data.value)
+      // this.form.collection = Object.assign({}, collection)
     },
     disk (cb) {
       cb(this.form.collection.galleryable ? this.form.collection.galleryable.storage.name : null)

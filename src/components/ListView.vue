@@ -84,10 +84,8 @@ export default {
       }
       this.model = to.path.slice(1).split('/').join('_')
       this.loading = true
-
       this.sorters = {}
       this.search = {}
-
       // we trigger an update only if page stays the same, otherwise we let pagination watcher fire the query
       if (this.pagination.current_page === 1) {
         this.update()
