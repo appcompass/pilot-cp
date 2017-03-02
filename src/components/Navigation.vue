@@ -2,11 +2,10 @@
 div
   aside.menu(v-for="cat in navigation.full")
     p.menu-label(v-if="!cat.url") {{ cat.title }}
-    router-link.menu-label(v-bind:to="cat.url" exact, v-if="cat.url") {{ cat.title }}
+    router-link.menu-label(:to="cat.url" exact, v-if="cat.url") {{ cat.title }}
     ul.menu-list.main-nav
-      li
       li(v-for="item in cat.children")
-        router-link(v-bind:to="item.url")
+        router-link(:to="item.url")
           span.icon.is-small
             i.fa.is-small(:class="'fa-' + item.icon")
           span {{ item.title }}
