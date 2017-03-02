@@ -11,7 +11,9 @@ div
       .content
         h1 Gallery: {{ form.collection.name || 'New Gallery' }}
         p Name: {{ form.collection.name || 'New Gallery' }}
-        p Last Updated:
+        p(v-if="form.collection.photos.length") Photos: {{ form.collection.photos.length }}
+        p(v-if="form.collection.videos.length") Photos: {{ form.collection.videos.length }}
+        p Last Updated: {{ form.collection.updated_at }}
         p Owner: {{ form.collection.user.email || form.collection.user.full_name }}
     .column.is-half
       FormBuilder(:form="form", @set="set", @disk-pleez="disk")
@@ -21,6 +23,7 @@ div
       a.button(@click="selectall") Select All
       a.button(@click="selectnone") Deselect All
       a.button(@click="selectinvert") Invert Selection
+      a.button(@click="shouldPaginate = !shouldPaginate") Toggle Pagination
       a.button.is-small.is-primary(@click="size--")
         span.icon.is-small
           i.fa.fa-search-minus
@@ -39,7 +42,7 @@ div
           i.fa.fa-trash-o
         span Delete
 
-  Pagination(:p="pagination")
+  Pagination(:p="pagination", v-if="pagination.last_page > 1")
   Sortable.columns.is-multiline(:list="form.collection.photos", :options="{animation: 150, handle: '.handle', group: 'items'}", :element="'div'")
     .column(v-for="(photo, index) in form.collection.photos", :class="'is-' + size")
       .card(:class="{selected: isSelected(photo.id)}")
@@ -65,7 +68,7 @@ div
                 li Storage: {{ photo.storage.name }}
                 li User: {{ photo.user ? photo.user.email : '' }}
 
-  Pagination(:p="pagination")
+  Pagination(:p="pagination", v-if="pagination.last_page > 1")
 </template>
 
 <script>
@@ -84,9 +87,10 @@ export default {
     return {
       size: 3,
       pagination: {
-        surrounded: 3,
-        current_page: 1
+        current_page: 1,
+        per_page: 16
       },
+      shouldPaginate: true,
       selected: []
     }
   },
@@ -94,7 +98,11 @@ export default {
     this.update()
   },
   watch: {
-    'pagination.current_page' (nv, ov) {
+    'pagination.current_page' (currentPage) {
+      this.update()
+    },
+    'shouldPaginate' () {
+      this.pagination.current_page = 1
       this.update()
     }
   },
@@ -102,13 +110,15 @@ export default {
     update () {
       this.$http.get(process.env.API_SERVER + 'galleries/' + this.form.collection.id + '/photos', {
         params: {
-          page: this.pagination.current_page
+          page: this.pagination.current_page,
+          per_page: this.shouldPaginate ? this.pagination.per_page : 50000
         }
       })
-        .then((response) => {
-          this.$set(this.form.collection, 'photos', response.data.collection.data.data)
-          this.pagination = _.omit(response.data.collection.data, ['data'])
-        })
+      .then((response) => {
+        this.$set(this.form.collection, 'photos', response.data.collection.data.data)
+        // this.pagination.current_page = response.data.collection.current_page
+        this.pagination = _.omit(response.data.collection.data, ['data', 'per_page'])
+      })
     },
     next () {
       this.pagination.current_page++
@@ -158,10 +168,6 @@ export default {
       } else {
         this.form.set(data)
       }
-      // @TODO move Form in here!
-      // let collection = _.cloneDeep(this.form.collection)
-      // _.set(collection, data.pointer, data.value)
-      // this.form.collection = Object.assign({}, collection)
     },
     disk (cb) {
       cb(this.form.collection.galleryable ? this.form.collection.galleryable.storage.name : null)
