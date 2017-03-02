@@ -3,7 +3,7 @@ p.control
   Dropzone(
     :url="$route.fullPath + '/photos/'",
     @input='set',
-    @disk-pleez="disk"
+    @disk="disk"
   )
 </template>
 
@@ -20,7 +20,7 @@ export default {
       this.$emit('input', data)
     },
     disk (cb) {
-      this.$emit('disk-pleez', cb)
+      this.$emit('disk', cb)
     }
   }
 }

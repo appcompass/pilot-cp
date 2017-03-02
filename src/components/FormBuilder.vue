@@ -14,16 +14,12 @@ div
         :source="field.source",
         :help="field.help",
         @input="set",
-        @disk-pleez="disk"
+        @disk="disk"
       )
 
     //- RECURSIVE FORMS (field is not repeatable, it's just a set of children)
     div(v-if="field.fields.length && !Array.isArray(value(getPath(field.name)))")
-      FormBuilder.fieldset(
-        :form="form.split(field)",
-        :parent="getPath(field.name)"
-        @set="set"
-      )
+      FormBuilder.fieldset(:form="form.split(field)", :parent="getPath(field.name)", @set="set")
 
     //- MULTI FIELD REPEATABLE SORTABLE (sub-form present, has multiple values and field.config.repeatable is true)
     Sortable(v-if="field.config.repeatable && field.fields.length", :list="value(field)", :options="{handle: '.handle', animation: 150, group: 'items'}")
@@ -38,12 +34,7 @@ div
         a.icon.is-small.pull-right.handle(v-if="value(field, index).isCollapsed")
           i.fa.fa-arrows
 
-        FormBuilder.fieldset(
-          v-if="!val.isCollapsed",
-          :form="form.split(field)",
-          :parent="getPath(field.name)",
-          @set="function(e) { return set(e, index) }"
-        )
+        FormBuilder.fieldset(v-if="!val.isCollapsed", :form="form.split(field)", :parent="getPath(field.name)", @set="function(e) { return set(e, index) }")
 </template>
 
 <script>

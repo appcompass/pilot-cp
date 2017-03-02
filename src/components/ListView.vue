@@ -42,8 +42,7 @@
           :collection="collection",
           :model="model",
           :search="search",
-          :forms="{list: list, edit: edit}",
-          @set="set"
+          :forms="{list: list, edit: edit}"
         )
 
       Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
@@ -60,9 +59,7 @@ import Auth from './Auth.js'
 
 export default {
   name: 'ListView',
-
   components: { Pagination, TableList, MultiSelectList, CardList },
-
   data () {
     return {
       edit: [],
@@ -76,7 +73,6 @@ export default {
       watcherFired: false
     }
   },
-
   watch: {
     'pagination.current_page' (nv, ov) {
       this.update()
@@ -111,20 +107,6 @@ export default {
         this.update()
       }
     }, 500),
-    set (data) {
-      // console.log('ListView got data')
-      // console.log(data)
-      console.log(this.collection)
-      // let copy = _.cloneDeep(this.collection.content)
-      // console.log(data)
-      // if (data.index > -1) {
-        // _.set(copy, data.pointer[data.index], data.value)
-      // } else {
-        // _.set(copy, data.pointer, data.value)
-      // }
-      // console.log(copy)
-      // this.collection = Object.assign({}, copy)
-    },
     update () {
       var api = process.env.API_SERVER
       this.loading = true

@@ -1,7 +1,6 @@
 /* global localStorage: false */
 <template lang="jade">
 form.dropzone
-  //- input(type="hidden", name="disk", value="plus3website_images")
   a.button(@click="process") Process
 </template>
 
@@ -26,6 +25,7 @@ export default {
       url: this.api + this.url.slice(1),
       autoProcessQueue: false,
       addRemoveLinks: false,
+      parallelUploads: 10,
       headers: {
         'Authorization': 'Bearer ' + window.localStorage.getItem('id_token')
       },
@@ -34,21 +34,19 @@ export default {
       },
       success (file, response) {
         vm.$emit('input', {pointer: null, value: response.model})
-        // console.log(response)
-        return true
+        swal('Ok', 'Image(s) uploaded', 'success')
+        vm.dropzone.removeFile(file)
+      },
+      error (file, errorMessage, xhr) {
+        swal('Error', 'Failed while uploading the image(s)', 'error')
       }
     })
-    this.dropzone.on('addedfile', this.addedfile)
   },
   methods: {
-    addedfile (file) {
-      // let vm = this
-    },
     process () {
-      this.$emit('disk-pleez', (disk) => {
+      this.$emit('disk', (disk) => {
         if (!disk) {
           swal('Error', 'Disk instance not selected', 'error')
-          // console.error('Disk instance must be specified')
           return
         }
         this.disk = disk
