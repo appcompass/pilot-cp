@@ -43,7 +43,7 @@ div
         span Delete
 
   Pagination(:p="pagination", v-if="pagination.last_page > 1")
-  Sortable.columns.is-multiline(:list="form.collection.photos", :options="{animation: 150, handle: '.handle', group: 'items'}", :element="'div'")
+  Sortable.columns.is-multiline(:list="form.collection.photos", :options="{animation: 150, handle: '.handle', group: 'items'}", @change="end", :element="'div'")
     .column(v-for="(photo, index) in form.collection.photos", :class="'is-' + size")
       .card(:class="{selected: isSelected(photo.id)}")
         .card-header.handle
@@ -62,11 +62,13 @@ div
             p.help
               ul
                 li Path: {{ photo.path }}
+                li Photo Id: {{ photo.id }}
                 li Url:&nbsp;{{ photo.url }}
                 li Created: {{ photo.created_at }}
                 li Size: {{ photo.dimensions }}
                 li Storage: {{ photo.storage.name }}
                 li User: {{ photo.user ? photo.user.email : '' }}
+                li Order: {{ photo.order }}
 
   Pagination(:p="pagination", v-if="pagination.last_page > 1")
 </template>
@@ -161,6 +163,15 @@ export default {
     },
     isSelected (index) {
       return this.selected.indexOf(index) > -1
+    },
+    end () {
+      // trigger sotrting only if not in paginate mode
+      if (this.shouldPaginate) {
+        return
+      }
+
+      let order = _.map(this.form.collection.photos, (photo) => { return photo.id })
+      this.$http.post(process.env.API_SERVER + 'galleries/' + this.form.collection.id + '/photos/sort', {order: order})
     },
     set (data) {
       // @TODO this is ugly, we need a good way to tell if a media has been uploaded
