@@ -13,7 +13,8 @@ div
         p Name: {{ form.collection.name || 'New Gallery' }}
         p(v-if="form.collection.photos.length") Photos: {{ form.collection.photos.length }}
         p(v-if="form.collection.videos.length") Photos: {{ form.collection.videos.length }}
-        p Last Updated: {{ form.collection.updated_at }}
+        p Last Updated:
+          span(v-moment-ago="form.collection.updated_at")
         p Owner: {{ form.collection.user.email || form.collection.user.full_name }}
     .column.is-half
       FormBuilder(:form="form", @set="set", @disk="disk")
@@ -64,7 +65,8 @@ div
                 li Path: {{ photo.path }}
                 li Photo Id: {{ photo.id }}
                 li Url:&nbsp;{{ photo.url }}
-                li Created: {{ photo.created_at }}
+                li Created:
+                  span(v-moment-ago="photo.created_at")
                 li Size: {{ photo.dimensions }}
                 li Storage: {{ photo.storage.name }}
                 li User: {{ photo.user ? photo.user.email : '' }}
@@ -77,7 +79,6 @@ div
 import FormBuilder from '../FormBuilder'
 import Sortable from '../VueSortable'
 import _ from 'lodash'
-import moment from 'moment-js'
 import swal from 'sweetalert'
 import Pagination from '../Pagination'
 
@@ -154,7 +155,6 @@ export default {
     },
     selectnone () {
       this.selected.splice(0, this.selected.length)
-      moment
     },
     selectinvert () {
       this.form.collection.photos.forEach((photo) => {
