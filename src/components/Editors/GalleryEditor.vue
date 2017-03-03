@@ -23,7 +23,7 @@ div
       a.button(@click="selectall") Select All
       a.button(@click="selectnone") Deselect All
       a.button(@click="selectinvert") Invert Selection
-      a.button(@click="shouldPaginate = !shouldPaginate") Toggle Pagination
+      a.button(@click="shouldPaginate = !shouldPaginate", v-if="pagination.last_page > 1") Toggle Pagination
       a.button.is-small.is-primary(@click="size--")
         span.icon.is-small
           i.fa.fa-search-minus
@@ -43,7 +43,7 @@ div
         span Delete
 
   Pagination(:p="pagination", v-if="pagination.last_page > 1")
-  Sortable.columns.is-multiline(:list="form.collection.photos", :options="{animation: 150, handle: '.handle', group: 'items'}", @change="end", :element="'div'")
+  Sortable.columns.is-multiline(:list="form.collection.photos", :options="{animation: 150, handle: '.handle', group: 'items'}", @change="sort", :element="'div'")
     .column(v-for="(photo, index) in form.collection.photos", :class="'is-' + size")
       .card(:class="{selected: isSelected(photo.id)}")
         .card-header.handle
@@ -164,9 +164,9 @@ export default {
     isSelected (index) {
       return this.selected.indexOf(index) > -1
     },
-    end () {
+    sort () {
       // trigger sotrting only if not in paginate mode
-      if (this.shouldPaginate) {
+      if (this.shouldPaginate && this.pagination.last_page > 1) {
         return
       }
 
