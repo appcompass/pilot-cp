@@ -9,6 +9,7 @@ import routes from './routes'
 import App from './App'
 
 import '../src/assets/sass/main.sass'
+import moment from 'moment'
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
@@ -30,6 +31,18 @@ Vue.http.interceptors.push((request, next) => {
     }
     return response
   })
+})
+
+Vue.directive('moment-ago', {
+  bind (el, binding) {
+    el.innerHTML = ' ' + moment(binding.value, 'YYYY-MM-DD HH:mm:ss').fromNow()
+    el.interval = setInterval(() => {
+      el.innerHTML = ' ' + moment(binding.value, 'YYYY-MM-DD HH:mm:ss').fromNow()
+    }, 1000)
+  },
+  unbind (el, binding, vnode) {
+    clearInterval(el.interval)
+  }
 })
 
 export default Vue

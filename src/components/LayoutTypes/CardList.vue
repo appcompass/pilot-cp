@@ -17,9 +17,9 @@
             li Videos: {{ gallery.videoCount }}
             li Attr3: Val
           p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non officia suscipit quos.
-          small 08:38 AM
-            .pull-right
-              router-link.button.is-small.is-primary(:to="{name: 'edit', params: {model: 'galleries', id: gallery.id}}") Edit
+          small(v-moment-ago="gallery.updated_at")
+          .pull-right
+            router-link.button.is-small.is-primary(:to="{name: 'edit', params: {model: 'galleries', id: gallery.id}}") Edit
 
 </template>
 
