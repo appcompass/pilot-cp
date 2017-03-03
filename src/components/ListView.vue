@@ -167,7 +167,7 @@ export default {
       }
     },
     toggleSorter (field) {
-      if (!field.config.sortable) {
+      if (!JSON.parse(field.config).sortable) {
         return
       }
       let sorter = this.sorters[field.name]
