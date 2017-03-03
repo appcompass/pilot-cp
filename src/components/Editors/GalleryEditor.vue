@@ -16,7 +16,7 @@ div
         p Last Updated: {{ form.collection.updated_at }}
         p Owner: {{ form.collection.user.email || form.collection.user.full_name }}
     .column.is-half
-      FormBuilder(:form="form", @set="set", @disk-pleez="disk")
+      FormBuilder(:form="form", @set="set", @disk="disk")
 
   .columns
     .column.is-6
@@ -47,9 +47,9 @@ div
     .column(v-for="(photo, index) in form.collection.photos", :class="'is-' + size")
       .card(:class="{selected: isSelected(photo.id)}")
         .card-header.handle
-          p.card-header-title(v-if="size > 2") {{ photo.path }}
+          p.card-header-title.is-truncated(:title="photo.path", v-if="size > 2") {{ photo.path }}
           a.card-header-icon(@click="toggle(photo.id)")
-            span.icon.is-small
+            span.icon
               i.fa(:class="{'fa-dot-circle-o': isSelected(photo.id), 'fa-circle-o': !isSelected(photo.id)}")
           a.card-header-icon(@click="unlink(photo, 'photo')")
             span.icon.is-small.trash
@@ -171,7 +171,11 @@ export default {
       }
 
       let order = _.map(this.form.collection.photos, (photo) => { return photo.id })
+      // @TODO meh. the new collection should come back as payload. dude.
       this.$http.post(process.env.API_SERVER + 'galleries/' + this.form.collection.id + '/photos/sort', {order: order})
+        .then((response) => {
+          this.update()
+        })
     },
     set (data) {
       // @TODO this is ugly, we need a good way to tell if a media has been uploaded
@@ -190,18 +194,20 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-li.gallery
-  white-space: nowrap
 .card
   transition: all 1s
   .card-header
     transition: all 1s
+  .content
+    white-space: nowrap
 .selected
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 5px rgba(10, 56, 125, 0.1)
   .card-header
     background-color: rgba(0, 57, 128, 0.2)
     &:hover
       cursor: pointer
+    .card-header-title
+      white-space: nowrap
 .card-header-icon
   color: #333
   padding: 0.5rem 0.25rem
@@ -219,4 +225,10 @@ li.gallery
 .trash
   &:hover
     color: red
+.is-truncated
+  display: inline-block
+  width: 50px
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
 </style>

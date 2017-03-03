@@ -29,8 +29,9 @@ class Form {
   }
 
   set (data) {
-    _.set(this.collection, data.pointer, data.value)
-    this.collection = Object.assign({}, this.collection)
+    let copy = _.cloneDeep(this.collection)
+    _.set(copy, data.pointer, data.value)
+    this.collection = Object.assign({}, copy)
     this.errors.unset(data.pointer)
   }
 

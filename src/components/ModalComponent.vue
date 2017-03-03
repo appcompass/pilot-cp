@@ -4,30 +4,24 @@
     .modal-content
       .modal-card
         header.modal-card-head
-          p.modal-card-title Title Here
+          p.modal-card-title(v-if="modal.form.form.name") {{ modal.form.form.name.charAt(0).toUpperCase() + modal.form.form.name.slice(1) }}
           button.delete(@click.prevent="modal.disable()")
         section.modal-card-body
-          span(v-if="modal.form", v-for="field in modal.form")
-            label.label {{ field.label }}
-            span(
-              v-bind:is="Components[field.type]",
-              v-bind:pointer="field.name"
-              v-bind:data="modal.value(field.name)"
-              v-bind:value="modal.value(field.name)"
-              @input="setModalData"
-            )
+          FormBuilder(:form="modal.form", @set="set")
 
         footer.modal-card-foot
-          a.button.is-primary(@click="modalDone") Save
+          a.button.is-primary(@click="modalDone") Ok
           a.button(@click.prevent="modal.disable()") Cancel
 </template>
 
 <script>
 import Modal from './Modal'
 import * as Components from './Components'
+import FormBuilder from './FormBuilder'
 
 export default {
   name: 'ModalComponent',
+  components: { FormBuilder },
   data () {
     return {
       data: {},
@@ -36,11 +30,11 @@ export default {
     }
   },
   methods: {
-    setModalData (data) {
-      this.modal.set(data)
+    set (data) {
+      this.modal.form.set(data)
     },
     modalDone () {
-      this.modal.done()
+      this.modal.done(this.modal.form.collection)
     }
   }
 }

@@ -68,15 +68,15 @@ export default {
             break
         }
       }
+
       this.$http.get(process.env.API_SERVER + 'menus/forms/' + this.endpoint)
         .then((response) => {
-          // @TODO this implies we only can render forms inside modals
-          this.modal.show(response.data.collection, item) //, (result) => {
-            // this.$http.post(process.env.API_SERVER + 'menus/forms/' + this.endpoint, result)
-            //   .then((response) => {
-            //     swal({title: 'Updated', type: 'success'})
-            //   })
-          // })
+          this.modal.show(response.data.collection, item, (updated) => {
+            // item = Object.assign({}, updated)
+            this.$set(this.menu, this.menu.indexOf(item), updated)
+            // this.menu.splice(this.menu.indexOf(item), 0, Object.assign({}, updated))
+            // console.log(this.menu.indexOf(item))
+          })
         })
     },
     deleted (item) {

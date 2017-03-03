@@ -96,7 +96,7 @@ export default {
       this.$emit('set', {value: data.value, pointer: data.pointer, index: index})
     },
     disk (cb) {
-      this.$emit('disk-pleez', cb)
+      this.$emit('disk', cb)
     },
     // collapse a structure
     collapse (item, collapsed) {

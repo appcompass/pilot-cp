@@ -66,7 +66,7 @@ export default {
       // this.modal.active = true
       this.$http.get(process.env.API_SERVER + 'menus/forms/' + item)
         .then(function (response) {
-          // response.data.collection -> form.fields
+          // response.data.collection -> form
           this.modal.show(response.data.collection, this.link, (result) => {
             return this.storeLink(result)
           })
