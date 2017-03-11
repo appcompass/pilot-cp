@@ -38,7 +38,7 @@ export default {
         vm.dropzone.removeFile(file)
       },
       error (file, errorMessage, xhr) {
-        swal('Error', 'Failed while uploading the image(s)', 'error')
+        swal('Error', errorMessage.error || 'Failed while uploading the image(s)', 'error')
       }
     })
   },

@@ -30,6 +30,8 @@ class Form {
 
   set (data) {
     let copy = _.cloneDeep(this.collection)
+    // let path = _.last(data.pointer.explode('.'))
+    // this.$set(_.get(this.collection, data.pointer))
     _.set(copy, data.pointer, data.value)
     this.collection = Object.assign({}, copy)
     this.errors.unset(data.pointer)
