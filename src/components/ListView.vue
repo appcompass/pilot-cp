@@ -36,7 +36,7 @@
 
         section(
           v-if="list",
-          :is="list.list_layout + 'List'",
+          :is="collection.view + 'List'",
           :sorters="sorters",
           :loading="loading",
           :collection="collection",
@@ -127,10 +127,6 @@ export default {
             return
           }
           this.list = response.data.list
-          // check if collection sets it's own view layout [Card, Table, MultiSelect]
-          if (response.data.collection.view != null) {
-            this.list.list_layout = response.data.collection.view
-          }
           this.pagination = _.omit(response.data.collection.data, ['data'])
           this.collection = response.data.collection
           this.can.set(response.data.abilities)
@@ -171,7 +167,7 @@ export default {
       }
     },
     toggleSorter (field) {
-      if (!JSON.parse(field.config).sortable) {
+      if (!field.config.sortable) {
         return
       }
       let sorter = this.sorters[field.name]

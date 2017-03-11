@@ -4,7 +4,7 @@ div
     label.label(v-if="!field.config.repeatable") {{ field.label }}
     a.icon.is-small(v-if="field.config.repeatable", @click="clone(field.name, fieldIndex)")
       i.fa.fa-plus
-    //- SINGLE VALUE (single value returned from content for field)
+    //- SINGLE VALUE (single value returned from content for field) @TODO pass whole field directly ffs -f
     span(
         v-if="!Array.isArray(value(field))",
         :is="Components[field.type]",
@@ -12,6 +12,7 @@ div
         :data="form.get(getPath(field.name))",
         :errors="form.errors",
         :source="field.source",
+        :config="field.config",
         :help="field.help",
         @input="set",
         @disk="disk"
