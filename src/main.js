@@ -33,6 +33,9 @@ Vue.http.interceptors.push((request, next) => {
     if (response.status === 403) {
       swal('Unauthorized', response.data.error || 'You are not authorized to perform this action.', 'error')
     }
+    if (response.status === 404) {
+      swal('Not Found', response.data.error || 'Resource not found.', 'error')
+    }
 
     return response
   })
