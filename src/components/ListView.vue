@@ -20,7 +20,7 @@
           a.button.is-small.is-secondary(@click="list.list_layout = 'Table'")
             span.icon.is-small
               i.fa.fa-list
-          router-link.button.is-small.is-primary(:to="{name: 'create', params: {model: model}}", style="margin-left: 1rem")
+          router-link.button.is-small.is-primary(v-if="can.has('create')", :to="{name: 'create', params: {model: model}}", style="margin-left: 1rem", )
             span.icon.is-small
               i.fa.fa-plus
             span Create
@@ -36,7 +36,7 @@
 
         section(
           v-if="list",
-          :is="list.list_layout + 'List'",
+          :is="collection.view + 'List'",
           :sorters="sorters",
           :loading="loading",
           :collection="collection",
@@ -69,12 +69,16 @@ export default {
       search: {},
       sorters: {},
       loading: true,
-      pagination: {surrounded: 3},
-      watcherFired: false
+      pagination: {current_page: 1, surrounded: 3},
+      can: Auth.abilities
     }
   },
   watch: {
     'pagination.current_page' (nv, ov) {
+      // prevent double firing on creation
+      if (ov == null) {
+        return
+      }
       this.update()
     },
     '$route' (to, from) {
@@ -123,20 +127,16 @@ export default {
             return
           }
           this.list = response.data.list
-          // check if collection sets it's own view layout [Card, Table, MultiSelect]
-          if (response.data.collection.view != null) {
-            this.list.list_layout = response.data.collection.view
-          }
           this.pagination = _.omit(response.data.collection.data, ['data'])
           this.collection = response.data.collection
-          this.resource = this.$resource(api + this.list.resource)
-          this.resource = this.$resource(api + this.$route.path.slice(1))
+          this.can.set(response.data.abilities)
+          Object.freeze(this.can)
         }, (response) => {
           this.loading = false
           if (!Auth.user.authenticated) {
             return
           }
-          swal('Error!', response.data.errors, 'error')
+          // swal('Error!', response.data.errors, 'error')
         })
     },
     remove (id) {
@@ -167,7 +167,7 @@ export default {
       }
     },
     toggleSorter (field) {
-      if (!JSON.parse(field.config).sortable) {
+      if (!field.config.sortable) {
         return
       }
       let sorter = this.sorters[field.name]

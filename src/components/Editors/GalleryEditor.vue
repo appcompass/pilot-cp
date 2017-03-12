@@ -11,8 +11,8 @@ div
       .content
         h1 Gallery: {{ form.collection.name || 'New Gallery' }}
         p Name: {{ form.collection.name || 'New Gallery' }}
-        p(v-if="form.collection.photos.length") Photos: {{ form.collection.photos.length }}
-        p(v-if="form.collection.videos.length") Photos: {{ form.collection.videos.length }}
+        p(v-if="form.collection.photos") Photos: {{ form.collection.photos.length || 0 }}
+        p(v-if="form.collection.videos") Videos: {{ form.collection.videos.length || 0 }}
         p Last Updated:
           span(v-moment-ago="form.collection.updated_at")
         p Owner: {{ form.collection.user.email || form.collection.user.full_name }}
@@ -57,7 +57,7 @@ div
               i.fa.fa-trash-o
         .card-image
           figure.image
-            img(src="https://placehold.it/256x256")
+            img(src="https://unsplash.it/256/256?random")
         .card-content(v-if="size > 2")
           .content
             p.help
@@ -145,7 +145,9 @@ export default {
             this.form.collection.photos.splice(this.form.collection.photos.indexOf(item), 1)
           }
         }, (response) => {
-          swal('Error', 'Error while deleting photo.', 'error')
+          if (response.status !== 403) {
+            swal('Error', 'Error while deleting photo.', 'error')
+          }
         })
     },
     selectall () {
