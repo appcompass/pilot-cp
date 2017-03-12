@@ -52,7 +52,7 @@ export default {
         .then((response) => {
           swal({title: 'Success', text: response.data.message, type: 'success'
           }, () => {
-            this.$router.push({name: 'edit', params: { model: this.model, id: response.data.id }})
+            this.$router.push({name: 'edit', params: { model: this.model, id: response.data.collection.id }})
           })
         }, response => {
           if (response.status === 422) {
