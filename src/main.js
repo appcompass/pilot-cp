@@ -3,6 +3,7 @@ var Vue = require('vue')
 var VueRouter = require('vue-router')
 var VueResource = require('vue-resource')
 
+import swal from 'sweetalert'
 import Auth from './components/Auth'
 
 import routes from './routes'
@@ -29,6 +30,13 @@ Vue.http.interceptors.push((request, next) => {
     if (response.status === 401) {
       return Auth.logout()
     }
+    if (response.status === 403) {
+      swal('Unauthorized', response.data.error || 'You are not authorized to perform this action.', 'error')
+    }
+    if (response.status === 404) {
+      swal('Not Found', response.data.error || 'Resource not found.', 'error')
+    }
+
     return response
   })
 })
