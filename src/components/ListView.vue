@@ -35,7 +35,6 @@
               p.notification.is-info.title.is-5 crafting the resource you requested...
 
         section(
-          v-if="list",
           :is="collection.view + 'List'",
           :sorters="sorters",
           :loading="loading",
