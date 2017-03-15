@@ -35,8 +35,8 @@ export default {
     }
   },
   check () {
-    if (localStorage.getItem('id_token') !== null) {
-      return Vue.http.get(process.env.API_SERVER + 'auth/user')
+    if (localStorage.getItem('auth_token') !== null) {
+      return Vue.axios.get('/api/auth/user')
         .then(response => {
           this.user.authenticated = true
           this.user.profile = response.data
@@ -49,11 +49,11 @@ export default {
     }
   },
   login (context, email, password) {
-    Vue.http.post(process.env.API_SERVER + 'auth/login', { email: email, password: password })
+    Vue.axios.post('/api/auth/login', { email: email, password: password })
       .then(response => {
         context.error = false
-        localStorage.setItem('id_token', response.data.access_token)
-        Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token')
+        localStorage.setItem('auth_token', response.data.token_type + ' ' + response.data.access_token)
+        Vue.axios.defaults.headers.common['Authorization'] = localStorage.getItem('auth_token')
 
         this.user.authenticated = true
         this.user.profile = response.data.user
@@ -63,12 +63,13 @@ export default {
         router.push({
           name: 'dashboard'
         })
-      }, response => {
+      }, error => {
+        context.response = error.response.data
         context.error = true
       })
   },
   logout () {
-    localStorage.removeItem('id_token')
+    localStorage.removeItem('auth_token')
     this.user.authenticated = false
     this.user.profile = null
 
@@ -84,11 +85,11 @@ export default {
       email: email,
       password: password
     }
-    Vue.http.post(process.env.API_SERVER + 'api/register', payload)
+    Vue.axios.post('/api/auth/register', payload)
       .then(response => {
         context.success = true
-      }, response => {
-        context.response = response.data
+      }, error => {
+        context.response = error.response.data
         context.error = true
       })
   }
