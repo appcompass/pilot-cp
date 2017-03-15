@@ -82,23 +82,22 @@ export default {
     },
     update () {
       this.submitted = true
-      this.$http.put(process.env.API_SERVER + this.$route.fullPath.split('_').join('/'), this.form.collection)
+      this.$http.put('/api/' + this.$route.fullPath.split('_').join('/'), this.form.collection)
         .then((response) => {
           swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
             this.refresh()
           })
-        }, response => {
-          if (response.status === 422) {
-            this.form.fails(response.data)
-          } else if (response.status !== 403) {
-            swal({title: 'Error', text: response.data.errors, type: 'error'})
+        }, error => {
+          if (error.response.status === 422) {
+            this.form.fails(error.response.data)
+          } else if (error.response.status !== 403) {
+            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
           }
         })
     },
     refresh () {
-      var api = process.env.API_SERVER
       this.loading = true
-      this.$http.get(api + this.model, {
+      this.$http.get('/api/' + this.model, {
         params: {
           page: 1
         }
@@ -106,11 +105,11 @@ export default {
         .then((response) => {
           this.form.init(response.data.edit, response.data.collection)
           this.loading = false
-        }, (response) => {
+        }, (error) => {
           if (!Auth.user.authenticated) {
             return
-          } else if (response.status !== 403) {
-            swal({title: 'Error', text: response.data.errors, type: 'error'})
+          } else if (error.response.status !== 403) {
+            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
           }
         })
     }

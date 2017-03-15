@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     update () {
-      this.$http.get(process.env.API_SERVER + 'galleries/' + this.form.collection.id + '/photos', {
+      this.$http.get('/api/galleries/' + this.form.collection.id + '/photos', {
         params: {
           page: this.pagination.current_page,
           per_page: this.shouldPaginate ? this.pagination.per_page : 50000
@@ -139,7 +139,7 @@ export default {
       }
     },
     unlink (item, type) {
-      this.$http.delete(process.env.API_SERVER + 'galleries/' + this.form.collection.id + '/' + type + 's/' + item.id)
+      this.$http.delete('/api/galleries/' + this.form.collection.id + '/' + type + 's/' + item.id)
         .then((response) => {
           if (response.status === 200) {
             this.form.collection.photos.splice(this.form.collection.photos.indexOf(item), 1)
@@ -174,7 +174,7 @@ export default {
 
       let order = _.map(this.form.collection.photos, (photo) => { return photo.id })
       // @TODO meh. the new collection should come back as payload. dude.
-      this.$http.post(process.env.API_SERVER + 'galleries/' + this.form.collection.id + '/photos/sort', {order: order})
+      this.$http.post('/api/galleries/' + this.form.collection.id + '/photos/sort', {order: order})
         .then((response) => {
           this.update()
         })

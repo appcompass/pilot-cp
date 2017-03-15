@@ -48,6 +48,8 @@
 </template>
 
 <script>
+var qs = require('qs')
+
 import swal from 'sweetalert'
 import _ from 'lodash'
 import Pagination from './Pagination'
@@ -109,15 +111,14 @@ export default {
       }
     }, 500),
     update () {
-      var api = process.env.API_SERVER
       this.loading = true
       this.model = this.$route.path.slice(1).split('/').join('_')
-      this.$http.get(api + this.$route.path.slice(1), {
-        params: {
+      this.$http.get('/api/' + this.$route.path.slice(1), {
+        params: qs.stringify({
           page: this.pagination.current_page,
           search: this.search,
           sorters: this.sorters
-        }
+        })
       })
         .then((response) => {
           this.loading = false
@@ -140,8 +141,7 @@ export default {
     },
     remove (id) {
       swal({ title: 'Are you sure?', text: 'You will not be able to recover this', type: 'warning', showCancelButton: true, closeOnConfirm: false }, () => {
-        var api = process.env.API_SERVER
-        this.$http.delete(api + this.$route.path.slice(1) + '/' + id)
+        this.$http.delete('/api/' + this.$route.path.slice(1) + '/' + id)
           .then((response) => {
             swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
               return this.update()

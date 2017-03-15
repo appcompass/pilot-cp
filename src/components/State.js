@@ -15,10 +15,9 @@ function findObject (title, haystack, res) {
 export default {
   full: null,
   init () {
-    const api = process.env.API_SERVER
-    return Vue.http.get(api + 'menus/1')
+    return Vue.axios.get('/api/content/menus')
       .then(response => {
-        this.full = response.body.collection
+        this.full = response.data.main_nav
       })
   },
   get (route) {
