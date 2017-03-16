@@ -1,0 +1,55 @@
+/* ==========================================================================
+	SETTINGS
+=========================================================================== */
+
+// BREAKPOINTS
+$break-large: 1200px;
+$break-medium: 992px;
+$break-small: 768px;
+$break-xsmall: $break-small - 1px;
+
+// GRID WIDTHS
+$max-row-width: 100%;
+
+// GRID GUTTERS
+$gutter-xsmall: 20px;
+$gutter-small: $gutter-xsmall;
+$gutter-medium: $gutter-xsmall;
+$gutter-large: $gutter-xsmall;
+$columns: 12;
+
+// STYLE BREAKPOINTS
+
+// PATH VARIABLES
+$assets: "../images"; //use #{$assets}
+
+// COLORS
+$primary-color: #294256;
+$primary-color-hover: darken($primary-color, 8%);
+$secondary-color: #3a99d9;
+$secondary-color-hover: darken($secondary-color, 8%);
+$primary-bg-color: #f5f6f7;
+$primary-bg-border-color: #dee2e5;
+$primary-neutral-color: #94a1ab;
+$primary-red: #e54d42;
+$primary-text-color: #294256;
+$secondary-text-color: #68747d;
+$tertiary-text-color: #94a1ab;
+$heading-color: #294256;
+$link-color: $secondary-color;
+$hover-color: $secondary-color-hover;
+$border-color:#e1e4e6;
+$form-border-color:#d3d8dc;
+
+// TYPOGRAPHY
+$base-font: 16px;
+$default-font: 'Noto Sans', sans-serif;
+
+/*// FORMS
+$input-height: 50px;
+$input-text-color: $text-color;
+$input-border-color: #ccc;
+$input-border-width: 1px;
+$input-margin-bottom: 20px;
+$placeholder-color: #999;
+$btn-color: $link-color;*/
