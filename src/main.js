@@ -16,15 +16,11 @@ import moment from 'moment'
 
 Vue.use(VueRouter)
 // Vue.use(VueResource)
-Vue.use(VueAxios, axios.create({
-  headers: {
-    'X-Csrf-Token': localStorage.getItem('csrf_token'),
-    'Authorization': localStorage.getItem('auth_token')
-  }
-}))
+Vue.use(VueAxios, axios)
+
 // Vue.axios.defaults.baseURL = process.env.API_SERVER
-// Vue.axios.defaults.headers.common['X-Csrf-Token'] = localStorage.getItem('csrf_token')
-// Vue.axios.defaults.headers.common['Authorization'] = localStorage.getItem('auth_token')
+Vue.axios.defaults.headers.common['X-Csrf-Token'] = localStorage.getItem('csrf_token') || ''
+Vue.axios.defaults.headers.common['Authorization'] = localStorage.getItem('auth_token') || ''
 // Vue.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 // Vue.axios.options.root = ''
 
