@@ -20,14 +20,13 @@ export default {
   },
   mounted () {
     let vm = this
-    this.api = process.env.API_SERVER
     this.dropzone = new Dropzone(this.$el, {
-      url: this.api + this.url.slice(1),
+      url: '/api/' + this.url.slice(1),
       autoProcessQueue: false,
       addRemoveLinks: false,
       parallelUploads: 10,
       headers: {
-        'Authorization': 'Bearer ' + window.localStorage.getItem('id_token')
+        'Authorization': window.localStorage.getItem('auth_token')
       },
       sending (something, xhr, formData) {
         formData.append('disk', vm.disk)

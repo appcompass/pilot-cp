@@ -1,0 +1,29 @@
+{
+  "name": "vue-ssr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch-c": "webpack --config webpack/webpack.client.js -w",
+    "watch-s": "webpack --config webpack/webpack.server.js -w",
+    "build-c": "webpack --config webpack/webpack.client.js",
+    "build-s": "webpack --config webpack/webpack.server.js",
+    "build": "npm run build-c && npm run build-s",
+    "start": "npm run build && node server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "vue": "^2.0.0-beta.6",
+    "vue-router": "^2.3.0",
+    "vue-server-renderer": "^2.0.0-beta.6"
+  },
+  "devDependencies": {
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "css-loader": "^0.23.1",
+    "vue-loader": "^9.3.1",
+    "vue-ssr-webpack-plugin": "^1.0.2",
+    "webpack": "^1.13.1"
+  }
+}

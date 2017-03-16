@@ -1,0 +1,10 @@
+///------------------------------------------------------------------------
+///		FUNCTIONS
+///------------------------------------------------------------------------
+
+// EM CALCULATION
+$base-font: 18px !default;
+@function em($target, $context: $base-font) {
+   @if $target == 0 { @return 0 }
+   @return $target / $context + 0em;
+}

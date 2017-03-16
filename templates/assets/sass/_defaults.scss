@@ -1,0 +1,106 @@
+/* ==========================================================================
+	DEFAULTS
+=========================================================================== */
+
+
+h1, h2, h3, h4, h5, h6 {
+	color:$heading-color;
+	&:first-child { 
+		margin-top:0;
+	}
+}
+
+h1 {
+	font-weight:normal;
+	font-size:em(28px);
+}
+
+h2 {
+	font-size:em(16px);
+	text-transform:uppercase;
+}
+
+h3 {
+	font-size:em(16px);
+}
+
+h4, h5, h6 {
+	font-size:em(14px);
+}
+
+p, ul, ol, blockquote {
+	margin:0 0 20px 0;
+}
+
+ul ul, ol ol {
+	//margin:0
+}
+
+a {
+	color:$link-color;
+}
+
+a:hover {
+	color:$hover-color;
+}
+
+table {
+	width:100%;
+	border-collapse: collapse;
+	margin-bottom:20px;
+	border-top:1px solid $border-color;
+}
+
+th {
+	border-bottom:1px solid $border-color;
+	font-size:em(14px);
+	font-weight:normal;
+	text-transform:uppercase;
+	color:$tertiary-text-color;
+	text-align:left;
+	height:60px;
+	padding:10px 0 10px 10px;
+	position:relative;
+}
+
+th input[type="checkbox"] {
+	font-size:em(16px, 14px);
+}
+
+td {
+	color:$secondary-text-color;
+	height:60px;
+	padding:10px 0 10px 10px;
+	border-bottom:1px solid $border-color;
+	vertical-align:top;
+}
+
+tbody tr:nth-child(odd) td {
+	background-color:$primary-bg-color;
+}
+
+td a {
+	text-decoration:none;
+	color:$primary-text-color;
+	&:hover {
+		text-decoration:underline;
+		color:$primary-text-color;
+	}
+}
+
+td b, 
+td strong {
+	color:$primary-text-color;
+}
+
+th .icon-search {
+	position:relative;
+	top:1px;
+	margin-right:5px;
+}
+
+th > .icon-search:hover {
+	color:$secondary-color;
+	cursor:pointer;
+}
+

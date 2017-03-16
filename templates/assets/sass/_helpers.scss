@@ -1,0 +1,67 @@
+/* ==========================================================================
+	HELPERS
+=========================================================================== */
+
+.vertical-center {
+  position:relative;
+  top: 50%;
+  transform: translateY(-50%);
+  transform: perspective(1px) translateY(-50%);
+}
+
+.visually-hidden {
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
+}
+
+.word-wrap {
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.clearfix {
+  *zoom: 1;
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.list-reset {
+	margin:0; 
+	padding:0; 
+	list-style:none;
+}
+
+.text-left {
+	text-align:left;
+}
+
+.text-right {
+	text-align:right;
+}
+
+.text-center {
+		text-align:center;
+}
+
+.left {
+  float:left;
+}
+
+.right {
+  float:right;
+}
+
+.hide {
+  display:none;
+}

@@ -33,14 +33,13 @@ export default {
     }
   },
   created () {
-    var api = process.env.API_SERVER
     this.model = this.$route.params.model.split('_').join('/')
-    this.$http.get(api + this.model)
+    this.$http.get('/api/' + this.model)
       .then((response) => {
         this.form.init(response.data.edit)
 
         this.create = response.data.edit // @TODO created same as edit? -f
-        this.resource = this.$resource(api + this.model)
+        // this.resource = this.$resource(this.model)
       })
   },
   methods: {
@@ -48,17 +47,18 @@ export default {
       this.form.set(data)
     },
     save () {
-      this.resource.save(this.form.collection)
+      this.$http.post('/api/' + this.model, this.form.collection)
+      // this.resource.save(this.form.collection)
         .then((response) => {
           swal({title: 'Success', text: response.data.message, type: 'success'
           }, () => {
-            this.$router.push({name: 'edit', params: { model: this.model, id: response.data.id }})
+            this.$router.push({name: 'edit', params: { model: this.model, id: response.data.collection.id }})
           })
-        }, response => {
-          if (response.status === 422) {
-            this.form.fails(response.data)
-          } else if (response.status !== 403) {
-            swal({title: 'Error', text: response.data.errors, type: 'error'})
+        }, error => {
+          if (error.response.status === 422) {
+            this.form.fails(error.response.data)
+          } else if (error.response.status !== 403) {
+            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
           }
         })
     }

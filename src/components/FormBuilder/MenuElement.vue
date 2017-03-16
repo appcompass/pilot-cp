@@ -69,7 +69,7 @@ export default {
         }
       }
 
-      this.$http.get(process.env.API_SERVER + 'menus/forms/' + this.endpoint)
+      this.$http.get('/api/menus/forms/' + this.endpoint)
         .then((response) => {
           this.modal.show(response.data.collection, item, (updated) => {
             // item = Object.assign({}, updated)
