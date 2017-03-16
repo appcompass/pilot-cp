@@ -1,0 +1,56 @@
+/* ==========================================================================
+    SIDEBAR
+=========================================================================== */
+
+/// VARIABLES ///
+$sidebar-side-padding: 20px !default;
+
+////////////////
+.sidebar {
+    flex:0 0 200px;
+    background-color:$primary-bg-color;
+    border-right:1px solid $primary-bg-border-color;
+    height:100%;
+    padding-top:30px;
+}
+
+.sidebar-nav-heading {
+    margin-top:0;
+    color:$heading-color;
+    font-size:em(14px);
+    text-transform:uppercase;
+    font-weight:regular;
+    padding:0 $sidebar-side-padding;
+}
+
+.sidebar-nav-container {
+    margin-bottom:30px;
+}
+
+.sidebar-nav-container ul {
+    @extend .list-reset;
+}
+
+.sidebar-nav a {
+    display:block;
+    text-decoration:none;
+    padding:15px $sidebar-side-padding;
+    line-height:1.2;
+    color: $secondary-text-color;
+}
+
+.sidebar-nav a:hover {
+    background-color:darken($primary-bg-color, 5%);
+}
+
+.sidebar-nav .active > a {
+    background-color:$secondary-color;
+    color:#fff;
+}
+
+.sidebar-nav .icon {
+    position:relative;
+    top:-1px;
+    vertical-align:middle;
+    margin-right:5px;
+}

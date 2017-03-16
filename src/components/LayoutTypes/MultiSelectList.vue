@@ -19,8 +19,6 @@ export default {
     }
   },
   mounted () {
-    const api = process.env.API_SERVER
-    this.resource = this.$resource(api + this.$route.path)
   },
   methods: {
     has (id) {
@@ -38,7 +36,7 @@ export default {
       return this.update()
     },
     update () {
-      this.resource.save(this.collection.owned)
+      this.$http.post('/api/' + this.$route.path, this.collection.owned)
         .then(function (response) {
           console.log(response)
         })

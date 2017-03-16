@@ -15,12 +15,12 @@
           ul
             li Photos: {{ gallery.photoCount }}
             li Videos: {{ gallery.videoCount }}
-            li Attr3: Val
-          p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non officia suscipit quos.
+            li Total: {{ gallery.photoCount + gallery.videoCount }}
+          p {{ gallery.description }}
           small(v-moment-ago="gallery.updated_at")
           .pull-right
-            router-link.button.is-small.is-warning(v-if="can.has('edit')", :to="{name: 'edit', params: {model: 'galleries', id: gallery.id}}") Edit
-            a.button.is-small.is-primary(v-if="!can.has('edit') && can.has('show')") View
+            router-link.button.is-small.is-warning(v-if="gallery.abilities.includes('edit')", :to="{name: 'edit', params: {model: 'galleries', id: gallery.id}}") Edit
+            a.button.is-small.is-primary(v-if="gallery.abilities.includes('view')") View
 
 </template>
 

@@ -33,12 +33,12 @@ table.table.is-striped
       td
         .control.is-grouped
 
-          p.control
+          p.control(v-if="row.abilities.includes('edit')")
             router-link.button.is-small(:to="{name: 'edit', params: {model: $route.fullPath.slice(1).split('/').join('_'), id: row.id}}")
               span.icon.is-small
                 i.fa.fa-edit
               span Edit
-          p.control
+          p.control(v-if="row.abilities.includes('destroy')")
             a.button.is-small.is-outlined.is-danger(@click="$parent.remove(row.id)")
               span.icon.is-small
                 i.fa.fa-times

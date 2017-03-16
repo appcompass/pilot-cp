@@ -1,0 +1,59 @@
+/* ==========================================================================
+    GLOBALS
+=========================================================================== */
+
+/// VARIABLES ///
+
+$base-font: 16px !default;
+
+////////////////
+
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height:100%;
+}
+
+html {
+  font-size:100%;
+}
+
+body {
+  font-family:$default-font;
+  font-size:$base-font;
+  color:$primary-text-color;
+  -webkit-font-smoothing: antialiased;
+  line-height:1.5;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+a:focus {
+  outline: none;
+}
+
+img {
+  max-width:100%;
+  height:auto;
+  vertical-align:middle;
+}
+
+object,
+embed {
+  width:100%;
+  max-width: 100%;
+  height: 100%;
+}
+
+img {
+  -ms-interpolation-mode: bicubic;
+}

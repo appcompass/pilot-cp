@@ -55,16 +55,16 @@ export default {
     },
     storeLink (payload) {
       // get a MenuItem instance from the backend
-      this.$http.post(process.env.API_SERVER + 'menus/', payload)
+      this.$http.post('/api/menus/', payload)
         .then((response) => {
-          this.form.collection.repo.links.push(response.body.link)
-          this.form.collection.menu.push(response.body.menuitem)
+          this.form.collection.repo.links.push(response.data.link)
+          this.form.collection.menu.push(response.data.menuitem)
         })
     },
     createLink (item) {
       // fetch desired item and pop up a modal
       // this.modal.active = true
-      this.$http.get(process.env.API_SERVER + 'menus/forms/' + item)
+      this.$http.get('/api/menus/forms/' + item)
         .then(function (response) {
           // response.data.collection -> form
           this.modal.show(response.data.collection, this.link, (result) => {
@@ -81,7 +81,7 @@ export default {
         showCancelButton: true,
         closeOnConfirm: true
       }, () => {
-        this.$http.delete(process.env.API_SERVER + 'menus/links/' + link.id)
+        this.$http.delete('/api/menus/links/' + link.id)
           .then(response => {
             this.form.collection.repo.links.splice(this.form.collection.repo.links.indexOf(link), 1)
             swal({title: 'Deleted', type: 'success', timer: 500, showConfirmButton: false})

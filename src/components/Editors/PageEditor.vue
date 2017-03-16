@@ -38,7 +38,7 @@ export default {
     },
     edit (id) {
       this.id = id
-      this.$http.get(process.env.API_SERVER + 'pages/' + this.$route.params.id + '/contents/' + id)
+      this.$http.get('/api/pages/' + this.$route.params.id + '/contents/' + id)
         .then(response => {
           let form = new Form()
           form.init(response.data.form, response.data.content)
@@ -71,7 +71,7 @@ export default {
       // this.$emit('set', {value: clone, pointer: })
     },
     store () {
-      this.$http.put(process.env.API_SERVER + 'pages/' + this.$route.params.id + '/contents/' + this.id, this.content)
+      this.$http.put('/api/pages/' + this.$route.params.id + '/contents/' + this.id, this.content)
         .then(response => {
           swal({title: 'Success', text: 'BOOM! Done!', type: 'success'})
         })

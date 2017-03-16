@@ -1,0 +1,88 @@
+/* ==========================================================================
+	STYLES
+=========================================================================== */
+
+///------------------------------------------------------------------------
+///		BUTTONS
+///------------------------------------------------------------------------
+.btn {
+	display:inline-block; 
+	text-decoration:none; 
+	padding:12px 20px;
+	line-height:1.2;
+	font-size:em(14px);
+	text-transform:uppercase;
+	transition:all .15s ease;
+	background-color:$secondary-color;
+	color:#fff;
+	border-radius:3px;
+	font-weight:bold;
+	vertical-align:middle;
+}
+
+.btn-small {
+	font-size:em(12px);
+	padding:5px 10px;
+}
+
+.btn:hover {
+	background-color:$secondary-color-hover;
+	color:#fff;
+}
+
+.btn-expand {
+	width:100%; 
+	display:block; 
+	text-align:center; 
+	max-width:100%;
+}
+
+.btn-primary {
+	@extend .btn;
+
+}
+
+.btn-secondary {
+	@extend .btn;
+	background-color:$primary-neutral-color;
+}
+
+
+///------------------------------------------------------------------------
+///		LINKS
+///------------------------------------------------------------------------
+.link-primary,
+.link-primary:hover {
+	color:$secondary-color;
+}
+
+.link-text-primary {
+	color:$primary-text-color;
+}
+
+.link-text-secondary {
+	color:$secondary-text-color;
+}
+
+.link-text-tertiary {
+	color:$tertiary-text-color;
+}
+
+.link-red {
+	color:$primary-red;
+	&:hover {
+		color:darken($primary-red, 15%);
+	}
+}
+
+.no-decoration {
+	text-decoration:none;
+	&:hover {
+		text-decoration:underline;
+	}
+}
+
+.link-icon,
+.link-icon:hover {
+	text-decoration:none;
+}
