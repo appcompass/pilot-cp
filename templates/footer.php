@@ -1,6 +1,6 @@
 		</div><!-- main-container -->
 	</div><!-- site-container -->
-	<script src="assets/bower_components/jquery/dist/jquery.min.js"></script>
-	<script src="assets/js/dist/main-min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="assets/js/src/main.js"></script>
 </body>
 </html>

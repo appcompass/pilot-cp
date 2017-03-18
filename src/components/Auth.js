@@ -1,6 +1,6 @@
 /* global localStorage: false */
 import Vue, {router} from '../main.js'
-import State from './State'
+import NavigationState from './States/Navigation'
 
 class Abilities {
 
@@ -40,7 +40,7 @@ export default {
         .then(response => {
           this.user.authenticated = true
           this.user.profile = response.data
-          State.init()
+          NavigationState.init()
         }, response => {
           router.push({ name: 'login' })
         })
@@ -58,7 +58,7 @@ export default {
         this.user.authenticated = true
         this.user.profile = response.data.user
 
-        State.init()
+        NavigationState.init()
 
         router.push({
           name: 'dashboard'
@@ -73,7 +73,7 @@ export default {
     this.user.authenticated = false
     this.user.profile = null
 
-    State.clear()
+    NavigationState.clear()
 
     router.push({
       name: 'login'

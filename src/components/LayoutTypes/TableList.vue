@@ -1,54 +1,69 @@
-<template lang="jade">
-table.table.is-striped
+<template lang="pug">
+  div.table-container
+    table
+      thead
+        tr
+          th
+            input(type="checkbox" name="" value="")
+          th(v-for="field in forms.list.fields", nowrap)
+            span.icon-search.table-column-search-trigger(
+              v-if="field.config.searchable",
+              @click="$parent.toggleEdit(field)"
+            )
+            span(
+              @click="$parent.toggleSorter(field)",
+              :class="{'table-sort': field.config.sortable, 'is-active': $parent.sorters[field.name], 'is-reverse': $parent.sorters[field.name] === 'ASC'}"
+            )
+              | {{ field.label }}
+              span.arrow-down
+            form.table-column-search(
+              v-if="field.config.searchable",
+              :class="{'is-active': forms.edit.indexOf(field.id) > -1}"
+            )
+              div.search-input
+                span.icon-search
+                input(
+                  type="search",
+                  v-model="$parent.search[field.name]",
+                  :placeholder="field.label",
+                  @keyup="$parent.applyFilter"
+                )
+                span.icon-cancel(
+                  @click="$parent.toggleEdit(field)"
+                )
+      tbody(:class="{'is-opaque': $parent.loading}", v-if="collection.data.data.length")
+        tr(v-for="row in collection.data.data")
+          td
+            input(type="checkbox" name="" value="")
+          td(v-for="(field, index) in forms.list.fields")
+            //- <a href="#" class="table-user-avatar"><img src="assets/images/avatar_temp.png" width="32" height="32"></a>
+            span(
+              v-if="index === 0"
+            )
+              router-link(
+                :to="{name: 'edit', params: {model: $route.fullPath.slice(1).split('/').join('_'), id: row.id}}",
+                v-html="value(field.name, row)"
+              )
+              div.table-row-actions
+                router-link.link-primary(
+                  v-if="row.abilities.includes('edit')",
+                  :to="{name: 'edit', params: {model: $route.fullPath.slice(1).split('/').join('_'), id: row.id}}",
+                ) Edit
+                | |
+                //- v-if="row.abilities.includes('delete')",
+                a.link-red(
+                  @click="$parent.remove(row.id)"
+                ) Delete
 
-  thead
-    th(v-for="field in forms.list.fields", nowrap)
-      .columns
-        .column.is-11
-          input.input.is-small(
-            v-model="$parent.search[field.name]",
-            v-if="forms.edit.indexOf(field.id) > -1",
-            :placeholder="field.label",
-            @keyup="$parent.applyFilter"
-          )
-          span.is-primary(
-            v-else
-            @click="$parent.toggleSorter(field)",
-            :class="{'is-active': $parent.sorters[field.name], 'asc': $parent.sorters[field.name] === 'ASC', 'desc': $parent.sorters[field.name] === 'DESC', 'is-sortable': field.config.sortable}"
-          ) {{ field.label }}
-        .column.is-1
-          span.filter-toggle.fa.is-small.pull-right(
-            v-if="field.config.searchable",
-            style="margin-top: 5px; font-size: 1rem"
-            @click="$parent.toggleEdit(field)",
-            :class="{'fa-search': forms.edit.indexOf(field.id) === -1, 'fa-close': forms.edit.indexOf(field.id) > -1}"
-          )
-    th
-      span Actions
-
-  tbody(:class="{'is-opaque': $parent.loading}", v-if="collection.data.data.length")
-    tr(v-for="row in collection.data.data")
-      td(v-for="field in forms.list.fields")
-        p(v-html="value(field.name, row)")
-      td
-        .control.is-grouped
-
-          p.control(v-if="row.abilities.includes('edit')")
-            router-link.button.is-small(:to="{name: 'edit', params: {model: $route.fullPath.slice(1).split('/').join('_'), id: row.id}}")
-              span.icon.is-small
-                i.fa.fa-edit
-              span Edit
-          p.control(v-if="row.abilities.includes('destroy')")
-            a.button.is-small.is-outlined.is-danger(@click="$parent.remove(row.id)")
-              span.icon.is-small
-                i.fa.fa-times
-              span Delete
-
-  tbody(v-else, :class="{'is-opaque': $parent.loading}")
-    tr
-      td.has-text-centered(:colspan="forms.list.fields.length + 1")
-        .notification.is-danger
-          .title No results found.
+            span(
+              v-if="index > 0",
+              v-html="value(field.name, row)"
+            )
+      tbody(v-else, :class="{'is-opaque': $parent.loading}")
+        tr
+          td.has-text-centered(:colspan="forms.list.fields.length + 1")
+            .notification.is-danger
+              .title No results found.
 </template>
 
 <script>
