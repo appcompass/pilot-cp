@@ -48,8 +48,6 @@
 </template>
 
 <script>
-var qs = require('qs')
-
 import swal from 'sweetalert'
 import _ from 'lodash'
 import Pagination from './Pagination'
@@ -114,11 +112,11 @@ export default {
       this.loading = true
       this.model = this.$route.path.slice(1).split('/').join('_')
       this.$http.get('/api/' + this.$route.path.slice(1), {
-        params: qs.stringify({
+        params: {
           page: this.pagination.current_page,
           search: this.search,
           sorters: this.sorters
-        })
+        }
       })
         .then((response) => {
           this.loading = false
