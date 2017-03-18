@@ -3,7 +3,7 @@
 <main class="main">
 	<div class="row">
 		<div class="xsmall-12 columns">
-			
+
 			<div class="page-header">
 				<div class="row">
 					<div class="xsmall-8 columns">
@@ -37,7 +37,7 @@
 						<div class="search-input"><span class="icon-search"></span><input type="search" placeholder="Search"></span></div>
 					</form>
 				</div>
-					
+
 				<div class="data-actions-filters">
 					<form>
 						<div class="row">
@@ -122,4 +122,4 @@
 	</div>
 </main>
 
-<?php include('footer.php'); ?>	
+<?php include('footer.php'); ?>

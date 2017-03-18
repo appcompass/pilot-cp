@@ -1,5 +1,5 @@
 <template lang="pug">
-  ul.header-nav.header-nav-secondary
+  ul.header-nav.header-nav-secondary(v-if="auth.user.authenticated")
     li
       div.header-search
         div.search-input
@@ -8,26 +8,30 @@
     li
       a
         span.header-profile
-          img(v-if="auth.user.authenticated", :src="auth.user.profile.gravatar_url", width="40px", height="40px")
+          img(:src="auth.user.profile.gravatar_url", width="40px", height="40px")
       ul
-        li(v-if="auth.user.authenticated")
+        li
           router-link(to="") Profile
         li
-          a.nav-item.is-tab(v-if="auth.user.authenticated", @click="auth.logout()") Logout
+          a(@click="auth.logout()") Logout
     li
-      router-link.notifications-toggle(to="")
+      a.notifications-toggle(
+        @click="notifications.toggleView()",
+        :class="{'is-active': notifications.is_open}"
+      )
         span.header-notifications.icon-notification
-          span.alert-count
-            | 10
+          span.alert-count(v-text="notifications.count")
 </template>
 
 <script>
 import auth from './../Auth.js'
+import NotificationsState from './../States/Notifications.js'
 
 export default {
   name: 'HeadeRightNavigation',
   data () {
     return {
+      notifications: NotificationsState,
       auth: auth
     }
   },
@@ -37,6 +41,7 @@ export default {
     }
   },
   mounted () {
+    NotificationsState.init()
     auth.check()
   }
 }

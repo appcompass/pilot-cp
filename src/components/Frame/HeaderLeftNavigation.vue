@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import Navigation from './../State'
+import NavigationState from './../States/Navigation'
 
 export default {
   name: 'HeaderLeftNavigation',
   data () {
     return {
-      navigation: Navigation
+      navigation: NavigationState
     }
   },
   created () {

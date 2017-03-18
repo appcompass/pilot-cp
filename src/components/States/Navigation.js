@@ -1,4 +1,4 @@
-import Vue from '../main.js'
+import Vue from '../../main.js'
 
 function findObject (title, haystack, res) {
   for (let i = 0; i < haystack.length; i++) {
@@ -14,6 +14,7 @@ function findObject (title, haystack, res) {
 
 export default {
   full: null,
+  left_nav: null,
   init () {
     return Vue.axios.get('/api/content/menus')
       .then(response => {
@@ -39,6 +40,15 @@ export default {
         return resolve(this.full)
       }
     })
+  },
+  setLeftNav (route, model) {
+    this.get(route)
+      .then(subnav => {
+        this.left_nav = {
+          nav: subnav,
+          model: model
+        }
+      })
   },
   clear () {
     this.full = null

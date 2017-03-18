@@ -1,6 +1,6 @@
-<template lang="jade">
-  div.columns
-    .column(v-if="!list && !loading")
+<template lang="pug">
+  div.row
+    div.xsmall-12.columns(v-if="!list && !loading")
       .hero.is-bold.is-danger
         .container
           .hero-body
@@ -9,31 +9,56 @@
               h2.subtitle  List Form are build using the
                 strong  ResourceBuilder,
                 |  please provide one.
-
-    .column.is-11(v-if="list")
-      h1.title.is-4 List: {{ $route.params.sub || $route.params.model }}
-
-        p.control.pull-right
-          a.button.is-small.is-secondary(@click="list.list_layout = 'Card'")
-            span.icon.is-small
-              i.fa.fa-table
-          a.button.is-small.is-secondary(@click="list.list_layout = 'Table'")
-            span.icon.is-small
-              i.fa.fa-list
-          router-link.button.is-small.is-primary(v-if="can.has('create')", :to="{name: 'create', params: {model: model}}", style="margin-left: 1rem", )
-            span.icon.is-small
-              i.fa.fa-plus
-            span Create
-
-
-      Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
-
-      main.main
-
+    div.xsmall-12.columns(v-else)
+      div.page-header
+        div.row
+          div.xsmall-8.columns
+            h1.page-title
+              | {{ $route.params.sub || $route.params.model }}
+          div.xsmall-4.columns.text-right
+            p
+              //- @TODO: These should be specific to this model. i.e. dynamic.
+              //- not all views have Card and Table, others have other ones like Map.
+              a(@click="list.list_layout = 'Card'")
+                span.icon.icon-gallery
+              a.button.is-small.is-secondary(@click="list.list_layout = 'Table'")
+                span.icon.icon-page
+              router-link.btn-primary(v-if="can.has('create')", :to="{name: 'create', params: {model: model}}", style="margin-left: 1rem", ) Add New
+      div.data-actions-container
+        div.data-actions
+          form.data-actions-bulk
+            div.select
+              select
+                option(value="") Bulk Actions
+                option(value="delete") Delete
+                option(value="edit") Edit
+              span.icon-select
+            button.btn-secondary(type="submit") Update
+          div.data-actions-filters-toggle
+            a.data-actions-filters-trigger(v-on:click="filter_results_toggle = !filter_results_toggle")
+              span.icon-filters
+              | Filter Results
+          form.data-actions-search
+            div.search-input
+              span.icon-search
+              input(type="search", placeholder="Search")
+        div.data-actions-filters(:class="{'is-active': filter_results_toggle === true}")
+          form
+            div.row
+              div.xsmall-6.columns
+                label(for="") Label
+                input(type="text")
+              div.xsmall-6.columns
+                label(for="") Label
+                input(type="text")
+            div.row
+              div.xsmall-12.columns
+                button.btn-primary Apply Filters
+                a.data-actions-filters-clear Remove Filters
+        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
         div.overlay.is-full-width(v-if="loading")
             section.content.has-text-centered
               p.notification.is-info.title.is-5 crafting the resource you requested...
-
         section(
           :is="collection.view + 'List'",
           :sorters="sorters",
@@ -43,13 +68,9 @@
           :search="search",
           :forms="{list: list, edit: edit}"
         )
-
-      Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
+        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
 </template>
-
 <script>
-var qs = require('qs')
-
 import swal from 'sweetalert'
 import _ from 'lodash'
 import Pagination from './Pagination'
@@ -57,6 +78,7 @@ import TableList from './LayoutTypes/TableList'
 import MultiSelectList from './LayoutTypes/MultiSelectList'
 import CardList from './LayoutTypes/CardList'
 import Auth from './Auth.js'
+import NavigationState from './States/Navigation'
 
 export default {
   name: 'ListView',
@@ -70,8 +92,10 @@ export default {
       search: {},
       sorters: {},
       loading: true,
+      filter_results_toggle: false,
       pagination: {current_page: 1, surrounded: 3},
-      can: Auth.abilities
+      can: Auth.abilities,
+      navigation: NavigationState
     }
   },
   watch: {
@@ -111,14 +135,15 @@ export default {
       }
     }, 500),
     update () {
+      this.navigation.left_nav = null
       this.loading = true
       this.model = this.$route.path.slice(1).split('/').join('_')
       this.$http.get('/api/' + this.$route.path.slice(1), {
-        params: qs.stringify({
+        params: {
           page: this.pagination.current_page,
           search: this.search,
           sorters: this.sorters
-        })
+        }
       })
         .then((response) => {
           this.loading = false
@@ -130,6 +155,7 @@ export default {
           this.pagination = _.omit(response.data.collection.data, ['data'])
           this.collection = response.data.collection
           this.can.set(response.data.abilities)
+          console.log(this.collection.view)
           Object.freeze(this.can)
         }, (response) => {
           this.loading = false
@@ -185,54 +211,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass">
-.is-opaque
-  opacity: 0.4
-
-input[disabled]
-  background: transparent
-  border: 0
-  font-weight: bold
-  &::before
-    content: '&gt'
-    position: abosolute
-    top: 0
-    right: 0
-    z-index: 10000
-.main
-  position: relative
-
-.filter-toggle
-  opacity: 0.2
-  &:hover
-    color: blue
-    cursor: pointer
-
-.is-sortable
-  position: relative
-  border-bottom: 1px solid #ddd
-
-  &.is-active
-    border: 0
-    &::after
-      color: blue
-
-  &.asc
-    &::after
-      content: " #{'\f077'}"
-      font-family: 'FontAwesome'
-      margin-left: 1rem
-  &.desc
-    &::after
-      content: " #{'\f078'}"
-      font-size: 0.8rem
-      font-family: 'FontAwesome'
-      margin-left: 1rem
-
-.overlay
-  position: absolute
-  width: 100%
-  z-index: 1000
-  opacity: 0.8
-</style>

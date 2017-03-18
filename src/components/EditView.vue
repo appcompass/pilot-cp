@@ -1,34 +1,30 @@
-<template lang="jade">
-div
-  .columns
-    .column.is-10(v-if="form.form.editor")
+<template lang="pug">
+  div.row
+    div.xsmall-12.columns
+
+      div.page-header
+        div.row
+          div.xsmall-8.columns
+            h1.page-title
+              | {{ $route.params.sub || $route.params.model }}
+          div.xsmall-4.columns.text-right
+            p
+              router-link.btn-primary(v-if="can.has('create')", :to="{name: 'create', params: {model: model}}", style="margin-left: 1rem", ) Add New
       div(
         :is="form.form.editor + 'Editor'",
         :form="form",
         @refresh="refresh",
         @set="set"
       )
-    .column.is-2(v-if="navigation && navigation.length")
-      h1.menu-label Sub Navigation
-      aside.menu
-        ul.menu-list
-          li(v-for="item in navigation")
-            router-link(:to="{name: 'sub', params: {model: model.split('/')[model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}") {{ item.title }}
-  .columns
-    .column.is-10
-      footer
-        p.control
-          .pull-right
-            a.button.is-primary(
-              :class="{'is-loading': loading}",
-              :disable="submitted",
-              @click.prevent="update"
-            ) Save
+      button.btn-primary(
+        :class="{'is-loading': loading}",
+        :disable="submitted",
+        @click.prevent="update"
+      ) Save
 
-  div.columns
-    .column.is-12
+      //- @TODO: This needs to be moved to a master view since we now have the side nav for sub nav.
       transition(:name="route", mode="out-in")
-        router-view(name="sub")
+          router-view(name="sub")
 
 </template>
 
@@ -36,7 +32,7 @@ div
 import swal from 'sweetalert'
 
 import Auth from './Auth'
-import State from './State'
+import NavigationState from './States/Navigation'
 import FormEditor from './Editors/FormEditor'
 import MenuEditor from './Editors/MenuEditor'
 import GalleryEditor from './Editors/GalleryEditor'
@@ -53,6 +49,7 @@ export default {
       model: undefined,
       route: undefined,
       navigation: undefined,
+      can: Auth.abilities,
       form: new Form()
     }
   },
@@ -72,10 +69,7 @@ export default {
       this.refresh()
     },
     setNav (route) {
-      State.get(route)
-        .then(subnav => {
-          this.navigation = subnav
-        })
+      NavigationState.setLeftNav(route, this.model)
     },
     set (data) {
       this.form.set(data)
@@ -117,16 +111,3 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-@import '../assets/sass/variables.sass'
-.title
-  text-transform: capitalize !important
-.router-link-active
-  color: $primary-color !important
-.route-enter-active
-  transition: all .4s
-  opacity: 1
-.route-leave-active
-  transition: all .2s
-  opacity: 0
-</style>
