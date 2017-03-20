@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 .columns.is-multiline
   .column.is-4(v-for="gallery, index in collection.data.data")
     .card

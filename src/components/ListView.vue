@@ -58,7 +58,7 @@
         Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
         div.overlay.is-full-width(v-if="loading")
             section.content.has-text-centered
-              p.notification.is-info.title.is-5 crafting the resource you requested...
+              p.notification.is-info.title.is-5 Loading...
         section(
           :is="collection.view + 'List'",
           :sorters="sorters",
