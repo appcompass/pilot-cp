@@ -13,16 +13,16 @@
         "isMulticolor2": false,
         "grid": 0,
         "tags": [
-          "grid"
+          "card"
         ]
       },
       "attrs": [
         {}
       ],
       "properties": {
-        "order": 41,
+        "order": 44,
         "id": 22,
-        "name": "grid",
+        "name": "card",
         "prevSize": 32,
         "code": 59669
       },
@@ -42,16 +42,16 @@
         "isMulticolor2": false,
         "grid": 0,
         "tags": [
-          "list"
+          "table"
         ]
       },
       "attrs": [
         {}
       ],
       "properties": {
-        "order": 42,
+        "order": 43,
         "id": 21,
-        "name": "list",
+        "name": "table",
         "prevSize": 32,
         "code": 59670
       },

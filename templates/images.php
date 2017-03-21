@@ -35,8 +35,8 @@
 					</div>
 
 					<div class="data-actions-view">
-						<a href="#" class="data-list-view"><span class="icon-list"></span></a>
-						<a href="#" class="data-grid-view is-active"><span class="icon-grid"></span></a>
+						<a href="#" class="data-list-view"><span class="icon-table"></span></a>
+						<a href="#" class="data-grid-view is-active"><span class="icon-card"></span></a>
 					</div>
 
 					<form class="data-actions-search">
