@@ -2,7 +2,7 @@
   ul.header-nav.header-nav-primary
     li(v-for="cat in navigation.full")
       router-link(:to="cat.url" exact, v-if="cat.url") {{ cat.title }}
-      a(v-if="!cat.url") {{ cat.title }}
+      a(v-else) {{ cat.title }}
       ul(v-if="cat.children")
         li(v-for="item in cat.children")
           router-link(:to="item.url") {{ item.title }}

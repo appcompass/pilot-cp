@@ -1,43 +1,54 @@
 <template lang="pug">
-.columns.is-multiline
-  .column.is-4(v-for="gallery, index in collection.data.data")
-    .card
-      .card-image
-        figure.image.is-4by3
-          img(:src="'http://lorempixel.com/256/256/abstract/' + gallery.id")
-      .card-content
-        .media
-          .media-content
-            p.title.is-4 {{ gallery.name }}
-            p.subtitle.is-6 {{ gallery.user.email }}
-
-        .content
-          ul
-            li Photos: {{ gallery.photoCount }}
-            li Videos: {{ gallery.videoCount }}
-            li Total: {{ gallery.photoCount + gallery.videoCount }}
-          p {{ gallery.description }}
-          small(v-moment-ago="gallery.updated_at")
-          .pull-right
-            router-link.button.is-small.is-warning(v-if="gallery.abilities.includes('edit')", :to="{name: 'edit', params: {model: 'galleries', id: gallery.id}}") Edit
-            a.button.is-small.is-primary(v-if="gallery.abilities.includes('view')") View
-
+  div.media-cards
+    div.media-card(v-for="(card, index) in collection")
+      //- v-if="card.abilities.includes('edit')",
+      //- @TODO: fix, repetative inside the link.
+      router-link.media-card-thumb(
+        v-if="card.abilities.includes('edit')",
+        :to="{name: 'edit', params: {model: $route.fullPath.slice(1).split('/').join('_'), id: card.id}}"
+      )
+        span.thumb-container
+          span.thumb-center
+            img(:src="card.card_photo")
+      a.media-card-thumb(
+        v-else
+      )
+        span.thumb-container
+          span.thumb-center
+            img(:src="card.card_photo")
+      ul.media-card-info
+        li(v-for="(field, index) in forms.form.fields")
+          span {{ field.label }}:
+          =" "
+          | {{ value(field.name, card) }}
+      div.media-card-actions
+        input.media-card-checkbox.left(type="checkbox")
+        //- @TODO: add delete ability permissions to resources on API.
+        //- v-if="card.abilities.includes('delete')",
+        a.media-card-delete.right(
+          @click="$parent.remove(card.id)"
+        )
+          span.icon-delete
+          | Delete
 </template>
 
 <script>
-import Auth from '../Auth'
+// @TODO: most of this is common between list view types, lets consolidate if possible?
+import _ from 'lodash'
 
 export default {
-  props: ['collection', 'forms'],
   name: 'CardList',
+  props: [ 'forms', 'collection' ],
   data () {
     return {
-      can: Auth.abilities
+      _
+    }
+  },
+  methods: {
+    value (name, row) {
+      return _.get(row, name)
     }
   }
 }
+
 </script>
-
-<style lang="sass">
-
-</style>
