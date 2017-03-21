@@ -84,5 +84,64 @@
 		$(this).closest('li').toggleClass('hide-children'); 
 	});
 
+	/* Page Builder
+	---------------------------------------------------------------------- */
+
+	$('.page-builder-nav a').on('click', function(e) {
+		var target = $(this).attr('href');
+		e.preventDefault();
+		$('.page-builder-nav li').removeClass('is-active');
+		$(this).parent().addClass('is-active');
+		$('.sidebar').removeClass('is-active');
+		$(target).addClass('is-active');
+
+		if(target === '#sidebar-page-layout') {
+			$('.page-builder').addClass('show-layout-ui');
+			$('.page-builder').removeClass('hide-layout-ui');
+		} else {
+			$('.page-builder').addClass('hide-layout-ui');
+			$('.page-builder').removeClass('show-layout-ui');
+		}
+	});
+
+	$('.page-section-edit-header .icon').on('click', function(e) {
+		e.preventDefault();
+		$(this).closest('.page-section-edit').toggleClass('is-closed');
+	});
+
+	$('.page-layout-header .icon').on('click', function(e) {
+		e.preventDefault();
+		$(this).closest('.page-layout').toggleClass('is-closed');
+	});
+
+	$('.hide-layout-ui .page-section').on('click', function(e) {
+		e.preventDefault();
+		$(this).toggleClass('is-active');
+	});
+
+	/* Forms
+	---------------------------------------------------------------------- */
+	$('.file-input input[type="file"]').each(function() {
+		fileInputValues($(this));
+	});
+
+	$('.file-input input[type="file"]').on('change', function() {
+		fileInputValues($(this));
+	});
+
+	$('.file-input-remove').on('click', function(e) {
+		e.preventDefault();
+		var theInput = $(this).parents('.file-input').find('input[type="file"]');
+		theInput.val('');
+		fileInputValues(theInput);
+	});
+
+	function fileInputValues(fileinput) {
+		if( fileinput.val() ) {
+			fileinput.parent().addClass('has-value');
+		} else {
+			fileinput.parent().removeClass('has-value');
+		}
+	}
 
 })(jQuery);
