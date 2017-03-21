@@ -28,6 +28,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-github:before {
+  content: "\e913";
+}
+.icon-heart:before {
+  content: "\e914";
+}
 .icon-edit:before {
   content: "\e911";
 }

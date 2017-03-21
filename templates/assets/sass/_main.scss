@@ -8,20 +8,27 @@
 ////////////////
 .site {
 	display:flex;
-	height:100%;
+	min-height:100vh;
 	flex-direction:column;
 	min-width:768px;
+	overflow:hidden;
+}
+
+.content-container {
+	display:flex;
+	align-items:stretch;
+	position:relative;
+	flex: 1 1 100%;
 }
 
 .main-container {
 	display:flex;
-	height:100%;
-	position:relative;
-	overflow:hidden;
+	flex-direction:column;
+	width:100%;
 }
 
 .main {
-	flex:1 1 auto;
+	flex:1 1 100%;
 	padding-left:$gutter-xsmall/2;
 	padding-right:$gutter-xsmall/2;
 	padding:20px;
