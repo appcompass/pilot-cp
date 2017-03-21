@@ -6,4 +6,5 @@
 	<li><a href="users-edit.php">Users Edit</a></li>
 	<li><a href="navigation-edit.php">Navigation Edit</a></li>
 	<li><a href="images.php">Images</a></li>
+	<li><a href="page-builder.php">Page Builder</a></li>
 </ul>
