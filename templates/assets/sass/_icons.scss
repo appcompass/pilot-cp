@@ -28,6 +28,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-card:before {
+  content: "\e915";
+}
+.icon-table:before {
+  content: "\e916";
+}
 .icon-github:before {
   content: "\e913";
 }
