@@ -1,6 +1,5 @@
 <?php include('header.php'); ?>
 
-<main class="main">
 	<div class="row">
 		<div class="xsmall-12 columns">
 
@@ -120,6 +119,5 @@
 
 		</div>
 	</div>
-</main>
 
 <?php include('footer.php'); ?>
