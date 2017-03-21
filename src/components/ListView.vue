@@ -1,6 +1,6 @@
 <template lang="pug">
   div.row
-    div.xsmall-12.columns(v-if="!list && !loading")
+    div.xsmall-12.columns(v-if="!form && !loading")
       .hero.is-bold.is-danger
         .container
           .hero-body
@@ -16,14 +16,12 @@
             h1.page-title
               | {{ $route.params.sub || $route.params.model }}
           div.xsmall-4.columns.text-right
-            p
-              //- @TODO: These should be specific to this model. i.e. dynamic.
-              //- not all views have Card and Table, others have other ones like Map.
-              a(@click="list.list_layout = 'Card'")
-                span.icon.icon-gallery
-              a.button.is-small.is-secondary(@click="list.list_layout = 'Table'")
-                span.icon.icon-page
-              router-link.btn-primary(v-if="can.has('create')", :to="{name: 'create', params: {model: model}}", style="margin-left: 1rem", ) Add New
+        div(
+          v-if="can.has('create') && CreateTypes[create_type]",
+          :is="CreateTypes[create_type]",
+          :model="model"
+        )
+
       div.data-actions-container
         div.data-actions
           form.data-actions-bulk
@@ -37,7 +35,18 @@
           div.data-actions-filters-toggle
             a.data-actions-filters-trigger(v-on:click="filter_results_toggle = !filter_results_toggle")
               span.icon-filters
-              | Filter Results
+              span.data-actions-filters-label Filter Results
+          div.data-actions-view(
+            v-if="view_types.length > 1"
+          )
+            a.data-list-view(
+              v-for="view_type in view_types",
+              @click="list_layout = view_type",
+              :class="{'is-active': view_type == list_layout}"
+            )
+              span.icon(
+                :class="'icon-' + view_type.toLowerCase()"
+              )
           form.data-actions-search
             div.search-input
               span.icon-search
@@ -52,23 +61,24 @@
                 label(for="") Label
                 input(type="text")
             div.row
-              div.xsmall-12.columns
+              div.xsmall-12 columns
                 button.btn-primary Apply Filters
                 a.data-actions-filters-clear Remove Filters
-        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
-        div.overlay.is-full-width(v-if="loading")
-            section.content.has-text-centered
-              p.notification.is-info.title.is-5 Loading...
-        section(
-          :is="collection.view + 'List'",
-          :sorters="sorters",
-          :loading="loading",
-          :collection="collection",
-          :model="model",
-          :search="search",
-          :forms="{list: list, edit: edit}"
-        )
-        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
+
+      Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
+      div.overlay.is-full-width(v-if="loading")
+          section.content.has-text-centered
+            p.notification.is-info.title.is-5 Loading...
+      section(
+        :is="list_layout + 'List'",
+        :sorters="sorters",
+        :loading="loading",
+        :collection="collection",
+        :model="model",
+        :search="search",
+        :forms="{form: form, edit: edit}"
+      )
+      Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
 </template>
 <script>
 import swal from 'sweetalert'
@@ -79,6 +89,7 @@ import MultiSelectList from './LayoutTypes/MultiSelectList'
 import CardList from './LayoutTypes/CardList'
 import Auth from './Auth.js'
 import NavigationState from './States/Navigation'
+import * as CreateTypes from './CreateTypes'
 
 export default {
   name: 'ListView',
@@ -86,7 +97,11 @@ export default {
   data () {
     return {
       edit: [],
-      list: undefined,
+      form: undefined,
+      list_layout: undefined,
+      view_types: [],
+      create_type: undefined,
+      update_type: undefined,
       model: '',
       collection: {},
       search: {},
@@ -95,7 +110,8 @@ export default {
       filter_results_toggle: false,
       pagination: {current_page: 1, surrounded: 3},
       can: Auth.abilities,
-      navigation: NavigationState
+      navigation: NavigationState,
+      CreateTypes
     }
   },
   watch: {
@@ -112,9 +128,7 @@ export default {
         return
       }
       this.model = to.path.slice(1).split('/').join('_')
-      this.loading = true
-      this.sorters = {}
-      this.search = {}
+      this.reset()
       // we trigger an update only if page stays the same, otherwise we let pagination watcher fire the query
       if (this.pagination.current_page === 1) {
         this.update()
@@ -134,6 +148,14 @@ export default {
         this.update()
       }
     }, 500),
+    reset () {
+      this.loading = true
+      this.sorters = {}
+      this.search = {}
+      this.list_layout = null
+      this.create_type = null
+      this.update_type = null
+    },
     update () {
       this.navigation.left_nav = null
       this.loading = true
@@ -147,15 +169,21 @@ export default {
       })
         .then((response) => {
           this.loading = false
-          if (!response.data.list) {
-            this.list = undefined
+          if (!response.data.form) {
+            this.form = undefined
             return
           }
-          this.list = response.data.list
-          this.pagination = _.omit(response.data.collection.data, ['data'])
-          this.collection = response.data.collection
+          this.form = response.data.form
+          this.pagination = _.omit(response.data.collection, ['data'])
+          this.collection = response.data.collection.data
           this.can.set(response.data.abilities)
-          console.log(this.collection.view)
+          this.view_types = response.data.view_types
+          this.create_type = response.data.create_type
+          this.update_type = response.data.update_type
+          // default view on load is always the first.
+          if (!this.list_layout) {
+            this.list_layout = this.view_types[0]
+          }
           Object.freeze(this.can)
         }, (response) => {
           this.loading = false

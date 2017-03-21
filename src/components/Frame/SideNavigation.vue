@@ -1,16 +1,24 @@
 <template lang="pug">
   div.sidebar(
-    v-if="navigation.left_nav"
+    v-if="navigation.full"
   )
-    nav.sidebar-nav-container
-      h3.sidebar-nav-heading Sub Navigation
-      ul.sidebar-nav
+    nav.sidebar-nav-container(
+      v-for="cat in navigation.full",
+    )
+
+      h3.sidebar-nav-heading(
+        v-if="!cat.url"
+      ) {{ cat.title }}
+
+      ul.sidebar-nav(
+        v-if="cat.children"
+      )
         li(
-          v-for="item in navigation.left_nav.nav",
+          v-for="item in cat.children",
           :class="{'active': false}"
         )
-          //- router-link(:to="item.url")
-          router-link(:to="{name: 'sub', params: {model: navigation.left_nav.model.split('/')[navigation.left_nav.model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}")
+          //- router-link(:to="{name: 'sub', params: {model: navigation.left_nav.model.split('/')[navigation.left_nav.model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}")
+          router-link(:to="item.url")
             span.icon(:class="'icon-' + item.icon")
             | {{ item.title }}
 </template>

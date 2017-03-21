@@ -10,19 +10,36 @@
           div.xsmall-4.columns.text-right
             p
               router-link.btn-primary(v-if="can.has('create')", :to="{name: 'create', params: {model: model}}", style="margin-left: 1rem", ) Add New
-      div(
-        :is="form.form.editor + 'Editor'",
-        :form="form",
-        @refresh="refresh",
-        @set="set"
-      )
-      button.btn-primary(
-        :class="{'is-loading': loading}",
-        :disable="submitted",
-        @click.prevent="update"
-      ) Save
 
-      //- @TODO: This needs to be moved to a master view since we now have the side nav for sub nav.
+      //- @TODO: this whole workflow needs to be worked out.
+      div.page-tabs
+        a.page-tab(
+          href="#profile-section",
+          :class="{'is-active': true}"
+        ) Profile
+        //- a.page-tab(
+        //-   href="#permissions-section"
+        //- ) Permissions
+
+      div#profile-section.tab-section(
+        :class="{'is-active': true}"
+      )
+        div(
+          v-if="!loading",
+          :is="form.form.editor + 'Editor'",
+          :form="form",
+          @refresh="refresh",
+          @set="set"
+        )
+        button.btn-primary(
+          :class="{'is-loading': loading}",
+          :disable="submitted",
+          @click.prevent="update"
+        ) Save
+
+      //- div#permissions-section.tab-section(
+      //-   :class="{'is-active': false}"
+      //- )
       transition(:name="route", mode="out-in")
           router-view(name="sub")
 
@@ -48,7 +65,6 @@ export default {
       loading: true,
       model: undefined,
       route: undefined,
-      navigation: undefined,
       can: Auth.abilities,
       form: new Form()
     }
@@ -65,11 +81,12 @@ export default {
     routeChanged () {
       this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
       this.route = this.model.split('/')[this.model.split('/').length - 2]
-      this.setNav(this.route)
+      this.setTabs()
       this.refresh()
     },
-    setNav (route) {
-      NavigationState.setLeftNav(route, this.model)
+    setTabs () {
+      // @TODO: move this to global (make it dumb)
+      NavigationState.setEditTabs(this.route, this.model)
     },
     set (data) {
       this.form.set(data)
@@ -97,7 +114,7 @@ export default {
         }
       })
         .then((response) => {
-          this.form.init(response.data.edit, response.data.collection)
+          this.form.init(response.data.form, response.data.collection)
           this.loading = false
         }, (error) => {
           if (!Auth.user.authenticated) {

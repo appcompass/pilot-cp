@@ -4,7 +4,7 @@ function findObject (title, haystack, res) {
   for (let i = 0; i < haystack.length; i++) {
     let current = haystack[i]
     if (current.title === title) {
-      res = current.children
+      res = current
     } else if (current.children.length) {
       res = findObject(title, current.children, res)
     }
@@ -41,9 +41,10 @@ export default {
       }
     })
   },
-  setLeftNav (route, model) {
+  setEditTabs (route, model) {
     this.get(route)
       .then(subnav => {
+        // console.log(JSON.stringify(subnav))
         this.left_nav = {
           nav: subnav,
           model: model

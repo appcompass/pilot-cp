@@ -5,7 +5,7 @@
         tr
           th
             input(type="checkbox" name="" value="")
-          th(v-for="field in forms.list.fields", nowrap)
+          th(v-for="field in forms.form.fields", nowrap)
             span.icon-search.table-column-search-trigger(
               v-if="field.config.searchable",
               @click="$parent.toggleEdit(field)"
@@ -31,25 +31,35 @@
                 span.icon-cancel(
                   @click="$parent.toggleEdit(field)"
                 )
-      tbody(:class="{'is-opaque': $parent.loading}", v-if="collection.data.data.length")
-        tr(v-for="row in collection.data.data")
+      tbody(:class="{'is-opaque': $parent.loading}", v-if="collection.length")
+        tr(v-for="row in collection")
           td
             input(type="checkbox" name="" value="")
-          td(v-for="(field, index) in forms.list.fields")
-            //- <a href="#" class="table-user-avatar"><img src="assets/images/avatar_temp.png" width="32" height="32"></a>
+          td(v-for="(field, index) in forms.form.fields")
             span(
               v-if="index === 0"
             )
+              //- @TODO: this whole if/else flow is a bit ugly
+              router-link.table-user-avatar(
+                v-if="row.card_photo && row.abilities.includes('edit')",
+                :to="{name: 'edit', params: {model: $route.fullPath.slice(1).split('/').join('_'), id: row.id}}",
+              )
+                img(:src="row.card_photo", width="32", height="32")
+              a.table-user-avatar(v-else if="row.card_photo")
+                img(:src="row.card_photo", width="32", height="32")
               router-link(
+                v-if="row.abilities.includes('edit')",
                 :to="{name: 'edit', params: {model: $route.fullPath.slice(1).split('/').join('_'), id: row.id}}",
                 v-html="value(field.name, row)"
               )
+              a(v-else, v-html="value(field.name, row)")
               div.table-row-actions
                 router-link.link-primary(
                   v-if="row.abilities.includes('edit')",
                   :to="{name: 'edit', params: {model: $route.fullPath.slice(1).split('/').join('_'), id: row.id}}",
                 ) Edit
-                | |
+                = " | "
+                //- @TODO: add delete ability permissions to resources on API.
                 //- v-if="row.abilities.includes('delete')",
                 a.link-red(
                   @click="$parent.remove(row.id)"
@@ -61,14 +71,12 @@
             )
       tbody(v-else, :class="{'is-opaque': $parent.loading}")
         tr
-          td.has-text-centered(:colspan="forms.list.fields.length + 1")
+          td.has-text-centered(:colspan="forms.form.fields.length + 1")
             .notification.is-danger
               .title No results found.
 </template>
 
 <script>
-// @TODO
-//  - only pass list form
 import _ from 'lodash'
 
 export default {

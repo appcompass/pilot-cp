@@ -36,10 +36,9 @@ export default {
     this.model = this.$route.params.model.split('_').join('/')
     this.$http.get('/api/' + this.model)
       .then((response) => {
-        this.form.init(response.data.edit)
+        this.form.init(response.data.form)
 
-        this.create = response.data.edit // @TODO created same as edit? -f
-        // this.resource = this.$resource(this.model)
+        this.create = response.data.form
       })
   },
   methods: {
