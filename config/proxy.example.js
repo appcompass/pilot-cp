@@ -7,7 +7,7 @@ module.exports = {
     changeOrigin: true,
     headers: {
       // this CP website's host name.
-      host: 'my.cp.com'
+      Host: 'my.cp.com'
     },
     pathRewrite: {
       '^/api': ''
