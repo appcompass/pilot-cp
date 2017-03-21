@@ -135,6 +135,76 @@ button, input[type="submit"] {
 	outline:none;
 }
 
+textarea {
+	font-family:$default-font;
+	border:1px solid $form-border-color;
+	outline:none;
+	color:$form-text-color;
+	-webkit-appearance: none; 
+	display:block; 
+	width: 100%;
+	border-radius:0;
+	margin-bottom:$form-input-margin-bottom;
+	padding:10px;
+	line-height:1.5;
+}
+
+.file-input {
+	margin-bottom:$form-input-margin-bottom;
+}
+
+.file-input input[type="file"] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	margin:0;
+	z-index: -1;
+}
+
+.file-input label {
+	@extend .btn-secondary;
+}
+
+.file-input label * {
+	pointer-events: none;
+}
+
+.file-input.has-value label {
+	display:none;
+}
+
+.file-input-value {
+	display:none;
+}
+
+.file-input.has-value .file-input-value {
+	display:block;
+}
+
+.file-input-image {
+	position:relative;
+	display:inline-block;
+}
+
+.file-input-remove {
+	position:absolute;
+	top:4px;
+	right:4px;
+	padding:4px;
+	background-color:$primary-color;
+	color:#fff;
+	border-radius:50%;
+	font-size:em(12px);
+	cursor:pointer;
+	min-width:20px;
+	min-height:20px
+}
+
+.file-input-remove:hover {
+	background-color:$primary-red;
+}
 
 
 /*form {
