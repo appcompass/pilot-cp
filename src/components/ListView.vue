@@ -70,6 +70,7 @@
           section.content.has-text-centered
             p.notification.is-info.title.is-5 Loading...
       section(
+        v-if="list_layout + 'List'",
         :is="list_layout + 'List'",
         :sorters="sorters",
         :loading="loading",

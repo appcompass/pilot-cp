@@ -1,19 +1,30 @@
-<template lang="jade">
-div.columns
-  .column.is-three-quarters
-    h1.title.is-4 New: {{ $route.params.model.split('_')[$route.params.model.split('_').length - 1].replace(/s\s*$/, "") }}
-    form
-      FormBuilder(
-        :form="form",
-        @set="set"
+<template lang="pug">
+  div.row
+    div.xsmall-12.columns
+
+      div.page-header(
+        v-if="!inline"
       )
-
-    footer
-      .pull-right
-          a.button(@click="$router.go(-1)") Cancel
-          a.button.is-primary(@click="save") Save
-
-  .column.is-one-quarter
+        div.row
+          div.xsmall-8.columns
+            h1.page-title
+              | {{ $route.params.sub || $route.params.model }}
+      form
+        FormBuilder(
+          :form="form",
+          @set="set"
+        )
+        //- Dropzone doesn't use cancel and save.  for now we're assuming
+          dropzone is the only one using inline create style.
+        a.btn-secondary(
+          v-if="!inline",
+          @click="$router.go(-1)"
+        ) Cancel
+        = " "
+        a.btn-primary(
+          v-if="!inline",
+          @click="save"
+        ) Save
 </template>
 
 <script>
@@ -22,19 +33,26 @@ import swal from 'sweetalert'
 import * as Components from './Components'
 import FormBuilder from './FormBuilder'
 import Form from './Helpers/Form'
+import Navigation from './States/Navigation'
 
 export default {
   name: 'CreateView',
+  props: ['inline'],
   components: { FormBuilder },
   data () {
     return {
       Components,
+      navigation: Navigation,
+      api: null,
       form: new Form()
     }
   },
   created () {
     this.model = this.$route.params.model.split('_').join('/')
-    this.$http.get('/api/' + this.model)
+    // this.api = '/api/' + this.model
+    this.api = '/api' + this.navigation.current_url
+
+    this.$http.get(this.api + '/create')
       .then((response) => {
         this.form.init(response.data.form)
 
@@ -46,12 +64,12 @@ export default {
       this.form.set(data)
     },
     save () {
-      this.$http.post('/api/' + this.model, this.form.collection)
+      this.$http.post(this.api, this.form.collection)
       // this.resource.save(this.form.collection)
         .then((response) => {
           swal({title: 'Success', text: response.data.message, type: 'success'
           }, () => {
-            this.$router.push({name: 'edit', params: { model: this.model, id: response.data.collection.id }})
+            this.$router.push({name: 'edit', params: { model: this.model, id: response.data.model.id }})
           })
         }, error => {
           if (error.response.status === 422) {
@@ -64,8 +82,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass" scoped>
-  .title
-    text-transform: capitalize !important
-</style>

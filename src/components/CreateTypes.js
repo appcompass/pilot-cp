@@ -1,4 +1,4 @@
 import PageAction from './CreateTypes/PageAction'
-import DropzoneAction from './CreateTypes/DropzoneAction'
+import InlineAction from './CreateTypes/InlineAction'
 export var Page = PageAction
-export var Dropzone = DropzoneAction
+export var Inline = InlineAction

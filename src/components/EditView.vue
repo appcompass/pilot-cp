@@ -10,19 +10,15 @@
           div.xsmall-4.columns.text-right
             p
               router-link.btn-primary(v-if="can.has('create')", :to="{name: 'create', params: {model: model}}", style="margin-left: 1rem", ) Add New
+      div.page-tabs(v-if="tabs && tabs.length")
+        router-link.page-tab(
+          v-for="(item, index) in tabs",
+          :to="{name: 'sub', params: {model: model.split('/')[model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}",
+          :class="{'is-active': index == 0 && activeNav(item.url)}"
+        ) {{ item.title }}
 
-      //- @TODO: this whole workflow needs to be worked out.
-      div.page-tabs
-        a.page-tab(
-          href="#profile-section",
-          :class="{'is-active': true}"
-        ) Profile
-        //- a.page-tab(
-        //-   href="#permissions-section"
-        //- ) Permissions
-
-      div#profile-section.tab-section(
-        :class="{'is-active': true}"
+      //- @TODO: we need the sub views to render in the samve view here replacing the editor.
+      div.tab-section.is-active(
       )
         div(
           v-if="!loading",
@@ -37,11 +33,8 @@
           @click.prevent="update"
         ) Save
 
-      //- div#permissions-section.tab-section(
-      //-   :class="{'is-active': false}"
-      //- )
-      transition(:name="route", mode="out-in")
-          router-view(name="sub")
+        transition(:name="route", mode="out-in")
+            router-view(name="sub")
 
 </template>
 
@@ -65,6 +58,7 @@ export default {
       loading: true,
       model: undefined,
       route: undefined,
+      tabs: undefined,
       can: Auth.abilities,
       form: new Form()
     }
@@ -81,19 +75,35 @@ export default {
     routeChanged () {
       this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
       this.route = this.model.split('/')[this.model.split('/').length - 2]
-      this.setTabs()
+      this.setTabs(this.route)
       this.refresh()
     },
-    setTabs () {
-      // @TODO: move this to global (make it dumb)
-      NavigationState.setEditTabs(this.route, this.model)
+    setTabs (route) {
+      NavigationState.get(route)
+        .then(subnav => {
+          this.tabs = subnav
+        })
+    },
+    // @TODO: need to check the current nav item URL with the current route url to see where we are and highlight the correct one.
+    // this should prob get put into the NavigationState so it is checked and used for all navs.
+    activeNav (url) {
+      return true
     },
     set (data) {
       this.form.set(data)
     },
     update () {
       this.submitted = true
-      this.$http.put('/api/' + this.$route.fullPath.split('_').join('/'), this.form.collection)
+      // let url = '/api' + NavigationState.current_url
+      let url = '/api' + this.$route.fullPath.split('_').join('/')
+      // As of right now we can reach a single record edit from via /resource/id and /resource/id/edit
+      // this is to stip out the edit if it's present so we can use the current/same  url to update.
+      // @TODO: unify all edit views to use the /edit syntax, it's the appropriate resourceful aproach
+      // since create is /create and the rest are request methods on the parent resource.
+      if (url.lastIndexOf('/edit') > 1) {
+        url = url.substring(0, url.lastIndexOf('/edit'))
+      }
+      this.$http.put(url, this.form.collection)
         .then((response) => {
           swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
             this.refresh()
