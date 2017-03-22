@@ -110,10 +110,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass">
-.fieldset
-  border: 1px solid #ddd
-  box-shadow: 5px 5px 10px #ddd
-  padding: 1rem
-</style>

@@ -1,32 +1,50 @@
 /* global localStorage: false */
-<template lang="jade">
-form.dropzone
-  a.button(@click="process") Process
+<template lang="pug">
+  form.upload-drop(
+    @input='set'
+  ) Drop files here to upload.
 </template>
 
 <script>
 import Dropzone from 'dropzone'
 import swal from 'sweetalert'
+import Navigation from './States/Navigation'
 
 export default {
   name: 'Dropzone',
-  props: ['url'],
+  props: ['pointer', 'data', 'label'],
   data () {
     return {
-      dropzone: null,
-      disk: null,
-      api: null
+      navigation: Navigation,
+      dropzone: null
     }
   },
   mounted () {
+    // @TODO: make this work the right way.
+    this.$parent.$on('disk', (disk) => {
+      console.log(disk)
+      if (!disk) {
+        swal('Error', 'Disk instance not selected', 'error')
+        return
+      }
+      this.disk = disk
+    })
+
     let vm = this
+
     this.dropzone = new Dropzone(this.$el, {
-      url: '/api/' + this.url.slice(1),
-      autoProcessQueue: false,
+      url: '/api' + vm.navigation.current_url,
+      autoProcessQueue: true,
       addRemoveLinks: false,
       parallelUploads: 10,
       headers: {
         'Authorization': window.localStorage.getItem('auth_token')
+      },
+      addedfile () {
+        if (!vm.disk) {
+          this.removeAllFiles()
+          swal('Error', 'Disk instance not selected', 'error')
+        }
       },
       sending (something, xhr, formData) {
         formData.append('disk', vm.disk)
@@ -42,20 +60,10 @@ export default {
     })
   },
   methods: {
-    process () {
-      this.$emit('disk', (disk) => {
-        if (!disk) {
-          swal('Error', 'Disk instance not selected', 'error')
-          return
-        }
-        this.disk = disk
-        this.dropzone.processQueue()
-      })
+    set (data) {
+      data.pointer = this.pointer
+      this.$emit('input', data)
     }
   }
 }
 </script>
-
-<style scoped>
-@import "~dropzone/dist/min/dropzone.min.css"
-</style>

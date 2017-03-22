@@ -11,6 +11,7 @@ import Auth from './components/Auth'
 import routes from './routes'
 import App from './App'
 
+import './assets/sass/main.sass'
 import '../templates/assets/sass/app.scss'
 import moment from 'moment'
 

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-// import NavigationState from './States/Navigation'
+import NavigationState from './States/Navigation'
 import SiteHeader from './Frame/SiteHeader'
 import SiteFooter from './Frame/SiteFooter'
 import SideNavigation from './Frame/SideNavigation'
@@ -45,6 +45,7 @@ export default {
   methods: {
     routeChanged () {
       if (this.$route.params.model) {
+        NavigationState.setCurrent(this.$route.params)
         this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
         this.route = this.model.split('/')[this.model.split('/').length - 2]
       }
