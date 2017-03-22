@@ -5,7 +5,7 @@
 						&copy; <a href="">Plus Three Interactive, LLC</a>. All Rights Reserved.</p>
 						<p class="footer-icons"><a href="" class="link-icon"><span class="icon-github"></span></a></p>
 					</div>
-					<div class="footer-reports">Footer Reports...</div>
+					<pre class="footer-reports">Footer Reports...</pre><!-- footer-reports -->
 				</footer><!-- footer -->
 			</div><!-- main-container-->
 		</div><!-- content-container -->

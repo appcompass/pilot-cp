@@ -155,4 +155,24 @@
 		</div>
 	</div>
 
+	<div class="image-modal">
+		<div>test</div>
+	</div>
+
+	<script src="assets/bower_components/tingle/dist/tingle.js"></script>
+	<script type="text/javascript">
+		/* Image Modal
+		---------------------------------------------------------------------- */
+		var imageModal = new tingle.modal({
+		    cssClass: ['image-modal']
+		});
+
+		var btn = document.querySelector('.media-card-thumb');
+	    btn.addEventListener('click', function(){
+	        imageModal.open();
+	    });
+
+		imageModal.setContent(document.querySelector('.image-modal').innerHTML);
+	</script>
+
 <?php include('footer.php'); ?>	
