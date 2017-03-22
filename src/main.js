@@ -49,28 +49,6 @@ Vue.axios.interceptors.response.use(function (response) {
   return Promise.reject(error)
 })
 
-// Vue.axios.interceptors.push((request, next) => {
-//   next(response => {
-//     if (response.headers.has('authorization')) {
-//       let token = response.headers.get('authorization').slice(8)
-//       localStorage.setItem('auth_token', token)
-//       Vue.axios.defaults.headers.common['Authorization'] = response.headers.get('authorization')
-//     }
-
-//     if (response.status === 401) {
-//       return Auth.logout()
-//     }
-//     if (response.status === 403) {
-//       swal('Unauthorized', response.data.error || 'You are not authorized to perform this action.', 'error')
-//     }
-//     if (response.status === 404) {
-//       swal('Not Found', response.data.error || 'Resource not found.', 'error')
-//     }
-
-//     return response
-//   })
-// })
-
 Vue.directive('moment-ago', {
   bind (el, binding) {
     el.innerHTML = ' ' + moment(binding.value, 'YYYY-MM-DD HH:mm:ss').fromNow()
