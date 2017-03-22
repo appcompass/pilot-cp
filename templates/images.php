@@ -159,12 +159,12 @@
 		<div>test</div>
 	</div>
 
-	<script src="assets/bower_components/tingle/dist/tingle.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.9.0/tingle.min.js"></script>
 	<script type="text/javascript">
 		/* Image Modal
 		---------------------------------------------------------------------- */
 		var imageModal = new tingle.modal({
-		    cssClass: ['image-modal']
+		    cssClass: ['image-modal-xx']
 		});
 
 		var btn = document.querySelector('.media-card-thumb');

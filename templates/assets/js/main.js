@@ -1,5 +1,3 @@
-// @codekit-prepend "../../bower_components/";
-
 (function($) {
 
 	/* Navigation
