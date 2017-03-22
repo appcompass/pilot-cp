@@ -41,8 +41,8 @@
 
                 	<div class="page-builder hide-layout-ui">
 	                	
-	                	<div class="row">
-	                		<div class="column" style="width:100%;">
+	                	<div class="page-layout-row">
+	                		<div class="page-layout-column" style="width:100%;">
 	                			<div class="page-layout">
 	                				<div class="page-layout-header">Full Width <span class="icon icon-box-down"></span></div>
 	                				<div class="page-layout-content">
@@ -52,8 +52,8 @@
 	                		</div>
 	                	</div>
 
-	                	<div class="row">
-	                		<div class="column" style="width:40%;">
+	                	<div class="page-layout-row">
+	                		<div class="page-layout-column" style="width:40%;">
 	                			<div class="page-layout">
 	                				<div class="page-layout-header">Four Columns <span class="icon icon-box-down"></span></div>
 	                				<div class="page-layout-content">
@@ -64,14 +64,14 @@
 	                			</div>
 	                		</div>
 
-	                		<div class="column" style="width:60%;">
+	                		<div class="page-layout-column" style="width:60%;">
 	                			<div class="page-layout">
 	                				<div class="page-layout-header">Eight Columns <span class="icon icon-box-down"></span></div>
 	                				<div class="page-layout-content">
 	                					<div class="page-section">Default Content</div>
 	                					
-	                					<div class="row">
-	                						<div class="column" style="width:33.333%;">
+	                					<div class="page-layout-row">
+	                						<div class="page-layout-column" style="width:33.333%;">
 	                							<div class="page-layout">
 	                								<div class="page-layout-header">Four Columns <span class="icon icon-box-down"></span></div>
 	                								<div class="page-layout-content">
@@ -79,7 +79,7 @@
 	                								</div>
 	                							</div>
 	                						</div>
-	                						<div class="column" style="width:33.333%;">
+	                						<div class="page-layout-column" style="width:33.333%;">
 	                							<div class="page-layout">
 	                								<div class="page-layout-header">Four Columns <span class="icon icon-box-down"></span></div>
 	                								<div class="page-layout-content">
@@ -87,7 +87,7 @@
 	                								</div>
 	                							</div>
 	                						</div>
-	                						<div class="column" style="width:33.333%;">
+	                						<div class="page-layout-column" style="width:33.333%;">
 	                							<div class="page-layout">
 	                								<div class="page-layout-header">Four Columns <span class="icon icon-box-down"></span></div>
 	                								<div class="page-layout-content">
@@ -102,8 +102,8 @@
 	                		</div>
 	                	</div>
 
-	                	<div class="row">
-	                		<div class="column" style="width:25%;">
+	                	<div class="page-layout-row">
+	                		<div class="page-layout-column" style="width:25%;">
 	                			<div class="page-layout">
 	                				<div class="page-layout-header">Three Columns <span class="icon icon-box-down"></span></div>
 	                				<div class="page-layout-content">
@@ -111,7 +111,7 @@
 	                				</div>
 	                			</div>
 	                		</div>
-	                		<div class="column" style="width:25%;">
+	                		<div class="page-layout-column" style="width:25%;">
 	                			<div class="page-layout">
 	                				<div class="page-layout-header">Three Columns <span class="icon icon-box-down"></span></div>
 	                				<div class="page-layout-content">
@@ -119,7 +119,7 @@
 	                				</div>
 	                			</div>
 	                		</div>
-	                		<div class="column" style="width:25%;">
+	                		<div class="page-layout-column" style="width:25%;">
 	                			<div class="page-layout">
 	                				<div class="page-layout-header">Three Columns <span class="icon icon-box-down"></span></div>
 	                				<div class="page-layout-content">
@@ -127,7 +127,7 @@
 	                				</div>
 	                			</div>
 	                		</div>
-	                		<div class="column" style="width:25%;">
+	                		<div class="page-layout-column" style="width:25%;">
 	                			<div class="page-layout">
 	                				<div class="page-layout-header">Three Columns <span class="icon icon-box-down"></span></div>
 	                				<div class="page-layout-content">
