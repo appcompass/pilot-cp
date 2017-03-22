@@ -1,26 +1,37 @@
-<template lang="jade">
-div.menu
-  Sortable.menu-list(:list="menu", :element="'ul'", :options="options")
-    li.menu__item(v-for="(item, index) in menu")
-      a
-        small.icon.is-small.handle
-          i.fa.fa-arrows
-
-        span.pull-right
-          span.icon.is-small(@click="collapse(item, true)", v-if="item.children.length && !item.isCollapsed", style="margin-right: 5px")
-            i.fa.fa-minus-square-o
-          span.icon.is-small(@click="collapse(item, false)", v-if="item.isCollapsed", style="margin-right: 5px")
-            i.fa.fa-plus-square
-          span(@click="edit(item)", style="margin-right: 5px")
-            small.icon.is-small
-              i.fa.fa-edit
-          small.icon.is-small
-            i.fa.fa-trash(@click="unlink(item)")
-
-        span  {{ item.title }}
-
+<template lang="pug">
+  Sortable(:list="menu", :element="'ul'", :options="options", :class="nav-list")
+    li(
+      v-if="menu.length > 0"
+      v-for="(item, index) in menu",
+      :class="{'hide-children': item.isCollapsed}"
+    )
+      .nav-item(:class="{'is-active': item.inEdit}")
+        .nav-item-header
+          | {{ item.title }}
+          span.nav-item-actions
+            span.icon.icon-edit(@click="edit(item, !item.inEdit)")
+            span.icon.icon-box-down(v-if="item.children.length", @click="collapse(item, !item.isCollapsed)")
+        form.nav-item-form
+          label(for='') Label
+          input(type='text', value='Home')
+          label(for='') Icon
+          input(type='text', value='icon-home')
+          div
+            input(type='checkbox')
+            label Open in new Tab
+          div
+            input(type='checkbox')
+            label Clickable
+          .nav-item-form-actions
+            button.btn-primary.left Save
+            a.link-text-secondary.left(href='#') Cancel
+            a.link-red.link-icon.right(href='#')
+              span.icon-delete(@click="unlink(item)")
+              |  Delete
       MenuElement(v-if="item.children.length && !item.isCollapsed", :menu="item.children", @deleted="deleted")
-      Sortable.menu--empty(v-if="!item.children.length", :list="item.children",  :options="options")
+      Sortable(v-if="!item.children.length", :element="'ul'", :list="item.children",  :options="options")
+    li(v-else)
+      .nav-list-empty(style="margin-bottom: 10px;") Drag items from the left into your menu.
 </template>
 
 <script>
@@ -57,7 +68,9 @@ export default {
     collapse (item, collapsed) {
       this.$set(item, 'isCollapsed', collapsed)
     },
-    edit (item) {
+    edit (item, toggle) {
+      this.$set(item, 'inEdit', toggle)
+
       if (item.type !== null) {
         switch (item.type) {
           case 'Link':
@@ -85,24 +98,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass" scoped>
-.menu-list li ul
-  margin-top: 2rem
-  padding-right: 0
-  margin-right: 0
-  border-left: 0
-.menu__item
-  background: #eee
-.menu--empty
-  width: 100%
-  height: 20px
-  border-bottom: 1px solid rgba(128, 128, 128, 0.2)
-  padding-left: 4rem
-.icon:hover
-  color: cyan
-li a:hover
-  color: #333
-  background: #eee
-
-</style>
