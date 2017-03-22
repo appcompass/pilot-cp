@@ -47,6 +47,34 @@
 	margin-bottom:10px;
 }
 
+.breadcrumbs {
+	font-size:em(14px);
+	color: $tertiary-text-color;
+	margin-bottom:5px;
+}
+
+.breadcrumbs ul {
+	@extend .list-reset;
+}
+
+.breadcrumbs li {
+	display:inline-block;
+}
+
+.breadcrumbs li + li:before {
+	content:"/";
+	display:inline-block;
+	margin-right:4px;
+	font-size:em(13px, 14px);
+}
+
+.breadcrumbs a {
+	text-decoration:none;
+	&:hover {
+		text-decoration:underline;
+	}
+}
+
 .table-row-actions {
 	font-size:em(14px);
 	color:$tertiary-text-color;
@@ -590,5 +618,3 @@
 .data-actions-view a.is-active {
 	color:$secondary-color;
 }
-
-
