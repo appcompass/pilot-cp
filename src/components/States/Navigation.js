@@ -25,7 +25,7 @@ export default {
   setCurrent (params) {
     this.current_url = ''
     if (params.model) {
-      this.current_url += '/' + params.model
+      this.current_url += '/' + params.model.split('_').join('/')
     }
     if (params.id) {
       this.current_url += '/' + params.id
