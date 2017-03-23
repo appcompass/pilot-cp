@@ -8,33 +8,34 @@
 
 .footer {
     flex:0 0 auto;
-    border-top:1px solid $border-color;
-    padding:20px 0;
-    margin:0 30px;
+    padding:20px 20px 0;
     color:$secondary-text-color;
+    font-size:em(14px);
+    color:$tertiary-text-color;
+    border-top:1px solid $border-color;
 }
 
-.footer > *:last-child {
-    margin-bottom:0;
+.footer-company .footer-icons {
+    font-size:em(16px, 14px);
 }
 
-.footer-company {
-    text-align:center;
-}
-
-.footer .icon-heart {
+.footer-company .icon-heart {
     color:$primary-red;
 }
 
+.footer-company a {
+    color:inherit;
+    &:hover {
+        color:$secondary-color;
+    }
+}
+
 .footer-reports {
-    background:$primary-bg-color;
+    background-color:$primary-bg-color;
     text-align:left;
     border-radius:3px;
     padding:20px;
-}
-
-.footer-reports pre,
-pre.footer-reports {
+    margin:0 0 20px;
+    color:$secondary-text-color;
     white-space: pre-wrap;
 }
-
