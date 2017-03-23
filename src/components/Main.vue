@@ -44,8 +44,14 @@ export default {
   },
   methods: {
     routeChanged () {
+      this.axios.interceptors.response.use(function (response) {
+        if (response.data.api_url) {
+          NavigationState.setApiUrl(response.data.api_url)
+        }
+        return response
+      })
+
       if (this.$route.params.model) {
-        NavigationState.setCurrent(this.$route.params)
         this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
         this.route = this.model.split('/')[this.model.split('/').length - 2]
       }

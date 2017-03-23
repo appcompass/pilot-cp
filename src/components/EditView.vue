@@ -77,16 +77,12 @@ export default {
       this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
       this.route = this.model.split('/')[this.model.split('/').length - 2]
       this.setTabs(this.route)
-      this.api = '/api' + NavigationState.current_url
-      // let url = '/api' + this.$route.fullPath.split('_').join('/')
+      // this.api = this.navigation.api_url
+      this.api = '/api' + this.$route.fullPath.split('_').join('/')
       // As of right now we can reach a single record edit from via /resource/id and /resource/id/edit
       // this is to stip out the edit if it's present so we can use the current/same  url to update.
       // @TODO: unify all edit views to use the /edit syntax, it's the appropriate resourceful aproach
       // since create is /create and the rest are request methods on the parent resource.
-      if (this.api.lastIndexOf('/edit') > 1) {
-        this.api = this.api.substring(0, this.api.lastIndexOf('/edit'))
-      }
-
       this.refresh()
     },
     setTabs (route) {
@@ -120,7 +116,6 @@ export default {
     },
     refresh () {
       this.loading = true
-      console.log(NavigationState.current_url)
       this.$http.get(this.api, {
         params: {
           page: 1

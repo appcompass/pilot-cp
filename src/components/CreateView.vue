@@ -49,10 +49,10 @@ export default {
   },
   created () {
     this.model = this.$route.params.model.split('_').join('/')
-    // this.api = '/api/' + this.model
-    this.api = '/api' + this.navigation.current_url
+    this.api = '/api' + this.$route.fullPath.split('_').join('/')
+    // this.api = this.navigation.api_url
 
-    this.$http.get(this.api + '/create')
+    this.$http.get(this.api)
       .then((response) => {
         this.form.init(response.data.form)
 
