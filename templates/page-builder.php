@@ -40,7 +40,7 @@
                 	</div>
 
                 	<div class="page-builder hide-layout-ui">
-	                	
+
 	                	<div class="page-layout-row">
 	                		<div class="page-layout-column" style="width:100%;">
 	                			<div class="page-layout">
@@ -69,7 +69,7 @@
 	                				<div class="page-layout-header">Eight Columns <span class="icon icon-box-down"></span></div>
 	                				<div class="page-layout-content">
 	                					<div class="page-section">Default Content</div>
-	                					
+
 	                					<div class="page-layout-row">
 	                						<div class="page-layout-column" style="width:33.333%;">
 	                							<div class="page-layout">
@@ -144,8 +144,7 @@
 			</div><!-- main-container-->
 		</div><!-- content-container -->
 	</div><!-- site-container -->
-	
-	<script src="assets/bower_components/jquery/dist/jquery.min.js"></script>
-	<script src="assets/js/dist/main-min.js"></script>
-</body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="assets/js/main-min.js"></script></body>
 </html>
