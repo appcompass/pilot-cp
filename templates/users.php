@@ -2,7 +2,13 @@
 
 	<div class="row">
 		<div class="xsmall-12 columns">
-
+			<nav class="breadcrumbs">
+				<ul>
+					<li><a href="index.php">Dashboard</a></li>
+					<li><a href="index.php">Users</a></li>
+					<li><span>Michael<span></li>
+				</ul>
+			</nav>
 			<div class="page-header">
 				<div class="row">
 					<div class="xsmall-8 columns">
@@ -36,7 +42,7 @@
 						<div class="search-input"><span class="icon-search"></span><input type="search" placeholder="Search"></span></div>
 					</form>
 				</div>
-
+					
 				<div class="data-actions-filters">
 					<form>
 						<div class="row">
@@ -120,4 +126,4 @@
 		</div>
 	</div>
 
-<?php include('footer.php'); ?>
+<?php include('footer.php'); ?>	

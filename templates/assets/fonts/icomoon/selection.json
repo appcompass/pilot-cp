@@ -4,6 +4,35 @@
     {
       "icon": {
         "paths": [
+          "M512 864c-160 0-294.4-108.8-339.2-256h83.2l-128-192-128 192h108.8c44.8 185.6 204.8 320 403.2 320 147.2 0 275.2-76.8 352-192h-76.8c-70.4 76.8-166.4 128-275.2 128zM915.2 416c-44.8-185.6-204.8-320-403.2-320-147.2 0-275.2 76.8-352 192h76.8c64-76.8 160-128 268.8-128 160 0 294.4 108.8 339.2 256h-76.8l128 192 128-192h-108.8z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "swap"
+        ]
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 45,
+        "id": 23,
+        "name": "swap",
+        "prevSize": 32,
+        "code": 59671
+      },
+      "setIdx": 0,
+      "setId": 3,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
           "M0 1024h288v-288h-288v288zM38.4 780.8h204.8v204.8h-204.8v-204.8zM0 652.8h288v-281.6h-288v281.6zM38.4 409.6h204.8v204.8h-204.8v-204.8zM0 288h288v-288h-288v288zM38.4 38.4h204.8v204.8h-204.8v-204.8zM736 0v288h288v-288h-288zM985.6 243.2h-204.8v-204.8h204.8v204.8zM736 652.8h288v-281.6h-288v281.6zM780.8 409.6h204.8v204.8h-204.8v-204.8zM371.2 1024h288v-288h-288v288zM409.6 780.8h204.8v204.8h-204.8v-204.8zM736 1024h288v-288h-288v288zM780.8 780.8h204.8v204.8h-204.8v-204.8zM371.2 652.8h288v-281.6h-288v281.6zM409.6 409.6h204.8v204.8h-204.8v-204.8zM371.2 288h288v-288h-288v288zM409.6 38.4h204.8v204.8h-204.8v-204.8z"
         ],
         "attrs": [
@@ -28,7 +57,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 0
+      "iconIdx": 1
     },
     {
       "icon": {
@@ -57,7 +86,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 1
+      "iconIdx": 2
     },
     {
       "icon": {
@@ -86,7 +115,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 2
+      "iconIdx": 3
     },
     {
       "icon": {
@@ -115,7 +144,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 3
+      "iconIdx": 4
     },
     {
       "icon": {
@@ -144,7 +173,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 4
+      "iconIdx": 5
     },
     {
       "icon": {
@@ -173,7 +202,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 5
+      "iconIdx": 6
     },
     {
       "icon": {
@@ -202,7 +231,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 6
+      "iconIdx": 7
     },
     {
       "icon": {
@@ -231,7 +260,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 7
+      "iconIdx": 8
     },
     {
       "icon": {
@@ -260,7 +289,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 8
+      "iconIdx": 9
     },
     {
       "icon": {
@@ -289,7 +318,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 9
+      "iconIdx": 10
     },
     {
       "icon": {
@@ -318,7 +347,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 10
+      "iconIdx": 11
     },
     {
       "icon": {
@@ -347,7 +376,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 11
+      "iconIdx": 12
     },
     {
       "icon": {
@@ -376,7 +405,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 12
+      "iconIdx": 13
     },
     {
       "icon": {
@@ -405,7 +434,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 13
+      "iconIdx": 14
     },
     {
       "icon": {
@@ -434,7 +463,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 14
+      "iconIdx": 15
     },
     {
       "icon": {
@@ -463,7 +492,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 15
+      "iconIdx": 16
     },
     {
       "icon": {
@@ -492,7 +521,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 16
+      "iconIdx": 17
     },
     {
       "icon": {
@@ -521,7 +550,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 17
+      "iconIdx": 18
     },
     {
       "icon": {
@@ -550,7 +579,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 18
+      "iconIdx": 19
     },
     {
       "icon": {
@@ -579,7 +608,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 19
+      "iconIdx": 20
     },
     {
       "icon": {
@@ -608,7 +637,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 20
+      "iconIdx": 21
     },
     {
       "icon": {
@@ -637,7 +666,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 21
+      "iconIdx": 22
     },
     {
       "icon": {
@@ -666,7 +695,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 22
+      "iconIdx": 23
     }
   ],
   "height": 1024,

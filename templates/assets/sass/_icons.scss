@@ -28,6 +28,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-swap:before {
+  content: "\e917";
+}
 .icon-card:before {
   content: "\e915";
 }

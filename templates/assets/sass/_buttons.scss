@@ -52,9 +52,11 @@
 ///------------------------------------------------------------------------
 ///		LINKS
 ///------------------------------------------------------------------------
-.link-primary,
-.link-primary:hover {
+.link-primary {
 	color:$secondary-color;
+	&:hover {
+		color:darken($secondary-color, 15%);
+	}
 }
 
 .link-text-primary {
