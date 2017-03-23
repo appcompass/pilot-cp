@@ -2,16 +2,75 @@
 /* == tingle Customization */
 /* ----------------------------------------------------------- */
 
-/*.tingle-modal__closeIcon,
+
+///------------------------------------------------------------------------
+///     OVERRIDES AND ADDITIONS
+///------------------------------------------------------------------------
+
+.tingle-modal__closeIcon,
 .tingle-modal__closeLabel {
     display:none;
 }
 
 .tingle-modal__close {
-    //@extend [class^="icon-"];
-    //@extend .icon-cancel;
+    @extend [class^="icon-"];
+    @extend .icon-cancel;
+    width: 2rem;
+    height: 2rem;
+    font-size: 2rem;
+    color:#fff;
 }
 
-.image-modal .tingle-modal-box .tingle-modal__close {
-    display:none;
-}*/
+.tingle-modal__close:hover {
+    color:$primary-red;
+}
+
+.tingle-modal--visible .tingle-modal-box {
+    border-radius:0;
+}
+
+.tingle-modal--overflow {
+    padding-bottom:20px;
+}
+
+///------------------------------------------------------------------------
+///     Media Model
+///------------------------------------------------------------------------
+
+.media-modal .tingle-modal-box {
+    width:auto;
+    margin-left:20px;
+    margin-right:20px;
+}
+
+.media-modal .tingle-modal-box__content {
+    padding:0;
+}
+
+.media-modal-content {
+    padding:20px 20px 0;
+}
+
+.media-modal-image {
+    text-align:center;
+}
+
+.media-modal-info,
+.media-modal-actions {
+    margin-bottom:20px;
+}
+
+.media-modal-info {
+   @extend .media-card-info;
+   font-size:em(16px); 
+}
+
+.media-modal-actions {
+    @extend .clearfix;
+    border-top:1px solid $border-color;
+    padding-top:20px;
+}
+
+.media-modal-actions a {
+    margin-right:20px;
+}
