@@ -30,10 +30,12 @@ export default {
       this.disk = disk
     })
 
+    this.api = '/api' + this.$route.fullPath.split('_').join('/')
+
     let vm = this
 
     this.dropzone = new Dropzone(this.$el, {
-      url: '/api' + vm.navigation.current_url,
+      url: vm.api,
       autoProcessQueue: true,
       addRemoveLinks: false,
       parallelUploads: 10,

@@ -15,23 +15,16 @@ function findObject (title, haystack, res) {
 export default {
   full: null,
   left_nav: null,
-  current_url: null,
+  api_url: null,
   init () {
     return Vue.axios.get('/api/content/menus')
       .then(response => {
         this.full = response.data.main_nav
       })
   },
-  setCurrent (params) {
-    this.current_url = ''
-    if (params.model) {
-      this.current_url += '/' + params.model.split('_').join('/')
-    }
-    if (params.id) {
-      this.current_url += '/' + params.id
-    }
-    if (params.sub) {
-      this.current_url += '/' + params.sub
+  setApiUrl (url) {
+    if (url) {
+      this.api_url = '/api' + url
     }
   },
   get (route) {
