@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   div#app.site
     SiteHeader
     div.content-container
@@ -23,8 +23,8 @@ export default {
   name: 'Main',
   data () {
     return {
-      model: undefined,
-      route: undefined
+      // model: undefined,
+      // route: undefined
     }
   },
   components: {
@@ -50,11 +50,12 @@ export default {
         }
         return response
       })
-
-      if (this.$route.params.model) {
-        this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-        this.route = this.model.split('/')[this.model.split('/').length - 2]
-      }
+      // this.model = this.$route.fullPath
+      // this.route = this.$route.fullPath.split('/')
+      // if (this.$route.params.model) {
+      //   this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
+      //   this.route = this.model.split('/')[this.model.split('/').length - 2]
+      // }
     }
   }
 }

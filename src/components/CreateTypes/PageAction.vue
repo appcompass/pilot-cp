@@ -2,7 +2,7 @@
   div.row
     div.xsmall-12.columns.text-right
       p
-        router-link.btn-primary(:to="{name: 'create', params: {model: model}}") Add New
+        router-link.btn-primary(:to="$parent.formatLink('create')") Add New
 </template>
 
 <script>

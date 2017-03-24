@@ -1,5 +1,6 @@
 /* global localStorage: false */
-import Vue, {router} from '../main.js'
+import Vue from '../main'
+import router from '../router'
 import NavigationState from './States/Navigation'
 
 class Abilities {

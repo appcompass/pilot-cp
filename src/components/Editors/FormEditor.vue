@@ -6,13 +6,13 @@
       )
         .hero-body
           .container
-            h1.title Missing List View Form
+            h1.title Missing Form Editor View Form
             h2.subtitle List Form not provided, please provide one.
       div.xsmall-9.medium-7.large-5.columns(
         v-else
       )
         //- @TODO: this should display the record type and ID or something specific to this record.
-        h1.title.is-4 Edit: {{ $route.params.model.split('_').pop() }}
+        h1.title.is-4 Edit: {{ this.$route.fullPath.slice(0,-1).split('/').pop() }}
         FormBuilder(:form="form", @set="set")
 </template>
 
@@ -36,7 +36,7 @@ export default {
     }
   },
   created () {
-    this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
+    this.model = this.$route.fullPath
   },
   methods: {
     set (data) {

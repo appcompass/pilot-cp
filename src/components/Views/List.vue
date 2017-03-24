@@ -10,6 +10,7 @@
                 strong  ResourceBuilder,
                 |  please provide one.
     div.xsmall-12.columns(v-else)
+      Breadcrumbs
       div.page-header
         div.row
           div.xsmall-8.columns
@@ -70,7 +71,7 @@
           section.content.has-text-centered
             p.notification.is-info.title.is-5 Loading...
       section(
-        v-if="list_layout + 'List'",
+        v-if="list_layout && list_layout + 'List'",
         :is="list_layout + 'List'",
         :sorters="sorters",
         :loading="loading",
@@ -84,17 +85,18 @@
 <script>
 import swal from 'sweetalert'
 import _ from 'lodash'
-import Pagination from './Pagination'
-import TableList from './LayoutTypes/TableList'
-import MultiSelectList from './LayoutTypes/MultiSelectList'
-import CardList from './LayoutTypes/CardList'
-import Auth from './Auth.js'
-import NavigationState from './States/Navigation'
-import * as CreateTypes from './CreateTypes'
+import Pagination from './../Pagination'
+import TableList from './../LayoutTypes/TableList'
+import MultiSelectList from './../LayoutTypes/MultiSelectList'
+import CardList from './../LayoutTypes/CardList'
+import Auth from './../Auth.js'
+import NavigationState from './../States/Navigation'
+import Breadcrumbs from './../Frame/Breadcrumbs'
+import * as CreateTypes from './../CreateTypes'
 
 export default {
   name: 'ListView',
-  components: { Pagination, TableList, MultiSelectList, CardList },
+  components: {Breadcrumbs, Pagination, TableList, MultiSelectList, CardList},
   data () {
     return {
       edit: [],
@@ -206,6 +208,15 @@ export default {
             swal('Error!', response.data.message, 'error')
           })
       })
+    },
+    formatLink (type, params) {
+      let obj = {
+        name: this.$route.name.replace(/\.[^/.]+$/, type ? '.' + type : '')
+      }
+      if (params) {
+        obj['params'] = params
+      }
+      return obj
     },
     toggleEdit (field) {
       if (this.edit.indexOf(field.id) > -1) {

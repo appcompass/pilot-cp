@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import auth from './Auth.js'
+import auth from './../Auth.js'
 
 export default {
-  name: 'Login',
+  name: 'LoginView',
   data () {
     return {
       email: null,
