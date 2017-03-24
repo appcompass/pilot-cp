@@ -6,8 +6,12 @@
       Notifications
       div.main-container
         main.main
-          transition(name="route", mode="out-in")
-            router-view
+          div.row
+            div.xsmall-12.columns
+              Breadcrumbs
+          div.row
+            transition(name="route", mode="out-in")
+              router-view
         SiteFooter
 </template>
 
@@ -17,6 +21,7 @@ import SiteHeader from './Frame/SiteHeader'
 import SiteFooter from './Frame/SiteFooter'
 import SideNavigation from './Frame/SideNavigation'
 import Notifications from './Frame/Notifications'
+import Breadcrumbs from './Frame/Breadcrumbs'
 import ModalComponent from './ModalComponent'
 
 export default {
@@ -32,6 +37,7 @@ export default {
     SiteFooter,
     SideNavigation,
     Notifications,
+    Breadcrumbs,
     ModalComponent
   },
   created () {

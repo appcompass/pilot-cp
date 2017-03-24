@@ -10,7 +10,6 @@
                 strong  ResourceBuilder,
                 |  please provide one.
     div.xsmall-12.columns(v-else)
-      Breadcrumbs
       div.page-header
         div.row
           div.xsmall-8.columns
@@ -91,12 +90,11 @@ import MultiSelectList from './../LayoutTypes/MultiSelectList'
 import CardList from './../LayoutTypes/CardList'
 import Auth from './../Auth.js'
 import NavigationState from './../States/Navigation'
-import Breadcrumbs from './../Frame/Breadcrumbs'
 import * as CreateTypes from './../CreateTypes'
 
 export default {
   name: 'ListView',
-  components: {Breadcrumbs, Pagination, TableList, MultiSelectList, CardList},
+  components: {Pagination, TableList, MultiSelectList, CardList},
   data () {
     return {
       edit: [],
@@ -209,13 +207,17 @@ export default {
           })
       })
     },
-    formatLink (type, params) {
+    formatLink (type, id) {
+      let basename = this.$route.name.replace(/\.[^/.]+$/, '')
+      let ext = type ? '.' + type : ''
       let obj = {
-        name: this.$route.name.replace(/\.[^/.]+$/, type ? '.' + type : '')
+        name: basename + ext,
+        params: this.$route.params
       }
-      if (params) {
-        obj['params'] = params
+      if (basename && id) {
+        obj['params'][basename] = id
       }
+      console.log(obj)
       return obj
     },
     toggleEdit (field) {

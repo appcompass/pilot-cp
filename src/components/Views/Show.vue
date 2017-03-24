@@ -1,7 +1,6 @@
 <template lang="pug">
   div.row
     div.xsmall-12.columns
-      Breadcrumbs
       div.page-header
         div.row
           div.xsmall-8.columns
@@ -9,7 +8,7 @@
               | {{ $route.params.sub || $route.params.model }}
           div.xsmall-4.columns.text-right
             p
-              router-link.btn-primary(v-if="can.has('create')", :to="formatLink('create')", style="margin-left: 1rem", ) Add New
+              //- router-link.btn-primary(v-if="can.has('create')", :to="formatLink('create')", style="margin-left: 1rem", ) Add New
       div.page-tabs(v-if="tabs && tabs.length")
         router-link.page-tab(
           v-for="(item, index) in tabs",
@@ -28,7 +27,6 @@
 import swal from 'sweetalert'
 
 import Auth from './../Auth'
-import Breadcrumbs from './../Frame/Breadcrumbs'
 import NavigationState from './../States/Navigation'
 import FormEditor from './../Editors/FormEditor'
 import MenuEditor from './../Editors/MenuEditor'
@@ -38,7 +36,7 @@ import Form from './../Helpers/Form'
 
 export default {
   name: 'ShowView',
-  components: {Breadcrumbs, FormEditor, MenuEditor, GalleryEditor, PageEditor},
+  components: {FormEditor, MenuEditor, GalleryEditor, PageEditor},
   data () {
     return {
       submitted: false,
@@ -79,10 +77,23 @@ export default {
     setTabs (route) {
       NavigationState.get(route)
         .then(subnav => {
-          for (let item of subnav) {
-            // @TODO: yeaaaa this sucks and doesn't work with deep nesting.
-            item.url = item.url.replace(':id', this.$route.params.id)
+          let pattern = /:([a-z]+)+/g
+          // let test = pattern.exec('/test/:tests/another/:thing/something/:else')
+          let match
+          while ((match = pattern.exec('/test/:tests/another/:thing/something/:else')) != null) {
+            console.log(match)
           }
+          // let test = '/test/:tests/another/:thing/something/:else'.match(/:([a-z]+)+/g)
+          let params = {
+            tests: 10,
+            thing: 20,
+            else: 30
+          }
+          console.log(match, params)
+          // for (let item of subnav) {
+          //   // console.log(item.url.match(/:[a-z]*\/$/g))
+          //   // item.url = item.url.replace(':id', this.$route.params.id)
+          // }
           this.tabs = subnav
         })
     },
