@@ -28,6 +28,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-arrow-back:before {
+  content: "\e918";
+}
 .icon-swap:before {
   content: "\e917";
 }
