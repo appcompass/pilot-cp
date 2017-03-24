@@ -1,11 +1,23 @@
 				</main><!-- main -->
 				<footer class="footer">
-					<div class="footer-company">
-						<p>Built with <span class="icon-heart"></span> by <a href="">Plus Three Interactive</a>.<br>
-						&copy; <a href="">Plus Three Interactive, LLC</a>. All Rights Reserved.</p>
-						<p class="footer-icons"><a href="" class="link-icon"><span class="icon-github"></span></a></p>
+					<div class="row">
+						<div class="xsmall-12 columns">
+							<div class="footer-company">
+								<div class="row">
+									<div class="xsmall-5 columns">
+										<p>Built with <span class="icon-heart"></span> by <a href="">Plus Three Interactive</a>.</p>
+									</div>
+									<div class="xsmall-2 columns text-center">
+										<p class="footer-icons"><a href="" class="link-icon"><span class="icon-github"></span></a></p>
+									</div>
+									<div class="xsmall-5 columns text-right">
+										<p>&copy; Plus Three Interactive, LLC. All Rights Reserved.</p>
+									</div>
+								</div>
+							</div>
+							<pre class="footer-reports">Footer Reports...</pre>
+						</div>
 					</div>
-					<pre class="footer-reports">Footer Reports...</pre><!-- footer-reports -->
 				</footer><!-- footer -->
 			</div><!-- main-container-->
 		</div><!-- content-container -->

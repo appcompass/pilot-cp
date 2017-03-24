@@ -7,12 +7,23 @@ import * as Views from './components/Views'
 
 Vue.use(Router)
 
-function cleanRoutes (obj) {
+function processRoutes (obj, lib) {
   _.each(obj, function (value, key) {
     if (_.isObject(value)) {
-      cleanRoutes(value)
+      processRoutes(value, lib)
     } else {
-      obj[key] = key === 'component' ? Views[value] : value
+      switch (key) {
+        case 'component':
+          if (Views[value]) {
+            obj[key] = Views[value]
+          }
+          break
+        case 'full_path':
+          if (obj['name']) {
+            lib[obj['name']] = value
+          }
+          break
+      }
     }
   })
 }
@@ -23,9 +34,11 @@ const router = new Router({
 
 export default router
 
-axios.get('/api/auth/routes')
+axios.get('/api/routes')
   .then((response) => {
     let routes = response.data.routes
-    cleanRoutes(routes)
+    let lib = {}
+    processRoutes(routes, lib)
+    // console.log(lib)
     router.addRoutes(routes)
   })
