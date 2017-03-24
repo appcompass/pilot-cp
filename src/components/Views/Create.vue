@@ -1,7 +1,7 @@
 <template lang="pug">
   div.row
     div.xsmall-12.columns
-
+      Breadcrumbs
       div.page-header(
         v-if="!inline"
       )
@@ -30,15 +30,16 @@
 <script>
 import swal from 'sweetalert'
 
-import * as Components from './Components'
-import FormBuilder from './FormBuilder'
-import Form from './Helpers/Form'
-import Navigation from './States/Navigation'
+import * as Components from './../Components'
+import FormBuilder from './../FormBuilder'
+import Form from './../Helpers/Form'
+import Navigation from './../States/Navigation'
+import Breadcrumbs from './../Frame/Breadcrumbs'
 
 export default {
   name: 'CreateView',
   props: ['inline'],
-  components: { FormBuilder },
+  components: {Breadcrumbs, FormBuilder},
   data () {
     return {
       Components,
@@ -69,7 +70,7 @@ export default {
         .then((response) => {
           swal({title: 'Success', text: response.data.message, type: 'success'
           }, () => {
-            this.$router.push({name: 'edit', params: { model: this.model, id: response.data.model.id }})
+            this.$router.push({name: this.$route.name + '-id-edit', params: {id: response.data.model.id}})
           })
         }, error => {
           if (error.response.status === 422) {

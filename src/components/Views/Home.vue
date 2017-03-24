@@ -10,6 +10,6 @@ section.section
 
 <script>
   export default {
-    name: 'Home'
+    name: 'HomeView'
   }
 </script>

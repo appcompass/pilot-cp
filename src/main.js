@@ -1,22 +1,20 @@
 /* global localStorage: false */
 var Vue = require('vue')
-var VueRouter = require('vue-router')
-// var VueResource = require('vue-resource')
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import swal from 'sweetalert'
 import Auth from './components/Auth'
 
-import routes from './routes'
+// import routes from './routes'
+import router from './router'
+
 import App from './App'
 
 import './assets/sass/main.sass'
 import '../templates/assets/sass/app.scss'
 import moment from 'moment'
 
-Vue.use(VueRouter)
-// Vue.use(VueResource)
 Vue.use(VueAxios, axios)
 
 // Vue.axios.defaults.baseURL = process.env.API_SERVER
@@ -69,11 +67,6 @@ Vue.directive('moment-ago', {
 })
 
 export default Vue
-
-export var router = new VueRouter({
-  mode: 'history',
-  routes
-})
 
 /* eslint-disable no-new */
 new Vue({

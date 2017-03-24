@@ -41,8 +41,8 @@ export default {
     }
   },
   mounted () {
-    NotificationsState.init()
     auth.check()
+    NotificationsState.init()
   }
 }
 </script>

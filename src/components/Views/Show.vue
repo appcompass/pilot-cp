@@ -1,7 +1,7 @@
 <template lang="pug">
   div.row
     div.xsmall-12.columns
-
+      Breadcrumbs
       div.page-header
         div.row
           div.xsmall-8.columns
@@ -9,49 +9,36 @@
               | {{ $route.params.sub || $route.params.model }}
           div.xsmall-4.columns.text-right
             p
-              router-link.btn-primary(v-if="can.has('create')", :to="{name: 'create', params: {model: model}}", style="margin-left: 1rem", ) Add New
+              router-link.btn-primary(v-if="can.has('create')", :to="formatLink('create')", style="margin-left: 1rem", ) Add New
       div.page-tabs(v-if="tabs && tabs.length")
         router-link.page-tab(
           v-for="(item, index) in tabs",
-          :to="{name: 'sub', params: {model: model.split('/')[model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}",
+          :to="item.url",
           :class="{'is-active': index == 0 && activeNav(item.url)}"
         ) {{ item.title }}
-
       //- @TODO: we need the sub views to render in the samve view here replacing the editor.
       div.tab-section.is-active(
       )
-        div(
-          v-if="!loading",
-          :is="form.form.editor + 'Editor'",
-          :form="form",
-          @refresh="refresh",
-          @set="set"
-        )
-        button.btn-primary(
-          :class="{'is-loading': loading}",
-          :disable="submitted",
-          @click.prevent="update"
-        ) Save
-
         transition(:name="route", mode="out-in")
-            router-view(name="sub")
+            router-view
 
 </template>
 
 <script>
 import swal from 'sweetalert'
 
-import Auth from './Auth'
-import NavigationState from './States/Navigation'
-import FormEditor from './Editors/FormEditor'
-import MenuEditor from './Editors/MenuEditor'
-import GalleryEditor from './Editors/GalleryEditor'
-import PageEditor from './Editors/PageEditor.vue'
-import Form from './Helpers/Form'
+import Auth from './../Auth'
+import Breadcrumbs from './../Frame/Breadcrumbs'
+import NavigationState from './../States/Navigation'
+import FormEditor from './../Editors/FormEditor'
+import MenuEditor from './../Editors/MenuEditor'
+import GalleryEditor from './../Editors/GalleryEditor'
+import PageEditor from './../Editors/PageEditor.vue'
+import Form from './../Helpers/Form'
 
 export default {
-  name: 'EditView',
-  components: { FormEditor, MenuEditor, GalleryEditor, PageEditor },
+  name: 'ShowView',
+  components: {Breadcrumbs, FormEditor, MenuEditor, GalleryEditor, PageEditor},
   data () {
     return {
       submitted: false,
@@ -74,20 +61,28 @@ export default {
   },
   methods: {
     routeChanged () {
-      this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-      this.route = this.model.split('/')[this.model.split('/').length - 2]
-      this.setTabs(this.route)
-      // this.api = this.navigation.api_url
-      this.api = '/api' + this.$route.fullPath.split('_').join('/')
-      // As of right now we can reach a single record edit from via /resource/id and /resource/id/edit
-      // this is to stip out the edit if it's present so we can use the current/same  url to update.
-      // @TODO: unify all edit views to use the /edit syntax, it's the appropriate resourceful aproach
-      // since create is /create and the rest are request methods on the parent resource.
-      this.refresh()
+      this.api = '/api' + this.$route.fullPath
+      // this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
+      // this.route = this.model.split('/')[this.model.split('/').length - 2]
+      this.setTabs(this.formatLink().name)
+    },
+    // @TODO: same exact method in Views/List.vue. There Can Be Only One.
+    formatLink (type, params) {
+      let obj = {
+        name: this.$route.name.replace(/\.[^/.]+$/, type ? '.' + type : '')
+      }
+      if (params) {
+        obj['params'] = params
+      }
+      return obj
     },
     setTabs (route) {
       NavigationState.get(route)
         .then(subnav => {
+          for (let item of subnav) {
+            // @TODO: yeaaaa this sucks and doesn't work with deep nesting.
+            item.url = item.url.replace(':id', this.$route.params.id)
+          }
           this.tabs = subnav
         })
     },
