@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div
   .columns
     .column.is-full

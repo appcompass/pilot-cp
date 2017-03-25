@@ -1,4 +1,4 @@
-import Vue from '../main.js'
+import Vue from '../../main.js'
 
 function findObject (title, haystack, res) {
   for (let i = 0; i < haystack.length; i++) {
@@ -14,11 +14,20 @@ function findObject (title, haystack, res) {
 
 export default {
   full: null,
+  user: null,
+  left: null,
+  api_url: null,
   init () {
     return Vue.axios.get('/api/content/menus')
       .then(response => {
         this.full = response.data.main_nav
+        this.user = response.data.user_nav
       })
+  },
+  setApiUrl (url) {
+    if (url) {
+      this.api_url = '/api' + url
+    }
   },
   get (route) {
     if (this.full === null) {
@@ -39,6 +48,15 @@ export default {
         return resolve(this.full)
       }
     })
+  },
+  setEditTabs (route, model) {
+    this.get(route)
+      .then(subnav => {
+        this.left = {
+          nav: subnav,
+          model: model
+        }
+      })
   },
   clear () {
     this.full = null

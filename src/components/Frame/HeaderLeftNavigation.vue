@@ -1,0 +1,28 @@
+<template lang="pug">
+  ul.header-nav.header-nav-primary
+    li(v-for="cat in navigation.full")
+      router-link(:to="cat.url" exact, v-if="cat.url") {{ cat.title }}
+      a(v-else) {{ cat.title }}
+      ul(v-if="cat.children")
+        li(v-for="item in cat.children")
+          router-link(:to="item.url") {{ item.title }}
+</template>
+
+<script>
+import NavigationState from './../States/Navigation'
+
+export default {
+  name: 'HeaderLeftNavigation',
+  data () {
+    return {
+      navigation: NavigationState
+    }
+  },
+  created () {
+  },
+  mounted () {
+  },
+  updated () {
+  }
+}
+</script>
