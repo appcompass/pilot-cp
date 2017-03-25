@@ -5,11 +5,11 @@ section.section
     .container
       .hero-body
         h1.title Welcome!
-        h2.subtitle This is the Bulma/Vue2 stub of P3 CMS
+        h2.subtitle This is the Pilot-io CMS!
 </template>
 
 <script>
   export default {
-    name: 'Home'
+    name: 'HomeView'
   }
 </script>

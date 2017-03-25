@@ -1,9 +1,7 @@
 <template lang="jade">
 p.control
   Dropzone(
-    :url="$route.fullPath + '/photos/'",
-    @input='set',
-    @disk="disk"
+    @input="set"
   )
 </template>
 
@@ -13,14 +11,26 @@ import Dropzone from '../Dropzone'
 export default {
   name: 'Photo',
   components: { Dropzone },
-  props: ['pointer', 'data', 'label'],
+  props: ['pointer', 'data', 'label', 'config'],
+  data () {
+    return {
+      disk: null
+    }
+  },
+  created () {
+    // @TODO: make this work the right way.
+    this.$parent.$on('set', (data) => {
+      if (data.pointer === this.config.disk_field_name) {
+        this.$emit('disk', data.value)
+      }
+    })
+  },
+  mounted () {
+  },
   methods: {
     set (data) {
       data.pointer = this.pointer
       this.$emit('input', data)
-    },
-    disk (cb) {
-      this.$emit('disk', cb)
     }
   }
 }

@@ -4,3 +4,6 @@ dist/
 npm-debug.log
 yarn.lock
 config/proxy.js
+*.sublime-project
+*.sublime-workspace
+/templates/*codekit*

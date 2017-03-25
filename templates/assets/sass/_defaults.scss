@@ -63,8 +63,10 @@ th {
 	position:relative;
 }
 
-th input[type="checkbox"] {
+th input[type="checkbox"],
+td input[type="checkbox"] {
 	font-size:em(16px, 14px);
+	margin-bottom:0;
 }
 
 td {
