@@ -14,12 +14,14 @@ function findObject (title, haystack, res) {
 
 export default {
   full: null,
-  left_nav: null,
+  user: null,
+  left: null,
   api_url: null,
   init () {
     return Vue.axios.get('/api/content/menus')
       .then(response => {
         this.full = response.data.main_nav
+        this.user = response.data.user_nav
       })
   },
   setApiUrl (url) {
@@ -50,7 +52,7 @@ export default {
   setEditTabs (route, model) {
     this.get(route)
       .then(subnav => {
-        this.left_nav = {
+        this.left = {
           nav: subnav,
           model: model
         }

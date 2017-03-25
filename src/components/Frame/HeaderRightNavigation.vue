@@ -10,8 +10,8 @@
         span.header-profile
           img(:src="auth.user.profile.gravatar_url", width="40px", height="40px")
       ul
-        li
-          router-link(to="") Profile
+        li(v-for="cat in navigation.user")
+          router-link(:to="cat.url" exact, v-if="cat.url") {{ cat.title }}
         li
           a(@click="auth.logout()") Logout
     li
@@ -25,14 +25,16 @@
 
 <script>
 import auth from './../Auth.js'
+import NavigationState from './../States/Navigation'
 import NotificationsState from './../States/Notifications.js'
 
 export default {
   name: 'HeadeRightNavigation',
   data () {
     return {
-      notifications: NotificationsState,
-      auth: auth
+      auth: auth,
+      navigation: NavigationState,
+      notifications: NotificationsState
     }
   },
   methods: {
@@ -41,8 +43,8 @@ export default {
     }
   },
   mounted () {
-    NotificationsState.init()
     auth.check()
+    NotificationsState.init()
   }
 }
 </script>
