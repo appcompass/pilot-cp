@@ -5,7 +5,7 @@
       //- @TODO: fix, repetative inside the link.
       router-link.media-card-thumb(
         v-if="card.abilities.includes('edit')",
-        :to="$parent.formatLink('show', {id: card.id})"
+        :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(card.id)}"
       )
         span.thumb-container
           span.thumb-center

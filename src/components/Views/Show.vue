@@ -33,9 +33,11 @@ import MenuEditor from './../Editors/MenuEditor'
 import GalleryEditor from './../Editors/GalleryEditor'
 import PageEditor from './../Editors/PageEditor.vue'
 import Form from './../Helpers/Form'
+import RouteHandling from './../Mixins/RouteHandling'
 
 export default {
   name: 'ShowView',
+  mixins: [RouteHandling],
   components: {FormEditor, MenuEditor, GalleryEditor, PageEditor},
   data () {
     return {
@@ -64,7 +66,6 @@ export default {
       // this.route = this.model.split('/')[this.model.split('/').length - 2]
       this.setTabs(this.formatLink().name)
     },
-    // @TODO: same exact method in Views/List.vue. There Can Be Only One.
     formatLink (type, params) {
       let obj = {
         name: this.$route.name.replace(/\.[^/.]+$/, type ? '.' + type : '')
@@ -75,25 +76,11 @@ export default {
       return obj
     },
     setTabs (route) {
-      NavigationState.get(route)
+      NavigationState.get(route.split('.')[0])
         .then(subnav => {
-          let pattern = /:([a-z]+)+/g
-          // let test = pattern.exec('/test/:tests/another/:thing/something/:else')
-          let match
-          while ((match = pattern.exec('/test/:tests/another/:thing/something/:else')) != null) {
-            console.log(match)
+          for (let item of subnav) {
+            item.url = this.buildLink(item.url)
           }
-          // let test = '/test/:tests/another/:thing/something/:else'.match(/:([a-z]+)+/g)
-          let params = {
-            tests: 10,
-            thing: 20,
-            else: 30
-          }
-          console.log(match, params)
-          // for (let item of subnav) {
-          //   // console.log(item.url.match(/:[a-z]*\/$/g))
-          //   // item.url = item.url.replace(':id', this.$route.params.id)
-          // }
           this.tabs = subnav
         })
     },

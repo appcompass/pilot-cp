@@ -1,18 +1,18 @@
-<template lang="jade">
-section
-  ul.columns.is-multiline
-    li.column.is-4(v-for="item in collection.data.data")
-      .control.is-info
-        label.checkbox
-          input(type="checkbox", v-bind:checked="has(item.id)", @click="toggle(item.id)")
-          //- |  {{ item.label.charAt(0).toUpperCase() + item.label.slice(1) }}
-          |  {{ item.name || item.label }}
+<template lang="pug">
+  section
+    ul.columns.is-multiline
+      li.column.is-4(v-for="(item, index) in collection")
+        .control.is-info
+          label.checkbox
+            input(type="checkbox", v-bind:checked="has(item.id)", @click="toggle(item.id)")
+            //- |  {{ item.label.charAt(0).toUpperCase() + item.label.slice(1) }}
+            |  {{ item.name || item.label }}
 </template>
 
 <script>
 export default {
   name: 'MultiSelectList',
-  props: [ 'forms', 'collection' ],
+  props: ['forms', 'collection', 'owned'],
   data () {
     return {
       endpoint: undefined
@@ -22,21 +22,21 @@ export default {
   },
   methods: {
     has (id) {
-      if (!this.collection.owned) {
-        return
+      if (!this.owned) {
+        return false
       }
-      return this.collection.owned.indexOf(id) > -1
+      return this.owned.indexOf(id) > -1
     },
     toggle (id) {
-      if (!this.has(id)) {
-        this.collection.owned.push(id)
+      if (this.has(id)) {
+        this.owned.splice(this.owned.indexOf(id), 1)
       } else {
-        this.collection.owned.splice(this.collection.owned.indexOf(id), 1)
+        this.owned.push(id)
       }
       return this.update()
     },
     update () {
-      this.$http.post('/api/' + this.$route.path, this.collection.owned)
+      this.$http.post('/api/' + this.$route.path, this.owned)
         .then(function (response) {
           console.log(response)
         })

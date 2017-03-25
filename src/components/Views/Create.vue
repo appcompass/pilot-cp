@@ -35,10 +35,12 @@ import FormBuilder from './../FormBuilder'
 import Form from './../Helpers/Form'
 import Navigation from './../States/Navigation'
 import Breadcrumbs from './../Frame/Breadcrumbs'
+import RouteHandling from './../Mixins/RouteHandling'
 
 export default {
   name: 'CreateView',
   props: ['inline'],
+  mixins: [RouteHandling],
   components: {Breadcrumbs, FormBuilder},
   data () {
     return {

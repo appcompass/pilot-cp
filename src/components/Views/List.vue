@@ -75,6 +75,7 @@
         :sorters="sorters",
         :loading="loading",
         :collection="collection",
+        :owned="owned",
         :model="model",
         :search="search",
         :forms="{form: form, edit: edit}"
@@ -91,9 +92,11 @@ import CardList from './../LayoutTypes/CardList'
 import Auth from './../Auth.js'
 import NavigationState from './../States/Navigation'
 import * as CreateTypes from './../CreateTypes'
+import RouteHandling from './../Mixins/RouteHandling'
 
 export default {
   name: 'ListView',
+  mixins: [RouteHandling],
   components: {Pagination, TableList, MultiSelectList, CardList},
   data () {
     return {
@@ -103,6 +106,8 @@ export default {
       view_types: [],
       create_type: undefined,
       update_type: undefined,
+      // @TODO: Owned is very specifict to a type of view. we need to clean up how the data is passed down to he view types.
+      owned: [],
       model: '',
       collection: {},
       search: {},
@@ -158,7 +163,7 @@ export default {
       this.update_type = null
     },
     update () {
-      this.navigation.left_nav = null
+      this.navigation.left = null
       this.loading = true
       this.model = this.$route.path.slice(1).split('/').join('_')
       this.$http.get('/api/' + this.$route.path.slice(1), {
@@ -174,13 +179,16 @@ export default {
             this.form = undefined
             return
           }
-          this.form = response.data.form
           this.pagination = _.omit(response.data.collection, ['data'])
-          this.collection = response.data.collection.data
           this.can.set(response.data.abilities)
-          this.view_types = response.data.view_types
-          this.create_type = response.data.create_type
-          this.update_type = response.data.update_type
+          this.collection = response.data.collection.data
+          Object.assign(this, _.omit(response.data, ['collection', 'abilities']))
+          // this.form = response.data.form
+          // this.owned = response.data.owned
+          // this.parameters = response.data.parameters
+          // this.view_types = response.data.view_types
+          // this.create_type = response.data.create_type
+          // this.update_type = response.data.update_type
           // default view on load is always the first.
           if (!this.list_layout) {
             this.list_layout = this.view_types[0]
@@ -206,19 +214,6 @@ export default {
             swal('Error!', response.data.message, 'error')
           })
       })
-    },
-    formatLink (type, id) {
-      let basename = this.$route.name.replace(/\.[^/.]+$/, '')
-      let ext = type ? '.' + type : ''
-      let obj = {
-        name: basename + ext,
-        params: this.$route.params
-      }
-      if (basename && id) {
-        obj['params'][basename] = id
-      }
-      console.log(obj)
-      return obj
     },
     toggleEdit (field) {
       if (this.edit.indexOf(field.id) > -1) {

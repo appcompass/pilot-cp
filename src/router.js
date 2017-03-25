@@ -7,38 +7,33 @@ import * as Views from './components/Views'
 
 Vue.use(Router)
 
-function processRoutes (obj, lib) {
+function processRoutes (obj) {
   _.each(obj, function (value, key) {
     if (_.isObject(value)) {
-      processRoutes(value, lib)
+      processRoutes(value)
     } else {
-      switch (key) {
-        case 'component':
-          if (Views[value]) {
-            obj[key] = Views[value]
-          }
-          break
-        case 'full_path':
-          if (obj['name']) {
-            lib[obj['name']] = value
-          }
-          break
+      if (key === 'component') {
+        if (Views[value]) {
+          obj[key] = Views[value]
+        } else {
+          console.log('there is no view by the name of ' + value)
+        }
       }
     }
   })
 }
 
 const router = new Router({
-  mode: 'history'
+  mode: 'history',
+  routes: []
 })
-
-export default router
-
+// @TODO: we need to prevent any routing attempts until after the api request.
+// i.e. a loading screen on every initial hard load or something.
 axios.get('/api/routes')
   .then((response) => {
     let routes = response.data.routes
-    let lib = {}
-    processRoutes(routes, lib)
-    // console.log(lib)
+    processRoutes(routes)
     router.addRoutes(routes)
   })
+
+export default router
