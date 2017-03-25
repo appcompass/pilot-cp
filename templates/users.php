@@ -1,9 +1,14 @@
 <?php include('header.php'); ?>
 
-<main class="main">
 	<div class="row">
 		<div class="xsmall-12 columns">
-			
+			<nav class="breadcrumbs">
+				<ul>
+					<li><a href="index.php">Dashboard</a></li>
+					<li><a href="index.php">Users</a></li>
+					<li><span>Michael<span></li>
+				</ul>
+			</nav>
 			<div class="page-header">
 				<div class="row">
 					<div class="xsmall-8 columns">
@@ -120,6 +125,5 @@
 
 		</div>
 	</div>
-</main>
 
 <?php include('footer.php'); ?>	
