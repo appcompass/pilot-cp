@@ -1,5 +1,6 @@
 /* global localStorage: false */
-import Vue, {router} from '../main.js'
+import Vue from '../main'
+import router from '../router'
 import NavigationState from './States/Navigation'
 
 class Abilities {
@@ -79,12 +80,8 @@ export default {
       name: 'login'
     })
   },
-  register (context, name, email, password) {
-    let payload = {
-      name: name,
-      email: email,
-      password: password
-    }
+  register (context, form) {
+    let payload = form
     Vue.axios.post('/api/auth/register', payload)
       .then(response => {
         context.success = true
@@ -92,5 +89,11 @@ export default {
         context.response = error.response.data
         context.error = true
       })
+  },
+  requestReset (context, email) {
+
+  },
+  resetPassword (context, email) {
+
   }
 }
