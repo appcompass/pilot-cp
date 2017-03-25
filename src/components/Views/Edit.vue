@@ -21,9 +21,11 @@ import swal from 'sweetalert'
 import Auth from './../Auth'
 import * as Editors from './../Editors'
 import Form from './../Helpers/Form'
+import RouteHandling from './../Mixins/RouteHandling'
 
 export default {
   name: 'EditView',
+  mixins: [RouteHandling],
   components: {
   },
   data () {

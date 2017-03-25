@@ -1,17 +1,22 @@
-<template lang="jade">
-.columns
-  .column.is-half.is-offset-one-quarter
-    p.is-danger(v-if="error") Login Error, fucko!
-    p.control.has-icon
-      input.input(type="email", placeholder="Email", v-model="email", @keydown="error = false", @keyup.enter="login")
-      span.icon.is-small
-        i.fa.fa-envelope
-    p.control.has-icon
-      input.input(type="password", placeholder="Password", v-model="password", @keyup.enter="login", @keydown="error = false")
-      span.icon.is-small
-        i.fa.fa-lock
-    p.control
-      button.button.is-success(@click="login") Login
+<template lang="pug">
+  div
+    .logout-box
+      form
+        label(for='') Email Address
+        input(type="email", placeholder="Email", v-model="email", @keydown="error = false", @keyup.enter="login")
+        label(for='') Password
+        input(type="password", placeholder="Password", v-model="password", @keyup.enter="login", @keydown="error = false")
+        .align-space-between
+          button.btn-primary(@click.prevent="login") Log In
+          router-link.link-text-tertiary(
+            :to="{name: 'request-password-reset'}",
+          ) Reset Password
+
+    router-link.link-text-tertiary.link-icon(
+      :to="{name: 'register'}",
+    )
+      span.icon-user
+      |  Resgister User
 </template>
 
 <script>

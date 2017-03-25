@@ -42,21 +42,21 @@
               //- @TODO: this whole if/else flow is a bit ugly
               router-link.table-user-avatar(
                 v-if="row.card_photo && row.abilities.includes('edit')",
-                :to="$parent.formatLink('show', row.id)",
+                :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
               )
                 img(:src="row.card_photo", width="32", height="32")
               a.table-user-avatar(v-else if="row.card_photo")
                 img(:src="row.card_photo", width="32", height="32")
               router-link(
                 v-if="row.abilities.includes('edit')",
-                :to="$parent.formatLink('show', row.id)",
+                :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
                 v-html="value(field.name, row)"
               )
               a(v-else, v-html="value(field.name, row)")
               div.table-row-actions
                 router-link.link-primary(
                   v-if="row.abilities.includes('edit')",
-                  :to="$parent.formatLink('show', row.id)",
+                  :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
                 ) Edit
                 = " | "
                 //- @TODO: add delete ability permissions to resources on API.

@@ -1,68 +1,46 @@
 <template lang="pug">
-  div#app.site
-    SiteHeader
-    div.content-container
-      SideNavigation
-      Notifications
-      div.main-container
-        main.main
-          div.row
-            div.xsmall-12.columns
-              Breadcrumbs
-          div.row
-            transition(name="route", mode="out-in")
-              router-view
-        SiteFooter
+  div#app
+    Private(v-if="auth.user.authenticated")
+    Public(v-else)
 </template>
 
 <script>
-import NavigationState from './States/Navigation'
-import SiteHeader from './Frame/SiteHeader'
-import SiteFooter from './Frame/SiteFooter'
-import SideNavigation from './Frame/SideNavigation'
-import Notifications from './Frame/Notifications'
-import Breadcrumbs from './Frame/Breadcrumbs'
-import ModalComponent from './ModalComponent'
+import auth from './Auth.js'
+import Private from './Private'
+import Public from './Public'
 
 export default {
   name: 'Main',
   data () {
     return {
-      // model: undefined,
-      // route: undefined
+      auth: auth,
+      authorized: false
     }
   },
-  components: {
-    SiteHeader,
-    SiteFooter,
-    SideNavigation,
-    Notifications,
-    Breadcrumbs,
-    ModalComponent
-  },
+  components: {Private, Public},
   created () {
-    this.routeChanged()
+    auth.check()
+    // this.routeChanged()
   },
-  watch: {
-    '$route' (to, from) {
-      this.routeChanged()
+  mounted () {
+    if (auth.user.authenticated) {
+      this.authorized = true
     }
   },
+  // watch: {
+  //   '$route' (to, from) {
+  //     this.routeChanged()
+  //   }
+  // },
   methods: {
-    routeChanged () {
-      this.axios.interceptors.response.use(function (response) {
-        if (response.data.api_url) {
-          NavigationState.setApiUrl(response.data.api_url)
-        }
-        return response
-      })
-      // this.model = this.$route.fullPath
-      // this.route = this.$route.fullPath.split('/')
-      // if (this.$route.params.model) {
-      //   this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-      //   this.route = this.model.split('/')[this.model.split('/').length - 2]
-      // }
-    }
+    // routeChanged () {
+    //   this.axios.interceptors.response.use(function (response) {
+    //     if (response.data.api_url) {
+    //       NavigationState.setApiUrl(response.data.api_url)
+    //     }
+    //     return response
+    //   })
+    // }
   }
 }
 </script>

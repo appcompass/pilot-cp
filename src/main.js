@@ -86,8 +86,4 @@ new Vue({
         })
     }
   }
-
-  // mounted: function() {
-  //   // this.csrf()
-  // }
 })
