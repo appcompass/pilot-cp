@@ -1,5 +1,5 @@
 // import _ from 'lodash'
-import Form from './Helpers/Form'
+import Form from './Form'
 
 export default {
   active: false,

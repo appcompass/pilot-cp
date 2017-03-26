@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import auth from './Auth.js'
-import router from '../router'
+import auth from './../../States/Auth.js'
+import router from './../../router'
 
 export default {
   name: 'Public',

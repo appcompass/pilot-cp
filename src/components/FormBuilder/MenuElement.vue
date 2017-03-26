@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import Sortable from '../VueSortable'
-import Modal from '../Modal'
+import Sortable from './../../Helpers/VueSortable'
+import Modal from '../../Helpers/Modal'
 // import swal from 'sweetalert'
 
 export default {

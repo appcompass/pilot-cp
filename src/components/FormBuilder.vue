@@ -40,7 +40,7 @@
 
 <script>
 import * as Components from './Components'
-import Sortable from './VueSortable'
+import Sortable from './../Helpers/VueSortable'
 
 export default {
   name: 'FormBuilder',

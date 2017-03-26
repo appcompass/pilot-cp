@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import auth from './../Auth.js'
-import NavigationState from './../States/Navigation'
-import NotificationsState from './../States/Notifications.js'
+import auth from './../../States/Auth'
+import NavigationState from './../../States/Navigation'
+import NotificationsState from './../../States/Notifications.js'
 
 export default {
   name: 'HeadeRightNavigation',

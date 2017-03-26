@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import auth from './../Auth.js'
+import auth from './../../States/Auth'
 
 export default {
   name: 'PasswordReset',

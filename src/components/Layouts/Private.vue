@@ -16,13 +16,13 @@
 </template>
 
 <script>
-import NavigationState from './States/Navigation'
-import SiteHeader from './Frame/SiteHeader'
-import SiteFooter from './Frame/SiteFooter'
-import SideNavigation from './Frame/SideNavigation'
-import Notifications from './Frame/Notifications'
-import Breadcrumbs from './Frame/Breadcrumbs'
-import ModalComponent from './ModalComponent'
+import NavigationState from './../../States/Navigation'
+import SiteHeader from './../Global/SiteHeader'
+import SiteFooter from './../Global/SiteFooter'
+import SideNavigation from './../Global/SideNavigation'
+import Notifications from './../Global/Notifications'
+import Breadcrumbs from './../Global/Breadcrumbs'
+import ModalComponent from './../Global/ModalComponent'
 
 export default {
   name: 'Private',

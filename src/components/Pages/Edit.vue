@@ -18,10 +18,10 @@ div
 <script>
 import swal from 'sweetalert'
 
-import Auth from './../Auth'
+import Auth from './../../States/Auth'
 import * as Editors from './../Editors'
-import Form from './../Helpers/Form'
-import RouteHandling from './../Mixins/RouteHandling'
+import Form from './../../Helpers/Form'
+import RouteHandling from './../../Mixins/RouteHandling'
 
 export default {
   name: 'EditView',

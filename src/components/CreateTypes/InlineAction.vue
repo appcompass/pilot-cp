@@ -5,7 +5,7 @@
   </template>
 
 <script>
-import CreateView from './../Views/Create'
+import CreateView from './../Pages/Create'
 
 export default {
   name: 'InlineAction',

@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import Modal from './Modal'
-import * as Components from './Components'
-import FormBuilder from './FormBuilder'
+import Modal from './../../Helpers/Modal'
+import * as Components from './../Components'
+import FormBuilder from './../FormBuilder'
 
 export default {
   name: 'ModalComponent',

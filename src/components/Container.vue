@@ -6,7 +6,7 @@ div.element(v-else, @click="$emit('edit', container.id)")
 </template>
 
 <script>
-import Modal from './Modal'
+import Modal from './../Helpers/Modal'
 
 export default {
   name: 'Container',
@@ -23,26 +23,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass">
-.page-container
-  border: 1px solid #333
-  flex-grow: 1
-
-.flex
-  display: flex
-  flex-direction: column
-
-.element
-  flex-grow: 1
-  background: #ddd
-  padding: 1rem
-  min-height: 8rem
-  &:hover
-    cursor: pointer
-    background: #ada
-    color: #333
-
-.full
-  width: 100%
-</style>

@@ -1,4 +1,4 @@
-import Vue from '../../main.js'
+import Vue from './../main'
 
 function findObject (title, haystack, res) {
   for (let i = 0; i < haystack.length; i++) {
@@ -49,16 +49,10 @@ export default {
       }
     })
   },
-  setEditTabs (route, model) {
-    this.get(route)
-      .then(subnav => {
-        this.left = {
-          nav: subnav,
-          model: model
-        }
-      })
-  },
   clear () {
     this.full = null
+    this.user = null
+    this.left = null
+    this.api_url = null
   }
 }
