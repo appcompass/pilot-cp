@@ -73,12 +73,12 @@ export default {
       }
       return obj
     },
-    // @TODO: the tabs here are a bit wonky.  the state doesn't get changed consistently on resource swap.
     setTabs (route) {
       NavigationState.get(route.split('.')[0])
         .then(subnav => {
           for (let item of subnav) {
             item.url = this.buildLink(item.url)
+            // @TODO: the tabs here are a bit wonky.  the state doesn't get changed consistently on resource swap.
             console.log(item.url)
           }
           this.tabs = subnav
