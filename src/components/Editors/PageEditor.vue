@@ -15,7 +15,7 @@ div
 <script>
 import swal from 'sweetalert'
 import _ from 'lodash'
-import Form from '../Helpers/Form'
+import Form from '../../Helpers/Form'
 
 import Container from '../Container'
 import FormBuilder from '../FormBuilder'

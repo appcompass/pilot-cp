@@ -32,10 +32,10 @@ import swal from 'sweetalert'
 
 import * as Components from './../Components'
 import FormBuilder from './../FormBuilder'
-import Form from './../Helpers/Form'
-import Navigation from './../States/Navigation'
-import Breadcrumbs from './../Frame/Breadcrumbs'
-import RouteHandling from './../Mixins/RouteHandling'
+import Form from './../../Helpers/Form'
+import Navigation from './../../States/Navigation'
+import Breadcrumbs from './../Global/Breadcrumbs'
+import RouteHandling from './../../Mixins/RouteHandling'
 
 export default {
   name: 'CreateView',

@@ -85,14 +85,14 @@
 <script>
 import swal from 'sweetalert'
 import _ from 'lodash'
-import Pagination from './../Pagination'
-import TableList from './../LayoutTypes/TableList'
-import MultiSelectList from './../LayoutTypes/MultiSelectList'
-import CardList from './../LayoutTypes/CardList'
-import Auth from './../Auth.js'
-import NavigationState from './../States/Navigation'
+import Pagination from './../Global/Pagination'
+import TableList from './../ListTypes/TableList'
+import MultiSelectList from './../ListTypes/MultiSelectList'
+import CardList from './../ListTypes/CardList'
+import Auth from './../../States/Auth'
+import NavigationState from './../../States/Navigation'
 import * as CreateTypes from './../CreateTypes'
-import RouteHandling from './../Mixins/RouteHandling'
+import RouteHandling from './../../Mixins/RouteHandling'
 
 export default {
   name: 'ListView',

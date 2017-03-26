@@ -2,6 +2,9 @@ module.exports = {
   created: function () {
   },
   methods: {
+    activeNav (url) {
+      return url === this.$route.fullPath
+    },
     getRouteName (sub) {
       return this.$route.name.replace(/\.[^/.]+$/, sub ? '.' + sub : '')
     },

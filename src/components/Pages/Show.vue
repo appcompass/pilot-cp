@@ -13,7 +13,7 @@
         router-link.page-tab(
           v-for="(item, index) in tabs",
           :to="item.url",
-          :class="{'is-active': index == 0 && activeNav(item.url)}"
+          :class="{'is-active': activeNav(item.url)}"
         ) {{ item.title }}
       //- @TODO: we need the sub views to render in the samve view here replacing the editor.
       div.tab-section.is-active(
@@ -26,14 +26,14 @@
 <script>
 import swal from 'sweetalert'
 
-import Auth from './../Auth'
-import NavigationState from './../States/Navigation'
+import Auth from './../../States/Auth'
+import NavigationState from './../../States/Navigation'
 import FormEditor from './../Editors/FormEditor'
 import MenuEditor from './../Editors/MenuEditor'
 import GalleryEditor from './../Editors/GalleryEditor'
-import PageEditor from './../Editors/PageEditor.vue'
-import Form from './../Helpers/Form'
-import RouteHandling from './../Mixins/RouteHandling'
+import PageEditor from './../Editors/PageEditor'
+import Form from './../../Helpers/Form'
+import RouteHandling from './../../Mixins/RouteHandling'
 
 export default {
   name: 'ShowView',
@@ -43,7 +43,6 @@ export default {
     return {
       submitted: false,
       loading: true,
-      model: undefined,
       route: undefined,
       tabs: undefined,
       api: undefined,
@@ -62,8 +61,7 @@ export default {
   methods: {
     routeChanged () {
       this.api = '/api' + this.$route.fullPath
-      // this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-      // this.route = this.model.split('/')[this.model.split('/').length - 2]
+      this.tabs = undefined
       this.setTabs(this.formatLink().name)
     },
     formatLink (type, params) {
@@ -75,19 +73,16 @@ export default {
       }
       return obj
     },
+    // @TODO: the tabs here are a bit wonky.  the state doesn't get changed consistently on resource swap.
     setTabs (route) {
       NavigationState.get(route.split('.')[0])
         .then(subnav => {
           for (let item of subnav) {
             item.url = this.buildLink(item.url)
+            console.log(item.url)
           }
           this.tabs = subnav
         })
-    },
-    // @TODO: need to check the current nav item URL with the current route url to see where we are and highlight the correct one.
-    // this should prob get put into the NavigationState so it is checked and used for all navs.
-    activeNav (url) {
-      return true
     },
     set (data) {
       this.form.set(data)

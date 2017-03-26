@@ -4,7 +4,7 @@ var Vue = require('vue')
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import swal from 'sweetalert'
-import Auth from './components/Auth'
+import Auth from './States/Auth'
 
 // import routes from './routes'
 import router from './router'

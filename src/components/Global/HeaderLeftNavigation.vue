@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import NavigationState from './../States/Navigation'
+import NavigationState from './../../States/Navigation'
 
 export default {
   name: 'HeaderLeftNavigation',

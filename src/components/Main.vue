@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import auth from './Auth.js'
-import Private from './Private'
-import Public from './Public'
+import auth from './../States/Auth.js'
+import Private from './Layouts/Private'
+import Public from './Layouts/Public'
 
 export default {
   name: 'Main',

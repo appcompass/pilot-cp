@@ -8,7 +8,7 @@
 <script>
 import Dropzone from 'dropzone'
 import swal from 'sweetalert'
-import Navigation from './States/Navigation'
+import Navigation from './../States/Navigation'
 
 export default {
   name: 'Dropzone',

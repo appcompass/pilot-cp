@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import Sortable from '../VueSortable'
+import Sortable from './../../Helpers/VueSortable'
 import MenuElement from '../FormBuilder/MenuElement'
-import Modal from '../Modal'
+import Modal from './../../Helpers/Modal'
 import swal from 'sweetalert'
 import _ from 'lodash'
 

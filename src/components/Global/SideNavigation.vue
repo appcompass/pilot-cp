@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Navigation from './../States/Navigation'
+import Navigation from './../../States/Navigation'
 
 export default {
   name: 'SideNavigation',
