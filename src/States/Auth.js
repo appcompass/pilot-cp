@@ -35,17 +35,26 @@ export default {
       gravatar_url: null
     }
   },
-  check () {
+  check (cb) {
     if (localStorage.getItem('auth_token') !== null) {
       return Vue.axios.get('/api/auth/user')
         .then(response => {
           this.user.authenticated = true
           this.user.profile = response.data
           NavigationState.init()
+          if (cb) {
+            cb(this.user)
+          }
         }, response => {
+          if (cb) {
+            cb(false)
+          }
           router.push({ name: 'login' })
         })
     } else {
+      if (cb) {
+        cb(false)
+      }
       router.push({ name: 'login' })
     }
   },
@@ -62,7 +71,7 @@ export default {
         NavigationState.init()
 
         router.push({
-          name: 'dashboard'
+          name: 'home'
         })
       }, error => {
         context.response = error.response.data
