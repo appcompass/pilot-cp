@@ -74,3 +74,16 @@
 .media-modal-actions a {
     margin-right:20px;
 }
+
+///------------------------------------------------------------------------
+///     Lock Screen Modal
+///------------------------------------------------------------------------
+
+.lock-screen-modal .tingle-modal-box {
+    width:100%;
+    max-width:500px;
+}
+
+.lock-screen-modal .tingle-modal__close {
+    display:none;
+}
