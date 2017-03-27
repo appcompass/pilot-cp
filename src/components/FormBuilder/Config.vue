@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 ul
   h1.title.is6 {{ label }}
   table.table.is-narrow

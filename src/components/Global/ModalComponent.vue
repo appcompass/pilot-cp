@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   .modal(:class="{'is-active': modal.active}")
     .modal-background
     .modal-content
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Modal from './../../Helpers/Modal'
+import Modal from 'Helpers/Modal'
 import * as Components from './../Components'
 import FormBuilder from './../FormBuilder'
 

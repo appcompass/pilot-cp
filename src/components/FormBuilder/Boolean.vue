@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 input.checkbox(
   type="checkbox",
   v-bind:checked="data"

@@ -16,12 +16,11 @@ div
 </template>
 
 <script>
-import swal from 'sweetalert'
 
-import Auth from './../../States/Auth'
-import * as Editors from './../Editors'
-import Form from './../../Helpers/Form'
-import RouteHandling from './../../Mixins/RouteHandling'
+import Auth from 'States/Auth'
+import * as Editors from 'components/Editors'
+import Form from 'Helpers/Form'
+import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
   name: 'EditView',
@@ -66,14 +65,14 @@ export default {
       this.submitted = true
       this.$http.put(this.api, this.form.collection)
         .then((response) => {
-          swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
+          this.$swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
             this.refresh()
           })
         }, error => {
           if (error.response.status === 422) {
             this.form.fails(error.response.data)
           } else if (error.response.status !== 403) {
-            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
+            this.$swal({title: 'Error', text: error.response.data.errors, type: 'error'})
           }
         })
     },
@@ -91,7 +90,7 @@ export default {
           if (!Auth.user.authenticated) {
             return
           } else if (error.response.status !== 403) {
-            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
+            this.$swal({title: 'Error', text: error.response.data.errors, type: 'error'})
           }
         })
     }

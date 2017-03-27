@@ -1,12 +1,12 @@
-<template lang="jade">
+<template lang="pug">
 div.page-container(v-if="container.section.type === 'container'")
-  Container(v-if="container.children", v-for="sub in container.children", :container="sub", @edit="edit")
+  Container(v-if="container.children", v-for="(sub, index) in container.children", :key="index", :container="sub", @edit="edit")
 div.element(v-else, @click="$emit('edit', container.id)")
   a {{ container.section.name }}
 </template>
 
 <script>
-import Modal from './../Helpers/Modal'
+import Modal from 'Helpers/Modal'
 
 export default {
   name: 'Container',

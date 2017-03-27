@@ -14,6 +14,8 @@ module.exports = {
   'rules': {
     // allow paren-less arrow functions
     'arrow-parens': 0,
+    // allow padded-blocks, until I can figure out which plugin insists on adding them EOF...
+    'padded-blocks': 0,
     // allow async-await
     'generator-star-spacing': 0,
     // allow debugger during development

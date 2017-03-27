@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import NavigationState from './../../States/Navigation'
+import NavigationState from 'States/Navigation'
 import SiteHeader from './../Global/SiteHeader'
 import SiteFooter from './../Global/SiteFooter'
 import SideNavigation from './../Global/SideNavigation'

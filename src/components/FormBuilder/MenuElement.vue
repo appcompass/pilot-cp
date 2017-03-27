@@ -35,10 +35,9 @@
 </template>
 
 <script>
-import Sortable from './../../Helpers/VueSortable'
-import Modal from '../../Helpers/Modal'
-// import swal from 'sweetalert'
-
+import Sortable from 'Helpers/VueSortable'
+import Modal from 'Helpers/Modal'
+//
 export default {
   name: 'MenuElement',
   components: { Sortable },

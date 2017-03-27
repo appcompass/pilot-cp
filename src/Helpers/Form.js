@@ -2,7 +2,6 @@ import Errors from './Errors'
 import _ from 'lodash'
 
 class Form {
-
   constructor () {
     this.form = {}
     this.collection = {}
@@ -60,5 +59,4 @@ class Form {
   }
 
 }
-
 export default Form

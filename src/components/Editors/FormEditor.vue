@@ -1,14 +1,14 @@
 <template lang="pug">
   form
     div.row
-      div.xsmall-9.medium-7.large-5.columns(
+      div.xsmall-12.columns(
         v-if="!form.fields"
       )
         .hero-body
           .container
             h1.title Missing Form Editor View Form
             h2.subtitle List Form not provided, please provide one.
-      div.xsmall-9.medium-7.large-5.columns(
+      div.xsmall-12.columns(
         v-else
       )
         //- @TODO: this should display the record type and ID or something specific to this record.

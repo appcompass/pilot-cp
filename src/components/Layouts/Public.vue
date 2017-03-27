@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import auth from './../../States/Auth.js'
+import auth from 'States/Auth.js'
 import router from './../../router'
 
 export default {

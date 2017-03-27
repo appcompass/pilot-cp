@@ -77,9 +77,8 @@ div
 
 <script>
 import FormBuilder from './../FormBuilder'
-import Sortable from './../../Helpers/VueSortable'
+import Sortable from 'Helpers/VueSortable'
 import _ from 'lodash'
-import swal from 'sweetalert'
 import Pagination from './../Global/Pagination'
 
 export default {
@@ -146,7 +145,7 @@ export default {
           }
         }, (response) => {
           if (response.status !== 403) {
-            swal('Error', 'Error while deleting photo.', 'error')
+            this.$swal('Error', 'Error while deleting photo.', 'error')
           }
         })
     },

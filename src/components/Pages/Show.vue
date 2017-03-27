@@ -12,6 +12,7 @@
       div.page-tabs(v-if="tabs && tabs.length")
         router-link.page-tab(
           v-for="(item, index) in tabs",
+          :key="index",
           :to="item.url",
           :class="{'is-active': activeNav(item.url)}"
         ) {{ item.title }}
@@ -24,21 +25,16 @@
 </template>
 
 <script>
-import swal from 'sweetalert'
 
-import Auth from './../../States/Auth'
-import NavigationState from './../../States/Navigation'
-import FormEditor from './../Editors/FormEditor'
-import MenuEditor from './../Editors/MenuEditor'
-import GalleryEditor from './../Editors/GalleryEditor'
-import PageEditor from './../Editors/PageEditor'
-import Form from './../../Helpers/Form'
-import RouteHandling from './../../Mixins/RouteHandling'
+import Auth from 'States/Auth'
+import NavigationState from 'States/Navigation'
+import Form from 'Helpers/Form'
+import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
   name: 'ShowView',
   mixins: [RouteHandling],
-  components: {FormEditor, MenuEditor, GalleryEditor, PageEditor},
+  components: {},
   data () {
     return {
       submitted: false,
@@ -79,7 +75,7 @@ export default {
           for (let item of subnav) {
             item.url = this.buildLink(item.url)
             // @TODO: the tabs here are a bit wonky.  the state doesn't get changed consistently on resource swap.
-            console.log(item.url)
+            // console.log(item.url)
           }
           this.tabs = subnav
         })
@@ -91,14 +87,14 @@ export default {
       this.submitted = true
       this.$http.put(this.api, this.form.collection)
         .then((response) => {
-          swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
+          this.$swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
             this.refresh()
           })
         }, error => {
           if (error.response.status === 422) {
             this.form.fails(error.response.data)
           } else if (error.response.status !== 403) {
-            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
+            this.$swal({title: 'Error', text: error.response.data.errors, type: 'error'})
           }
         })
     },
@@ -116,7 +112,7 @@ export default {
           if (!Auth.user.authenticated) {
             return
           } else if (error.response.status !== 403) {
-            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
+            this.$swal({title: 'Error', text: error.response.data.errors, type: 'error'})
           }
         })
     }

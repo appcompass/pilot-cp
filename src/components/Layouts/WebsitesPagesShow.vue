@@ -4,13 +4,13 @@
     nav.page-builder-nav
       ul
         li.is-active
-          a(href='#sidebar-page-content') Content
+          a(href="#sidebar-page-content") Content
         li
-          a(href='#sidebar-page-layout') Layout
+          a(href="#sidebar-page-layout") Layout
         li
-          a(href='#sidebar-page-settings') Settings
+          a(href="#sidebar-page-settings") Settings
     .page-builder-save
-      a.page-builder-cancel(href='index.php') Cancel
+      a.page-builder-cancel(href="index.php") Cancel
       button.btn-primary Save
   .content-container
     #sidebar-page-content.sidebar.sidebar-page-content.is-active
@@ -21,54 +21,54 @@
             span.icon.icon-box-down
           .page-section-edit-content
             div
-              label(for='') Image
+              label(for="") Image
               .file-input
-                input#file(type='file')
-                label(for='file') Choose File
+                input#file(type="file")
+                label(for="file") Choose File
                 .file-input-value
                   span.file-input-image
                     span.file-input-remove.icon-cancel
-                    img(src='http://placehold.it/320x213', width='320', height='213')
+                    img(src="http://placehold.it/320x213", width="320", height="213")
             div
-              label(for='') Heading
-              input(type='text', value='Meet The Team')
+              label(for="") Heading
+              input(type="text", value="Meet The Team")
             div
-              label(for='') Heading
+              label(for="") Heading
               textarea
                 | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in pellentesque eros.
             div
-              label(for='') Button Text
-              input(type='text', value='Contact Us')
+              label(for="") Button Text
+              input(type="text", value="Contact Us")
             div
-              label(for='') Button Link
-              input(type='text', value='/contact-us')
+              label(for="") Button Link
+              input(type="text", value="/contact-us")
         .page-section-edit
           .page-section-edit-header
             | Banner
             span.icon.icon-box-down
           .page-section-edit-content
             div
-              label(for='') Image
+              label(for="") Image
               .file-input
-                input#file(type='file')
-                label(for='file') Choose File
+                input#file(type="file")
+                label(for="file") Choose File
                 .file-input-value
                   span.file-input-image
                     span.file-input-remove.icon-cancel
-                    img(src='http://placehold.it/320x213', width='320', height='213')
+                    img(src="http://placehold.it/320x213", width="320", height="213")
             div
-              label(for='') Heading
-              input(type='text', value='Meet The Team')
+              label(for="") Heading
+              input(type="text", value="Meet The Team")
             div
-              label(for='') Heading
+              label(for="") Heading
               textarea
                 | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in pellentesque eros.
             div
-              label(for='') Button Text
-              input(type='text', value='Contact Us')
+              label(for="") Button Text
+              input(type="text", value="Contact Us")
             div
-              label(for='') Button Link
-              input(type='text', value='/contact-us')
+              label(for="") Button Link
+              input(type="text", value="/contact-us")
     #sidebar-page-layout.sidebar.sidebar-page-layout
       .sidebar-page-layout-options
         .sidebar-page-layout-header
@@ -94,7 +94,7 @@
           form.sidebar-page-layout-search
             .search-input
               span.icon-search
-              input(type='search', placeholder='Search')
+              input(type="search", placeholder="Search")
         ul.sidebar-page-layout-list
           li
             .sidebar-page-section-item Banner
@@ -109,15 +109,15 @@
     #sidebar-page-settings.sidebar.sidebar-page-settings
       form.page-settings-edit
         div
-          label(for='') Page Title
-          input(type='text', value='Meet The Team')
+          label(for="") Page Title
+          input(type="text", value="Meet The Team")
         div
-          label(for='') Page Description
+          label(for="") Page Description
           textarea
             | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in pellentesque eros.
         div
-          label(for='') Keywords
-          input(type='text', value='Contact Us')
+          label(for="") Keywords
+          input(type="text", value="Contact Us")
     .main-container.main-container-page-builder
       main.main
         .row
@@ -125,7 +125,7 @@
             h2.page-builder-title About Us
         .page-builder.hide-layout-ui
           .page-layout-row
-            .page-layout-column(style='width:100%;')
+            .page-layout-column(style="width:100%;")
               .page-layout
                 .page-layout-header
                   | Full Width
@@ -133,7 +133,7 @@
                 .page-layout-content
                   .page-section Banner
           .page-layout-row
-            .page-layout-column(style='width:40%;')
+            .page-layout-column(style="width:40%;")
               .page-layout
                 .page-layout-header
                   | Four Columns
@@ -142,7 +142,7 @@
                   .page-section Recent News
                   .page-section Callout Box
                   .page-section Newsletter Sign Up
-            .page-layout-column(style='width:60%;')
+            .page-layout-column(style="width:60%;")
               .page-layout
                 .page-layout-header
                   | Eight Columns
@@ -150,21 +150,21 @@
                 .page-layout-content
                   .page-section Default Content
                   .page-layout-row
-                    .page-layout-column(style='width:33.333%;')
+                    .page-layout-column(style="width:33.333%;")
                       .page-layout
                         .page-layout-header
                           | Four Columns
                           span.icon.icon-box-down
                         .page-layout-content
                           .page-section Default Content
-                    .page-layout-column(style='width:33.333%;')
+                    .page-layout-column(style="width:33.333%;")
                       .page-layout
                         .page-layout-header
                           | Four Columns
                           span.icon.icon-box-down
                         .page-layout-content
                           .page-section Default Content
-                    .page-layout-column(style='width:33.333%;')
+                    .page-layout-column(style="width:33.333%;")
                       .page-layout
                         .page-layout-header
                           | Four Columns
@@ -172,28 +172,28 @@
                         .page-layout-content
                           .page-section Default Content
           .page-layout-row
-            .page-layout-column(style='width:25%;')
+            .page-layout-column(style="width:25%;")
               .page-layout
                 .page-layout-header
                   | Three Columns
                   span.icon.icon-box-down
                 .page-layout-content
                   .page-section Default Content
-            .page-layout-column(style='width:25%;')
+            .page-layout-column(style="width:25%;")
               .page-layout
                 .page-layout-header
                   | Three Columns
                   span.icon.icon-box-down
                 .page-layout-content
                   .page-section Default Content
-            .page-layout-column(style='width:25%;')
+            .page-layout-column(style="width:25%;")
               .page-layout
                 .page-layout-header
                   | Three Columns
                   span.icon.icon-box-down
                 .page-layout-content
                   .page-section Default Content
-            .page-layout-column(style='width:25%;')
+            .page-layout-column(style="width:25%;")
               .page-layout
                 .page-layout-header
                   | Three Columns

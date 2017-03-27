@@ -7,8 +7,7 @@
 
 <script>
 import Dropzone from 'dropzone'
-import swal from 'sweetalert'
-import Navigation from './../States/Navigation'
+import Navigation from 'States/Navigation'
 
 export default {
   name: 'Dropzone',
@@ -24,7 +23,7 @@ export default {
     this.$parent.$on('disk', (disk) => {
       console.log(disk)
       if (!disk) {
-        swal('Error', 'Disk instance not selected', 'error')
+        this.$swal('Error', 'Disk instance not selected', 'error')
         return
       }
       this.disk = disk
@@ -45,7 +44,7 @@ export default {
       addedfile () {
         if (!vm.disk) {
           this.removeAllFiles()
-          swal('Error', 'Disk instance not selected', 'error')
+          this.$swal('Error', 'Disk instance not selected', 'error')
         }
       },
       sending (something, xhr, formData) {
@@ -53,11 +52,11 @@ export default {
       },
       success (file, response) {
         vm.$emit('input', {pointer: null, value: response.model})
-        swal('Ok', 'Image(s) uploaded', 'success')
+        this.$swal('Ok', 'Image(s) uploaded', 'success')
         vm.dropzone.removeFile(file)
       },
       error (file, errorMessage, xhr) {
-        swal('Error', errorMessage.error || 'Failed while uploading the image(s)', 'error')
+        this.$swal('Error', errorMessage.error || 'Failed while uploading the image(s)', 'error')
       }
     })
   },

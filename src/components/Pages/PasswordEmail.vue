@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import auth from './../../States/Auth'
+import auth from 'States/Auth'
 
 export default {
   name: 'PasswordReset',
