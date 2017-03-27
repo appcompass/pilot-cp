@@ -1,7 +1,6 @@
 import _ from 'lodash'
 
 class Errors {
-
   constructor () {
     this.errors = Object.create({})
   }
@@ -26,6 +25,4 @@ class Errors {
     this.errors = Object.assign({}, this.errors)
   }
 }
-
 export default Errors
-

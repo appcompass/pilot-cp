@@ -1,10 +1,9 @@
 /* global localStorage: false */
-import Vue from '../main'
-import router from '../router'
-import NavigationState from './Navigation'
+import Vue from 'src/main'
+import router from 'src/router'
+import NavigationState from 'States/Navigation'
 
 class Abilities {
-
   constructor () {
     this.abilities = []
   }

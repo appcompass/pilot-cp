@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import auth from './../States/Auth.js'
+import auth from 'States/Auth.js'
 import * as Layouts from './Layouts'
 
 export default {

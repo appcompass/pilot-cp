@@ -83,16 +83,15 @@
       Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
 </template>
 <script>
-import swal from 'sweetalert'
 import _ from 'lodash'
 import Pagination from './../Global/Pagination'
 import TableList from './../ListTypes/TableList'
 import MultiSelectList from './../ListTypes/MultiSelectList'
 import CardList from './../ListTypes/CardList'
-import Auth from './../../States/Auth'
-import NavigationState from './../../States/Navigation'
+import Auth from 'States/Auth'
+import NavigationState from 'States/Navigation'
 import * as CreateTypes from './../CreateTypes'
-import RouteHandling from './../../Mixins/RouteHandling'
+import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
   name: 'ListView',
@@ -199,19 +198,19 @@ export default {
           if (!Auth.user.authenticated) {
             return
           }
-          // swal('Error!', response.data.errors, 'error')
+          // this.$swal('Error!', response.data.errors, 'error')
         })
     },
     remove (id) {
-      swal({ title: 'Are you sure?', text: 'You will not be able to recover this', type: 'warning', showCancelButton: true, closeOnConfirm: false }, () => {
+      this.$swal({ title: 'Are you sure?', text: 'You will not be able to recover this', type: 'warning', showCancelButton: true, closeOnConfirm: false }, () => {
         this.$http.delete('/api/' + this.$route.path.slice(1) + '/' + id)
           .then((response) => {
-            swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
+            this.$swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
               return this.update()
             })
           })
           .catch((response) => {
-            swal('Error!', response.data.message, 'error')
+            this.$swal('Error!', response.data.message, 'error')
           })
       })
     },

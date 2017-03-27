@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import auth from './../../States/Auth'
-import NotificationsState from './../../States/Notifications.js'
+import auth from 'States/Auth'
+import NotificationsState from 'States/Notifications.js'
 
 export default {
   name: 'Notifications',

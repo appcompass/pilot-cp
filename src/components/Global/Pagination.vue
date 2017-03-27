@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div.section.is-fullwidth(v-if="p.last_page")
   nav.pagination.is-centered
     a.pagination-previous(

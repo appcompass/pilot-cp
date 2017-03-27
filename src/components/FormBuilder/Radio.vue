@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div(v-if="data")
   p.control(v-for="(item, index) in source")
     input.radio(

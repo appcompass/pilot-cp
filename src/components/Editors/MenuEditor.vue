@@ -29,10 +29,9 @@
 </template>
 
 <script>
-import Sortable from './../../Helpers/VueSortable'
+import Sortable from 'Helpers/VueSortable'
 import MenuElement from '../FormBuilder/MenuElement'
-import Modal from './../../Helpers/Modal'
-import swal from 'sweetalert'
+import Modal from 'Helpers/Modal'
 import _ from 'lodash'
 
 export default {
@@ -77,7 +76,7 @@ export default {
     },
     deleteLink (link) {
       // deletes a Link
-      swal({
+      this.$swal({
         title: 'Are you sure?',
         text: 'This will eliminate every instance of this widget from the website',
         type: 'warning',
@@ -87,9 +86,9 @@ export default {
         this.$http.delete('/api/menus/links/' + link.id)
           .then(response => {
             this.form.collection.repo.links.splice(this.form.collection.repo.links.indexOf(link), 1)
-            swal({title: 'Deleted', type: 'success', timer: 500, showConfirmButton: false})
+            this.$swal({title: 'Deleted', type: 'success', timer: 500, showConfirmButton: false})
           }, response => {
-            swal({title: 'Error', text: 'Errors while deleting widget', type: 'error'})
+            this.$swal({title: 'Error', text: 'Errors while deleting widget', type: 'error'})
           })
       })
     }
