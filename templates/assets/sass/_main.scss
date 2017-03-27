@@ -262,7 +262,7 @@
 .nav-option-item {
 	background:$primary-bg-color;
 	border:1px solid $border-color;
-	margin-bottom:3px;
+	margin-bottom:4px;
 	border-radius:3px;
 	padding:7px 36px 7px 10px;
 	position:relative;
@@ -301,6 +301,14 @@
 
 .nav-options-trigger {
 	float:right;
+}
+
+.nav-options-search {
+	margin-bottom:4px;
+}
+
+.nav-options-search .search-input {
+	margin-bottom:0;
 }
 
 .nav-options-form {
