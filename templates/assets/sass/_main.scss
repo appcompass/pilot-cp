@@ -425,8 +425,23 @@
 	background:$primary-bg-color;
 }
 
-.media-cards {
+.view-container {
 	border-top:1px solid $border-color;
+}
+
+.view-container > .table-container:first-child table {
+	border-top:0;
+}
+
+.view-no-results {
+	font-weight:bold;
+	color:$primary-text-color;
+	padding:20px 0;
+}
+
+
+
+.media-cards {
 	padding-top:20px;
 	margin-bottom:20px;
 	display:flex;
