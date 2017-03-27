@@ -18,21 +18,39 @@ label {
 	margin-bottom:4px;
 }
 
+label .required {
+	color:$primary-red;
+}
+
+::-webkit-input-placeholder {
+	color:$form-secondary-text-color;
+}
+
+::-moz-placeholder {
+	color:$form-secondary-text-color;
+}
+
+:-ms-input-placeholder {
+	color:$form-secondary-text-color;
+}
+
 input[type="checkbox"] + label,
 input[type="radio"] + label {
 	display:inline-block;
 	margin-bottom:$form-input-margin-bottom;
 	vertical-align:middle;
-	margin-left:5px;
+	padding-left:5px;
 }
 
 input[type="text"],
 input[type="search"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"] {
 	font-family:$default-font;
 	border:1px solid $form-border-color;
-	outline:none;
 	height:40px;
 	color:$form-text-color;
 	-webkit-appearance: none; 
@@ -42,14 +60,27 @@ input[type="password"] {
 	border-radius:0;
 	margin-bottom:$form-input-margin-bottom;
 	padding-left:10px;
+	padding-right:10px;
 }
 
 input[type="checkbox"],
 input[type="radio"] {
-	//-webkit-appearance: none;
 	border:1px solid $form-border-color;
 	margin-bottom:$form-input-margin-bottom;
 	vertical-align:middle;
+}
+
+textarea {
+	font-family:$default-font;
+	border:1px solid $form-border-color;
+	color:$form-text-color;
+	-webkit-appearance: none; 
+	display:block; 
+	width: 100%;
+	border-radius:0;
+	margin-bottom:$form-input-margin-bottom;
+	padding:10px;
+	line-height:1.5;
 }
 
 select {
@@ -60,7 +91,6 @@ select {
 	border-radius:0;
 	background:#fff;
 	border:1px solid $form-border-color;
-	outline:none;
 	padding-left:10px;
 	padding-right:24px;
 	color:$form-text-color;
@@ -82,18 +112,6 @@ select {
 
 .select select {
 	margin-bottom:0;
-}
-
-::-webkit-input-placeholder {
-	color:$form-secondary-text-color;
-}
-
-::-moz-placeholder {
-	color:$form-secondary-text-color;
-}
-
-:-ms-input-placeholder {
-	color:$form-secondary-text-color;
 }
 
 .search-input {
@@ -133,20 +151,6 @@ button, input[type="submit"] {
 	height:$form-input-height;
 	cursor:pointer;
 	outline:none;
-}
-
-textarea {
-	font-family:$default-font;
-	border:1px solid $form-border-color;
-	outline:none;
-	color:$form-text-color;
-	-webkit-appearance: none; 
-	display:block; 
-	width: 100%;
-	border-radius:0;
-	margin-bottom:$form-input-margin-bottom;
-	padding:10px;
-	line-height:1.5;
 }
 
 .file-input {
@@ -206,177 +210,41 @@ textarea {
 	background-color:$primary-red;
 }
 
-
-/*form {
-	margin-bottom:30px;
+.checkbox-group,
+.radio-group,
+.checkbox-group-inline,
+.radio-group-inline {
+	@extend .list-reset;
+	margin:10px 0;
 }
 
-label {
-	display:block;
-	margin-bottom:4px;
+.checkbox-group-inline li,
+.radio-group-inline li {
+	display:inline-block;
+	margin-right:15px;
 }
 
-label .required {
-	color:$text-color;
+.checkbox-group,
+.radio-group,
+.checkbox-group-inline,
+.radio-group-inline {
+	input[type="checkbox"],
+	input[type="checkbox"] + label,
+	input[type="radio"],
+	input[type="radio"] + label {
+		margin-bottom:10px;
+	}
 }
 
-input[type="text"], 
-input[type="password"], 
-input[type="date"], 
-input[type="datetime"], 
-input[type="email"], 
-input[type="number"], 
-input[type="search"], 
-input[type="tel"], 
-input[type="time"], 
-input[type="url"], 
-textarea {
-	@extend %default-font;
-	-webkit-appearance: none; 
-	background-color: #fff; 
-	border:$input-border-width solid $input-border-color; 
-	color:$input-text-color; display:block; 
-	margin: 0 0 $input-margin-bottom 0; 
-	padding:em(10px); 
-	height: $input-height; 
-	width: 100%;
-	transition:all 0.15s linear; 
-	border-radius:0;
+.form-error {
+	font-size:em(14px);
+	color:$primary-red;
+	margin-top:-$form-input-margin-bottom;
+	margin-bottom:$form-input-margin-bottom;
 }
 
-input[type="text"]:focus, 
-input[type="password"]:focus, 
-input[type="date"]:focus, 
-input[type="datetime"]:focus, 
-input[type="email"]:focus, 
-input[type="number"]:focus, 
-input[type="search"]:focus, 
-input[type="tel"]:focus, 
-input[type="time"]:focus, 
-input[type="url"]:focus, 
-textarea:focus {
-	outline:none;
+input.error, 
+select.error,
+textarea.error {
+	border-color:$primary-red;
 }
-
-input[type="search"] {
-	box-sizing: border-box;
-}
-
-input[type="checkbox"], 
-input[type="radio"] {
-	margin:0 em(10px) 
-	$input-margin-bottom 0;
-}
-
-textarea {
-	height: auto; 
-	resize:none;
-}
-
-select {
-	width: 100%; 
-	margin-bottom:$input-margin-bottom;
-}
-
-::-webkit-input-placeholder {
-	color:$placeholder-color;
-}
-
-::-moz-placeholder {
-	color:$placeholder-color;
-}
-
-:-ms-input-placeholder {
-	color:$placeholder-color;
-}
-
-input[type="submit"], 
-button {
-	display:inline-block; 
-	background-color:$btn-color; 
-	border:none; 
-	color:#fff; 
-	height: $input-height; 
-	padding:0 em(20px); 
-	transition:all .15s ease;
-	cursor:pointer;
-	-webkit-appearance: none;
-    -webkit-border-radius: 0;
-}
-
-input[type="submit"]:hover, 
-button:hover {
-	background-color:$hover-color;
-}
-
-input[type="number"]::-webkit-inner-spin-button, 
-input[type="number"]::-webkit-outer-spin-button {
-	-webkit-appearance: none; 
-	margin: 0;
-}
-
-///------------------------------------------------------------------------
-///		ERRORS
-///------------------------------------------------------------------------
-
-form .error {
-	border-color:red!important;
-	border-width:2px!important;
-}
-
-///------------------------------------------------------------------------
-///		SELECT REPLACEMENT
-///------------------------------------------------------------------------
-
-.select {
-	position:relative; 
-	zoom:1; 
-	margin-bottom:$input-margin-bottom; 
-	overflow:hidden; 
-	white-space:nowrap;
-}
-
-.select select {
-	height: $input-height; 
-	position:absolute; 
-	left:0; 
-	top:0; 
-	margin:0; 
-	-webkit-appearance:none; 
-	-moz-appearance:none; 
-	z-index:2; 
-	opacity:0;
-}
-
-.select select + .place {
-	border:$input-border-width solid $input-border-color; 
-	color:$input-text-color; 
-	background:#fff; 
-	display:block; 
-	height:$input-height; 
-	padding:8px 30px 0 10px; 
-	text-align:left; 
-	position:relative; 
-	cursor:pointer;
-}
-
-.select select + .place:before {
-	content: ""; 
-	width:15px; 
-	height:15px;
-	font-size:15px;
-	line-height:15px; 
-	position:absolute; 
-	top:50%; 
-	right:20px; 
-	margin-top:-7px; 
-	//border-style:solid; 
-	//border-width:6px 4px 0 4px; 
-	//border-color:$input-border-color transparent transparent transparent;
-	font-family: 'icomoon';
-	content: "\e603";
-	color:$input-border-color;
-}
-
-*/
-

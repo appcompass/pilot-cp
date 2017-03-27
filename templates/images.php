@@ -68,7 +68,7 @@
 
 			<div class="view-container">
 				<div class="view-no-results">No Results Found</div>
-				<div class="view-loading"></div>
+				<div class="view-loading"><img src="assets/images/icons/loading.svg"></div>
 				<div class="media-cards">
 					<div class="media-card">
 						<a href="#" class="media-card-thumb">
