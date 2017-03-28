@@ -9,7 +9,9 @@
 				<div>
 					<label>Text <span class="required">*</span></label>
 					<input type="text" class="error">
-					<div class="form-error">This field is required</div>
+					<ul class="form-error">
+						<li>This field is required</li>
+					</ul>
 				</div>
 				<div>
 					<label>Password</label>

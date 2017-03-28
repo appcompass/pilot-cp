@@ -245,6 +245,7 @@ button, input[type="submit"] {
 }
 
 .form-error {
+	@extend .list-reset;
 	font-size:em(14px);
 	color:$primary-red;
 	margin-top:-$form-input-margin-bottom;
