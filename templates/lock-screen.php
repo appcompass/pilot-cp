@@ -2,13 +2,22 @@
 
 	<div style="height:2000px;">Testing Lock Screen.</div>
 
-	<div class="lock-screen-modal-container hide">
-		<h1>You've been Idle</h1>
-		<form>
-			<label for="">Enter your password</label>
-			<input type="password">
-			<button tpye="submit" class="btn-primary">Login</button>
-		</form>
+	<div class="lock-screen-modal-container hide">	
+		<div class="lock-screen-user">
+			<div class="user-avatar"><img src="assets/images/avatar_temp.png" width="50" height="50"></div>
+			<div class="lock-screen-username">john@example.com</div>
+		</div>
+		<div class="lock-screen-content">
+			<h1>You've been Idle</h1>
+			<form>
+				<label for="">Enter your password</label>
+				<input type="password">
+				<div class="align-space-between">
+					<button class="btn-primary" type="submit">Continue</button>
+					<a href="" class="link-text-tertiary">Go to Log In</a>
+				</div>
+			</form>
+		</div>
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.9.0/tingle.min.js"></script>

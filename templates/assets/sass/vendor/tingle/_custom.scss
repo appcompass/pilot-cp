@@ -82,6 +82,10 @@
     cursor:default;
 }
 
+.lock-screen-modal .tingle-modal-box__content {
+    padding:0;
+}
+
 .lock-screen-modal .tingle-modal-box {
     width:100%;
     max-width:500px;
@@ -89,4 +93,19 @@
 
 .lock-screen-modal .tingle-modal__close {
     display:none;
+}
+
+.lock-screen-user {
+    padding:10px 30px;
+    background-color:$primary-bg-color;
+}
+
+.lock-screen-username  {
+    display:inline-block;
+    vertical-align:middle;
+    margin-left:10px;
+}
+
+.lock-screen-content {
+    padding:20px 30px 30px;
 }
