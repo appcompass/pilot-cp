@@ -67,7 +67,7 @@
 
 			<div class="view-container">
 				<div class="table-container">
-					<table>
+					<table class="table-default">
 						<thead>
 							<tr>
 								<th><input type="checkbox" name="" value=""></th>
