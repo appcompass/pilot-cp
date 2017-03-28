@@ -13,7 +13,6 @@ $form-input-margin-bottom: 20px !default;
 ////////////////
 
 label {
-	//color:$secondary-text-color;
 	color:$form-text-color;
 	display:block;
 	margin-bottom:4px;
@@ -41,7 +40,7 @@ input[type="radio"] + label {
 	margin-bottom:$form-input-margin-bottom;
 	vertical-align:middle;
 	padding-left:5px;
-	color:$secondary-text-color;
+	color:$form-text-color;
 }
 
 input[type="text"],
@@ -244,6 +243,13 @@ button, input[type="submit"] {
 	}
 }
 
+.checkbox-group input[type="checkbox"] + label,
+.radio-group input[type="radio"] + label,
+.checkbox-group-inline input[type="checkbox"] + label,
+.radio-group-inline input[type="radio"] + label {
+	color:$secondary-text-color;
+}
+
 .form-error {
 	@extend .list-reset;
 	font-size:em(14px);
@@ -307,6 +313,67 @@ textarea.error {
 .repeatable-fieldset .cehckbox-group-inline {
 	margin-top:0;
 } 
+
+.fieldset {
+	border:1px solid $border-color;
+	margin-bottom:20px;
+}
+
+.fieldset-header {
+	background-color:$primary-bg-color;
+	padding:10px;
+	position:relative;
+}
+
+.fieldset.draggable .fieldset-header {
+	cursor:move;
+}
+
+.fieldset-heading {
+	text-transform:uppercase;
+	font-size:em(14px);
+	padding:4px 0;
+}
+
+.fieldset-header-actions {
+	position:absolute;
+	top:50%;
+	right:10px;
+	margin-top:-8px;
+	line-height:1px;
+}
+
+.fieldset-header-actions .icon {
+	margin-left:10px;
+	color:$tertiary-text-color;
+	cursor:pointer;
+	display:inline-block;
+	&:hover {
+		color:$secondary-color;
+	}
+}
+
+.fieldset-header-actions .icon-delete:hover {
+	color:$primary-red;
+}
+
+.fieldset-header-actions .icon-box-down {
+	position:relative;
+	transition:transform 0.15s ease;
+}
+
+.fieldset.is-closed .fieldset-header-actions .icon-box-down {
+	transform:rotate(180deg);
+}
+
+.fieldset-fields {
+	padding:20px 20px 0;
+	border-top:1px solid $border-color;
+}
+
+.fieldset.is-closed .fieldset-fields {
+	display:none;
+}
 
 .input-desc {
 	color:$secondary-text-color;
