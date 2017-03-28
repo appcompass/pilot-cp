@@ -14,7 +14,7 @@
 				<input type="password">
 				<div class="align-space-between">
 					<button class="btn-primary" type="submit">Continue</button>
-					<a href="" class="link-text-tertiary">Go to Log In</a>
+					<a href="#" class="link-text-tertiary">Go to Log In</a>
 				</div>
 			</form>
 		</div>
