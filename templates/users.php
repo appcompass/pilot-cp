@@ -123,6 +123,19 @@
 						</tbody>
 					</table>
 				</div><!-- table-container -->
+				<div class="pagination">
+					<ul>
+						<li class="prev is-disabled"><a href="#"><span class="icon-arrow-back"></span></a></li>
+						<li class="is-active"><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li>...</li>
+						<li><a href="#">23</a></li>
+						<li class="next"><a href="#">Next <span class="icon-arrow-forward"></span></a></li>
+					</ul>
+				</div><!--pagination -->
 			</div><!-- view-container-->
 		</div>
 	</div>
