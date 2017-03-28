@@ -212,6 +212,12 @@ button, input[type="submit"] {
 	background-color:$primary-red;
 }
 
+.checkbox-align-input input, 
+.checkbox-align-input label {
+	padding-top:8px;
+	padding-bottom:8px;
+}
+
 .checkbox-group,
 .radio-group,
 .checkbox-group-inline,
@@ -289,9 +295,16 @@ textarea.error {
 } 
 
 .repeatable-fieldset input[type="checkbox"],
-.repeatable-fieldset input[type="checkbox"] + label {
+.repeatable-fieldset input[type="checkbox"] + label,
+.repeatable-fieldset input[type="radio"],
+.repeatable-fieldset input[type="radio"] + label {
 	margin-top:8px;
 	margin-bottom:8px;
+} 
+
+.repeatable-fieldset .radio-group-inline,
+.repeatable-fieldset .cehckbox-group-inline {
+	margin-top:0;
 } 
 
 .input-desc {
@@ -306,5 +319,13 @@ textarea.error {
 
 .editor {
 	margin-bottom:$form-input-margin-bottom;
+}
+
+.link-inputs .link-type {
+	display:none;
+}
+
+.link-inputs .link-type.is-active {
+	display:block;
 }
 

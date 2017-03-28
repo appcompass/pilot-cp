@@ -119,6 +119,8 @@
 
 	/* Forms
 	---------------------------------------------------------------------- */
+	
+	//FILE
 	$('.file-input input[type="file"]').each(function() {
 		fileInputValues($(this));
 	});
@@ -141,5 +143,32 @@
 			fileinput.parent().removeClass('has-value');
 		}
 	}
+
+	//LINK
+	$('.link-inputs').each(function() {
+
+		var linkInputs = $(this),
+			linkTypeSelect = linkInputs.find('.link-types select'),
+			linkType = linkTypeSelect.val();
+
+		if(linkType !== "") {
+			linkInputs.find('.link-type').removeClass('is-active');
+			linkInputs.find('#' + linkType).addClass('is-active');
+		} else {
+			linkInputs.find('.link-type').removeClass('is-active');
+		}
+
+		$('.link-types select').on('change', function() {
+			linkType = $(this).val();
+			console.log(linkType);
+			if(linkType !== "") {
+				linkInputs.find('.link-type').removeClass('is-active');
+				linkInputs.find('#'+linkType).addClass('is-active');
+			} else {
+				linkInputs.find('.link-type').removeClass('is-active');
+			}
+		});
+	});
+
 
 })(jQuery);
