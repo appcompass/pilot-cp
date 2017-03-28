@@ -133,7 +133,7 @@
 						<li><a href="#">5</a></li>
 						<li>...</li>
 						<li><a href="#">23</a></li>
-						<li class="next"><a href="#">Next <span class="icon-arrow-forward"></span></a></li>
+						<li class="next"><a href="#"><span class="icon-arrow-forward"></span></a></li>
 					</ul>
 				</div><!--pagination -->
 			</div><!-- view-container-->
