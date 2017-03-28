@@ -71,6 +71,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "url-loader": "^0.5.7",
+    "vue-ace-editor": "^1.0.2",
     "vue-loader": "^11.3.3",
     "vue-style-loader": "^2.0.4",
     "vue-template-compiler": "^2.1.0",
