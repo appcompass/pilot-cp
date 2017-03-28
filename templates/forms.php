@@ -178,7 +178,24 @@
 						<button class="btn-secondary">Add Row</button>
 					</div><!--repeatable-fieldset -->
 				</div>
-				
+
+				<div>
+					<label>Wysiwyg</label>
+					<div class="editor">
+						<div class="editor-place">
+							Edit me.
+						</div>
+					</div>
+					<!-- QUILL -->
+					<link href="//cdn.quilljs.com/1.2.2/quill.snow.css" rel="stylesheet">
+					<script src="//cdn.quilljs.com/1.2.2/quill.min.js"></script>
+					<script>
+						var quill = new Quill('.editor-place', {
+							theme: 'snow'
+						});
+					</script>
+				</div>
+
 				<div>
 					<label><span class="required">Searchable Dropdown</span></label>
 				</div>
@@ -191,9 +208,8 @@
 				<div>
 					<label><span class="required">Media Upload/Selection (can select from gallery or upload via Dropzone)</span></label>
 				</div>
-				<div>
-					<label><span class="required">Wysiwyg</span></label>
-				</div>
+				
+
 				<div>
 					<label><span class="required">Add Link Field</span></label>
 				</div>
