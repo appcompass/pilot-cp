@@ -13,7 +13,8 @@ $form-input-margin-bottom: 20px !default;
 ////////////////
 
 label {
-	color:$secondary-text-color;
+	//color:$secondary-text-color;
+	color:$form-text-color;
 	display:block;
 	margin-bottom:4px;
 }
@@ -40,6 +41,7 @@ input[type="radio"] + label {
 	margin-bottom:$form-input-margin-bottom;
 	vertical-align:middle;
 	padding-left:5px;
+	color:$secondary-text-color;
 }
 
 input[type="text"],
@@ -248,3 +250,57 @@ select.error,
 textarea.error {
 	border-color:$primary-red;
 }
+
+.repeatable-fieldset {
+	margin-bottom:20px;
+}
+
+.repeatable-fieldset table {
+	border-width:1px 0 0 1px;
+	margin-bottom:10px;
+}
+
+.repeatable-fieldset th, 
+.repeatable-fieldset td {
+	border-width:0 1px 1px 0;
+	padding:10px;
+}
+
+.repeatable-fieldset th {
+	color:$form-text-color;
+	//font-size:inherit;
+	background-color:$primary-bg-color;
+}
+
+.repeatable-fieldset table td > * {
+	margin-bottom:0;
+}
+
+.repeatable-fieldset .rf-actions {
+	width:1px;
+	vertical-align:middle;
+	text-align:center;
+}
+
+.repeatable-fieldset .input-desc {
+	text-transform:none;
+	font-size:inherit;
+	margin:0;
+} 
+
+.repeatable-fieldset input[type="checkbox"],
+.repeatable-fieldset input[type="checkbox"] + label {
+	margin-top:8px;
+	margin-bottom:8px;
+} 
+
+.input-desc {
+	color:$secondary-text-color;
+	font-style:italic;
+	display:block;
+	font-size:em(14px);
+	margin-bottom:4px;
+	margin-top:-4px;
+	position:relative;
+}
+

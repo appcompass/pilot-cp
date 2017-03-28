@@ -118,6 +118,7 @@
 .table-user-avatar .icon {
 	margin-top:7px;
 	display:inline-block;
+	color:#fff;
 }
 
 .table-sort {
@@ -427,6 +428,7 @@
 
 .view-container {
 	border-top:1px solid $border-color;
+	position:relative;
 }
 
 .view-container > .table-container:first-child table {
@@ -443,6 +445,10 @@
 	width:60px;
 	margin:0 auto;
 	padding:20px 0;
+	position:absolute;
+	top:0;
+	left:50%;
+	margin-left:-30px;
 }
 
 .media-cards {
@@ -672,4 +678,63 @@
 	box-shadow: 0px 1px 5px 0px rgba(#000, 0.1);
 	padding:30px;
 	margin-bottom:30px;
+}
+
+.table-default {
+	border-top:1px solid $border-color;
+}
+
+.table-default th {
+	border-bottom:1px solid $border-color;
+	font-size:em(14px);
+	font-weight:normal;
+	text-transform:uppercase;
+	color:$tertiary-text-color;
+	text-align:left;
+	height:60px;
+	padding:10px 0 10px 10px;
+	position:relative;
+}
+
+.table-default th input[type="checkbox"],
+.table-default td input[type="checkbox"] {
+	font-size:em(16px, 14px);
+	margin-bottom:0;
+}
+
+.table-default td {
+	color:$secondary-text-color;
+	height:60px;
+	padding:10px 0 10px 10px;
+	border-bottom:1px solid $border-color;
+	vertical-align:top;
+}
+
+.table-default tbody tr:nth-child(odd) td {
+	background-color:$primary-bg-color;
+}
+
+.table-default td a {
+	text-decoration:none;
+	color:$primary-text-color;
+	&:hover {
+		text-decoration:underline;
+		color:$primary-text-color;
+	}
+}
+
+.table-default td b, 
+.table-default td strong {
+	color:$primary-text-color;
+}
+
+.table-default th > .icon-search {
+	position:relative;
+	top:1px;
+	margin-right:5px;
+}
+
+.table-default th > .icon-search:hover {
+	color:$secondary-color;
+	cursor:pointer;
 }

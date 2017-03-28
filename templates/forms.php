@@ -9,10 +9,11 @@
 				<div>
 					<label>Text <span class="required">*</span></label>
 					<input type="text" class="error">
-					<div class="form-error">This field is Required</div>
+					<div class="form-error">This field is required</div>
 				</div>
 				<div>
 					<label>Password</label>
+					<div class="input-desc">This is an input description.</div>
 					<input type="password">
 				</div>
 				<div>
@@ -112,6 +113,73 @@
 					</div>
 				</div>
 				<div>
+					<label>Dynamic Key Value Fieldset</label>
+					<div class="repeatable-fieldset">
+						<table>
+							<thead>
+								<tr>
+									<th>Key <div class="input-desc">This is an input description.</div></th>
+									<th>Value <div class="input-desc">This is an input description.</div></th>
+									<th class="rf-actions"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><input type="text"></td>
+									<td><input type="text"></td>
+									<td class="rf-actions"><a class="link-icon link-red"><span class="icon-cancel"></span></a></td>
+								</tr>
+								<tr>
+									<td>
+										<div class="select">
+											<select>
+												<option value="">Item 1</option>
+												<option value="">Item 2</option>
+												<option value="">Item 3</option>
+											</select>
+											<span class="icon-select"></span>
+										</div>
+									</td>
+									<td>
+										<div class="file-input">
+											<input type="file" id="file-rf">
+											<label for="file-rf">Choose File</label>
+											<div class="file-input-value">
+												<span class="file-input-image">
+													<span class="file-input-remove icon-cancel"></span>
+													<img src="http://placehold.it/100x100" width="100" height="100">
+												</span>
+											</div>
+										</div>
+									</td>
+									<td class="rf-actions"><a class="link-icon link-red"><span class="icon-cancel"></span></a></td>
+								</tr>
+								<tr>
+									<td>
+										<input type="checkbox" id="checkbox-rf-example">
+										<label for="checkbox-rf-example">Check me</label>
+									</td>
+									<td>
+										<ul class="radio-group-inline">
+											<li>
+												<input type="Radio" id="radio-rf-example-1" name="radio-group-rf">
+												<label for="radio-rf-example-1">Radio 1</label>
+											</li>
+											<li>
+												<input type="Radio" id="radio-rf-example-2" name="radio-group-rf">
+												<label for="radio-rf-example-2">Radio 2</label>
+											</li>
+										</ul>
+									</td>
+									<td class="rf-actions"><a class="link-icon link-red"><span class="icon-cancel"></span></a></td>
+								</tr>
+							</tbody>
+						</table>
+						<button class="btn-secondary">Add Row</button>
+					</div><!--repeatable-fieldset -->
+				</div>
+				
+				<div>
 					<label><span class="required">Searchable Dropdown</span></label>
 				</div>
 				<div>
@@ -119,9 +187,6 @@
 				</div>
 				<div>
 					<label><span class="required">Syntax Highlighted Textarea</span></label>
-				</div>
-				<div>
-					<label><span class="required">Dynamic Key Value Fieldset</span></label>
 				</div>
 				<div>
 					<label><span class="required">Media Upload/Selection (can select from gallery or upload via Dropzone)</span></label>
