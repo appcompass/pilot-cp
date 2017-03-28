@@ -583,6 +583,15 @@
 	flex:0 1 auto;
 }
 
+.data-actions-select {
+	flex:0 1 300px;
+	margin-right:30px;
+}
+
+.data-actions-select .select {
+	margin-bottom:0;
+}
+
 .data-actions-filters-toggle {
 	flex:2 1 auto;
 }
