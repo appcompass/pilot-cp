@@ -115,7 +115,7 @@
 					</div>
 				</div>
 				<div>
-					<label>Dynamic Key Value Fieldset</label>
+					<label>Repeatable Fieldset</label>
 					<div class="repeatable-fieldset">
 						<table>
 							<thead>
@@ -129,7 +129,7 @@
 								<tr>
 									<td><input type="text"></td>
 									<td><input type="text"></td>
-									<td class="rf-actions"><a class="link-icon link-red"><span class="icon-cancel"></span></a></td>
+									<td class="rf-actions"><a class="link-icon link-red"><span class="icon-delete"></span></a></td>
 								</tr>
 								<tr>
 									<td>
@@ -154,7 +154,7 @@
 											</div>
 										</div>
 									</td>
-									<td class="rf-actions"><a class="link-icon link-red"><span class="icon-cancel"></span></a></td>
+									<td class="rf-actions"><a class="link-icon link-red"><span class="icon-delete"></span></a></td>
 								</tr>
 								<tr>
 									<td>
@@ -173,13 +173,50 @@
 											</li>
 										</ul>
 									</td>
-									<td class="rf-actions"><a class="link-icon link-red"><span class="icon-cancel"></span></a></td>
+									<td class="rf-actions"><a class="link-icon link-red"><span class="icon-delete"></span></a></td>
 								</tr>
 							</tbody>
 						</table>
 						<button class="btn-secondary">Add Row</button>
 					</div><!--repeatable-fieldset -->
 				</div>
+
+				<div>
+					<label>Fieldset</label>
+					<div class="fieldset draggable">
+						<div class="fieldset-header">
+							<div class="fieldset-heading">Fieldset Heading</div>
+							<div class="input-desc">Fieldset Heading</div>
+							<div class="fieldset-header-actions">
+								<span class="icon icon-delete"></span>
+								<span class="icon icon-box-down"></span>
+							</div>
+						</div>
+						<div class="fieldset-fields">
+							<div>
+								<label for="">Label</label>
+								<input type="text">
+							</div>
+							<div>
+								<label for="">Form Field Name</label>
+								<input type="text">
+							</div>
+							<div>
+								<label for="">Addtional Classes</label>
+								<input type="text">
+							</div>
+							<div>
+								<input type="checkbox" id="required-example">
+								<label for="required-example">Required</label>
+							</div>
+							<div>
+								<label for="">Placeholder</label>
+								<input type="text">
+							</div>
+						</div>
+					</div><!-- fieldset -->
+				</div>
+
 
 				<div>
 					<label>Wysiwyg</label>

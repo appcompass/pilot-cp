@@ -160,7 +160,6 @@
 
 		$('.link-types select').on('change', function() {
 			linkType = $(this).val();
-			console.log(linkType);
 			if(linkType !== "") {
 				linkInputs.find('.link-type').removeClass('is-active');
 				linkInputs.find('#'+linkType).addClass('is-active');
@@ -168,6 +167,12 @@
 				linkInputs.find('.link-type').removeClass('is-active');
 			}
 		});
+	});
+
+	//FIELDSET
+	$('.fieldset-header-actions .icon-box-down').on('click', function(e) {
+		e.preventDefault();
+		$(this).closest('.fieldset').toggleClass('is-closed'); 
 	});
 
 

@@ -28,6 +28,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-drag:before {
+  content: "\e91a";
+}
 .icon-arrow-forward:before {
   content: "\e919";
 }
