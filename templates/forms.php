@@ -197,6 +197,60 @@
 				</div>
 
 				<div>
+					<label>Add Link</label>
+					<div class="link-inputs">
+						<div class="row">
+							<div class="xsmall-6 columns">
+								<div class="select link-types">
+									<select>
+										<option value="">Select Link Type</option>
+										<option value="page-link">Page Link</option>
+										<option value="product-link">Product Link</option>
+										<option value="external-link">External Link</option>
+									</select>
+									<span class="icon-select"></span>
+								</div>
+							</div>
+							<div class="xsmall-6 columns">
+								<div id="page-link" class="select link-type">
+									<select>
+										<option value="">Select Page Link</option>
+										<option value="">About</option>
+										<option value="">Home</option>
+									</select>
+									<span class="icon-select"></span>
+								</div>
+								<div id="product-link" class="select link-type">
+									<select>
+										<option value="">Select Product Link</option>
+										<option value="">About</option>
+										<option value="">Home</option>
+									</select>
+									<span class="icon-select"></span>
+								</div>
+								<div id="external-link" class="link-type">
+									<input type="text">
+								</div>
+							</div>
+						</div>
+					</div><!-- link-inputs -->
+				</div>
+
+				<div>
+					<label>Link Text</label>
+					<div class="row">
+						<div class="xsmall-6 columns">
+							<input type="text">
+						</div>
+						<div class="xsmall-6 columns">
+							<div class="checkbox-align-input">
+								<input type="checkbox" id="checkbox-tab-example">
+								<label for="checkbox-tab-example">Open in new tab</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
 					<label><span class="required">Searchable Dropdown</span></label>
 				</div>
 				<div>
@@ -207,14 +261,6 @@
 				</div>
 				<div>
 					<label><span class="required">Media Upload/Selection (can select from gallery or upload via Dropzone)</span></label>
-				</div>
-				
-
-				<div>
-					<label><span class="required">Add Link Field</span></label>
-				</div>
-				<div>
-					<label><span class="required">Repeatable Fieldset</span></label>
 				</div>
 
 			</form>
