@@ -11,6 +11,18 @@
   </div>
 </template>
 
+<script>
+import { Boolean, Radio, Secret, String, TextField, Checkboxes } from './components/Components'
+import container from './components/container'
+import SiteHeader from './components/SiteHeader'
+import $ from 'jQuery'
+
+export default {
+  name: 'App',
+  components: { Boolean, Radio, Secret, String, TextField, Checkboxes, container, SiteHeader }
+}
+</script>
+
 <style>
   body {
     font-family: Helvetica, sans-serif;
