@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: path.join(projectRoot, 'dist'),
     filename: 'bundle.server.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2' // provides correct serialisation for bundles
   },
   module: {
     loaders: [
@@ -25,6 +25,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueSSRPlugin()
+    new VueSSRPlugin() // bundles server output
   ]
 };

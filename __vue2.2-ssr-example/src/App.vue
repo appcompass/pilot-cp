@@ -1,7 +1,10 @@
 <template>
   <div class="my-app">
-    <h1>{{name}}</h1>
+    <h1>{{name}} uomo talpa</h1>
     <h2>age: {{age}} <button @click="plus">+1</button></h2>
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+    <router-view></router-view>
     <my-cmp :name="name"></my-cmp>
   </div>
 </template>
@@ -15,8 +18,8 @@ export default {
   },
   data() {
     return {
-      name: 'Hans',
-      age: 0,
+      name: 'Federico',
+      age: 38,
     }
   },
   fetch (url) {
@@ -28,7 +31,7 @@ export default {
   },
   methods: {
     plus() {
-      console.log('add')
+      console.log('adderino')
       this.age++;
     },
   },
@@ -36,8 +39,5 @@ export default {
 </script>
 
 <style>
-.my-app {
-  background: #eee;
-  padding: 10px;
-}
+
 </style>

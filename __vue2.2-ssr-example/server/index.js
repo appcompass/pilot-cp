@@ -12,17 +12,22 @@ const tpl = fs.readFileSync(tplPath, 'utf-8')
 const clientBundleFileUrl = '/bundle.client.js';
 
 // Server-Side Bundle File
-const bundleRenderer = vueServerRenderer.createBundleRenderer(path.join(__dirname, '../dist/vue-ssr-bundle.json'), {
-  template: tpl
-});
+// @NOTE serving this straight out allows "hot" reloading
+// const bundleRenderer = vueServerRenderer.createBundleRenderer(path.join(__dirname, '../dist/vue-ssr-bundle.json'), {
+//   template: tpl
+// });
 
 
 // Server-Side Rendering
-app.get('/', function (req, res) {
-  bundleRenderer.renderToString({url: req.url}, (err, html) => {
+app.get('*', function (req, res) {
+  // @NOTE this allows for real time reload
+  vueServerRenderer.createBundleRenderer(path.join(__dirname, '../dist/vue-ssr-bundle.json'), {
+    template: tpl
+  }).renderToString({url: req.url}, (err, html) => {
+  // bundleRenderer.renderToString({url: req.url}, (err, html) => {
     if (err){
       res.status(500).send(`
-        <h1>Error: ${err.message}</h1>
+        <h1>Error: ${err.message} ${req.url}</h1>
         <pre>${err.stack}</pre>
       `);
     } else {

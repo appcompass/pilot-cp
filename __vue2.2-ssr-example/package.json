@@ -12,6 +12,7 @@
     "start": "npm run build && node server/index.js"
   },
   "dependencies": {
+    "babel-preset-es2017": "^6.22.0",
     "express": "^4.14.0",
     "vue": "^2.0.0-beta.6",
     "vue-router": "^2.3.0",
