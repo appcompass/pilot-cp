@@ -8,6 +8,7 @@ import FieldsetType from './FormBuilder/Fieldset'
 import CodeType from './FormBuilder/Code'
 import ConfigType from './FormBuilder/Config'
 import WysiwygType from './FormBuilder/Wysiwyg'
+import CheckboxesType from './FormBuilder/Checkboxes'
 import FileType from './FormBuilder/File'
 import LinkType from './FormBuilder/Link'
 import DynamicType from './FormBuilder/Dynamic'
@@ -26,6 +27,7 @@ export var Fieldset = FieldsetType
 export var Code = CodeType
 export var Config = ConfigType
 export var Wysiwyg = WysiwygType
+export var Checkboxes = CheckboxesType
 export var File = FileType
 export var Link = LinkType
 export var Dynamic = DynamicType

@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Hello {{ name }}</p>
-    <p>Welcome to China!</p>
+    <p>Welcome here!</p>
   </div>
 </template>
 
