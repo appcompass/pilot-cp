@@ -1,36 +1,32 @@
-import Home from './components/Home'
-import Login from './components/Login'
-import ListView from './components/ListView'
-import EditView from './components/EditView'
-import CreateView from './components/CreateView'
+import * as Views from './components/Views'
 
 export default [
   {
     path: '/',
     name: 'dashboard',
-    component: Home
+    component: Views['Home']
   }, {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Views['Login']
   }, {
     path: '/:model',
     name: 'list',
-    component: ListView
+    component: Views['List']
   }, {
     path: '/:model/create',
     name: 'create',
-    component: CreateView
+    component: Views['Create']
   }, {
     path: '/:model/:id',
     name: 'edit',
-    component: EditView,
+    component: Views['Edit'],
     children: [
       {
         path: ':sub',
         name: 'sub',
         components: {
-          sub: ListView
+          sub: Views['List']
         }
       }
     ]

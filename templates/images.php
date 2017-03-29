@@ -1,6 +1,6 @@
 <?php include('header.php'); ?>
 
-<main class="main">
+
 	<div class="row">
 		<div class="xsmall-12 columns">
 			
@@ -31,7 +31,12 @@
 					</form>
 
 					<div class="data-actions-filters-toggle">
-						<a href="#" class="data-actions-filters-trigger"><span class="icon-filters"></span> Filter Results</a>
+						<a href="#" class="data-actions-filters-trigger"><span class="icon-filters"></span> <span class="data-actions-filters-label">Filter Results</span></a>
+					</div>
+
+					<div class="data-actions-view">
+						<a href="#" class="data-list-view"><span class="icon-table"></span></a>
+						<a href="#" class="data-grid-view is-active"><span class="icon-card"></span></a>
 					</div>
 
 					<form class="data-actions-search">
@@ -61,94 +66,134 @@
 				</div>
 			</div><!-- data-actions-container -->
 
-			<div class="media-cards">
-				<div class="media-card">
-					<a href="#" class="media-card-thumb">
-						<span class="thumb-container">
-							<span class="thumb-center">
-								<img src="http://placehold.it/320x213" width="320" height="213">
+			<div class="view-container">
+				<div class="view-no-results">No Results Found</div>
+				<div class="view-loading"><img src="assets/images/icons/loading.svg"></div>
+				<div class="media-cards">
+					<div class="media-card">
+						<a href="#" class="media-card-thumb">
+							<span class="thumb-container">
+								<span class="thumb-center">
+									<img src="http://placehold.it/320x213" width="320" height="213">
+								</span>
 							</span>
-						</span>
-					</a>
-					<ul class="media-card-info">
-						<li><span>Status:</span> Active</li>
-						<li><span>Type:</span> N/A</li>
-						<li><span>Dimensions:</span> 3264 x 2448</li>
-						<li><span>Uploaded By:</span> Michael</li>
-						<li><span>Uploaded On:</span> 2017-10-07</li>
-					</ul>
-					<div class="media-card-actions">
-						<input type="checkbox" class="media-card-checkbox left">
-						<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
+						</a>
+						<ul class="media-card-info">
+							<li><span>Status:</span> Active</li>
+							<li><span>Type:</span> N/A</li>
+							<li><span>Dimensions:</span> 3264 x 2448</li>
+							<li><span>Uploaded By:</span> Michael</li>
+							<li><span>Uploaded On:</span> 2017-10-07</li>
+						</ul>
+						<div class="media-card-actions">
+							<input type="checkbox" class="media-card-checkbox left">
+							<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
+						</div>
 					</div>
-				</div>
 
-				<div class="media-card">
-					<a href="#" class="media-card-thumb">
-						<span class="thumb-container">
-							<span class="thumb-center">
-								<img src="http://placehold.it/100x100" width="100" height="100">
+					<div class="media-card">
+						<a href="#" class="media-card-thumb">
+							<span class="thumb-container">
+								<span class="thumb-center">
+									<img src="http://placehold.it/100x100" width="100" height="100">
+								</span>
 							</span>
-						</span>
-					</a>
-					<ul class="media-card-info">
-						<li><span>Status:</span> Active</li>
-						<li><span>Type:</span> N/A</li>
-						<li><span>Dimensions:</span> 3264 x 2448</li>
-						<li><span>Uploaded By:</span> Michael</li>
-						<li><span>Uploaded On:</span> 2017-10-07</li>
-					</ul>
-					<div class="media-card-actions">
-						<input type="checkbox" class="media-card-checkbox left">
-						<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
+						</a>
+						<ul class="media-card-info">
+							<li><span>Status:</span> Active</li>
+							<li><span>Type:</span> N/A</li>
+							<li><span>Dimensions:</span> 3264 x 2448</li>
+							<li><span>Uploaded By:</span> Michael</li>
+							<li><span>Uploaded On:</span> 2017-10-07</li>
+						</ul>
+						<div class="media-card-actions">
+							<input type="checkbox" class="media-card-checkbox left">
+							<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
+						</div>
 					</div>
-				</div>
 
-				<div class="media-card">
-					<a href="#" class="media-card-thumb">
-						<span class="thumb-container">
-							<span class="thumb-center">
-								<img src="http://placehold.it/600x400" width="600" height="400">
+					<div class="media-card">
+						<a href="#" class="media-card-thumb">
+							<span class="thumb-container">
+								<span class="thumb-center">
+									<img src="http://placehold.it/600x400" width="600" height="400">
+								</span>
 							</span>
-						</span>
-					</a>
-					<ul class="media-card-info">
-						<li><span>Status:</span> Active</li>
-						<li><span>Type:</span> N/A</li>
-						<li><span>Dimensions:</span> 3264 x 2448</li>
-						<li><span>Uploaded By:</span> Michael</li>
-						<li><span>Uploaded On:</span> 2017-10-07</li>
-					</ul>
-					<div class="media-card-actions">
-						<input type="checkbox" class="media-card-checkbox left">
-						<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
+						</a>
+						<ul class="media-card-info">
+							<li><span>Status:</span> Active</li>
+							<li><span>Type:</span> N/A</li>
+							<li><span>Dimensions:</span> 3264 x 2448</li>
+							<li><span>Uploaded By:</span> Michael</li>
+							<li><span>Uploaded On:</span> 2017-10-07</li>
+						</ul>
+						<div class="media-card-actions">
+							<input type="checkbox" class="media-card-checkbox left">
+							<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
+						</div>
 					</div>
-				</div>
 
-				<div class="media-card">
-					<a href="#" class="media-card-thumb">
-						<span class="thumb-container">
-							<span class="thumb-center">
-								<img src="http://placehold.it/400x600" width="400" height="600">
+					<div class="media-card">
+						<a href="#" class="media-card-thumb">
+							<span class="thumb-container">
+								<span class="thumb-center">
+									<img src="http://placehold.it/400x600" width="400" height="600">
+								</span>
 							</span>
-						</span>
-					</a>
-					<ul class="media-card-info">
-						<li><span>Status:</span> Active</li>
-						<li><span>Type:</span> N/A</li>
-						<li><span>Dimensions:</span> 3264 x 2448</li>
-						<li><span>Uploaded By:</span> Michael</li>
-						<li><span>Uploaded On:</span> 2017-10-07</li>
-					</ul>
-					<div class="media-card-actions">
-						<input type="checkbox" class="media-card-checkbox left">
-						<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
+						</a>
+						<ul class="media-card-info">
+							<li><span>Status:</span> Active</li>
+							<li><span>Type:</span> N/A</li>
+							<li><span>Dimensions:</span> 3264 x 2448</li>
+							<li><span>Uploaded By:</span> Michael</li>
+							<li><span>Uploaded On:</span> 2017-10-07</li>
+						</ul>
+						<div class="media-card-actions">
+							<input type="checkbox" class="media-card-checkbox left">
+							<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
+						</div>
 					</div>
-				</div>
-					
-			</div><!-- media-cards -->
+						
+				</div><!-- media-cards -->
+			</div><!-- view-container -->
 		</div>
 	</div>
-</main>
+
+	<div class="media-modal-test hide">
+		<div class="media-modal-image">
+			<img src="http://placehold.it/600x400">
+		</div>
+		<div class="media-modal-content">
+			<ul class="media-modal-info">
+				<li><span>Status:</span> Active</li>
+				<li><span>Type:</span> N/A</li>
+				<li><span>Dimensions:</span> 3264 x 2448</li>
+				<li><span>Uploaded By:</span> Michael</li>
+				<li><span>Uploaded On:</span> 2017-10-07</li>
+			</ul>
+			<div class="media-modal-actions">
+				<a href="#" class="link-icon link-primary"><span class="icon-swap"></span> Swap Image</a>
+				<a href="#" class="link-icon link-red"><span class="icon-delete"></span> Delete</a>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.9.0/tingle.min.js"></script>
+	<script type="text/javascript">
+		/* Image Modal
+		---------------------------------------------------------------------- */
+		var imageModal = new tingle.modal({
+		    cssClass: ['media-modal']
+		});
+
+		var imageModalLink = document.getElementsByClassName('media-card-thumb');
+		for (var i = 0; i < imageModalLink.length; i++) {
+		    imageModalLink[i].addEventListener('click', function(){
+		        imageModal.open();
+		    });
+		}
+
+		imageModal.setContent(document.querySelector('.media-modal-test').innerHTML);
+	</script>
 
 <?php include('footer.php'); ?>	

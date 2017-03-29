@@ -1,9 +1,9 @@
-<template lang="jade">
+<template lang="pug">
 div
   //- {{ form.fields }}
   .columns
     .page.column.is-6
-      Container(v-for="container in form.collection.data", :container="container", @edit="edit")
+      Container(v-for="(container, index) in form.collection.data", :key="index", :container="container", @edit="edit")
     .column.is-6
       //- a.button.is-primary(@click="store") Save
       //- FormBuilder(:form="form.fields", :content="form.collection.page", :errors="form.errors", @set="set")
@@ -13,9 +13,8 @@ div
 </template>
 
 <script>
-import swal from 'sweetalert'
 import _ from 'lodash'
-import Form from '../Helpers/Form'
+import Form from 'Helpers/Form'
 
 import Container from '../Container'
 import FormBuilder from '../FormBuilder'
@@ -73,7 +72,7 @@ export default {
     store () {
       this.$http.put('/api/pages/' + this.$route.params.id + '/contents/' + this.id, this.content)
         .then(response => {
-          swal({title: 'Success', text: 'BOOM! Done!', type: 'success'})
+          this.$swal({title: 'Success', text: 'BOOM! Done!', type: 'success'})
         })
     }
   }

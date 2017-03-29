@@ -1,6 +1,5 @@
 <?php include('header.php'); ?>
 
-<main class="main">
 	<div class="row">
 		<div class="xsmall-12 columns">
 			
@@ -22,6 +21,12 @@
 						<div class="nav-options-header">
 							<h2 class="nav-options-title">Pages</h2>
 						</div>
+						<form class="nav-options-search">
+							<div class="search-input">
+								<span class="icon-search"></span>
+								<input type="search" placeholder="Search">
+							</div>
+						</form>
 						<ul class="nav-option-list">
 							<li>
 								<div class="nav-option-item">Home</div>
@@ -173,6 +178,5 @@
 
 		</div>
 	</div>
-</main>
 
 <?php include('footer.php'); ?>	

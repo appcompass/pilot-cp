@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div
   p.control
     label.label {{ label }}

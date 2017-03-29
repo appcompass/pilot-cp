@@ -1,35 +1,37 @@
-<template lang="jade">
-.columns
-  pre
-  .column.is-4
-      h1.title Pages
-      Sortable.menu-list(:list="form.collection.repo.pages", :element="'ul'", :options="{animation: 50, group: 'items', clone: true}")
-        li.repo__item(v-for="(item, index) in form.collection.repo.pages", @dblclick="add(item)")
-          p {{ item.title }}
-
-      h1.title(style="margin-top: 3rem") Widgets
-      a.button.is-small.pull-right(@click="createLink('create-link')")
-        span.icon.is-small
-          i.fa.fa-link
-        span New Widget
-      Sortable.menu-list(:list="form.collection.repo.links", :element="'ul'", :options="{animation: 50, group: 'items', clone: true}")
-        li.repo__item(v-for="(item, index) in form.collection.repo.links", @dblclick="add(item)")
-          p {{ item.title }}
-            small.icon.is-small.pull-right
-              i.fa.fa-trash(@click="deleteLink(item)")
-
-  .column.is-8
-      h1.title Menu:
-      MenuElement(:menu="form.collection.menu", @deleted="deleted")
-      Sortable.empty(v-if="!form.collection.menu.length", :list="form.collection.menu",  :options="{handle: '.handle', animation: 50, group: 'items'}")
-
+<template lang="pug">
+  .row
+    .xsmall-4.columns
+      .nav-options-pages
+        .nav-options-header
+          h2.nav-options-title Pages
+        Sortable.nav-option-list(:list="form.collection.repo.pages", :element="'ul'", :options="{animation: 50, group: 'items', clone: true}")
+          li.nav-option-item(v-for="(item, index) in form.collection.repo.pages", @dblclick="add(item)") {{ item.title }}
+      .nav-options-links
+        .nav-options-header
+          h2.nav-options-title Widgets
+          a.btn-secondary.btn-small.nav-options-trigger(@click="createLink('create-link')") Add Link
+        form.nav-options-form
+          input(type='text', placeholder='Title')
+          input(type='text', placeholder='URL')
+          p
+            button.btn-primary(type='submit') Save Link
+        Sortable.nav-option-list(:list="form.collection.repo.links", :element="'ul'", :options="{animation: 50, group: 'items', clone: true}")
+          li.nav-option-item(v-for="(item, index) in form.collection.repo.links", @dblclick="add(item)")
+            | {{ item.title }}
+            span.nav-option-item-actions
+              span.icon.icon-delete(@click="deleteLink(item)")
+    .xsmall-8.medium-7.medium-push-1.columns
+      .nav-pages
+        //- @TODO: This should be dynamic, i.e. the menu name.
+        h2 Menu
+        MenuElement(:menu="form.collection.menu", @deleted="deleted", :class="'nav-list'")
+        Sortable.empty(v-if="!form.collection.menu.length", :list="form.collection.menu",  :options="{handle: '.handle', animation: 50, group: 'items'}")
 </template>
 
 <script>
-import Sortable from '../VueSortable'
+import Sortable from 'Helpers/VueSortable'
 import MenuElement from '../FormBuilder/MenuElement'
-import Modal from '../Modal'
-import swal from 'sweetalert'
+import Modal from 'Helpers/Modal'
 import _ from 'lodash'
 
 export default {
@@ -74,7 +76,7 @@ export default {
     },
     deleteLink (link) {
       // deletes a Link
-      swal({
+      this.$swal({
         title: 'Are you sure?',
         text: 'This will eliminate every instance of this widget from the website',
         type: 'warning',
@@ -84,25 +86,12 @@ export default {
         this.$http.delete('/api/menus/links/' + link.id)
           .then(response => {
             this.form.collection.repo.links.splice(this.form.collection.repo.links.indexOf(link), 1)
-            swal({title: 'Deleted', type: 'success', timer: 500, showConfirmButton: false})
+            this.$swal({title: 'Deleted', type: 'success', timer: 500, showConfirmButton: false})
           }, response => {
-            swal({title: 'Error', text: 'Errors while deleting widget', type: 'error'})
+            this.$swal({title: 'Error', text: 'Errors while deleting widget', type: 'error'})
           })
       })
     }
   }
 }
 </script>
-
-<style lang="sass">
-.repo__item
-  background: #ddd
-  display: inline-block
-  border: 1px solid #ddd
-  width: 100%
-  padding: 0.5rem
-  margin-bottom: 5px
-  &:hover
-    background: #ccc
-    cursor: pointer
-</style>

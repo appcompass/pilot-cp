@@ -1,22 +1,22 @@
 /* global localStorage: false */
 var Vue = require('vue')
-var VueRouter = require('vue-router')
-// var VueResource = require('vue-resource')
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import swal from 'sweetalert'
-import Auth from './components/Auth'
+import VueSweetAlert from 'vue-sweetalert'
+import Auth from 'States/Auth'
 
-import routes from './routes'
+// import routes from './routes'
+import router from './router'
+
 import App from './App'
 
-import '../src/assets/sass/main.sass'
+// @TODO: this needs to be moved into assets/sass/
+import '../templates/assets/sass/app.scss'
 import moment from 'moment'
 
-Vue.use(VueRouter)
-// Vue.use(VueResource)
 Vue.use(VueAxios, axios)
+Vue.use(VueSweetAlert)
 
 // Vue.axios.defaults.baseURL = process.env.API_SERVER
 Vue.axios.defaults.headers.common['X-Csrf-Token'] = localStorage.getItem('csrf_token') || ''
@@ -36,10 +36,10 @@ Vue.axios.interceptors.response.use(function (response) {
       return Auth.logout()
     }
     if (error.response.status === 403) {
-      swal('Unauthorized', error.response.data || 'You are not authorized to perform this action.', 'error')
+      this.$swal('Unauthorized', error.response.data || 'You are not authorized to perform this action.', 'error')
     }
     if (error.response.status === 404) {
-      swal('Not Found', error.response.data || 'Resource not found.', 'error')
+      this.$swal('Not Found', error.response.data || 'Resource not found.', 'error')
     }
   } else {
     // Something happened in setting up the request that triggered an Error
@@ -47,28 +47,6 @@ Vue.axios.interceptors.response.use(function (response) {
   }
   return Promise.reject(error)
 })
-
-// Vue.axios.interceptors.push((request, next) => {
-//   next(response => {
-//     if (response.headers.has('authorization')) {
-//       let token = response.headers.get('authorization').slice(8)
-//       localStorage.setItem('auth_token', token)
-//       Vue.axios.defaults.headers.common['Authorization'] = response.headers.get('authorization')
-//     }
-
-//     if (response.status === 401) {
-//       return Auth.logout()
-//     }
-//     if (response.status === 403) {
-//       swal('Unauthorized', response.data.error || 'You are not authorized to perform this action.', 'error')
-//     }
-//     if (response.status === 404) {
-//       swal('Not Found', response.data.error || 'Resource not found.', 'error')
-//     }
-
-//     return response
-//   })
-// })
 
 Vue.directive('moment-ago', {
   bind (el, binding) {
@@ -91,11 +69,6 @@ Vue.directive('moment-ago', {
 
 export default Vue
 
-export var router = new VueRouter({
-  mode: 'history',
-  routes
-})
-
 /* eslint-disable no-new */
 new Vue({
   router,
@@ -114,8 +87,4 @@ new Vue({
         })
     }
   }
-
-  // mounted: function() {
-  //   // this.csrf()
-  // }
 })
