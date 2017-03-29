@@ -14,7 +14,6 @@ import LinkType from './FormBuilder/Link'
 import DynamicType from './FormBuilder/Dynamic'
 import RadioType from './FormBuilder/Radio'
 import PageSectionSelectType from './FormBuilder/PageSectionSelect'
-import FormBuilderType from './FormBuilder/FormBuilder'
 import MapType from './FormBuilder/Map'
 import LoginFormType from './FormBuilder/LoginForm'
 export var String = StringType
@@ -33,6 +32,5 @@ export var Link = LinkType
 export var Dynamic = DynamicType
 export var Radio = RadioType
 export var PageSectionSelect = PageSectionSelectType
-export var FormBuilder = FormBuilderType
 export var Map = MapType
 export var LoginForm = LoginFormType

@@ -7,7 +7,6 @@
     <title>Pilot-io</title>
     <link rel="stylesheet" href="assets/css/app-min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700">
-    <script src="assets/js/dist/modernizr-custom.js"></script>
 </head>
 <body>
     <!--[if lt IE 9]>
@@ -49,8 +48,10 @@
                 </ul>
             </nav>
         </header>
-        <div class="main-container">
+        <div class="content-container">
             <?php include('sidebar.php'); ?>
             <?php include('notifications.php'); ?>
+            <div class="main-container">
+                <main class="main">
 
 

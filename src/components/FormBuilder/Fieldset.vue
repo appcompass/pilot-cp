@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 .control
   h1.title.is-4 {{ label }}
 </template>

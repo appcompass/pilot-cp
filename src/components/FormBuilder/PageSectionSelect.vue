@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div
   h1 PageSectionSelect Coming Soon
   pre

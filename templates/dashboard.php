@@ -1,5 +1,7 @@
 <?php include('header.php'); ?>
 
-<main class="main">asdfa</main>
+	<div class="row">
+		<div class="xsmall-12 columns">Dashboard</div>
+	</div>
 
 <?php include('footer.php'); ?>	

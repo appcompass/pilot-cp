@@ -28,6 +28,30 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-drag:before {
+  content: "\e91a";
+}
+.icon-arrow-forward:before {
+  content: "\e919";
+}
+.icon-arrow-back:before {
+  content: "\e918";
+}
+.icon-swap:before {
+  content: "\e917";
+}
+.icon-card:before {
+  content: "\e915";
+}
+.icon-table:before {
+  content: "\e916";
+}
+.icon-github:before {
+  content: "\e913";
+}
+.icon-heart:before {
+  content: "\e914";
+}
 .icon-edit:before {
   content: "\e911";
 }

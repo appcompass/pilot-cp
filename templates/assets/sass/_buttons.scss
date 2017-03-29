@@ -18,6 +18,7 @@
 	border-radius:3px;
 	font-weight:bold;
 	vertical-align:middle;
+	cursor:pointer;
 }
 
 .btn-small {
@@ -51,9 +52,11 @@
 ///------------------------------------------------------------------------
 ///		LINKS
 ///------------------------------------------------------------------------
-.link-primary,
-.link-primary:hover {
+.link-primary {
 	color:$secondary-color;
+	&:hover {
+		color:darken($secondary-color, 15%);
+	}
 }
 
 .link-text-primary {
@@ -85,4 +88,11 @@
 .link-icon,
 .link-icon:hover {
 	text-decoration:none;
+}
+
+.link-icon [class^="icon-"], 
+.link-icon [class*=" icon-"] {
+	margin-right:2px;
+	position:relative;
+	top:1px;
 }
