@@ -1,6 +1,7 @@
 <template lang="pug">
   .row
     .xsmall-4.columns
+
       .nav-options-pages
         .nav-options-header
           h2.nav-options-title Pages
@@ -8,13 +9,18 @@
           li.nav-option-item(v-for="(item, index) in form.collection.repo.pages", @dblclick="add(item)") {{ item.title }}
       .nav-options-links
         .nav-options-header
-          h2.nav-options-title Widgets
+          h2.nav-options-title Links
           a.btn-secondary.btn-small.nav-options-trigger(@click="createLink('create-link')") Add Link
-        form.nav-options-form
-          input(type='text', placeholder='Title')
-          input(type='text', placeholder='URL')
-          p
-            button.btn-primary(type='submit') Save Link
+        form.nav-options-form(
+          :class="{'is-active' : link_form }"
+        )
+          FormBuilder(
+            v-if="link_form",
+            :form="link_form"
+          )
+          p.nav-item-form-actions
+            button.btn-primary.left(type='submit') Save Link
+            a.link-text-secondary.left Cancel
         Sortable.nav-option-list(:list="form.collection.repo.links", :element="'ul'", :options="{animation: 50, group: 'items', clone: true}")
           li.nav-option-item(v-for="(item, index) in form.collection.repo.links", @dblclick="add(item)")
             | {{ item.title }}
@@ -23,28 +29,40 @@
     .xsmall-8.medium-7.medium-push-1.columns
       .nav-pages
         //- @TODO: This should be dynamic, i.e. the menu name.
-        h2 Menu
-        MenuElement(:menu="form.collection.menu", @deleted="deleted", :class="'nav-list'")
-        Sortable.empty(v-if="!form.collection.menu.length", :list="form.collection.menu",  :options="{handle: '.handle', animation: 50, group: 'items'}")
+        h2 {{menu_name}}
+        MenuElement(:menu="form.collection.menu", @deleted="deleted", :list_class="'nav-list'")
+        Sortable.nav-list-empty(v-if="!form.collection.menu.length", :list="form.collection.menu",  :options="{handle: 'li', animation: 50, group: 'items'}")
+          | Drag items from the left into your menu.
+
 </template>
 
 <script>
 import Sortable from 'Helpers/VueSortable'
-import MenuElement from '../FormBuilder/MenuElement'
-import Modal from 'Helpers/Modal'
+import Form from 'Helpers/Form'
+import MenuElement from 'components/FormBuilder/MenuElement'
+import FormBuilder from 'components/FormBuilder'
 import _ from 'lodash'
 
 export default {
-  components: { Sortable, MenuElement },
-  props: [ 'form', 'data', 'errors' ],
-  name: 'menu-editor',
+  components: {
+    Sortable,
+    MenuElement,
+    FormBuilder
+  },
+  props: [ 'form', 'data' ],
+  name: 'MenuEditor',
   data () {
     return {
-      modal: Modal,
-      link: {new_tab: false, clickable: false}
+      menu_name: undefined,
+      link: {new_tab: false, clickable: false},
+      link_form: undefined
     }
   },
-  created () {},
+  created () {
+    this.menu_name = this.data.title.replace(/_/g,' ').replace(/\b[a-z]/g, l => {
+      return l.toUpperCase()
+    })
+  },
   methods: {
     add (item) {
       this.form.collection.menu.push(_.clone(item, {}, true))
@@ -66,12 +84,10 @@ export default {
     createLink (item) {
       // fetch desired item and pop up a modal
       // this.modal.active = true
+      let vm = this
       this.$http.get('/api/menus/forms/' + item)
         .then(function (response) {
-          // response.data.collection -> form
-          this.modal.show(response.data.collection, this.link, (result) => {
-            return this.storeLink(result)
-          })
+          vm.link_form = new Form().init(response.data)
         })
     },
     deleteLink (link) {
