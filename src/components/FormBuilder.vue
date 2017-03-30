@@ -1,42 +1,57 @@
 <template lang="pug">
-  .row
-    .xsmall-12.columns
-      span(v-if="form", v-for="(field, fieldIndex) in form.fields")
-        label.label(v-if="!field.config.repeatable") {{ field.label }}
-        a.icon.is-small(v-if="field.config.repeatable", @click="clone(field.name, fieldIndex)")
-          i.fa.fa-plus
-        //- SINGLE VALUE (single value returned from content for field) @TODO pass whole field directly ffs -f
-        span(
-            v-if="!Array.isArray(value(field))",
-            :is="Components[field.type]",
-            :pointer="getPath(field.name)",
-            :data="form.get(getPath(field.name))",
-            :errors="form.errors",
-            :source="field.source",
-            :config="field.config",
-            :help="field.help",
-            @input="set",
-            @disk="disk"
-          )
+  div
+    div(
+      v-if="form"
+      v-for="(field, fieldIndex) in form.fields"
+    )
+      label
+        | {{ field.label }}
+        span.required(
+          v-if="isRequired(field)"
+        )
+          ="  *"
+        //- pre {{ field }}
+      .input-desc {{ field.help }}
+      div(
+        v-if="Components[field.type]",
+        :is="Components[field.type]",
+        :pointer="getPath(field.name)",
+        :data="form.get(getPath(field.name))",
+        :errors="form.errors",
+        :field="field",
+        :form="form.split(field)",
+        :parent="getPath(field.name)",
+        @input="set",
+        @disk="disk"
+      )
+      div.form-error.row(v-else)
+        .xsmall-12.columns
+          | {{ field.type }} Is not an installed component template.  Please install or create it.
+      ul.form-error
+        li(v-for="error in form.errors.get(getPath(field.name))") {{ error }}
 
-        //- RECURSIVE FORMS (field is not repeatable, it's just a set of children)
-        div(v-if="field.fields.length && !Array.isArray(value(getPath(field.name)))")
-          FormBuilder.fieldset(:form="form.split(field)", :parent="getPath(field.name)", @set="set")
+        //- //- a.icon.is-small(v-if="field.config.repeatable", @click="clone(field.name, fieldIndex)")
+        //- //-   i.fa.fa-plus
+        //- //- //- SINGLE VALUE (single value returned from content for field) @TODO pass whole field directly ffs -f
 
-        //- MULTI FIELD REPEATABLE SORTABLE (sub-form present, has multiple values and field.config.repeatable is true)
-        Sortable(v-if="field.config.repeatable && field.fields.length", :list="value(field)", :options="{handle: '.handle', animation: 150, group: 'items'}")
-          div(v-for="(val, index) in value(field)")
-            span.icon.is-small(@click="collapse(value(field, index), true)", v-if="!value(field, index).isCollapsed")
-              i.fa.fa-minus-square-o
-            span.icon.is-small(@click="collapse(value(field, index), false)", v-if="value(field, index).isCollapsed")
-              i.fa.fa-plus-square
-            span  {{ value(field, index).title || '' }}
-            a.icon.is-small.pull-right(@click="unlink(field, index)")
-              i.fa.fa-trash-o
-            a.icon.is-small.pull-right.handle(v-if="value(field, index).isCollapsed")
-              i.fa.fa-arrows
+        //- //- RECURSIVE FORMS (field is not repeatable, it's just a set of children)
+        //- div(v-if="field.fields.length && !Array.isArray(value(getPath(field.name)))")
+        //-   FormBuilder.fieldset(:form="form.split(field)", :parent="getPath(field.name)", @set="set")
 
-            FormBuilder.fieldset(v-if="!val.isCollapsed", :form="form.split(field)", :parent="getPath(field.name)", @set="function(e) { return set(e, index) }")
+        //- //- MULTI FIELD REPEATABLE SORTABLE (sub-form present, has multiple values and field.config.repeatable is true)
+        //- Sortable(v-if="field.config.repeatable && field.fields.length", :list="value(field)", :options="{handle: '.handle', animation: 150, group: 'items'}")
+        //-   div(v-for="(val, index) in value(field)")
+        //-     span.icon.is-small(@click="collapse(value(field, index), true)", v-if="!value(field, index).isCollapsed")
+        //-       i.fa.fa-minus-square-o
+        //-     span.icon.is-small(@click="collapse(value(field, index), false)", v-if="value(field, index).isCollapsed")
+        //-       i.fa.fa-plus-square
+        //-     span  {{ value(field, index).title || '' }}
+        //-     a.icon.is-small.pull-right(@click="unlink(field, index)")
+        //-       i.fa.fa-trash-o
+        //-     a.icon.is-small.pull-right.handle(v-if="value(field, index).isCollapsed")
+        //-       i.fa.fa-arrows
+
+        //-     FormBuilder.fieldset(v-if="!val.isCollapsed", :form="form.split(field)", :parent="getPath(field.name)", @set="function(e) { return set(e, index) }")
 </template>
 
 <script>
@@ -92,6 +107,9 @@ export default {
     },
     value (field, index) {
       return this.form.get(field, index)
+    },
+    isRequired (field) {
+      return field.validation && field.validation.indexOf('required') >= 0
     },
     // sets a value
     set (data, index) {

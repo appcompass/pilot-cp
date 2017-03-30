@@ -25,7 +25,7 @@ import Breadcrumbs from './../Global/Breadcrumbs'
 import ModalComponent from './../Global/ModalComponent'
 
 export default {
-  name: 'PrivateNormal',
+  name: 'Private',
   data () {
     return {
       // model: undefined,
