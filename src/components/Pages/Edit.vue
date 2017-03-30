@@ -3,6 +3,7 @@ div
     div(
       v-if="!loading && Editors[form.form.editor]",
       :is="Editors[form.form.editor]",
+      :data="data",
       :form="form",
       @refresh="refresh",
       @set="set"
@@ -36,6 +37,7 @@ export default {
       tabs: undefined,
       api: undefined,
       can: Auth.abilities,
+      data: {},
       form: new Form(),
       Editors
     }
@@ -84,6 +86,7 @@ export default {
         }
       })
         .then((response) => {
+          this.data = response.data.collection
           this.form.init(response.data.form, response.data.collection)
           this.loading = false
         }, (error) => {
