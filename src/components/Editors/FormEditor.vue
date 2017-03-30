@@ -13,13 +13,15 @@
       )
         //- @TODO: this should display the record type and ID or something specific to this record.
         h1.title.is-4 Edit: {{ this.$route.fullPath.slice(0,-1).split('/').pop() }}
-        FormBuilder(:form="form", @set="set")
+        .row
+          .xsmall-12.columns
+            FormBuilder(:form="form", @set="set")
 </template>
 
 <script>
-import * as Components from '../Components'
-import FormField from '../FormBuilder/FormField'
-import FormBuilder from '../FormBuilder'
+import * as Components from 'components/Components'
+import FormField from 'components/FormBuilder/FormField'
+import FormBuilder from 'components/FormBuilder'
 
 export default {
   name: 'FormEditor',

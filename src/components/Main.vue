@@ -66,7 +66,7 @@ export default {
           if (Layouts[name]) {
             this.layout = name
           } else {
-            this.layout = 'PrivateNormal'
+            this.layout = 'Private'
           }
         } else {
           this.layout = 'Public'

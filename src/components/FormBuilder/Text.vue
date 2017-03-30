@@ -1,23 +1,15 @@
 <template lang="pug">
-div
-  p.control
-    label.label {{ label }}
+  div
     textarea.textarea(
       @input="$emit('input', {value: $event.target.value, pointer: pointer})",
-      :class="{'is-danger': errors.get([pointer])}",
+      :class="{'error': errors.get(pointer)}",
       :value="data"
     )
-    p.help.is-danger
-      ul
-        li(v-for="error in errors.get(pointer)") {{ error }}
-    p.help
-      | {{ help }}
-
 </template>
 
 <script>
 export default {
   name: 'Text',
-  props: ['pointer', 'data', 'label', 'errors', 'help']
+  props: ['pointer', 'data', 'errors', 'field']
 }
 </script>
