@@ -12,7 +12,7 @@
           h2.nav-options-title Links
           a.btn-secondary.btn-small.nav-options-trigger(@click="createLink('create-link')") Add Link
         form.nav-options-form(
-          :class="{'is-active' : link_form }"
+          :class="{'is-active' : add_link_toggle }"
         )
           FormBuilder(
             v-if="link_form",
@@ -20,7 +20,9 @@
           )
           p.nav-item-form-actions
             button.btn-primary.left(type='submit') Save Link
-            a.link-text-secondary.left Cancel
+            a.link-text-secondary.left(
+            @click="add_link_toggle = !add_link_toggle"
+            ) Cancel
         Sortable.nav-option-list(:list="form.collection.repo.links", :element="'ul'", :options="{animation: 50, group: 'items', clone: true}")
           li.nav-option-item(v-for="(item, index) in form.collection.repo.links", @dblclick="add(item)")
             | {{ item.title }}
@@ -55,7 +57,8 @@ export default {
     return {
       menu_name: undefined,
       link: {new_tab: false, clickable: false},
-      link_form: undefined
+      link_form: undefined,
+      add_link_toggle: false
     }
   },
   created () {
@@ -82,6 +85,7 @@ export default {
         })
     },
     createLink (item) {
+      this.add_link_toggle = true
       // fetch desired item and pop up a modal
       // this.modal.active = true
       let vm = this
