@@ -7,34 +7,49 @@
 </template>
 
 <script>
+import RouteHandling from 'Mixins/RouteHandling'
+import Utils from 'Helpers/Utils'
+
 export default {
   name: 'Breadcrumbs',
+  mixins: [RouteHandling],
   data () {
     return {
-      breadcrumbs: [
-        {
-          'title': 'Dashboard',
-          'url': '/'
-        }
-      ]
+      breadcrumbs: []
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.init()
     }
   },
   methods: {
     init () {
-      // @TODO: we need to make each crumb (except the last) a link
-      // @TODO: look into fetching the middle value (ID: ) from the params that's returned
-      // from the api call to populate the page resources.  Either that or have the API
-      // provide a bread crumb name so we can use that instead of the ID.
-      let segments = this.$route.fullPath.replace(/^\//, '').split('/')
-      for (var i = 0; i < segments.length; i++) {
-        let title = (i % 2) ? 'ID: ' + segments[i] : segments[i].toLowerCase().replace(/\b[a-z]/g, function (first) {
-          return first.toUpperCase()
-        })
+      this.breadcrumbs = [{
+        'title': 'Dashboard',
+        'url': '/'
+      }];
+
+      const tree = this.$route.matched
+      const cats = this.getRouteName().split('.')
+      let catUrl = ''
+      for (let i in tree) {
+        if (cats[i]) {
+          catUrl = catUrl + '/' + cats[i]
+          this.breadcrumbs.push({
+            'title': Utils.ucWords(cats[i]),
+            'url': catUrl
+          })
+          catUrl = catUrl + '/' + this.$route.params[cats[i]]
+        }
         this.breadcrumbs.push({
-          'title': title,
-          'url': null
+          // @TODO: next step is to create an intersector that overwirtes the title with the record name
+          // maybe make records use a "Breadcrumbable" Trait to maintain a consistent API
+          'title': tree[i].meta.title,
+          'url': parseInt(i) === tree.length-1 ? null : this.buildUrl(tree[i].path)
         })
       }
+
     }
   },
   computed: {

@@ -39,8 +39,10 @@
 </template>
 
 <script>
+
 import Sortable from 'Helpers/VueSortable'
 import Form from 'Helpers/Form'
+import Utils from 'Helpers/Utils'
 import MenuElement from 'components/FormBuilder/MenuElement'
 import FormBuilder from 'components/FormBuilder'
 import _ from 'lodash'
@@ -62,9 +64,7 @@ export default {
     }
   },
   created () {
-    this.menu_name = this.data.title.replace(/_/g,' ').replace(/\b[a-z]/g, l => {
-      return l.toUpperCase()
-    })
+    this.menu_name = Utils.ucWords(this.data.title.replace(/_/g,' '))
   },
   methods: {
     add (item) {
