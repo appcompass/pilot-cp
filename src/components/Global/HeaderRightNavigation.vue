@@ -11,7 +11,7 @@
           img(:src="auth.user.profile.gravatar_url", width="40px", height="40px")
       ul
         li(v-for="cat in navigation.user")
-          router-link(:to="cat.url" exact, v-if="cat.url") {{ cat.title }}
+          router-link(:to="cat.url" exact, :params="{current_user_id: user_id}", v-if="cat.url") {{ cat.title }}
         li
           a(@click="auth.logout()") Logout
     li
@@ -34,6 +34,7 @@ export default {
     return {
       auth: auth,
       navigation: NavigationState,
+      user_id: undefined,
       notifications: NotificationsState
     }
   },
@@ -42,8 +43,18 @@ export default {
       auth.logout()
     }
   },
-  mounted () {
+  watch: {
+    'auth.user.profile' (profile) {
+      if (profile) {
+        this.user_id = profile.id
+      }
+    }
+  },
+  created () {
     auth.check()
+  },
+  mounted () {
+    this.user_id = auth.user.profile.id
     NotificationsState.init()
   }
 }

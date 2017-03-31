@@ -6,6 +6,10 @@
         input(type="email", placeholder="Email", v-model="email", @keydown="error = false", @keyup.enter="login")
         label(for='') Password
         input(type="password", placeholder="Password", v-model="password", @keyup.enter="login", @keydown="error = false")
+        ul.form-error(
+          v-if="error"
+        )
+          li {{ response.message }}
         .align-space-between
           button.btn-primary(@click.prevent="login") Log In
           router-link.link-text-tertiary(
@@ -28,12 +32,14 @@ export default {
     return {
       email: null,
       password: null,
-      error: false
+      error: false,
+      response: undefined
     }
   },
   methods: {
     login () {
       auth.login(this, this.email, this.password)
+      console.log(this.error)
     }
   }
 }

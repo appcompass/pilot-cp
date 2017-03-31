@@ -72,7 +72,9 @@ export default {
         router.push({
           name: 'home'
         })
-      }, error => {
+      })
+      .catch(error => {
+        console.log(error)
         context.response = error.response.data
         context.error = true
       })

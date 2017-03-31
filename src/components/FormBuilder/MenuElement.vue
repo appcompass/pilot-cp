@@ -52,7 +52,8 @@ export default {
       options: {
         handle: 'li',
         animation: 300,
-        group: 'items'
+        group: 'items',
+        clone: false
       }
     }
   },

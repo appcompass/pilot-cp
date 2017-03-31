@@ -51,12 +51,12 @@ export default {
   },
   methods: {
     emit () {
-      if (this.section.section.form) {
+      if (this.section.form) {
         this.$parent.$emit('sectionData', {
           id: this.section.id,
           isActive: this.section.isActive,
           name: this.section.section.name,
-          form: this.section.section.form,
+          form: this.section.form,
           content: this.section.content
         })
       }

@@ -64,6 +64,7 @@ export default {
           // Elaboriate, but allows us to add pages by their route names as need be.
           name = name.charAt(0).toUpperCase() + name.replace(/\.([a-z])/g, function (g) { return g[1].toUpperCase() }).slice(1)
           if (Layouts[name]) {
+            // this.layout = 'Private'
             this.layout = name
           } else {
             this.layout = 'Private'

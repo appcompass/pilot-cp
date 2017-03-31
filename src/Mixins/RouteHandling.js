@@ -3,7 +3,7 @@ module.exports = {
   },
   methods: {
     activeNav (url) {
-      return url === this.$route.fullPath
+      return this.buildUrl(url) === this.$route.fullPath
     },
     getRouteName (sub) {
       return this.$route.name.replace(/\.[^/.]+$/, sub ? '.' + sub : '')
@@ -14,20 +14,24 @@ module.exports = {
       params[basename.split('.').pop()] = id
       return params
     },
-    buildLink (url) {
+    buildUrl (url) {
       let params = this.$route.params
       let pattern = /:([a-z]+)+/g
-      let match
-      while ((match = pattern.exec(url)) != null) {
-        if (match[1] && params[match[1]]) {
-          url = url.replace(match[0], params[match[1]])
-        } else if (match[1] && !params[match[1]]) {
-          url = url.replace(match[0], '')
+      url = url.replace(pattern, (match, word, pos) => {
+        if (params[word]) {
+          return params[word]
         } else {
-          console.log(match)
+          return ''
         }
-      }
+      })
       return url
+    },
+    reverseUrl () {
+      let rtn = this.$route.fullPath
+      for (let key in this.$route.params) {
+        rtn = rtn.replace(this.$route.params[key], ':' + key)
+      }
+      return rtn
     }
   }
 }

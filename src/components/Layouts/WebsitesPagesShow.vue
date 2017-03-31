@@ -1,29 +1,16 @@
 <template lang="pug">
-//- @TODO: This massive component can (and should) probabaly get broken up killing some repetative code too.
 .site
   header.header.header-page-builder
     nav.page-builder-nav
       ul
         li(
-          v-if="layout.length",
-          :class="{'is-active': checkEditor('Content')}"
+          v-for="tab in tabs"
+          v-if="requiresLayout(tab.layout)",
+          :class="{'is-active': checkEditor(tab.name)}"
         )
           a(
-            @click="toggleEditor('Content')"
-          ) Content
-        li(
-          v-if="layout.length",
-          :class="{'is-active': checkEditor('Layout')}"
-        )
-          a(
-            @click="toggleEditor('Layout')"
-          ) Layout
-        li(
-          :class="{'is-active': checkEditor('Settings')}"
-        )
-          a(
-            @click="toggleEditor('Settings')"
-          ) Settings
+            @click="toggleEditor(tab.name)"
+          ) {{tab.name}}
     .page-builder-save
       router-link.page-builder-cancel(
         :to="{name: 'websites.pages.index'}"
@@ -57,10 +44,12 @@
       .sidebar-page-layout-options
         .sidebar-page-layout-header
           h3.sidebar-page-layout-title Containers
-        ul.sidebar-page-layout-list
-          li(
-            v-for="container in containers"
-          )
+        Sortable.sidebar-page-layout-list(
+          :list="containers",
+          :element="'ul'",
+          :options="{animation: 50, group: 'items', clone: true}"
+        )
+          li(v-for="(container, index) in containers", @dblclick="add(item)")
             .sidebar-page-layout-item {{ container.name }}
       .sidebar-page-layout-options
         .sidebar-page-layout-header
@@ -69,10 +58,13 @@
             .search-input
               span.icon-search
               input(type="search", placeholder="Search")
-        ul.sidebar-page-layout-list
-          li.sidebar-page-section-item(
-            v-for="section in sections"
-          ) {{section.name}}
+        Sortable.sidebar-page-layout-list(
+          :list="sections",
+          :element="'ul'",
+          :options="{animation: 50, group: 'items', clone: true}"
+        )
+          li(v-for="(section, index) in sections", @dblclick="add(item)")
+            .sidebar-page-section-item {{ section.name }}
     .sidebar.sidebar-page-settings(
       :class="{'is-active': checkEditor('Settings')}"
     )
@@ -102,17 +94,33 @@
 import _ from 'lodash'
 import Form from 'Helpers/Form'
 import FormBuilder from 'components/FormBuilder'
+import Sortable from 'Helpers/VueSortable'
 import PageLayoutBuilder from 'components/PageLayoutBuilder'
 
 export default {
   name: 'WebsitePageEditor',
   components: {
     FormBuilder,
-    PageLayoutBuilder
+    PageLayoutBuilder,
+    Sortable
   },
   data () {
     return {
       active_editor: '',
+      tabs: [
+        {
+          name: 'Content',
+          layout: true
+        },
+        {
+          name: 'Layout',
+          layout: false
+        },
+        {
+          name: 'Settings',
+          layout: false
+        }
+      ],
       layout: [],
       content: [],
       containers: [],
@@ -134,6 +142,9 @@ export default {
   mounted () {
   },
   methods: {
+    requiresLayout (bool) {
+      return bool ? this.layout.length : true
+    },
     checkEditor (editor) {
       return this.active_editor === editor
     },
