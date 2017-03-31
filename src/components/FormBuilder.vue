@@ -27,6 +27,10 @@
       div.form-error.row(v-else)
         .xsmall-12.columns
           | {{ field.type }} Is not an installed component template.  Please install or create it.
+      button.btn-secondary(
+        v-if="field.config.repeatable",
+        @click.prevent="clone(field.name, fieldIndex)"
+      ) Add Row
       ul.form-error
         li(v-for="error in form.errors.get(getPath(field.name))") {{ error }}
 
@@ -84,11 +88,11 @@ export default {
       if (!this.form.collection[fieldName]) {
         this.$set(this.form.collection, fieldName, [])
       }
-
+      console.log(this.form.collection[fieldName])
       // Fieldset (we have a fields subset)- get the fields
-      if (this.form[fieldIndex].fields.length) {
+      if (this.form.fields[fieldIndex].length) {
         let dataObject = Object.create({})
-        this.form[fieldIndex].fields.forEach((field) => {
+        this.form.fields.forEach((field) => {
           dataObject[field.name] = null
           if (field.fields.length) {
             // @TODO this should become recursive

@@ -1,12 +1,12 @@
-import Vue from './../main'
+import Vue from 'src/main'
 
-function findObject (title, haystack, res) {
+function findObject (url, haystack, res) {
   for (let i = 0; i < haystack.length; i++) {
     let current = haystack[i]
-    if (current.title === title) {
+    if (current.url === url) {
       res = current.children
     } else if (current.children.length) {
-      res = findObject(title, current.children, res)
+      res = findObject(url, current.children, res)
     }
   }
   return res
@@ -15,7 +15,6 @@ function findObject (title, haystack, res) {
 export default {
   full: null,
   user: null,
-  left: null,
   api_url: null,
   init () {
     return Vue.axios.get('/api/content/menus')
@@ -24,35 +23,27 @@ export default {
         this.user = response.data.user_nav
       })
   },
-  setApiUrl (url) {
-    if (url) {
-      this.api_url = '/api' + url
-    }
-  },
-  get (route) {
+  get (url) {
     if (this.full === null) {
       return this.init()
         .then(() => {
-          return this.search(route)
+          return this.search(url)
         })
     } else {
-      return this.search(route)
+      return this.search(url)
     }
   },
-  search (route) {
+  search (url) {
     return new Promise((resolve, reject) => {
-      if (route) {
-        let part = findObject(route.charAt(0).toUpperCase() + route.slice(1), this.full)
+      if (url) {
+        let part = findObject(url, this.full)
         return resolve(part)
-      } else {
-        return resolve(this.full)
       }
     })
   },
   clear () {
     this.full = null
     this.user = null
-    this.left = null
     this.api_url = null
   }
 }

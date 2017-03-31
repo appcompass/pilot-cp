@@ -17,12 +17,12 @@
 
 <script>
 import NavigationState from 'States/Navigation'
-import SiteHeader from './../Global/SiteHeader'
-import SiteFooter from './../Global/SiteFooter'
-import SideNavigation from './../Global/SideNavigation'
-import Notifications from './../Global/Notifications'
-import Breadcrumbs from './../Global/Breadcrumbs'
-import ModalComponent from './../Global/ModalComponent'
+import SiteHeader from 'components/Global/SiteHeader'
+import SiteFooter from 'components/Global/SiteFooter'
+import SideNavigation from 'components/Global/SideNavigation'
+import Notifications from 'components/Global/Notifications'
+import Breadcrumbs from 'components/Global/Breadcrumbs'
+import ModalComponent from 'components/Global/ModalComponent'
 
 export default {
   name: 'Private',
@@ -41,28 +41,10 @@ export default {
     ModalComponent
   },
   created () {
-    this.routeChanged()
   },
   watch: {
-    '$route' (to, from) {
-      this.routeChanged()
-    }
   },
   methods: {
-    routeChanged () {
-      this.axios.interceptors.response.use(function (response) {
-        if (response.data.api_url) {
-          NavigationState.setApiUrl(response.data.api_url)
-        }
-        return response
-      })
-      // this.model = this.$route.fullPath
-      // this.route = this.$route.fullPath.split('/')
-      // if (this.$route.params.model) {
-      //   this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-      //   this.route = this.model.split('/')[this.model.split('/').length - 2]
-      // }
-    }
   }
 }
 </script>

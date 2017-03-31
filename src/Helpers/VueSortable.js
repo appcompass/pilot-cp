@@ -206,7 +206,8 @@
           insertNodeAt(this.rootContainer, evt.item, evt.oldIndex)
           var isCloning = !!evt.clone
           if (isCloning) {
-            removeNode(evt.clone)
+            // @TODO: figure out why this is breaking.
+            // removeNode(evt.clone)
             return
           }
           var oldIndex = this.context.index

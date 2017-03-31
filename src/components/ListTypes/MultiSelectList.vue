@@ -1,12 +1,13 @@
 <template lang="pug">
   section
-    ul.columns.is-multiline
-      li.column.is-4(v-for="(item, index) in collection")
-        .control.is-info
-          label.checkbox
-            input(type="checkbox", v-bind:checked="has(item.id)", @click="toggle(item.id)")
-            //- |  {{ item.label.charAt(0).toUpperCase() + item.label.slice(1) }}
-            |  {{ item.name || item.label }}
+    ul.checkbox-group
+      li(
+        v-for="(item, index) in collection"
+      )
+        input(type="checkbox", v-bind:checked="has(item.id)", @click="toggle(item.id)")
+        label(
+          @click="toggle(item.id)"
+        ) {{ item.name || item.label }}
 </template>
 
 <script>

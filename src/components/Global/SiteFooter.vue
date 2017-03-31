@@ -32,23 +32,23 @@ export default {
     }
   },
   watch: {
-    // @TODO: there are better ways to do this, we also want all requests
-    // and the ability to clear the log via button click.
-    '$route' (to, from) {
-      let vm = this
-      vm.debug = []
-      this.axios.interceptors.response.use(function (response) {
-        if (response.data.debug) {
-          vm.debug.push({
-            endpoint: response.config.url,
-            status: response.status,
-            headers: response.headers,
-            debug: response.data.debug
-          })
-        }
-        return response
-      })
-    }
+    // // @TODO: there are better ways to do this, we also want all requests
+    // // and the ability to clear the log via button click.
+    // '$route' (to, from) {
+    //   let vm = this
+    //   vm.debug = []
+    //   this.axios.interceptors.response.use(function (response) {
+    //     if (response.data.debug) {
+    //       vm.debug.push({
+    //         endpoint: response.config.url,
+    //         status: response.status,
+    //         headers: response.headers,
+    //         debug: response.data.debug
+    //       })
+    //     }
+    //     return response
+    //   })
+    // }
   },
   created () {
   }

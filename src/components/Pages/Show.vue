@@ -5,7 +5,7 @@
         div.row
           div.xsmall-8.columns
             h1.page-title
-              | {{ $route.params.sub || $route.params.model }}
+              | {{ $route.params.sub || $route.params.model || $route.name }}
           div.xsmall-4.columns.text-right
             p
               //- router-link.btn-primary(v-if="can.has('create')", :to="formatLink('create')", style="margin-left: 1rem", ) Add New
@@ -13,7 +13,7 @@
         router-link.page-tab(
           v-for="(item, index) in tabs",
           :key="index",
-          :to="item.url",
+          :to="{path: buildUrl(item.url)}",
           :class="{'is-active': activeNav(item.url)}"
         ) {{ item.title }}
       //- @TODO: we need the sub views to render in the samve view here replacing the editor.
@@ -40,7 +40,7 @@ export default {
       submitted: false,
       loading: true,
       route: undefined,
-      tabs: undefined,
+      tabs: [],
       api: undefined,
       can: Auth.abilities,
       form: new Form()
@@ -57,63 +57,25 @@ export default {
   methods: {
     routeChanged () {
       this.api = '/api' + this.$route.fullPath
-      this.tabs = undefined
-      this.setTabs(this.formatLink().name)
+      this.tabs = []
+      this.setTabs()
     },
-    formatLink (type, params) {
-      let obj = {
-        name: this.$route.name.replace(/\.[^/.]+$/, type ? '.' + type : '')
-      }
-      if (params) {
-        obj['params'] = params
-      }
-      return obj
-    },
-    setTabs (route) {
-      NavigationState.get(route.split('.')[0])
+    // formatLink (type, params) {
+    //   console.log(this.$route.name, this.$route.name.replace(/\.[^/.]+$/, type ? '.' + type : ''))
+    //   let obj = {
+    //     name: this.$route.name.replace(/\.[^/.]+$/, type ? '.' + type : '')
+    //   }
+    //   if (params) {
+    //     obj['params'] = params
+    //   }
+    //   return obj
+    // },
+    setTabs () {
+      let url = this.reverseUrl()
+      url = url.substring(0, url.lastIndexOf('/:'));
+      NavigationState.get(url)
         .then(subnav => {
-          for (let item of subnav) {
-            item.url = this.buildLink(item.url)
-            // @TODO: the tabs here are a bit wonky.  the state doesn't get changed consistently on resource swap.
-            // console.log(item.url)
-          }
           this.tabs = subnav
-        })
-    },
-    set (data) {
-      this.form.set(data)
-    },
-    update () {
-      this.submitted = true
-      this.$http.put(this.api, this.form.collection)
-        .then((response) => {
-          this.$swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
-            this.refresh()
-          })
-        }, error => {
-          if (error.response.status === 422) {
-            this.form.fails(error.response.data)
-          } else if (error.response.status !== 403) {
-            this.$swal({title: 'Error', text: error.response.data.errors, type: 'error'})
-          }
-        })
-    },
-    refresh () {
-      this.loading = true
-      this.$http.get(this.api, {
-        params: {
-          page: 1
-        }
-      })
-        .then((response) => {
-          this.form.init(response.data.form, response.data.collection)
-          this.loading = false
-        }, (error) => {
-          if (!Auth.user.authenticated) {
-            return
-          } else if (error.response.status !== 403) {
-            this.$swal({title: 'Error', text: error.response.data.errors, type: 'error'})
-          }
         })
     }
   }

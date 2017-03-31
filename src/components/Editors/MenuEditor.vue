@@ -33,7 +33,7 @@
         //- @TODO: This should be dynamic, i.e. the menu name.
         h2 {{menu_name}}
         MenuElement(:menu="form.collection.menu", @deleted="deleted", :list_class="'nav-list'")
-        Sortable.nav-list-empty(v-if="!form.collection.menu.length", :list="form.collection.menu",  :options="{handle: 'li', animation: 50, group: 'items'}")
+        Sortable.nav-list-empty(v-if="!form.collection.menu.length", :list="form.collection.menu",  :options="{handle: 'li', animation: 50, group: 'items', clone: false}")
           | Drag items from the left into your menu.
 
 </template>
