@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div#editor
   span(v-html="data")
 </template>

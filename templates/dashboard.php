@@ -1,7 +1,7 @@
 <?php include('header.php'); ?>
 
-
-	<!--div style="height:2000px; background:red; margin-bottom:20px;">Testing scroll/overflow.</div-->
-
+	<div class="row">
+		<div class="xsmall-12 columns">Dashboard</div>
+	</div>
 
 <?php include('footer.php'); ?>	

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import axios from 'axios'
 import _ from 'lodash'
 
-import * as Views from './components/Views'
+import * as Pages from './components/Pages'
 
 Vue.use(Router)
 
@@ -13,8 +13,8 @@ function processRoutes (obj) {
       processRoutes(value)
     } else {
       if (key === 'component') {
-        if (Views[value]) {
-          obj[key] = Views[value]
+        if (Pages[value]) {
+          obj[key] = Pages[value]
         } else {
           console.log('there is no view by the name of ' + value)
         }
@@ -25,6 +25,8 @@ function processRoutes (obj) {
 
 const router = new Router({
   mode: 'history',
+  // @TODO: normally this would be good to set but it conflicts our tabs setup.  needs some work.
+  // linkActiveClass: 'is-active',
   routes: []
 })
 // @TODO: we need to prevent any routing attempts until after the api request.

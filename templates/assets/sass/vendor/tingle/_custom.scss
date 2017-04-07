@@ -74,3 +74,111 @@
 .media-modal-actions a {
     margin-right:20px;
 }
+
+///------------------------------------------------------------------------
+///     Lock Screen Modal
+///------------------------------------------------------------------------
+.lock-screen-modal {
+    cursor:default;
+}
+
+.lock-screen-modal .tingle-modal-box__content {
+    padding:0;
+}
+
+.lock-screen-modal .tingle-modal-box {
+    width:100%;
+    max-width:500px;
+}
+
+.lock-screen-modal .tingle-modal__close {
+    display:none;
+}
+
+.lock-screen-user {
+    padding:10px 30px;
+    background-color:$primary-bg-color;
+    border-bottom:1px solid $border-color;
+}
+
+.lock-screen-username  {
+    display:inline-block;
+    vertical-align:middle;
+    margin-left:10px;
+}
+
+.lock-screen-content {
+    padding:20px 30px 30px;
+}
+
+
+///------------------------------------------------------------------------
+///    Add Media Model
+///------------------------------------------------------------------------
+
+.add-media-modal  {
+   padding:20px;
+}
+
+.add-media-modal .tingle-modal-box {
+    width:100%;
+    //height:100%;
+    //overflow:hidden;
+}
+
+.add-media-modal .tingle-modal-box__content {
+    padding:0;
+    width:100%;
+}
+
+.add-media-modal .tingle-modal__close {
+    display:none;
+}
+
+.add-media-header {
+    background:$primary-bg-color;
+    border-bottom:1px solid $border-color;
+    padding:20px;
+    position:relative;
+}
+
+.add-media-heading {
+    margin:0;
+}
+
+.add-media-header-close {
+    position:absolute;
+    top:50%;
+    right:20px;
+    color:$secondary-text-color;
+    line-height:1;
+    display:block;
+    font-size:em(20px);
+    margin-top:-10px;
+    cursor:pointer;
+    &:hover {
+        color:$primary-red;
+    }
+}
+
+.add-media-content {
+    padding:20px 20px 0;
+}
+
+.add-media-content .upload-drop {
+    margin-bottom:20px;
+}
+
+.add-media-modal .data-actions-view {
+    flex:2 1 auto;
+    text-align:right;
+}
+
+.add-media-modal .tingle-modal-box__footer {
+    text-align:right;
+    padding:20px;
+    background-color:$primary-bg-color;
+    border-top:1px solid $border-color;
+    box-shadow:0px -2px 5px rgba(#000, 0.1);
+}
+
