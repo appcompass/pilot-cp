@@ -156,7 +156,7 @@ $header-profile-container-height: 40px !default;
 	margin-bottom:0;
 }
 
-.header-search input {
+.header-search .search-input input[type="search"] {
 	height:$header-icon-container-height;
 	width:$header-icon-container-height;
 	border:none;
@@ -165,15 +165,16 @@ $header-profile-container-height: 40px !default;
 	border-radius:$header-icon-container-height/2;
 	transition:all 0.15s ease;
 	color:#fff;
+	padding-left:0;
 }
 
-.header-search:hover input,
-.header-search input:focus {
+.header-search:hover .search-input input[type="search"] {
 	background-color:$primary-color-hover;
 }
 
-.header-search input:focus {
+.header-search .search-input input[type="search"]:focus {
 	width:220px;
+	padding-left:32px;
 }
 
 .alert-count {

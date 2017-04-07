@@ -1,27 +1,30 @@
-<template lang="jade">
-ul
-  h1.title.is6 {{ label }}
-  table.table.is-narrow
+<template lang="pug">
+.repeatable-fieldset
+  table
     thead
       tr
-        th Key
-        th Value
+        th
+          | Key
+          .input-desc This is an input description.
+        th
+          | Value
+          .input-desc This is an input description.
+        th.rf-actions
     tbody
+
       tr(v-if="copy", v-for="(value, key, index) in copy")
         td
-          p.control
-            input.input(v-model="value.key", @input="set")
+          input.input(v-model="value.key", @input="set")
         td
-          span.columns
-            p.control.column.is-10
-              input.input(v-model="value.value", @input="set")
-            span.column.is-2
-              a.icon.is-small.pull-left(@click="copy.splice(index, 1)")
-                i.fa.fa-close
-      tfoot
-        tr
-          td
-            a.button.is-primary(@click="copy.push([])") Add
+          input.input(v-model="value.value", @input="set")
+        td.rf-actions
+          a.link-icon.link-red(
+            @click="copy.splice(index, 1)"
+          )
+            span.icon-delete
+  button.btn-secondary(
+    @click.prevent="copy.push([])"
+  ) Add Row
 </template>
 
 <script>

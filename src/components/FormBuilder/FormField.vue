@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
 div
   span(
     :is="Components[field.type]",
@@ -11,7 +11,7 @@ div
     @input="set"
   )
   fieldset(v-if="field.fields.length")
-    FormField(v-for="sub in field.fields", :field="sub", :value="value")
+    FormField(v-for="(sub, index) in field.fields", :key="index", :field="sub", :value="value")
 </template>
 
 <script>
