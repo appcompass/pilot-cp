@@ -73,6 +73,12 @@ class Element {
   type () {
     return this.type
   }
+  formData () {
+    return this.form
+  }
+  collection () {
+    return this.content
+  }
 }
 
 export default {
@@ -94,14 +100,15 @@ export default {
   },
   created () {
     this.load()
-    // this.$on('sectionData', function (data) {
-    //   let content_index = _.findIndex(this.content, {'id': data.id})
-    //   if (content_index === -1) {
-    //     this.content.push(data)
-    //   } else {
-    //     this.$set(this.content, content_index, data)
-    //   }
-    // })
+    this.$on('sectionData', function (data) {
+      console.log(data)
+      let content_index = _.findIndex(this.content, {'id': data.id})
+      if (content_index === -1) {
+        this.content.push(data)
+      } else {
+        this.$set(this.content, content_index, data)
+      }
+    })
   },
   methods: {
     add (item) {

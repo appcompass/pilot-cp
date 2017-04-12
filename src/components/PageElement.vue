@@ -1,13 +1,13 @@
 <template lang="pug">
-.page-layout-column(:style="{'width': element.section.config.width ? element.section.config.width : '100%'}")
-  .page-layout(:class="{'is-closed': element.isClosed}")
-    .page-layout-header(:style="{background: element.type !== 'container' ? '#ccc' : ''}") {{ element.name }}
-      span.icon.icon-box-down(v-if="element.type === 'container'", @click="toggle")
-    .page-layout-content
-      Sortable(:list="element.children", :element="'div'", :options="{animation: 300, group: {name: 'items', put: true, pull: true}}")
-        PageElement(v-for="single in element.children", :element="single", :key="single.id")
-      Sortable(v-if="!element.children.length && element.type === 'container'", :element="'div'", :list="element.children", :options="{animation: 300, group: {name: 'items', put: true, pull: true}}")
-        div(style="height: 1rem; width: 100%; background: #eee; margin: 0.3rem; margin-top: 0")
+div
+  .page-layout-column(v-if="element.type === 'container'", :style="{'width': element.section.config.width ? element.section.config.width : '100%'}")
+    .page-layout(:class="{'is-closed': element.isClosed}")
+      .page-layout-header {{ element.name }}
+        span.icon.icon-box-down(v-if="element.type === 'container'", @click="toggle")
+      .page-layout-content
+        Sortable(:list="element.children", :element="'div'", :options="{animation: 300, group: {name: 'items', put: true, pull: true}}")
+          PageElement(v-for="single in element.children", :element="single", :key="single.id", @sectionData="sectionData")
+  .page-section(v-if="element.type !== 'container'") {{ element.name }}
 </template>
 
 <script>
@@ -18,24 +18,30 @@ export default {
   props: ['element'],
   components: { Sortable },
   created () {
-    // this.emit()
-    // this.$on('sectionData', function (data) {
-    //   this.$parent.$emit('sectionData', data)
-    // });
+    this.emit()
+    this.$on('sectionData', function (data) {
+      this.$parent.$emit('sectionData', data)
+    });
   },
   mounted () {
+    // this.$emit('sectionData', { form: this.element.formData(), collection: this.element.collection() })
+    // console.log(this.element.getForm())
   },
   methods: {
+    sectionData (data) {
+
+      this.$emit('sectionData', data)
+    },
     emit () {
-      // if (this.section.form) {
-      //   this.$parent.$emit('sectionData', {
-      //     id: this.section.id,
-      //     isActive: this.section.isActive,
-      //     name: this.section.section.name,
-      //     form: this.section.form,
-      //     content: this.section.content
-      //   })
-      // }
+      if (this.element.form) {
+        this.$parent.$emit('sectionData', {
+          id: this.element.id,
+          isActive: this.element.isActive,
+          name: this.element.name,
+          form: this.element.formData(),
+          content: this.element.collection()
+        })
+      }
     },
     toggle () {
       this.$set(this.element, 'isClosed', !this.element.isClosed)
