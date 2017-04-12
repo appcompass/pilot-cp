@@ -5,7 +5,7 @@
       .nav-options-pages
         .nav-options-header
           h2.nav-options-title Pages
-        Sortable.nav-option-list(:list="form.collection.repo.pages", :element="'ul'", :options="{animation: 50, group: 'items', clone: true}")
+        Sortable.nav-option-list(:list="form.collection.repo.pages", :element="'ul'", :options="{animation: 50, group: {name: 'items', pull: 'clone', put: false}}")
           li.nav-option-item(v-for="(item, index) in form.collection.repo.pages", @dblclick="add(item)") {{ item.title }}
       .nav-options-links
         .nav-options-header
@@ -23,7 +23,7 @@
             a.link-text-secondary.left(
             @click="add_link_toggle = !add_link_toggle"
             ) Cancel
-        Sortable.nav-option-list(:list="form.collection.repo.links", :element="'ul'", :options="{animation: 50, group: 'items', clone: true}")
+        Sortable.nav-option-list(:list="form.collection.repo.links", :element="'ul'", :options="{animation: 50, group: {name: 'items', pull: 'clone', put: false}}")
           li.nav-option-item(v-for="(item, index) in form.collection.repo.links", @dblclick="add(item)")
             | {{ item.title }}
             span.nav-option-item-actions
@@ -33,7 +33,7 @@
         //- @TODO: This should be dynamic, i.e. the menu name.
         h2 {{menu_name}}
         MenuElement(:menu="form.collection.menu", @deleted="deleted", :list_class="'nav-list'")
-        Sortable.nav-list-empty(v-if="!form.collection.menu.length", :list="form.collection.menu",  :options="{handle: 'li', animation: 50, group: 'items', clone: false}")
+        Sortable.nav-list-empty(v-if="!form.collection.menu.length", :list="form.collection.menu",  :options="{handle: 'li', animation: 50, group: {name: 'items', pull: true, put: true}}")
           | Drag items from the left into your menu.
 
 </template>
