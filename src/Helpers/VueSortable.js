@@ -204,12 +204,12 @@
         },
         onDragRemove: function onDragRemove (evt) {
           insertNodeAt(this.rootContainer, evt.item, evt.oldIndex)
-          var isCloning = !!evt.clone
-          if (isCloning) {
-            // @TODO: figure out why this is breaking.
-            // removeNode(evt.clone)
-            return
-          }
+          // var isCloning = !!evt.clone
+          // if (isCloning) {
+          //   // @TODO: figure out why this is breaking.
+          //   removeNode(evt.clone)
+          //   return
+          // }
           var oldIndex = this.context.index
           this.spliceList(oldIndex, 1)
           var removed = { element: this.context.element, oldIndex: oldIndex }

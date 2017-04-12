@@ -3,7 +3,8 @@ div
   //- {{ form.fields }}
   .columns
     .page.column.is-6
-      Container(v-for="(container, index) in form.collection.data", :key="index", :container="container", @edit="edit")
+      Sortable(:list="form.collection.data", :options="{animation: 50, group: {name: 'items', pull: true, put: true}}")
+        Container(v-for="(container, index) in form.collection.data", :key="index", :container="container", @edit="edit")
     .column.is-6
       //- a.button.is-primary(@click="store") Save
       //- FormBuilder(:form="form.fields", :content="form.collection.page", :errors="form.errors", @set="set")
@@ -41,7 +42,6 @@ export default {
         .then(response => {
           let form = new Form()
           form.init(response.data.form, response.data.content)
-          console.log(form)
           this.section = response.data.collection
           // @TODO backend sends in an empty array instead of object in case no content is present
           if (Array.isArray(response.data.collection.content)) {

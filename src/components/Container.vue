@@ -1,8 +1,10 @@
 <template lang="pug">
-div.page-container(v-if="container.section.type === 'container'")
-  Container(v-if="container.children", v-for="(sub, index) in container.children", :key="index", :container="sub", @edit="edit")
-div.element(v-else, @click="$emit('edit', container.id)")
-  a {{ container.section.name }}
+div
+  div.page-container(v-if="container.section.type === 'container'")
+    Sortable(:list="container.children", :options="{animation: 50, group: {name: 'items', pull: true, put: false}}")
+      Container(v-for="(sub, index) in container.children", :key="index", :container="sub", @edit="edit")
+  div.element(v-if="container.section.type !== 'container'", @click="$emit('edit', container.id)")
+    a {{ container.section.name }}
 </template>
 
 <script>
