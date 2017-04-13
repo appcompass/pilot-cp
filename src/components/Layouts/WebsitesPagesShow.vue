@@ -16,7 +16,7 @@
             | {{ row.name }}
             span.icon.icon-box-down(@click="toggleForm(row)")
           .page-section-edit-content
-            FormBuilder(v-if="row.form", :form="setForm(row.form, row.content)")
+            FormBuilder(:form="row.form")
     .sidebar.sidebar-page-layout(:class="{'is-active': checkEditor('Layout')}")
       .sidebar-page-layout-options
         .sidebar-page-layout-header
@@ -35,15 +35,13 @@
         Sortable.sidebar-page-layout-list(:list="sections", :element="'div'", :options="{animation: 300, group: {name: 'items', put: false, pull: 'clone'}}")
           .page-layout-column(v-for="(section, index) in sections", @dblclick="add(section)")
             .sidebar-page-section-item {{ section.name }}
-    .sidebar.sidebar-page-settings(:class="{'is-active': checkEditor('Settings')}")
-      FormBuilder.page-settings-edit(v-if="data.form", :form="setForm(data.form, data.collection.page)")
     .main-container.main-container-page-builder(v-if="layout.length")
       main.main
         .row
           .xsmall-12.columns
             h2.page-builder-title {{ data.collection.page.title }}
         .page-builder(:class="{'show-layout-ui': checkEditor('Layout'), 'hide-layout-ui': !checkEditor('Layout')}", v-if="layout.length")
-          PageBuilder(:elements="layout")
+          PageBuilder(:elements="layout", @formData="formData")
 </template>
 
 <script>
@@ -73,29 +71,22 @@ export default {
   },
   created () {
     this.load()
-    this.$on('sectionData', function (data) {
-      console.log(data)
-      let content_index = _.findIndex(this.content, {'id': data.id})
-      if (content_index === -1) {
-        this.content.push(data)
-      } else {
-        this.$set(this.content, content_index, data)
-      }
-    })
   },
   methods: {
+    formData (formData) {
+      this.content.push(formData)
+    },
     add (item) {
       console.log(item)
     },
-    sectionData (data) {
-      console.log(data)
-      let content_index = _.findIndex(this.content, {'id': data.id})
-      if (content_index === -1) {
-        this.content.push(data)
-      } else {
-        this.$set(this.content, content_index, data)
-      }
-    },
+    // sectionData (data) {
+    //   let content_index = _.findIndex(this.content, {'id': data.id})
+    //   if (content_index === -1) {
+    //     this.content.push(data)
+    //   } else {
+    //     this.$set(this.content, content_index, data)
+    //   }
+    // },
     requiresLayout (bool) {
       return bool ? this.layout.length : true
     },
@@ -108,9 +99,9 @@ export default {
     toggleForm (item) {
       this.$set(item, 'isClosed', !item.isClosed)
     },
-    setForm (structure, data) {
-      return new Form().init(structure, data)
-    },
+    // setForm (structure, data) {
+    //   return new Form().init(structure, data)
+    // },
     load () {
       // set page data
       this.fetch('').then(response => {

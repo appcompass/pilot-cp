@@ -5,7 +5,7 @@
       span.icon.icon-box-down(v-if="element.type === 'container'")
     .page-layout-content
       Sortable(:list="element.children", :options="{group: 'items', animation: 300}")
-        div(v-for="single in element.children", :element="single", :key="single.id", :is="single.type + 'Element'")
+        div(v-for="single in element.children", :element="single", :key="single.id", :is="single.type + 'Element'", @formData="formData")
         div(v-if="!element.children.length", style="min-height: 30px") Empty
 </template>
 
@@ -17,6 +17,11 @@ import sectionElement from 'components/PageBuilder/Section'
 export default {
   name: 'containerElement',
   props: ['element'],
-  components: { Sortable, containerElement, sectionElement }
+  components: { Sortable, containerElement, sectionElement },
+  methods: {
+    formData (formData) {
+      this.$emit('formData', formData)
+    }
+  }
 }
 </script>
