@@ -11,9 +11,7 @@ class Form {
   }
 
   data (data) {
-    // object assign makes sure the change is noticed
     this.collection = Object.assign({}, data)
-    // @TODO initi data recursively -> empty object based on form struct
   }
 
   init (formStructure, collection) {
@@ -27,16 +25,13 @@ class Form {
     return this
   }
 
-  set (data, index) {
-    let copy = _.cloneDeep(this.collection)
-    if (/\./.test(data.pointer) && index >= 0) {
-      let path = data.pointer.split('.').join(`[${index}]`)
-      _.set(copy, path, data.value)
+  set (data) {
+    if (/\./.test(data.pointer) && data.index >= 0) {
+      let path = data.pointer.split('.').join(`[${data.index}].`)
+      _.set(this.collection, path, data.value)
     } else {
-      _.set(copy, data.pointer, data.value)
+      _.set(this.collection, data.pointer, data.value)
     }
-    this.collection = Object.assign({}, copy)
-    this.errors.unset(data.pointer)
   }
 
   fails (errors) {
@@ -54,7 +49,8 @@ class Form {
 
   get (path, index) {
     if (index >= 0) {
-      return this.collection[path][index]
+      path = path.split('.').join(`[${index}]`)
+      return _.get(this.collection, path)
     } else {
       return _.get(this.collection, path)
     }

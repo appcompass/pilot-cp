@@ -1,6 +1,5 @@
 <template lang="pug">
   div
-
     .fieldset(:class="{'draggable': true, 'is-closed': isCollapsed}")
       .fieldset-header
         .fieldset-heading(v-if="field.label", v-html="field.label")
@@ -9,7 +8,7 @@
           span.icon.icon-delete(v-if="true")
           span.icon.icon-box-down(@click="collapse()")
       .fieldset-fields
-        FormBuilder(:form="form", :parent="parent", @input="input")
+        FormBuilder(:form="form", :parent="parent", @input="input", :subIndex="index")
 </template>
 
 <script>
@@ -30,8 +29,9 @@ export default {
   methods: {
     input (data) {
       // _.set(this.data, this.index, data.value)
-      console.log(this.data, this.index)
-      // this.form.set(data, this.index)
+      // let result = this.form.set(data, this.index)
+      // Object.assign(this.data, result)
+      this.$emit('input', {pointer: data.pointer, value: data.value, index: this.index})
     },
     collapse () {
       this.isCollapsed = !this.isCollapsed
