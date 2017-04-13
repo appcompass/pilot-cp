@@ -51,34 +51,8 @@ import _ from 'lodash'
 import Form from 'Helpers/Form'
 import FormBuilder from 'components/FormBuilder'
 import Sortable from 'Helpers/VueSortable'
+import PageElement from 'Helpers/PageElement'
 import PageBuilder from 'components/Editors/PageBuilder'
-
-class Element {
-  constructor(data) {
-    let children = []
-    if (typeof data.children === 'undefined') {
-      this.children = []
-    } else {
-      data.children.forEach((child) => {
-        children.push(new Element(child))
-      })
-    }
-    Object.assign(this, data)
-    this.children = children
-    this.type = this.section.type
-    this.name = this.section.name
-    this.isClosed = false
-  }
-  type () {
-    return this.type
-  }
-  formData () {
-    return this.form
-  }
-  collection () {
-    return this.content
-  }
-}
 
 export default {
   name: 'WebsitePageEditor',
@@ -142,7 +116,7 @@ export default {
       this.fetch('').then(response => {
         this.data = response.data
         response.data.collection.layout.forEach((layout) => {
-          this.layout.push(new Element(layout))
+          this.layout.push(new PageElement(layout))
         })
         // this.layout = response.data.collection.layout
         this.active_editor = this.layout.length ? 'Content' : 'Settings'
@@ -150,13 +124,13 @@ export default {
       // set containers available for the page
       this.fetch('containers').then(response => {
         response.data.collection.forEach(container => {
-          this.containers.push(new Element(container))
+          this.containers.push(new PageElement(container))
         })
       })
       // set sections available for the page
       this.fetch('sections').then(response => {
         response.data.collection.forEach(section => {
-          this.sections.push(new Element(section))
+          this.sections.push(new PageElement(section))
         })
       })
     },

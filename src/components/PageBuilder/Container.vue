@@ -4,7 +4,7 @@
     .page-layout-header {{ element.name }}
       span.icon.icon-box-down(v-if="element.type === 'container'")
     .page-layout-content
-      Sortable(:list="element.children", :options="{group: 'items'}")
+      Sortable(:list="element.children", :options="{group: 'items', animation: 300}")
         div(v-for="single in element.children", :element="single", :key="single.id", :is="single.type + 'Element'")
         div(v-if="!element.children.length", style="min-height: 30px") Empty
 </template>
