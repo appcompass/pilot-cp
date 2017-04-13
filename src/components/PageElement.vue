@@ -5,10 +5,10 @@ div
       .page-layout-header {{ element.name }}
         span.icon.icon-box-down(v-if="element.type === 'container'", @click="toggle")
       .page-layout-content
-        Sortable(:list="element.children", :element="'div'", :options="{animation: 300, group: {name: 'items', put: true, pull: true}}")
+        Sortable(v-model="element.children", :element="'div'", :options="{animation: 300, group: {name: 'items', put: true, pull: true}}")
           PageElement(v-for="single in element.children", :element="single", :key="single.id", @sectionData="sectionData")
-        Sortable(:list="element.children", v-if="!element.children.length", :element="'div'", :options="{animation: 300, group: {name: 'items', put: true, pull: true}}")
-          div.page-layout-column(style="padding-bottom: 2rem")
+        Sortable(:list="element.children", v-if="!element.children.length", :element="'div'", :options="{animation: 300, group: {name: 'items', put: true, pull: true}}", style="height: 2rem")
+          div
   .page-section(v-if="element.type !== 'container'") {{ element.name }}
 </template>
 

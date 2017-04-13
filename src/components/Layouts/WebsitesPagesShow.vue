@@ -43,8 +43,7 @@
           .xsmall-12.columns
             h2.page-builder-title {{ data.collection.page.title }}
         .page-builder(:class="{'show-layout-ui': checkEditor('Layout'), 'hide-layout-ui': !checkEditor('Layout')}", v-if="layout.length")
-          div(v-for="(single, index) in layout", :key="index")
-            PageElement(:element="single", @sectionData="sectionData")
+          PageBuilder(:elements="layout")
 </template>
 
 <script>
@@ -52,7 +51,7 @@ import _ from 'lodash'
 import Form from 'Helpers/Form'
 import FormBuilder from 'components/FormBuilder'
 import Sortable from 'Helpers/VueSortable'
-import PageElement from 'components/PageElement'
+import PageBuilder from 'components/Editors/PageBuilder'
 
 class Element {
   constructor(data) {
@@ -83,7 +82,7 @@ class Element {
 
 export default {
   name: 'WebsitePageEditor',
-  components: {FormBuilder, PageElement, Sortable },
+  components: { FormBuilder, Sortable, PageBuilder },
   data () {return {
       active_editor: '',
       layout: [],
