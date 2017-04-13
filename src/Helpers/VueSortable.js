@@ -1,3 +1,4 @@
+/* global define Vue */
 (function () {
   function buildDraggable (Sortable) {
     function removeNode (node) {
@@ -13,50 +14,51 @@
     }
 
     function computeVmIndex (vnodes, element) {
-      return vnodes.map(function (elt) {
-        return elt.elm
-      }).indexOf(element)
+      return vnodes.map(elt => elt.elm).indexOf(element)
     }
 
-    function _computeIndexes (slots, children) {
-      return !slots ? [] : Array.prototype.map.call(children, function (elt) {
-        return computeVmIndex(slots, elt)
-      })
+    function computeIndexes (slots, children) {
+      if (!slots) {
+        return []
+      }
+
+      const elmFromNodes = slots.map(elt => elt.elm)
+      return [...children].map(elt => elmFromNodes.indexOf(elt))
     }
 
     function emit (evtName, evtData) {
-      this.$emit(evtName.toLowerCase(), evtData)
+      this.$nextTick(() => this.$emit(evtName.toLowerCase(), evtData))
     }
 
     function delegateAndEmit (evtName) {
-      var _this = this
-
-      return function (evtData) {
-        if (_this.list !== null) {
-          _this['onDrag' + evtName](evtData)
+      return (evtData) => {
+        if (this.realList !== null) {
+          this['onDrag' + evtName](evtData)
         }
-        emit.call(_this, evtName, evtData)
+        emit.call(this, evtName, evtData)
       }
     }
 
-    var eventsListened = ['Start', 'Add', 'Remove', 'Update', 'End']
-    var eventsToEmit = ['Choose', 'Sort', 'Filter', 'Clone']
-    var readonlyProperties = ['Move'].concat(eventsListened, eventsToEmit).map(function (evt) {
-      return 'on' + evt
-    })
+    const eventsListened = ['Start', 'Add', 'Remove', 'Update', 'End']
+    const eventsToEmit = ['Choose', 'Sort', 'Filter', 'Clone']
+    const readonlyProperties = ['Move', ...eventsListened, ...eventsToEmit].map(evt => 'on' + evt)
+    var draggingElement = null
 
-    var props = {
+    const props = {
       options: Object,
       list: {
         type: Array,
         required: false,
         default: null
       },
+      value: {
+        type: Array,
+        required: false,
+        default: null
+      },
       clone: {
         type: Function,
-        default: function _default (original) {
-          return original
-        }
+        default: (original) => { return original }
       },
       element: {
         type: String,
@@ -68,181 +70,234 @@
       }
     }
 
-    var draggableComponent = {
-      props: props,
+    const draggableComponent = {
+      props,
 
-      data: function data () {
+      data () {
         return {
-          transitionMode: false
+          transitionMode: false,
+          componentMode: false
         }
       },
-      render: function render (h) {
+
+      render (h) {
         if (this.$slots.default && this.$slots.default.length === 1) {
-          var child = this.$slots.default[0]
+          const child = this.$slots.default[0]
           if (child.componentOptions && child.componentOptions.tag === 'transition-group') {
             this.transitionMode = true
           }
         }
         return h(this.element, null, this.$slots.default)
       },
-      mounted: function mounted () {
-        var _this2 = this
 
+      mounted () {
+        this.componentMode = this.element.toLowerCase() !== this.$el.nodeName.toLowerCase()
+        if (this.componentMode && this.transitionMode) {
+          throw new Error(`Transition-group inside component is not suppported. Please alter element value or remove transition-group. Current element value: ${this.element}`)
+        }
         var optionsAdded = {}
-        eventsListened.forEach(function (elt) {
-          optionsAdded['on' + elt] = delegateAndEmit.call(_this2, elt)
+        eventsListened.forEach(elt => {
+          optionsAdded['on' + elt] = delegateAndEmit.call(this, elt)
         })
 
-        eventsToEmit.forEach(function (elt) {
-          optionsAdded['on' + elt] = emit.bind(_this2, elt)
+        eventsToEmit.forEach(elt => {
+          optionsAdded['on' + elt] = emit.bind(this, elt)
         })
 
-        var options = Object.assign({}, this.options, optionsAdded, { onMove: function onMove (evt) {
-          return _this2.onDragMove(evt)
-        } })
+        const options = Object.assign({}, this.options, optionsAdded, { onMove: evt => { return this.onDragMove(evt) } })
         this._sortable = new Sortable(this.rootContainer, options)
         this.computeIndexes()
       },
-      beforeDestroy: function beforeDestroy () {
+
+      beforeDestroy () {
         this._sortable.destroy()
       },
 
       computed: {
-        rootContainer: function rootContainer () {
+        rootContainer () {
           return this.transitionMode ? this.$el.children[0] : this.$el
+        },
+
+        isCloning () {
+          return (!!this.options) && (!!this.options.group) && (this.options.group.pull === 'clone')
+        },
+
+        realList () {
+          return !this.list ? this.list : this.value
         }
       },
 
       watch: {
-        options: function options (newOptionValue) {
+        options (newOptionValue) {
           for (var property in newOptionValue) {
             if (readonlyProperties.indexOf(property) === -1) {
               this._sortable.option(property, newOptionValue[property])
             }
           }
         },
-        list: function list () {
+
+        realList () {
           this.computeIndexes()
         }
       },
 
       methods: {
-        getChildrenNodes: function getChildrenNodes () {
-          var rawNodes = this.$slots.default
+        getChildrenNodes () {
+          if (this.componentMode) {
+            return this.$children[0].$slots.default
+          }
+          const rawNodes = this.$slots.default
           return this.transitionMode ? rawNodes[0].child.$slots.default : rawNodes
         },
-        computeIndexes: function computeIndexes () {
-          var _this3 = this
 
-          this.$nextTick(function () {
-            _this3.visibleIndexes = _computeIndexes(_this3.getChildrenNodes(), _this3.rootContainer.children)
+        computeIndexes () {
+          this.$nextTick(() => {
+            this.visibleIndexes = computeIndexes(this.getChildrenNodes(), this.rootContainer.children)
           })
         },
-        getUnderlyingVm: function getUnderlyingVm (htmlElt) {
-          var index = computeVmIndex(this.getChildrenNodes(), htmlElt)
-          var element = this.list[index]
-          return { index: index, element: element }
-        },
-        getUnderlyingPotencialDraggableComponent: function getUnderlyingPotencialDraggableComponent (_ref) {
-          var __vue__ = _ref.__vue__
 
+        getUnderlyingVm (htmlElt) {
+          const index = computeVmIndex(this.getChildrenNodes(), htmlElt)
+          const element = this.realList[index]
+          return { index, element }
+        },
+
+        getUnderlyingPotencialDraggableComponent ({ __vue__ }) {
           if (!__vue__ || !__vue__.$options || __vue__.$options._componentTag !== 'transition-group') {
             return __vue__
           }
           return __vue__.$parent
         },
-        emitChanges: function emitChanges (evt) {
-          var _this4 = this
 
-          this.$nextTick(function () {
-            _this4.$emit('change', evt)
+        emitChanges (evt) {
+          this.$nextTick(() => {
+            this.$emit('change', evt)
           })
         },
-        spliceList: function spliceList () {
-          var _list
 
-          (_list = this.list).splice.apply(_list, arguments)
-        },
-        updatePosition: function updatePosition (oldIndex, newIndex) {
-          this.list.splice(newIndex, 0, this.list.splice(oldIndex, 1)[0])
-        },
-        getRelatedContextFromMoveEvent: function getRelatedContextFromMoveEvent (_ref2) {
-          var to = _ref2.to
-          var related = _ref2.related
-
-          var component = this.getUnderlyingPotencialDraggableComponent(to)
-          if (!component) {
-            return { component: component }
+        alterList (onList) {
+          if (!this.list) {
+            onList(this.list)
+          } else {
+            const newList = [...this.value]
+            onList(newList)
+            this.$emit('input', newList)
           }
-          var list = component.list
-          var context = { list: list, component: component }
+        },
+
+        spliceList () {
+          const spliceList = list => list.splice(...arguments)
+          this.alterList(spliceList)
+        },
+
+        updatePosition (oldIndex, newIndex) {
+          const updatePosition = list => list.splice(newIndex, 0, list.splice(oldIndex, 1)[0])
+          this.alterList(updatePosition)
+        },
+
+        getRelatedContextFromMoveEvent ({ to, related }) {
+          const component = this.getUnderlyingPotencialDraggableComponent(to)
+          if (!component) {
+            return { component }
+          }
+          const list = component.realList
+          const context = { list, component }
           if (to !== related && list && component.getUnderlyingVm) {
-            var destination = component.getUnderlyingVm(related)
+            const destination = component.getUnderlyingVm(related)
             return Object.assign(destination, context)
           }
 
           return context
         },
-        onDragStart: function onDragStart (evt) {
+
+        getVmIndex (domIndex) {
+          const indexes = this.visibleIndexes
+          const numberIndexes = indexes.length
+          return (domIndex > numberIndexes - 1) ? numberIndexes : indexes[domIndex]
+        },
+
+        onDragStart (evt) {
           this.context = this.getUnderlyingVm(evt.item)
           evt.item._underlying_vm_ = this.clone(this.context.element)
+          draggingElement = evt.item
         },
-        onDragAdd: function onDragAdd (evt) {
-          var element = evt.item._underlying_vm_
+
+        onDragAdd (evt) {
+          const element = evt.item._underlying_vm_
           if (element === undefined) {
             return
           }
           removeNode(evt.item)
-          var indexes = this.visibleIndexes
-          var domNewIndex = evt.newIndex
-          var numberIndexes = indexes.length
-          var newIndex = domNewIndex > numberIndexes - 1 ? numberIndexes : indexes[domNewIndex]
+          const newIndex = this.getVmIndex(evt.newIndex)
           this.spliceList(newIndex, 0, element)
           this.computeIndexes()
-          var added = { element: element, newIndex: newIndex }
-          this.emitChanges({ added: added })
+          const added = { element, newIndex }
+          this.emitChanges({ added })
         },
-        onDragRemove: function onDragRemove (evt) {
+
+        onDragRemove (evt) {
           insertNodeAt(this.rootContainer, evt.item, evt.oldIndex)
-          // var isCloning = !!evt.clone
-          // if (isCloning) {
-          //   // @TODO: figure out why this is breaking.
-          //   removeNode(evt.clone)
-          //   return
-          // }
-          var oldIndex = this.context.index
+          if (this.isCloning) {
+            removeNode(evt.clone)
+            return
+          }
+          const oldIndex = this.context.index
           this.spliceList(oldIndex, 1)
-          var removed = { element: this.context.element, oldIndex: oldIndex }
-          this.emitChanges({ removed: removed })
+          const removed = { element: this.context.element, oldIndex }
+          this.emitChanges({ removed })
         },
-        onDragUpdate: function onDragUpdate (evt) {
+
+        onDragUpdate (evt) {
           removeNode(evt.item)
           insertNodeAt(evt.from, evt.item, evt.oldIndex)
-          var oldIndex = this.context.index
-          var newIndex = this.visibleIndexes[evt.newIndex]
+          const oldIndex = this.context.index
+          const newIndex = this.getVmIndex(evt.newIndex)
           this.updatePosition(oldIndex, newIndex)
-          var moved = { element: this.context.element, oldIndex: oldIndex, newIndex: newIndex }
-          this.emitChanges({ moved: moved })
+          const moved = { element: this.context.element, oldIndex, newIndex }
+          this.emitChanges({ moved })
         },
-        onDragMove: function onDragMove (evt) {
-          var onMove = this.move
-          if (!onMove || !this.list) {
+
+        computeFutureIndex (relatedContext, evt) {
+          if (!relatedContext.element) {
+            return 0
+          }
+          const domChildren = [...evt.to.children]
+          const currentDOMIndex = domChildren.indexOf(evt.related)
+          const currentIndex = relatedContext.component.getVmIndex(currentDOMIndex)
+          const draggedInList = domChildren.indexOf(draggingElement) !== -1
+          return draggedInList ? currentIndex : currentIndex + 1
+        },
+
+        onDragMove (evt) {
+          const onMove = this.move
+          if (!onMove || !this.realList) {
             return true
           }
 
-          var relatedContext = this.getRelatedContextFromMoveEvent(evt)
-          var draggedContext = this.context
-          Object.assign(evt, { relatedContext: relatedContext, draggedContext: draggedContext })
+          const relatedContext = this.getRelatedContextFromMoveEvent(evt)
+          const draggedContext = this.context
+          const futureIndex = this.computeFutureIndex(relatedContext, evt)
+          Object.assign(draggedContext, { futureIndex })
+          Object.assign(evt, { relatedContext, draggedContext })
           return onMove(evt)
         },
-        onDragEnd: function onDragEnd (evt) {
+
+        onDragEnd (evt) {
           this.computeIndexes()
+          draggingElement = null
         }
       }
     }
     return draggableComponent
   }
 
-  var Sortable = require('sortablejs')
-  module.exports = buildDraggable(Sortable)
+  if (typeof exports === 'object') {
+    var Sortable = require('sortablejs')
+    module.exports = buildDraggable(Sortable)
+  } else if (typeof define === 'function' && define.amd) {
+    define(['sortablejs'], function (Sortable) { return buildDraggable(Sortable) })
+  } else if (window && (window.Vue) && (window.Sortable)) {
+    var draggable = buildDraggable(window.Sortable)
+    Vue.component('draggable', draggable)
+  }
 })()

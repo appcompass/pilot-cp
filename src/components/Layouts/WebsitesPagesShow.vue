@@ -44,7 +44,7 @@
             h2.page-builder-title {{ data.collection.page.title }}
         .page-builder(:class="{'show-layout-ui': checkEditor('Layout'), 'hide-layout-ui': !checkEditor('Layout')}", v-if="layout.length")
           div(v-for="(single, index) in layout", :key="index")
-            PageElement(:element="single")
+            PageElement(:element="single", @sectionData="sectionData")
 </template>
 
 <script>
@@ -113,6 +113,15 @@ export default {
   methods: {
     add (item) {
       console.log(item)
+    },
+    sectionData (data) {
+      console.log(data)
+      let content_index = _.findIndex(this.content, {'id': data.id})
+      if (content_index === -1) {
+        this.content.push(data)
+      } else {
+        this.$set(this.content, content_index, data)
+      }
     },
     requiresLayout (bool) {
       return bool ? this.layout.length : true
