@@ -206,7 +206,6 @@
           insertNodeAt(this.rootContainer, evt.item, evt.oldIndex)
           var isCloning = (!!this.options) && (!!this.options.group) && (this.options.group.pull === 'clone')
           if (isCloning) {
-            // @TODO: figure out why this is breaking.
             removeNode(evt.clone)
             return
           }

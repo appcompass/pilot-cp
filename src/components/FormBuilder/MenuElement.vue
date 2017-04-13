@@ -28,6 +28,8 @@
               |  Delete
       MenuElement(v-if="item.children.length && !item.isCollapsed", :menu="item.children", @deleted="deleted")
       Sortable(v-if="!item.children.length", :element="'ul'", :list="item.children",  :options="options")
+        li
+          .nav-list-empty(style="margin-bottom: 10px;")
     li(v-else)
       .nav-list-empty(style="margin-bottom: 10px;") Drag items from the left into your menu.
 </template>
@@ -52,8 +54,11 @@ export default {
       options: {
         handle: 'li',
         animation: 300,
-        group: 'items',
-        clone: false
+        group: {
+          name: 'items',
+          put: true,
+          pull: true
+        }
       }
     }
   },
