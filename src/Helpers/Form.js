@@ -27,11 +27,14 @@ class Form {
     return this
   }
 
-  set (data) {
+  set (data, index) {
     let copy = _.cloneDeep(this.collection)
-    // let path = _.last(data.pointer.explode('.'))
-    // this.$set(_.get(this.collection, data.pointer))
-    _.set(copy, data.pointer, data.value)
+    if (/\./.test(data.pointer) && index >= 0) {
+      let path = data.pointer.split('.').join(`[${index}]`)
+      _.set(copy, path, data.value)
+    } else {
+      _.set(copy, data.pointer, data.value)
+    }
     this.collection = Object.assign({}, copy)
     this.errors.unset(data.pointer)
   }
@@ -49,13 +52,12 @@ class Form {
     return form
   }
 
-  mapFields (fields) {
-
-  }
-
   get (path, index) {
-    let c = _.get(this.collection, path)
-    return index >= 0 && Array.isArray(c) ? c[index] : c
+    if (index >= 0) {
+      return this.collection[path][index]
+    } else {
+      return _.get(this.collection, path)
+    }
   }
 
 }
