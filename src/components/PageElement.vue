@@ -7,6 +7,8 @@ div
       .page-layout-content
         Sortable(:list="element.children", :element="'div'", :options="{animation: 300, group: {name: 'items', put: true, pull: true}}")
           PageElement(v-for="single in element.children", :element="single", :key="single.id", @sectionData="sectionData")
+        Sortable(:list="element.children", v-if="!element.children.length", style="min-height: 2rem", :element="'div'", :options="{animation: 300, group: {name: 'items', put: true, pull: false}}")
+          div.page-layout-column(style="padding-bottom: 1rem")
   .page-section(v-if="element.type !== 'container'") {{ element.name }}
 </template>
 
