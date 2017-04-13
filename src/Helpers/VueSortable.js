@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 (function () {
   function buildDraggable (Sortable) {
     function removeNode (node) {
@@ -55,7 +57,7 @@
       clone: {
         type: Function,
         default: function _default (original) {
-          return original
+          return _.cloneDeep(original)
         }
       },
       element: {
