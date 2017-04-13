@@ -15,7 +15,7 @@
         v-if="!field.config.repeatable",
         :is="Components[field.type]",
         :pointer="getPath(field.name)",
-        :data="form.get(getPath(field.name))",
+        :data="form.get(getPath(field.name), subIndex)",
         :errors="form.errors",
         :field="field",
         @input="(e) => set(e, fieldIndex)"
@@ -52,7 +52,7 @@ import Sortable from 'Helpers/VueSortable'
 
 export default {
   name: 'FormBuilder',
-  props: [ 'form', 'parent' ],
+  props: [ 'form', 'parent', 'subIndex' ],
   components: { Sortable },
   data () {
     return {
@@ -105,12 +105,8 @@ export default {
     },
     // sets a value
     set (data) {
-      if (/\./.test(data.pointer)) {
-        console.log('Fieldset takes care of this i think')
-        this.$emit('input', {value: data.value, pointer: data.pointer})
-      } else {
-        this.form.set(data)
-      }
+      data.index = this.subIndex
+      this.form.set(data)
     },
     disk (cb) {
       this.$emit('disk', cb)
