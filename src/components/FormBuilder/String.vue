@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    p {{ pointer }}{{ data }}
     input(
       type="text",
       @input="$emit('input', {value: $event.target.value, pointer: pointer})",

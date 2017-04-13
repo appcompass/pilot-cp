@@ -79,14 +79,6 @@ export default {
     add (item) {
       console.log(item)
     },
-    // sectionData (data) {
-    //   let content_index = _.findIndex(this.content, {'id': data.id})
-    //   if (content_index === -1) {
-    //     this.content.push(data)
-    //   } else {
-    //     this.$set(this.content, content_index, data)
-    //   }
-    // },
     requiresLayout (bool) {
       return bool ? this.layout.length : true
     },
@@ -99,9 +91,6 @@ export default {
     toggleForm (item) {
       this.$set(item, 'isClosed', !item.isClosed)
     },
-    // setForm (structure, data) {
-    //   return new Form().init(structure, data)
-    // },
     load () {
       // set page data
       this.fetch('').then(response => {
