@@ -28,9 +28,6 @@ export default {
   },
   methods: {
     input (data) {
-      // _.set(this.data, this.index, data.value)
-      // let result = this.form.set(data, this.index)
-      // Object.assign(this.data, result)
       this.$emit('input', {pointer: data.pointer, value: data.value, index: this.index})
     },
     collapse () {

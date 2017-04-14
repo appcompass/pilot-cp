@@ -38,7 +38,26 @@ class Form {
     this.errors.set(errors)
   }
 
+  clone (fieldName, fieldIndex) {
+    let dataObject = Object.create({})
+    this.fields[fieldIndex].fields.forEach((field) => {
+      dataObject[field.name] = null
+      if (field.fields.length) {
+        dataObject[field.name].fields = this.clone(field.fields)
+      }
+    })
+    if (!Array.isArray(this.collection[fieldName])) {
+      this.collection[fieldName] = []
+      this.collection[fieldName].push('')
+      // _.set(this.collection[fieldName], [dataObject])
+    } else {
+      this.collection[fieldName].push(dataObject)
+    }
+    return dataObject
+  }
+
   split (point) {
+    console.log(point.fields)
     let form = new Form()
     _.extend(form, this.form)
     form.fields = point.fields
@@ -48,12 +67,14 @@ class Form {
   }
 
   get (path, index) {
+    // @TODO generate content from form if not present
     if (index >= 0) {
       path = path.split('.').join(`[${index}]`)
-      return _.get(this.collection, path)
-    } else {
-      return _.get(this.collection, path)
     }
+    let data = _.get(this.collection, path)
+    console.log(data)
+    return data
+    // return _.get(this.collection, path)
   }
 
 }
