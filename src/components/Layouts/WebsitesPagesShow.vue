@@ -57,6 +57,7 @@ export default {
   components: { FormBuilder, Sortable, PageBuilder },
   data () {return {
       active_editor: '',
+      page: {},
       layout: [],
       content: [],
       containers: [],
@@ -98,6 +99,7 @@ export default {
         response.data.collection.layout.forEach((layout) => {
           this.layout.push(new PageElement(layout))
         })
+        this.page = response.data.collection.page
         // this.layout = response.data.collection.layout
         this.active_editor = this.layout.length ? 'Content' : 'Settings'
       })
@@ -117,7 +119,15 @@ export default {
     fetch (list) {
       return this.$http.get('/api' + this.$route.fullPath + list)
     },
-    save () {},
+    save () {
+      return this.$http.put('/api' + this.$route.fullPath, {
+        layout: this.layout,
+        deletions: [],
+        page: this.page
+      }).then(response => {
+        console.log(response)
+      })
+    },
     update () {}
   }
 }
