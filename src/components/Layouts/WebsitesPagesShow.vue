@@ -100,7 +100,6 @@ export default {
           this.layout.push(new PageElement(layout))
         })
         this.page = response.data.collection.page
-        // this.layout = response.data.collection.layout
         this.active_editor = this.layout.length ? 'Content' : 'Settings'
       })
       // set containers available for the page

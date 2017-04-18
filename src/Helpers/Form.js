@@ -28,6 +28,9 @@ class Form {
   set (data) {
     if (/\./.test(data.pointer) && data.index >= 0) {
       let path = data.pointer.split('.').join(`[${data.index}].`)
+      if (data.subindex) {
+        path = path + `[${data.subindex}]`
+      }
       _.set(this.collection, path, data.value)
     } else {
       _.set(this.collection, data.pointer, data.value)
@@ -40,24 +43,31 @@ class Form {
 
   clone (fieldName, fieldIndex) {
     let dataObject = Object.create({})
-    this.fields[fieldIndex].fields.forEach((field) => {
-      dataObject[field.name] = null
-      if (field.fields.length) {
-        dataObject[field.name].fields = this.clone(field.fields)
-      }
-    })
-    if (!Array.isArray(this.collection[fieldName])) {
-      this.collection[fieldName] = []
-      this.collection[fieldName].push('')
-      // _.set(this.collection[fieldName], [dataObject])
-    } else {
+    // does field have a linked form associated?
+    if (this.fields[fieldIndex].fields.length) {
+      this.fields[fieldIndex].fields.forEach((field) => {
+        dataObject[field.name] = null
+        if (field.fields.length) {
+          dataObject[field.name].fields = this.clone(field.fields)
+        }
+      })
       this.collection[fieldName].push(dataObject)
+      return dataObject
+    // field has no sub-forl associated, so it's a single field repeatable
+    } else {
+      let path = fieldName.split('.').join(`[0]`)
+      let target = _.get(this.collection, path)
+      if (target && target.length) {
+        _.get(this.collection, path).push('')
+      } else {
+        // push to empty array
+        let content = ['New Item', 'Another Item']
+        _.set(this.collection, path, content)
+      }
     }
-    return dataObject
   }
 
   split (point) {
-    console.log(point.fields)
     let form = new Form()
     _.extend(form, this.form)
     form.fields = point.fields
@@ -70,11 +80,15 @@ class Form {
     // @TODO generate content from form if not present
     if (index >= 0) {
       path = path.split('.').join(`[${index}]`)
+      return _.get(this.collection, path)
+    } else {
+      path = path.split('.').join(`[0]`)
+      if (Array.isArray(_.get(this.collection, path))) {
+        return _.get(this.collection, path)
+      } else {
+        return _.get(this.collection, path)
+      }
     }
-    let data = _.get(this.collection, path)
-    console.log(data)
-    return data
-    // return _.get(this.collection, path)
   }
 
 }

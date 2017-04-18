@@ -5,7 +5,7 @@
         .fieldset-heading(v-if="field.label", v-html="field.label")
         .input-desc(v-if="field.help", v-html="field.help")
         .fieldset-header-actions
-          span.icon.icon-delete(v-if="true")
+          span.icon.icon-delete(@click="$emit('unlink')")
           span.icon.icon-box-down(@click="collapse()")
       .fieldset-fields
         FormBuilder(:form="form", :parent="parent", @input="input", :subIndex="index")
@@ -32,6 +32,10 @@ export default {
     },
     collapse () {
       this.isCollapsed = !this.isCollapsed
+    },
+    unlink () {
+      console.log(this.data)
+      console.log(this.index)
     }
   }
 }
