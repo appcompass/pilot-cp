@@ -1,6 +1,6 @@
 //
 // Page Element
-//
+// used in the layout builder
 //
 class PageElement {
   constructor (data) {
