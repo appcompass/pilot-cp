@@ -1,6 +1,8 @@
 <template lang="pug">
-  div.table-container
-    table
+  div.table-container(
+    :class="{'is-opaque': $parent.loading}"
+  )
+    table.table-default
       thead
         tr
           th
@@ -31,7 +33,7 @@
                 span.icon-cancel(
                   @click="$parent.toggleEdit(field)"
                 )
-      tbody(:class="{'is-opaque': $parent.loading}", v-if="collection.length")
+      tbody(v-if="collection.length")
         tr(v-for="row in collection")
           td
             input(type="checkbox" name="" value="")
@@ -69,11 +71,6 @@
               v-if="index > 0",
               v-html="value(field.name, row)"
             )
-      tbody(v-else, :class="{'is-opaque': $parent.loading}")
-        tr
-          td.has-text-centered(:colspan="forms.form.fields.length + 1")
-            .notification.is-danger
-              .title No results found.
 </template>
 
 <script>
