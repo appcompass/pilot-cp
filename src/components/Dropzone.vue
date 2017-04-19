@@ -20,18 +20,17 @@ export default {
   },
   mounted () {
     // @TODO: make this work the right way.
+    let vm = this
     this.$parent.$on('disk', (disk) => {
       console.log(disk)
       if (!disk) {
-        this.$swal('Error', 'Disk instance not selected', 'error')
+        vm.$swal('Error', 'Disk instance not selected', 'error')
         return
       }
       this.disk = disk
     })
 
     this.api = '/api' + this.$route.fullPath.split('_').join('/')
-
-    let vm = this
 
     this.dropzone = new Dropzone(this.$el, {
       url: vm.api,
@@ -44,7 +43,7 @@ export default {
       addedfile () {
         if (!vm.disk) {
           this.removeAllFiles()
-          this.$swal('Error', 'Disk instance not selected', 'error')
+          vm.$swal('Error', 'Disk instance not selected', 'error')
         }
       },
       sending (something, xhr, formData) {
@@ -52,11 +51,11 @@ export default {
       },
       success (file, response) {
         vm.$emit('input', {pointer: null, value: response.model})
-        this.$swal('Ok', 'Image(s) uploaded', 'success')
+        vm.$swal('Ok', 'Image(s) uploaded', 'success')
         vm.dropzone.removeFile(file)
       },
       error (file, errorMessage, xhr) {
-        this.$swal('Error', errorMessage.error || 'Failed while uploading the image(s)', 'error')
+        vm.$swal('Error', errorMessage.error || 'Failed while uploading the image(s)', 'error')
       }
     })
   },

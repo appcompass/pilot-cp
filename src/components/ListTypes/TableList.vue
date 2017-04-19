@@ -49,11 +49,13 @@
                 img(:src="row.card_photo", width="32", height="32")
               a.table-user-avatar(v-else if="row.card_photo")
                 img(:src="row.card_photo", width="32", height="32")
-              router-link(
-                v-if="row.abilities.includes('edit')",
-                :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
-                v-html="value(field.name, row)"
+              b(
+                v-if="row.abilities.includes('edit')"
               )
+                router-link(
+                  :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
+                  v-html="value(field.name, row)"
+                )
               a(v-else, v-html="value(field.name, row)")
               div.table-row-actions
                 router-link.link-primary(
