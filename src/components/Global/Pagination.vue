@@ -17,12 +17,12 @@
         ) 1
 
       li(
-        v-if="p.current_page > 4"
+        v-if="p.current_page >= 6"
       ) ...
 
       li(
         v-for="page in pages",
-        v-if="page !== 1 && page !== p.last_page && page >= p.current_page-2 && page <= p.current_page+2",
+        v-if="page !== 1 && page !== p.last_page && page > p.current_page-4 && page < p.current_page+4",
         :class="{'is-active': p.current_page === page}",
         @click.prevent="goto(page)"
       )
@@ -30,7 +30,7 @@
         ) {{ page }}
 
       li(
-        v-if="p.current_page <= p.last_page-4"
+        v-if="p.current_page <= p.last_page-5"
       ) ...
 
       li(
