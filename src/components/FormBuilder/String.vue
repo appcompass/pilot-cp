@@ -1,7 +1,8 @@
 <template lang="pug">
+div
   input(
     type="text",
-    @input="$emit('input', {value: $event.target.value, pointer: pointer, index: index})",
+    @input="$emit('input', {value: $event.target.value, pointer: pointer})",
     :value="data",
     :class="{'error': errors.get(pointer)}"
   )
@@ -10,9 +11,6 @@
 <script>
 export default {
   name: 'String',
-  props: ['pointer', 'data', 'errors', 'field', 'index'],
-  mounted () {
-    // console.log(this.data)
-  }
+  props: ['pointer', 'data', 'errors', 'field', 'index']
 }
 </script>

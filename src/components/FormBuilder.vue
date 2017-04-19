@@ -16,23 +16,20 @@ div
         v-if="!field.config.repeatable",
         :is="Components[field.type]",
         :pointer="getPath(field.name)",
-        :data="form.get(getPath(field.name), subIndex)",
+        :data="form.get(field.name)",
         :errors="form.errors",
         :field="field",
         @input="set"
         @disk="disk"
       )
-      Sortable(v-if="field.config.repeatable", :list="form.get(getPath(field.name))", :element="'div'", :options="{animation: 300, group: 'items'}")
+      Sortable(v-if="field.config.repeatable", :list="form.get(field.name)", :element="'div'", :options="{animation: 300, group: 'items'}")
         div(
-          v-for="val, index in form.get(getPath(field.name))",
+          v-for="val, index in form.get(field.name)",
           :is="Components[field.type]",
-          :pointer="getPath(field.name)",
-          :data="val",
-          :errors="form.errors",
+          :form="form.split(field, index)",
           :field="field",
-          :index="index",
-          :form="form.split(field)",
-          :parent="getPath(field.name)",
+          :errors="form.errors",
+          :pointer="field.name",
           @input="set",
           @disk="disk",
           @unlink="unlink(field, index)"
@@ -54,7 +51,7 @@ import Sortable from 'Helpers/VueSortable'
 
 export default {
   name: 'FormBuilder',
-  props: [ 'form', 'parent', 'subIndex' ],
+  props: [ 'form' ],
   components: { Sortable },
   data () {
     return {
@@ -64,11 +61,7 @@ export default {
   },
   methods: {
     getPath (fieldname) {
-      if (fieldname == null) {
-        return this.parent == null ? '' : this.parent
-      } else {
-        return this.parent == null ? fieldname : this.parent + '.' + fieldname
-      }
+      return fieldname
     },
     value (field, index) {
       return this.form.get(field, index)
@@ -78,13 +71,6 @@ export default {
     },
     // sets a value
     set (data) {
-      // @TODO aaaaaaaah vvvvv
-      if (!data.index) {
-        data.index = this.subIndex
-      } else {
-        data.subindex = data.index
-        data.index = this.subIndex
-      }
       this.form.set(data)
     },
     disk (cb) {

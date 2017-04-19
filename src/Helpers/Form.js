@@ -15,26 +15,23 @@ class Form {
   }
 
   init (formStructure, collection) {
-    let form = _.cloneDeep(formStructure)
-    this.fields = _.cloneDeep(form.fields)
-    _.unset(form, 'fields')
-    this.form = _.cloneDeep(form)
-    if (collection) {
-      this.data(collection)
-    }
+    this.form = _.cloneDeep(formStructure)
+    this.fields = _.cloneDeep(formStructure.fields)
+    _.unset(this.form, 'fields')
+    // this.form = _.cloneDeep(form)
+    this.collection = collection
+    // if (collection) {
+    //   this.data(collection)
+    // }
     return this
   }
 
   set (data) {
-    if (/\./.test(data.pointer) && data.index >= 0) {
-      let path = data.pointer.split('.').join(`[${data.index}].`)
-      if (data.subindex) {
-        path = path + `[${data.subindex}]`
-      }
-      _.set(this.collection, path, data.value)
-    } else {
-      _.set(this.collection, data.pointer, data.value)
+    console.log(data)
+    if (this.collectionIsSingleValue()) {
+      this.collection = data.value
     }
+    _.set(this.collection, data.pointer, data.value)
   }
 
   fails (errors) {
@@ -67,28 +64,47 @@ class Form {
     }
   }
 
-  split (point) {
+  split (point, index) {
     let form = new Form()
-    _.extend(form, this.form)
-    form.fields = point.fields
-    form.init(form, this.collection)
+    // _.extend(form, this.form)
+    let path = point.name
+    let data = _.get(this.collection, path)
+    if (Array.isArray(data)) {
+      // check point.fields or point.config.repeatable
+      index = index || 0
+      if (typeof data[index] === 'object') {
+        // console.log('repeatable is an object: ' + point.name)
+        data = data[index]
+      } else {
+        // console.log('repeatable is a single field: ' + point.name)
+        data = this.collection[point.name][index]
+      }
+    } else {
+      data = _.get(this.collection, path)
+    }
+    form.init(this.form, data)
+    form.setFields(point.fields)
     form.errors = this.errors
+    // console.log(form)
     return form
   }
 
+  setFields (fields) {
+    this.fields = fields
+  }
+
+  collectionIsSingleValue () {
+    return !Array.isArray(this.collection) && typeof this.collection !== 'object'
+  }
+
   get (path, index) {
-    // @TODO generate content from form if not present
-    if (index >= 0) {
-      path = path.split('.').join(`[${index}]`)
-      return _.get(this.collection, path)
-    } else {
-      path = path.split('.').join(`[0]`)
-      if (Array.isArray(_.get(this.collection, path))) {
-        return _.get(this.collection, path)
-      } else {
-        return _.get(this.collection, path)
-      }
+    // collection is a single value? return that
+    if (this.collectionIsSingleValue()) {
+      console.log(this.collection)
+      return this.collection
     }
+    let data = _.get(this.collection, path)
+    return data
   }
 
 }

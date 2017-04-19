@@ -17,6 +17,7 @@ export default {
     form.init(this.element.formData(), this.element.collection())
     this.$emit('formData', {
       name: this.element.name,
+      instance: this,
       form
     })
   }
