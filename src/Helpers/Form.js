@@ -26,11 +26,27 @@ class Form {
     return this
   }
 
+  get (path, index) {
+    // collection is a single value? return that
+    if (this.collectionIsSingleValue()) {
+      // console.log(this.collection)
+      return this.collection
+    }
+    let data = _.get(this.collection, path)
+    if (Array.isArray(data)) {
+      if (index >= 0) {
+        console.log(path)
+        return data[index]
+      }
+    }
+    return data
+  }
+
   set (data) {
     console.log(data)
-    if (this.collectionIsSingleValue()) {
-      this.collection = data.value
-    }
+    // if (this.collectionIsSingleValue()) {
+    //   this.collection = data.value
+    // }
     _.set(this.collection, data.pointer, data.value)
   }
 
@@ -95,16 +111,6 @@ class Form {
 
   collectionIsSingleValue () {
     return !Array.isArray(this.collection) && typeof this.collection !== 'object'
-  }
-
-  get (path, index) {
-    // collection is a single value? return that
-    if (this.collectionIsSingleValue()) {
-      console.log(this.collection)
-      return this.collection
-    }
-    let data = _.get(this.collection, path)
-    return data
   }
 
 }

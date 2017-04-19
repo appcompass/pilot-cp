@@ -22,11 +22,22 @@ div
         @input="set"
         @disk="disk"
       )
+      div(
+        v-if="field.fields.length && !field.config.repeatable",
+        :is="Components[field.type]",
+        :form="form.split(field, index)",
+        :field="field",
+        :data="form.get(field.name, index)",
+        @input="set",
+        @disk="disk",
+        @unlink="unlink(field, index)"
+      )
       Sortable(v-if="field.config.repeatable", :list="form.get(field.name)", :element="'div'", :options="{animation: 300, group: 'items'}")
         div(
           v-for="val, index in form.get(field.name)",
           :is="Components[field.type]",
           :form="form.split(field, index)",
+          :data="form.get(field.name, index)",
           :field="field",
           :errors="form.errors",
           :pointer="field.name",
