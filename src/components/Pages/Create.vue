@@ -32,6 +32,7 @@
 import * as Components from './../Components'
 import FormBuilder from './../FormBuilder'
 import Form from 'Helpers/Form'
+import Auth from 'States/Auth'
 import Navigation from 'States/Navigation'
 import Breadcrumbs from './../Global/Breadcrumbs'
 import RouteHandling from 'Mixins/RouteHandling'
@@ -54,7 +55,7 @@ export default {
     // this.api = '/api' + this.$route.fullPath.split('_').join('/')
     // this.api = this.navigation.api_url
     this.loading = true
-    this.$http.get('/api/' + this.$route.path.slice(1) + '/create')
+    this.$http.get('/api/' + this.getApiUrl('create'))
       .then((response) => {
         this.loading = false
         if (!response.data.form) {
