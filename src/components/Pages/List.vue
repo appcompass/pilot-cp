@@ -65,22 +65,25 @@
                 button.btn-primary Apply Filters
                 a.data-actions-filters-clear Remove Filters
 
-      Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
-      div.overlay.is-full-width(v-if="loading")
-          section.content.has-text-centered
-            p.notification.is-info.title.is-5 Loading...
-      section(
-        v-if="list_layout && list_layout + 'List'",
-        :is="list_layout + 'List'",
-        :sorters="sorters",
-        :loading="loading",
-        :collection="collection",
-        :owned="owned",
-        :model="model",
-        :search="search",
-        :forms="{form: form, edit: edit}"
-      )
-      Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
+      div.view-container
+        div.view-loading(v-if="loading")
+          img(src="~assets/images/content/loading.svg")
+        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
+        section(
+          v-if="list_layout && list_layout + 'List'",
+          :is="list_layout + 'List'",
+          :sorters="sorters",
+          :loading="loading",
+          :collection="collection",
+          :owned="owned",
+          :model="model",
+          :search="search",
+          :forms="{form: form, edit: edit}"
+        )
+        div.view-no-results(
+          v-if="!collection.length"
+        ) No Results Found
+        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
 </template>
 <script>
 import _ from 'lodash'

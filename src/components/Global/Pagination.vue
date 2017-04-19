@@ -1,59 +1,52 @@
 <template lang="pug">
-div.section.is-fullwidth(v-if="p.last_page")
-  nav.pagination.is-centered
-    a.pagination-previous(
-      :class="{'is-disabled': p.current_page === 1}"
-      @click="turn(-1)",
-      :disabled="disabled"
-    ) Previous
-    a.pagination-next(
-      @click="turn(1)",
-      :class="{'is-disabled': p.last_page === p.current_page}",
-      :disabled="disabled"
-    ) Next
+  div.pagination(v-if="p.last_page")
+    ul
+      li.prev(
+        :class="{'is-disabled': p.current_page === 1}",
+        @click="turn(-1)",
+        :disabled="disabled"
+      )
+        a
+          span.icon-arrow-back
 
-    ul.pagination-list(v-if="p.last_page <= 10")
-      li(v-for="page in pages")
-        span
-          a.pagination-link(
-            @click="goto(page)",
-            :class="{'is-current': p.current_page === page}"
-          ) {{ page }}
+      li(
+        :class="{'is-active': p.current_page === 1}",
+        @click.prevent="goto(1)"
+      )
+        a(
+        ) 1
 
-    ul.pagination-list(v-if="p.last_page > 10")
-      li
-        a.pagination-link(@click="goto(1)", :class="{'is-current': p.current_page === 1}") 1
-      li
-        span.pagination-ellipsis(v-if="p.current_page > 3") &hellip;
-      li
-        span(v-if="p.current_page > 3  && p.last_page > p.current_page + 2")
-          a.pagination-link(@click="p.current_page--") {{ p.current_page - 1 }}
-        span(v-if="3 >= p.current_page")
-          a.pagination-link(@click="goto(2)", :class="{'is-current': p.current_page === 2}") 2
-        span(v-if="p.current_page > p.last_page - 3")
-          a.pagination-link(@click="p.current_page = p.last_page - 3") {{ p.last_page - 3 }}
+      li(
+        v-if="p.current_page > 4"
+      ) ...
 
-      li
-        span(v-if="p.current_page > 3 && p.last_page > p.current_page + 2")
-          a.pagination-link.is-current {{ p.current_page }}
-        span(v-if="3 >= p.current_page")
-          a.pagination-link(@click="goto(3)", :class="{'is-current': p.current_page === 3}") 3
-        span(v-if="p.current_page > p.last_page - 3")
-          a.pagination-link(@click="goto(p.last_page - 2)", :class="{'is-current': p.current_page === p.last_page - 2}") {{ p.last_page - 2 }}
+      li(
+        v-for="page in pages",
+        v-if="page !== 1 && page !== p.last_page && page >= p.current_page-2 && page <= p.current_page+2",
+        :class="{'is-active': p.current_page === page}",
+        @click.prevent="goto(page)"
+      )
+        a(
+        ) {{ page }}
 
-      li
-        span(v-if="p.current_page > 3 && p.last_page > p.current_page + 2")
-          a.pagination-link(@click="turn(1)") {{ p.current_page + 1 }}
-        span(v-if="3 >= p.current_page")
-          a.pagination-link(@click="goto(4)") 4
-        span(v-if="p.current_page > p.last_page - 3")
-          a.pagination-link(@click="goto(p.last_page - 1)", :class="{'is-current': p.current_page === p.last_page - 1}") {{ p.last_page - 1 }}
+      li(
+        v-if="p.current_page <= p.last_page-4"
+      ) ...
 
-      li
-        span.pagination-ellipsis(v-if="p.last_page > p.current_page + 2") &hellip;
-      li
-        a.pagination-link(@click="goto(p.last_page)", :class="{'is-current': p.current_page === p.last_page}") {{ p.last_page }}
+      li(
+        :class="{'is-active': p.current_page === p.last_page}",
+        @click.prevent="goto(p.last_page)"
+      )
+        a(
+        ) {{ p.last_page }}
 
+      li.next(
+        :class="{'is-disabled': p.last_page === p.current_page}",
+        @click.prevent="turn(1)",
+        :disabled="disabled"
+      )
+        a
+          span.icon-arrow-forward
 </template>
 
 <script>

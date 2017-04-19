@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;}
+</style>
+<g id="interface_-_grid_thumb">
+	<g>
+		<path class="st0" d="M14,1h-4C9.4,1,9,1.4,9,2v4c0,0.6,0.4,1,1,1h4c0.6,0,1-0.4,1-1V2C15,1.4,14.6,1,14,1z M14,5.5
+			C14,5.8,13.8,6,13.5,6h-3C10.2,6,10,5.8,10,5.5v-3C10,2.2,10.2,2,10.5,2h3C13.8,2,14,2.2,14,2.5V5.5z M14,9h-4c-0.6,0-1,0.4-1,1v4
+			c0,0.6,0.4,1,1,1h4c0.6,0,1-0.4,1-1v-4C15,9.4,14.6,9,14,9z M14,13.5c0,0.3-0.2,0.5-0.5,0.5h-3c-0.3,0-0.5-0.2-0.5-0.5v-3
+			c0-0.3,0.2-0.5,0.5-0.5h3c0.3,0,0.5,0.2,0.5,0.5V13.5z M6,9H2c-0.6,0-1,0.4-1,1v4c0,0.6,0.4,1,1,1h4c0.6,0,1-0.4,1-1v-4
+			C7,9.4,6.6,9,6,9z M6,13.5C6,13.8,5.8,14,5.5,14h-3C2.2,14,2,13.8,2,13.5v-3C2,10.2,2.2,10,2.5,10h3C5.8,10,6,10.2,6,10.5V13.5z
+			 M6,1H2C1.4,1,1,1.4,1,2v4c0,0.6,0.4,1,1,1h4c0.6,0,1-0.4,1-1V2C7,1.4,6.6,1,6,1z M6,5.5C6,5.8,5.8,6,5.5,6h-3C2.2,6,2,5.8,2,5.5
+			v-3C2,2.2,2.2,2,2.5,2h3C5.8,2,6,2.2,6,2.5V5.5z"/>
+	</g>
+</g>
+</svg>
