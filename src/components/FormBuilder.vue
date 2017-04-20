@@ -13,13 +13,13 @@ div
           ="  *"
       .input-desc {{ field.help }}
       //- Regular field
-      div(v-if="!field.config.repeatable", :is="Components[field.type]", :pointer="getPath(field.name)", :data="form.get(field.name)", :errors="form.errors", :field="field", @input="set", @disk="disk")
+      div(v-if="!field.config.repeatable && !field.fields.length", :is="Components[field.type]", :pointer="getPath(field.name)", :data="form.get(field.name)", :errors="form.errors", :field="field", @input="set", @disk="disk")
       //- Non repeatable sub forms
       div(v-if="field.fields.length && !field.config.repeatable", :is="Components[field.type]", :form="form.split(field)", :field="field", :data="form.get(field.name)", @input="set", @disk="disk", @unlink="unlink(field)")
       //- repeatable, both with sub-form and single field
       Sortable(v-if="field.config.repeatable", :list="form.get(field.name)", :element="'div'", :options="{animation: 300, group: 'items'}")
         div(v-for="val, index in form.get(field.name)", :is="Components[field.type]", :form="form.split(field, index)", :data="form.get(field.name, index)", :field="field", :errors="form.errors", :pointer="field.name", @input="e => form.set(e, index)", @disk="disk", @unlink="unlink(field, index)")
-        button.btn-secondary(v-if="field.config.repeatable", @click.prevent="form.clone(getPath(field.name), fieldIndex)") Add Row
+        button.btn-secondary(v-if="field.config.repeatable", @click.prevent="form.clone(field.name, fieldIndex)") Add Row
       div.form-error.row(v-if="!Components[field.type]")
         .xsmall-12.columns
           | {{ field.type }} Is not an installed component template.  Please install or create it.
@@ -37,16 +37,12 @@ export default {
   components: { Sortable },
   data () {
     return {
-      Components,
-      subFieldIndex: null
+      Components
     }
   },
   methods: {
     getPath (fieldname) {
       return fieldname
-    },
-    value (field, index) {
-      return this.form.get(field, index)
     },
     isRequired (field) {
       return field.validation && field.validation.indexOf('required') >= 0

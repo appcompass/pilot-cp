@@ -4,15 +4,15 @@ div
     span.icon.icon-delete
   input(
     type="text",
-    @input="$emit('input', {value: $event.target.value, pointer: pointer})",
+    @input="$emit('input', {value: $event.target.value, pointer: field.name})",
     :value="data",
-    :class="{'error': errors.get(pointer)}"
+    :class="{'error': errors.get(field.name)}"
   )
 </template>
 
 <script>
 export default {
   name: 'String',
-  props: ['pointer', 'data', 'errors', 'field']
+  props: [ 'data', 'errors', 'field' ]
 }
 </script>
