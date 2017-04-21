@@ -35,6 +35,10 @@
         Sortable.sidebar-page-layout-list(:list="sections", :element="'div'", :options="{animation: 300, group: {name: 'items', put: false, pull: 'clone'}}")
           .page-layout-column(v-for="(section, index) in sections", @dblclick="add(section)")
             .sidebar-page-section-item {{ section.name }}
+    .sidebar.sidebar-page-settings(:class="{'is-active': checkEditor('Settings')}")
+      FormBuilder(
+        :form="setForm(data.form, data.collection.page)"
+      ).page-settings-edit
     .main-container.main-container-page-builder(v-if="layout.length")
       main.main
         .row
@@ -55,7 +59,8 @@ import PageBuilder from 'components/Editors/PageBuilder'
 export default {
   name: 'WebsitePageEditor',
   components: { FormBuilder, Sortable, PageBuilder },
-  data () {return {
+  data () {
+    return {
       active_editor: '',
       page: {},
       layout: [],
@@ -63,6 +68,7 @@ export default {
       containers: [],
       sections: [],
       data: {},
+      settings: new Form(),
       tabs: [
         {name: 'Content', layout: true },
         {name: 'Layout', layout: false },
@@ -76,6 +82,9 @@ export default {
   methods: {
     formData (formData) {
       this.content.push(formData)
+    },
+    setForm (structure, data) {
+      return this.settings.init(structure, data)
     },
     add (item) {
       console.log(item)

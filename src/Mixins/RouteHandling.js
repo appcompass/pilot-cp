@@ -17,7 +17,6 @@ module.exports = {
     getApiUrl (sub) {
       let url = this.$route.fullPath
       let pos = url.lastIndexOf(sub)
-      console.log(pos)
       if (pos !== -1) {
         return url.substring(0, pos) + url.substring(pos)
       } else {
