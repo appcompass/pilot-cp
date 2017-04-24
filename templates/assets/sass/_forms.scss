@@ -12,6 +12,10 @@ $form-secondary-button-color: !default;
 $form-input-margin-bottom: 20px !default;
 ////////////////
 
+form {
+  margin-bottom: 10px;
+}
+
 label {
 	color:$form-text-color;
 	display:block;
@@ -54,9 +58,8 @@ input[type="time"] {
 	border:1px solid $form-border-color;
 	height:40px;
 	color:$form-text-color;
-	-webkit-appearance: none; 
-	display:block; 
-	height: $form-input-height; 
+	-webkit-appearance: none;
+	height: $form-input-height;
 	width: 100%;
 	border-radius:0;
 	margin-bottom:$form-input-margin-bottom;
@@ -75,8 +78,7 @@ textarea {
 	font-family:$default-font;
 	border:1px solid $form-border-color;
 	color:$form-text-color;
-	-webkit-appearance: none; 
-	display:block; 
+	-webkit-appearance: none;
 	width: 100%;
 	border-radius:0;
 	margin-bottom:$form-input-margin-bottom;
@@ -211,7 +213,7 @@ button, input[type="submit"] {
 	background-color:$primary-red;
 }
 
-.checkbox-align-input input, 
+.checkbox-align-input input,
 .checkbox-align-input label {
 	padding-top:8px;
 	padding-bottom:8px;
@@ -258,7 +260,7 @@ button, input[type="submit"] {
 	margin-bottom:$form-input-margin-bottom;
 }
 
-input.error, 
+input.error,
 select.error,
 textarea.error {
 	border-color:$primary-red;
@@ -273,7 +275,7 @@ textarea.error {
 	margin-bottom:10px;
 }
 
-.repeatable-fieldset th, 
+.repeatable-fieldset th,
 .repeatable-fieldset td {
 	border-width:0 1px 1px 0;
 	padding:10px;
@@ -299,7 +301,7 @@ textarea.error {
 	text-transform:none;
 	font-size:inherit;
 	margin:0;
-} 
+}
 
 .repeatable-fieldset input[type="checkbox"],
 .repeatable-fieldset input[type="checkbox"] + label,
@@ -307,12 +309,12 @@ textarea.error {
 .repeatable-fieldset input[type="radio"] + label {
 	margin-top:8px;
 	margin-bottom:8px;
-} 
+}
 
 .repeatable-fieldset .radio-group-inline,
 .repeatable-fieldset .cehckbox-group-inline {
 	margin-top:0;
-} 
+}
 
 .fieldset {
 	border:1px solid $border-color;
@@ -367,7 +369,7 @@ textarea.error {
 }
 
 .fieldset-fields {
-	padding:20px 20px 0;
+	padding:20px 20px 10px;
 	border-top:1px solid $border-color;
 }
 

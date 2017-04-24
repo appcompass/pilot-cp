@@ -35,11 +35,13 @@
         Sortable.sidebar-page-layout-list(:list="sections", :element="'div'", :options="{animation: 300, group: {name: 'items', put: false, pull: 'clone'}}")
           .page-layout-column(v-for="(section, index) in sections", @dblclick="add(section)")
             .sidebar-page-section-item {{ section.name }}
+    .sidebar.sidebar-page-settings(:class="{'is-active': checkEditor('Settings')}")
+      FormBuilder.page-settings-edit(:form="page")
     .main-container.main-container-page-builder(v-if="layout.length")
       main.main
         .row
           .xsmall-12.columns
-            h2.page-builder-title {{ data.collection.page.title }}
+            h2.page-builder-title {{ page.title }}
         .page-builder(:class="{'show-layout-ui': checkEditor('Layout'), 'hide-layout-ui': !checkEditor('Layout')}", v-if="layout.length")
           PageBuilder(:elements="layout", @formData="formData")
 </template>
@@ -55,14 +57,15 @@ import PageBuilder from 'components/Editors/PageBuilder'
 export default {
   name: 'WebsitePageEditor',
   components: { FormBuilder, Sortable, PageBuilder },
-  data () {return {
+  data () {
+    return {
       active_editor: '',
-      page: {},
+      page: new Form(),
       layout: [],
       content: [],
       containers: [],
       sections: [],
-      data: {},
+      settings: new Form(),
       tabs: [
         {name: 'Content', layout: true },
         {name: 'Layout', layout: false },
@@ -76,6 +79,9 @@ export default {
   methods: {
     formData (formData) {
       this.content.push(formData)
+    },
+    setForm (structure, data) {
+      return this.settings.init(structure, data)
     },
     add (item) {
       console.log(item)
@@ -95,11 +101,10 @@ export default {
     load () {
       // set page data
       this.fetch('').then(response => {
-        this.data = response.data
         response.data.collection.layout.forEach((layout) => {
           this.layout.push(new PageElement(layout))
         })
-        this.page = response.data.collection.page
+        this.page.init(response.data.form, response.data.collection.page)
         this.active_editor = this.layout.length ? 'Content' : 'Settings'
       })
       // set containers available for the page
@@ -122,7 +127,7 @@ export default {
       return this.$http.put('/api' + this.$route.fullPath, {
         layout: this.layout,
         deletions: [],
-        page: this.page
+        page: this.page.collection
       }).then(response => {
         console.log(response)
       })
