@@ -5,9 +5,7 @@ class Errors {
     this.errors = Object.create({})
   }
 
-  set (errors, path) {
-    console.log(path)
-    this.path = path
+  set (errors) {
     this.errors = Object.assign({}, errors)
   }
 
