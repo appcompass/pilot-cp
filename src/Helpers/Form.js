@@ -1,7 +1,7 @@
 import Errors from './Errors'
 import _ from 'lodash'
 
-class Form {
+export default class Form {
   constructor () {
     this.form = {}
     this.collection = {}
@@ -43,8 +43,7 @@ class Form {
   }
 
   fails (errors) {
-    console.log('Form: ' + this.path)
-    this.errors.set(errors, this.path)
+    this.errors.set(errors)
   }
 
   getErrors (path) {
@@ -103,18 +102,14 @@ class Form {
   }
 
   setFields (fields, path) {
-    // console.log(path)
     fields.forEach(field => {
-      // _.set(field, 'path', path)
-      // field.path = path
       if (path !== null) {
         field.path = path
       }
       return field
     })
-    // console.log(fields)
     this.fields = fields
   }
 
 }
-export default Form
+// export default Form
