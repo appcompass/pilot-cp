@@ -2,14 +2,28 @@
 var Vue = require('vue')
 
 import axios from 'axios'
+import Auth from 'States/Auth'
 import VueAxios from 'vue-axios'
 import VueSweetAlert from 'vue-sweetalert'
-import Auth from 'States/Auth'
-
-// import routes from './routes'
+import App from './App'
+// import store from './store'
 import router from './router'
 
-import App from './App'
+// import Vue from '../main'
+import Vuex from 'vuex'
+import * as actions from './store/actions'
+import * as getters from './store/getters'
+import disks from './store/modules/disks'
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  modules: {
+    disks
+  },
+  getters,
+  actions
+})
 
 // @TODO: this needs to be moved into assets/sass/
 import '../templates/assets/sass/app.scss'
@@ -18,7 +32,6 @@ import moment from 'moment'
 Vue.use(VueAxios, axios)
 Vue.use(VueSweetAlert)
 
-// Vue.axios.defaults.baseURL = process.env.API_SERVER
 Vue.axios.defaults.headers.common['X-Csrf-Token'] = localStorage.getItem('csrf_token') || ''
 Vue.axios.defaults.headers.common['Authorization'] = localStorage.getItem('auth_token') || ''
 // Vue.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
@@ -72,6 +85,7 @@ export default Vue
 /* eslint-disable no-new */
 new Vue({
   router,
+  store,
   el: '#app',
   template: '<App/>',
   components: { App },
