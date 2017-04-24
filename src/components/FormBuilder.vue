@@ -25,7 +25,7 @@ div
         .xsmall-12.columns
           | {{ field.type }} Is not an installed component template.  Please install or create it.
       ul.form-error
-        li(v-for="error in form.errors.get(getPath(field.name))") {{ error }}
+        li(v-for="error in form.getErrors(field.name)") {{ error }}
 </template>
 
 <script>
