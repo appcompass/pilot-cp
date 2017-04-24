@@ -43,15 +43,19 @@ class Form {
   }
 
   fails (errors) {
-    console.log(this.fields)
-    this.errors.set(errors)
+    console.log('Form: ' + this.path)
+    this.errors.set(errors, this.path)
   }
 
-  //
+  getErrors (path) {
+    // this.path is form path until split()
+    return this.errors.get(path, this.path)
+  }
+
   clone (fieldName, fieldIndex) {
     let dataObject = Object.create({})
+    // does field have a linked form associated?
     if (this.fields[fieldIndex].fields.length) {
-      // clone the form associated with the field
       this.fields[fieldIndex].fields.forEach((field) => {
         dataObject[field.name] = null
         if (field.fields.length) {
@@ -60,17 +64,14 @@ class Form {
       })
       this.collection[fieldName].push(dataObject)
       return dataObject
+    // field has no sub-form associated, so it's a single field repeatable
     } else {
-      // field has no sub-form associated, so it's a single field repeatable
-      // get the data target
       let path = fieldName.split('.').join(`[0]`)
-      //
       let target = _.get(this.collection, path)
-      // if a field already exist we push on it
       if (target && target.length) {
         _.get(this.collection, path).push('')
       } else {
-        // otherwise we instantiate an empty array
+        // push to empty array
         _.set(this.collection, path, [''])
       }
     }
@@ -91,12 +92,27 @@ class Form {
       data = _.get(this.collection, path)
     }
     form.init(this.form, data)
-    form.setFields(point.fields)
+    form.setPath(point.name)
+    form.setFields(point.fields, point.name)
     form.errors = this.errors
     return form
   }
 
-  setFields (fields) {
+  setPath (path) {
+    this.path = path
+  }
+
+  setFields (fields, path) {
+    // console.log(path)
+    fields.forEach(field => {
+      // _.set(field, 'path', path)
+      // field.path = path
+      if (path !== null) {
+        field.path = path
+      }
+      return field
+    })
+    // console.log(fields)
     this.fields = fields
   }
 

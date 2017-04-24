@@ -6,13 +6,13 @@ div
     type="text",
     @input="$emit('input', {value: $event.target.value, pointer: field.name})",
     :value="data",
-    :class="{'error': errors.get(field.name)}"
+    :class="{'error': errors}"
   )
 </template>
 
 <script>
 export default {
   name: 'String',
-  props: [ 'data', 'errors', 'field' ]
+  props: ['data', 'errors', 'field']
 }
 </script>

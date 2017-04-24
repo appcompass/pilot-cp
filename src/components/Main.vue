@@ -7,7 +7,7 @@
     .site-logout(v-else)
       .logout-container
         .logout-logo
-          img(:src="logo", width="62", height="80")
+          img(src="~assets/images/content/p3_logo-01.png", width="62", height="80")
         .logout-box
           center
             | Loading please wait!
@@ -24,10 +24,7 @@ export default {
       Layouts,
       loading: true,
       auth: auth,
-      layout: 'Public',
-      // @TODO: should be dynamic via config per install.
-      // logo: 'http://admin.triton.com.dev/templates/assets/images/logo_color.svg'
-      logo: '/src/assets/images/content/p3_logo-01.png'
+      layout: 'Public'
     }
   },
   components: {},

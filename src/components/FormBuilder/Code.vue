@@ -19,7 +19,7 @@ div
 
     p.help.is-danger
       ul
-        li(v-for="error in errors.get(pointer)") {{ error }}
+        li(v-for="error in errors") {{ error }}
     p.help
       | {{ help }}
 
@@ -31,7 +31,7 @@ import editor from './Ace'
 
 export default {
   name: 'Code',
-  props: ['pointer', 'data', 'label', 'errors', 'help'],
+  props: ['field', 'data', 'label', 'errors', 'help'],
   components: {
     editor
   },
@@ -45,7 +45,7 @@ export default {
   events:{
   },
   created () {
-    var baseName = this.pointer.replace(/\./g, '_')
+    var baseName = this.field.name.replace(/\./g, '_')
     if (typeof this.data === 'string') {
       this.elm_id = baseName
     } else {

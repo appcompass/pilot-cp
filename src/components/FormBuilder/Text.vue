@@ -1,8 +1,8 @@
 <template lang="pug">
   div
     textarea.textarea(
-      @input="$emit('input', {value: $event.target.value, pointer: pointer})",
-      :class="{'error': errors.get(pointer)}",
+      @input="$emit('input', {value: $event.target.value, pointer: field.name})",
+      :class="{'error': errors}",
       :value="data"
     )
 </template>
@@ -10,6 +10,6 @@
 <script>
 export default {
   name: 'Text',
-  props: ['pointer', 'data', 'errors', 'field']
+  props: ['data', 'errors', 'field']
 }
 </script>
