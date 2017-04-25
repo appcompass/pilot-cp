@@ -17,7 +17,9 @@ const actions = {
 
 const mutations = {
   fetch (state, element) {
-    Vue.axios.get('/api/storage').then(response => { state.instances = response.data })
+    Vue.axios.get('/api/storage').then(response => {
+      state.instances = response.data.collection.data
+    })
   }
 }
 
