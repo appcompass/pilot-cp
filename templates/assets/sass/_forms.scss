@@ -10,6 +10,7 @@ $form-secondary-text-color: #94a1ab !default;
 $form-primary-button-color: !default;
 $form-secondary-button-color: !default;
 $form-input-margin-bottom: 20px !default;
+$switch-small-height: 30px !default;
 ////////////////
 
 form {
@@ -39,7 +40,8 @@ label .required {
 }
 
 input[type="checkbox"] + label,
-input[type="radio"] + label {
+input[type="radio"] + label,
+.switch + label {
 	display:inline-block;
 	margin-bottom:$form-input-margin-bottom;
 	vertical-align:middle;
@@ -403,3 +405,110 @@ textarea.error {
 	margin-bottom:20px;
 }
 
+.sortable-field {
+	display:flex;
+	flex-wrap:nowrap;
+	width:100%;
+}
+
+.sortable-field-input {
+	flex:1 1 100%;
+}
+
+.sortable-field-drag,
+.sortable-field-delete {
+	width:25px;
+	height:$form-input-height;
+	line-height:$form-input-height;
+	color:$form-text-color;
+	color:$form-secondary-text-color;
+}
+
+.sortable-field-drag:hover {
+	color:$form-text-color;
+}
+
+.sortable-field-delete {
+	text-align:right;
+	cursor:pointer;
+}
+
+.sortable-field-delete:hover {
+	color:$primary-red;
+}
+
+.add-row {
+	margin-bottom:$form-input-margin-bottom;
+}
+
+.switch {
+	position:relative;
+	margin-bottom:$form-input-margin-bottom;
+	display:inline-block;
+	vertical-align:middle;
+}
+
+table .switch {
+	margin-bottom:0;
+}
+
+.switch input {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+
+.switch input + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  padding: 1px;
+  width: $form-input-height * 2;
+  height: $form-input-height;
+  background-color: #fff;
+  border:1px solid $form-border-color;
+  border-radius: $form-input-height;
+  transition: background 0.4s;
+  margin:0;
+}
+
+.switch input + label:after {
+  display: block;
+  position: absolute;
+  content: "";
+  top: 3px;
+  left: 3px;
+  bottom: 3px;
+  width: $form-input-height - 8px;
+  background-color: $form-border-color;
+  border-radius: $form-input-height - 8px;
+  transition: margin 0.4s, background 0.4s;
+}
+
+.switch input:checked + label {
+  border-color: $primary-green;
+  background-color: $primary-green;
+}
+
+.switch input:checked + label:after {
+  margin-left: $form-input-height;
+  background-color: #fff;
+}
+
+.switch-small input + label {
+  width: $switch-small-height * 2;
+  height: $switch-small-height;
+  border-radius: $switch-small-height;
+}
+
+.switch-small input + label:after {
+  width: $switch-small-height - 8px;
+  border-radius: $switch-small-height - 8px;
+}
+
+.switch-small input:checked + label:after {
+  margin-left: $switch-small-height;
+  background-color: #fff;
+}

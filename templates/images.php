@@ -153,6 +153,48 @@
 							<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
 						</div>
 					</div>
+
+					<div class="media-card">
+						<a href="#" class="media-card-thumb">
+							<span class="thumb-container">
+								<span class="thumb-center">
+									<img src="http://placehold.it/400x600" width="400" height="600">
+								</span>
+							</span>
+						</a>
+						<ul class="media-card-info">
+							<li><span>Status:</span> Active</li>
+							<li><span>Type:</span> N/A</li>
+							<li><span>Dimensions:</span> 3264 x 2448</li>
+							<li><span>Uploaded By:</span> Michael</li>
+							<li><span>Uploaded On:</span> 2017-10-07</li>
+						</ul>
+						<div class="media-card-actions">
+							<input type="checkbox" class="media-card-checkbox left">
+							<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
+						</div>
+					</div>
+
+					<div class="media-card">
+						<a href="#" class="media-card-thumb">
+							<span class="thumb-container">
+								<span class="thumb-center">
+									<img src="http://placehold.it/400x600" width="400" height="600">
+								</span>
+							</span>
+						</a>
+						<ul class="media-card-info">
+							<li><span>Status:</span> Active</li>
+							<li><span>Type:</span> N/A</li>
+							<li><span>Dimensions:</span> 3264 x 2448</li>
+							<li><span>Uploaded By:</span> Michael</li>
+							<li><span>Uploaded On:</span> 2017-10-07</li>
+						</ul>
+						<div class="media-card-actions">
+							<input type="checkbox" class="media-card-checkbox left">
+							<a href="#" class="media-card-delete right"><span class="icon-delete"></span> Delete</a>
+						</div>
+					</div>
 						
 				</div><!-- media-cards -->
 			</div><!-- view-container -->
