@@ -49,10 +49,10 @@ Vue.axios.interceptors.response.use(function (response) {
       Auth.logout()
     }
     if (error.response.status === 403) {
-      this.$swal('Unauthorized', error.response.data || 'You are not authorized to perform this action.', 'error')
+      // this.$swal('Unauthorized', error.response.data || 'You are not authorized to perform this action.', 'error')
     }
     if (error.response.status === 404) {
-      this.$swal('Not Found', error.response.data || 'Resource not found.', 'error')
+      // this.$swal('Not Found', error.response.data || 'Resource not found.', 'error')
     }
   } else {
     // Something happened in setting up the request that triggered an Error

@@ -1,9 +1,9 @@
 import StringType from './FormBuilder/String'
 import BooleanType from './FormBuilder/Boolean'
-import SecretType from './FormBuilder/Secret'
-import TextType from './FormBuilder/Text'
 import SelectType from './FormBuilder/Select'
 import PhotoType from './FormBuilder/Photo'
+import SecretType from './FormBuilder/Secret'
+import TextType from './FormBuilder/Text'
 import FieldsetType from './FormBuilder/Fieldset'
 import CodeType from './FormBuilder/Code'
 import ConfigType from './FormBuilder/Config'
@@ -18,10 +18,10 @@ import MapType from './FormBuilder/Map'
 import LoginFormType from './FormBuilder/LoginForm'
 export var String = StringType
 export var Boolean = BooleanType
-export var Secret = SecretType
-export var Text = TextType
 export var Select = SelectType
 export var Photo = PhotoType
+export var Secret = SecretType
+export var Text = TextType
 export var Fieldset = FieldsetType
 export var Code = CodeType
 export var Config = ConfigType
