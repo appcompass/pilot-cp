@@ -2,17 +2,17 @@
   div
     .logout-box
       p Please enter a new password.
-      form(v-on:submit.prevent="")
+      form(v-on:submit.prevent="resetPassword")
         label(for='email') Email Address
-        input(type="email", placeholder="Email", :class="{'error': error && response.email}", v-model="email", @keyup.enter="resetPassword")
+        input(type="email", placeholder="Email", :class="{'error': error && response.email}", v-model="email")
         ul.form-error(v-if="error")
           li(v-if="response.email", v-for="line in response.email") {{line}}
         label(for='password') New Password
-        input(type="password", name="password", placeholder="Password", :class="{'error': error && response.password}", v-model="password", @keyup.enter="resetPassword")
+        input(type="password", name="password", placeholder="Password", :class="{'error': error && response.password}", v-model="password")
         ul.form-error(v-if="error")
           li(v-if="response.password", v-for="line in response.password") {{line}}
         label(for='password_confirmation') Confirm New Password
-        input(type="password", name="password_confirmation", placeholder="Confirm Password", :class="{'error': error && response.password_confirmation}", v-model="password_confirmation", @keyup.enter="resetPassword")
+        input(type="password", name="password_confirmation", placeholder="Confirm Password", :class="{'error': error && response.password_confirmation}", v-model="password_confirmation")
         ul.form-error(v-if="error")
           li(v-if="response.password_confirmation", v-for="line in response.password_confirmation") {{line}}
 
