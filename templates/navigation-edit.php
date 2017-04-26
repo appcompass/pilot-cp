@@ -111,6 +111,7 @@
 									</form>
 								</div>
 							</li>
+							<li class="nav-option-item">Home</li>
 							<li>
 								<div class="nav-item">
 									<div class="nav-item-header">About <span class="nav-item-actions"><span class="icon icon-edit"></span><span class="icon icon-box-down"></span></span></div>
