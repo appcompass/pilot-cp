@@ -14,4 +14,5 @@
 	<li><a href="password-reset.php">Password Reset</a></li>
 	<li><a href="register.php">Register</a></li>
 	<li><a href="lock-screen.php">Lock Screen</a></li>
+	<li><a href="redirects.php">Redirects</a></li>
 </ul>
