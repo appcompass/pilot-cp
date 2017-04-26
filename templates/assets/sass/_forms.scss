@@ -448,10 +448,6 @@ textarea.error {
 	vertical-align:middle;
 }
 
-table .switch {
-	margin-bottom:0;
-}
-
 .switch input {
   position: absolute;
   margin-left: -9999px;
@@ -511,4 +507,28 @@ table .switch {
 .switch-small input:checked + label:after {
   margin-left: $switch-small-height;
   background-color: #fff;
+}
+
+.form-swap-active .form-swap-value {
+	display:none;
+}
+
+.form-swap-active .form-swap-input {
+	display:block;
+}
+
+.form-swap-input {
+	display:none;
+}
+
+table input[type="text"],
+table input[type="search"],
+table input[type="email"],
+table input[type="password"],
+table input[type="date"],
+table input[type="datetime-local"],
+table input[type="time"], 
+table .select, 
+table .switch {
+	margin-bottom:0;
 }

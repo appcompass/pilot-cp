@@ -55,6 +55,11 @@
 		$(this).parent().toggleClass('is-active');
 	});
 
+	$('.form-swap-trigger').on('click', function(e) {
+		e.preventDefault();
+		$(this).closest('tr').toggleClass('form-swap-active');
+	});
+
 
 	/* Tabs
 	---------------------------------------------------------------------- */

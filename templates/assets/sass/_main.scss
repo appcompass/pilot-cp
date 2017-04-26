@@ -86,9 +86,12 @@
 }
 
 .table-row-actions {
-	font-size:em(14px);
 	color:$tertiary-text-color;
 	white-space: nowrap;
+}
+
+.table-row-actions.small {
+	font-size:em(14px);
 }
 
 .table-row-actions a {
@@ -730,7 +733,7 @@
 	color:$tertiary-text-color;
 	text-align:left;
 	height:60px;
-	padding:10px 0 10px 10px;
+	padding:10px;
 	position:relative;
 	vertical-align:middle;
 }
@@ -744,7 +747,7 @@
 .table-default td {
 	color:$secondary-text-color;
 	//height:60px;
-	padding:10px 0 10px 10px;
+	padding:10px;
 	border-bottom:1px solid $border-color;
 	vertical-align:top;
 }
@@ -753,12 +756,12 @@
 	background-color:$primary-bg-color;
 }
 
-.table-default td a {
+.table-default a {
 	text-decoration:none;
-	color:$primary-text-color;
+	//color:$primary-text-color;
 	&:hover {
 		text-decoration:underline;
-		color:$primary-text-color;
+		//color:$primary-text-color;
 	}
 }
 
@@ -776,6 +779,11 @@
 .table-default th > .icon-search:hover {
 	color:$secondary-color;
 	cursor:pointer;
+}
+
+.table-save {
+	text-align:right;
+	margin-bottom:20px;
 }
 
 .pagination {
