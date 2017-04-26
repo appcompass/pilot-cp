@@ -1,15 +1,15 @@
 <template lang="pug">
-  div.site
+  .site
     SiteHeader
-    div.content-container
+    .content-container
       SideNavigation
       Notifications
-      div.main-container
+      .main-container
         main.main
-          div.row
-            div.xsmall-12.columns
+          .row
+            .xsmall-12.columns
               Breadcrumbs
-          div.row
+          .row
             transition(name="route", mode="out-in")
               router-view
         SiteFooter
