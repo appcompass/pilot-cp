@@ -340,6 +340,10 @@
 	margin-left:20px;
 }
 
+.nav-list li {
+	position:relative;
+}
+
 .nav-list li.hide-children ul {
 	display:none;
 }
@@ -359,7 +363,7 @@
 .nav-item {
 	background:$primary-bg-color;
 	border:1px solid $border-color;
-	margin-bottom:10px;
+	margin-bottom:40px;
 	border-radius:3px;
 	overflow:hidden;
 }
@@ -453,8 +457,12 @@
 }*/
 
 .nav-list-empty {
-	padding:20px;
+	//border:2px dashed $border-color;
+	height:40px;
 	margin-bottom:0!important;
+	margin-top:-40px;
+	z-index:99;
+	position:relative;
 }
 
 .upload-drop {
