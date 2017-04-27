@@ -19,6 +19,9 @@ export default {
     return {
       selected: null
     }
+  },
+  mounted () {
+    console.log('mounted')
   }
 }
 </script>
