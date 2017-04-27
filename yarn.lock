@@ -5301,6 +5301,10 @@ vue-router@^2.1.1:
   version "2.2.0"
   resolved "https://codeload.github.com/sagalbot/vue-select/tar.gz/7f8c5478508d579f0037d0e50c143389fc2d117b"
 
+vue-select@sagalbot/vue-select:
+  version "2.2.0"
+  resolved "https://codeload.github.com/sagalbot/vue-select/tar.gz/072bf4160dd0ade7894630af921f8e5e44cb801c"
+
 vue-server-renderer@^2.0.0-rc.3:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/vue-server-renderer/-/vue-server-renderer-2.2.6.tgz#0a20535544b6948bca076380d058e19bb1304eef"

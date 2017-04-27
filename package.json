@@ -23,7 +23,7 @@
     "vue": "^2.1.0",
     "vue-axios": "^2.0.1",
     "vue-router": "^2.1.1",
-    "vue-select": "github:sagalbot/vue-select",
+    "vue-select": "sagalbot/vue-select",
     "vue-server-renderer": "^2.0.0-rc.3",
     "vue-sweetalert": "^0.1.17",
     "vue2-ace": "^1.0.5",

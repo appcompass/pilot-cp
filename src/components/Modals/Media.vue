@@ -6,9 +6,7 @@
       span.icon-cancel
   .add-media-content
     .select
-      select(@input="$store.dispatch('setDisk', $event.target.value)")
-        option(v-for="disk in disks", :value="disk.id", :key="disk.id") {{ disk.name }}
-      span.icon.select
+      searchable-dropdown(:field="{name: 'Disks', config: {multiple: false}}", placeholder="Please select a disk instance", :data="''", :source="disks", @input="disk")
     Dropzone(:url="$route.fullPath")
     .data-actions-container
       .data-actions
@@ -31,17 +29,19 @@
             input(type="search", placeholder="search")
 
     .view-container
-      .media-cards
-        media-card(v-for="photo in gallery.photos", :media="photo", :key="photo.id", @select="select")
+      Sortable.media-cards(:list="gallery.photos", :element="'div'")
+        media-card.media-card(v-for="photo in gallery.photos", :media="photo", :key="photo.id", @select="select")
 </template>
 
 <script>
+import Sortable from '../../Helpers/VueSortable'
 import MediaCard from '../Global/MediaCard'
+import SearchableDropdown from '../FormBuilder/DropdownSearch'
 import Dropzone from '../Dropzone'
 
 export default {
   name: 'MediaModal',
-  components: { MediaCard, Dropzone },
+  components: { MediaCard, Dropzone, Sortable, SearchableDropdown },
   data: () => ({
     gallery: {
       photos: [
@@ -55,6 +55,9 @@ export default {
   methods: {
     select (media) {
       this.$store.dispatch('modal.done', media)
+    },
+    disk (data) {
+      this.$store.dispatch('setDisk', data.value)
     }
   },
   mounted () {

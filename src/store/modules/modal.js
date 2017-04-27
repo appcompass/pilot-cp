@@ -21,6 +21,7 @@ const actions = {
   },
   'modal.hide' ({commit, state}) {
     state.visible = false
+    commit('visibility')
   },
   'modal.done' ({commit, state}, model) {
     state.visible = false
