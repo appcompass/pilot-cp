@@ -38,7 +38,11 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      this.init()
+      if (to.name === 'request-password-reset' || to.name === 'reset-password-reset-password') {
+        this.check()
+      }else{
+        this.init()
+      }
     },
     'auth.user.authenticated' (val) {
       this.check(val)

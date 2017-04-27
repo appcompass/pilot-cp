@@ -28,6 +28,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-plus:before {
+  content: "\e91b";
+}
 .icon-drag:before {
   content: "\e91a";
 }
