@@ -44,19 +44,21 @@
             h2.page-builder-title {{ page.title }}
         .page-builder(:class="{'show-layout-ui': checkEditor('Layout'), 'hide-layout-ui': !checkEditor('Layout')}", v-if="layout.length")
           PageBuilder(:elements="layout", @formData="formData")
+  Modal
 </template>
 
 <script>
 import _ from 'lodash'
 import Form from 'Helpers/Form'
-import FormBuilder from 'components/FormBuilder'
 import Sortable from 'Helpers/VueSortable'
+import Modal from 'components/Global/Modal'
 import PageElement from 'Helpers/PageElement'
+import FormBuilder from 'components/FormBuilder'
 import PageBuilder from 'components/Editors/PageBuilder'
 
 export default {
   name: 'WebsitePageEditor',
-  components: { FormBuilder, Sortable, PageBuilder },
+  components: { FormBuilder, Sortable, PageBuilder, Modal },
   data () {
     return {
       active_editor: '',

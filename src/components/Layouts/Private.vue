@@ -1,18 +1,19 @@
 <template lang="pug">
-  div.site
-    SiteHeader
-    div.content-container
-      SideNavigation
-      Notifications
-      div.main-container
-        main.main
-          div.row
-            div.xsmall-12.columns
-              Breadcrumbs
-          div.row
-            transition(name="route", mode="out-in")
-              router-view
-        SiteFooter
+.site
+  SiteHeader
+  .content-container
+    SideNavigation
+    Notifications
+    .main-container
+      main.main
+        .row
+          .xsmall-12.columns
+            Breadcrumbs
+        .row
+          transition(name="route", mode="out-in")
+            router-view
+      SiteFooter
+  Modal
 </template>
 
 <script>
@@ -22,7 +23,7 @@ import SiteFooter from 'components/Global/SiteFooter'
 import SideNavigation from 'components/Global/SideNavigation'
 import Notifications from 'components/Global/Notifications'
 import Breadcrumbs from 'components/Global/Breadcrumbs'
-import ModalComponent from 'components/Global/ModalComponent'
+import Modal from 'components/Global/Modal'
 
 export default {
   name: 'Private',
@@ -38,13 +39,7 @@ export default {
     SideNavigation,
     Notifications,
     Breadcrumbs,
-    ModalComponent
-  },
-  created () {
-  },
-  watch: {
-  },
-  methods: {
+    Modal
   }
 }
 </script>
