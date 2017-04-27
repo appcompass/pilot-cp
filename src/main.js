@@ -6,24 +6,28 @@ import Auth from 'States/Auth'
 import VueAxios from 'vue-axios'
 import VueSweetAlert from 'vue-sweetalert'
 import App from './App'
-// import store from './store'
 import router from './router'
 
-// import Vue from '../main'
+// - Vuex
+
 import Vuex from 'vuex'
 import * as actions from './store/actions'
 import * as getters from './store/getters'
 import disks from './store/modules/disks'
+import modal from './store/modules/modal'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    disks
+    disks,
+    modal
   },
   getters,
   actions
 })
+
+// -
 
 // @TODO: this needs to be moved into assets/sass/
 import '../templates/assets/sass/app.scss'

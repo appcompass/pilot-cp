@@ -5050,6 +5050,10 @@ timers-browserify@^2.0.2:
   dependencies:
     setimmediate "^1.0.4"
 
+tingle.js@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/tingle.js/-/tingle.js-0.10.0.tgz#9847550d1ba2eea07117448b105ca88b225994a2"
+
 to-arraybuffer@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/to-arraybuffer/-/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"
