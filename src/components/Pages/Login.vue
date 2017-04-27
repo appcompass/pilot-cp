@@ -16,11 +16,12 @@
             :to="{name: 'request-password-reset'}",
           ) Reset Password
 
-    router-link.link-text-tertiary.link-icon(
-      :to="{name: 'register'}",
-    )
-      span.icon-user
-      |  Resgister User
+    //-
+      router-link.link-text-tertiary.link-icon(
+        :to="{name: 'register'}",
+      )
+        span.icon-user
+        |  Resgister User
 </template>
 
 <script>

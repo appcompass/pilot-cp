@@ -69,9 +69,7 @@ export default {
 
         NavigationState.init()
 
-        router.push({
-          name: 'home'
-        })
+        router.push({ name: 'login' })
       })
       .catch(error => {
         console.log(error)
@@ -90,20 +88,31 @@ export default {
       name: 'login'
     })
   },
-  register (context, form) {
-    let payload = form
-    Vue.axios.post('/api/auth/register', payload)
+  // register (context, form) {
+  //   let payload = form
+  //   Vue.axios.post('/api/auth/register', payload)
+  //     .then(response => {
+  //       context.success = true
+  //     }, error => {
+  //       context.response = error.response.data
+  //       context.error = true
+  //     })
+  // },
+  requestReset (context, payload) {
+    this.send('/api/auth/password/email', context, payload)
+  },
+  resetPassword (context, payload) {
+    this.send('/api/auth/password/reset', context, payload)
+  },
+  send (endpoint, context, payload) {
+    Vue.axios.post(endpoint, payload)
       .then(response => {
+        context.response = response.data
         context.success = true
+        context.error = false
       }, error => {
         context.response = error.response.data
         context.error = true
       })
-  },
-  requestReset (context, email) {
-
-  },
-  resetPassword (context, email) {
-
   }
 }
