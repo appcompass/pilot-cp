@@ -85,16 +85,13 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         use: [{
             loader: "style-loader"
         }, {
             loader: "css-loader"
         }, {
-            loader: "sass-loader",
-            options: {
-              includePaths: [path.resolve(__dirname, '../templates')]
-            }
+            loader: "sass-loader"
         }]
       },
       {

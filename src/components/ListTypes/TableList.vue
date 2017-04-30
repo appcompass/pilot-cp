@@ -44,7 +44,7 @@
               //- @TODO: this whole if/else flow is a bit ugly
               router-link.table-user-avatar(
                 v-if="row.card_photo && row.abilities.includes('edit')",
-                :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
+                :to="{name: getRouteName('show'), params: getRouteParams(row.id)}",
               )
                 img(:src="row.card_photo", width="32", height="32")
               a.table-user-avatar(v-else if="row.card_photo")
@@ -53,14 +53,14 @@
                 v-if="row.abilities.includes('edit')"
               )
                 router-link(
-                  :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
+                  :to="{name: getRouteName('show'), params: getRouteParams(row.id)}",
                   v-html="value(field.name, row)"
                 )
               a(v-else, v-html="value(field.name, row)")
               div.table-row-actions
                 router-link.link-primary(
                   v-if="row.abilities.includes('edit')",
-                  :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
+                  :to="{name: getRouteName('show'), params: getRouteParams(row.id)}",
                 ) Edit
                 = " | "
                 //- @TODO: add delete ability permissions to resources on API.
@@ -77,9 +77,11 @@
 
 <script>
 import _ from 'lodash'
+import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
   name: 'TableList',
+  mixins: [RouteHandling],
   props: [ 'forms', 'collection' ],
   data () {
     return {
