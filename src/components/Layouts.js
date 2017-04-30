@@ -1,7 +1,7 @@
 import PublicLayout from './Layouts/Public'
 import PrivateLayout from './Layouts/Private'
-import WebsitePageEditorLayout from './Layouts/WebsitePageEditor'
+import FullScreenLayout from './Layouts/FullScreen'
 
 export var Public = PublicLayout
 export var Private = PrivateLayout
-export var WebsitePageEditor = WebsitePageEditorLayout
+export var FullScreen = FullScreenLayout
