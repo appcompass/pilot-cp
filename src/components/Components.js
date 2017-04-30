@@ -16,7 +16,6 @@ import RadioType from './FormBuilder/Radio'
 import PageSectionSelectType from './FormBuilder/PageSectionSelect'
 import MapType from './FormBuilder/Map'
 import LoginFormType from './FormBuilder/LoginForm'
-import DropdownSearchType from './FormBuilder/DropdownSearch'
 export var String = StringType
 export var Boolean = BooleanType
 export var Select = SelectType
@@ -35,4 +34,3 @@ export var Radio = RadioType
 export var PageSectionSelect = PageSectionSelectType
 export var Map = MapType
 export var LoginForm = LoginFormType
-export var DropdownSearch = DropdownSearchType

@@ -27,7 +27,8 @@
     "vue-server-renderer": "^2.0.0-rc.3",
     "vue-sweetalert": "^0.1.17",
     "vue2-ace": "^1.0.5",
-    "vuex": "^2.1.1"
+    "vuex": "^2.1.1",
+    "vuex-router-sync": "^4.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

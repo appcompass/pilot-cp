@@ -2,7 +2,7 @@
   header.header
     div.header-logo
       router-link(to="/")
-        img(:src="logo", width="26", height="34")
+        img(src="~assets/images/content/logo.svg", width="26", height="34")
     nav.header-nav-container
       HeaderLeftNavigation
       HeaderRightNavigation
@@ -20,7 +20,6 @@ export default {
   },
   data () {
     return {
-      logo: 'http://admin.triton.com.dev/templates/assets/images/logo.svg'
     }
   }
 }
