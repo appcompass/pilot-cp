@@ -1,7 +1,6 @@
 /* global localStorage: false */
 import Vue from 'src/main'
 import router from 'src/router'
-import NavigationState from 'States/Navigation'
 
 class Abilities {
   constructor () {
@@ -40,7 +39,6 @@ export default {
         .then(response => {
           this.user.authenticated = true
           this.user.profile = response.data
-          NavigationState.init()
           if (cb) {
             cb(this.user)
           }
@@ -68,8 +66,6 @@ export default {
         this.user.authenticated = true
         this.user.profile = response.data.user
 
-        NavigationState.init()
-
         context.$router.push(redirect)
       })
       .catch(error => {
@@ -82,8 +78,6 @@ export default {
     localStorage.removeItem('auth_token')
     this.user.authenticated = false
     this.user.profile = null
-
-    NavigationState.clear()
 
     router.push({
       name: 'login'

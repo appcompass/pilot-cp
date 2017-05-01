@@ -30,7 +30,6 @@
 
 import Form from 'Helpers/Form'
 import Auth from 'States/Auth'
-import Navigation from 'States/Navigation'
 import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
@@ -39,15 +38,11 @@ export default {
   mixins: [RouteHandling],
   data () {
     return {
-      navigation: Navigation,
       api: null,
       form: new Form()
     }
   },
   created () {
-    // this.model = this.$route.params.model.split('_').join('/')
-    // this.api = '/api' + this.$route.fullPath.split('_').join('/')
-    // this.api = this.navigation.api_url
     this.loading = true
     this.$http.get('/api/' + this.getApiUrl('create'))
       .then((response) => {
