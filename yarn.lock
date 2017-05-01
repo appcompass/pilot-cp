@@ -5297,10 +5297,6 @@ vue-router@^2.1.1:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-2.4.0.tgz#56a635e1434a1966ac095f2a485bebdcfc36cec5"
 
-"vue-select@github:sagalbot/vue-select":
-  version "2.2.0"
-  resolved "https://codeload.github.com/sagalbot/vue-select/tar.gz/7f8c5478508d579f0037d0e50c143389fc2d117b"
-
 vue-select@sagalbot/vue-select:
   version "2.2.0"
   resolved "https://codeload.github.com/sagalbot/vue-select/tar.gz/072bf4160dd0ade7894630af921f8e5e44cb801c"
@@ -5356,6 +5352,10 @@ vue2-ace@^1.0.5:
 vue@^2.1.0, vue@^2.2.1:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.2.6.tgz#451714b394dd6d4eae7b773c40c2034a59621aed"
+
+vuex-router-sync@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/vuex-router-sync/-/vuex-router-sync-4.1.2.tgz#584d6315909257adec2914a63d54b428c016b8ec"
 
 vuex@^2.1.1:
   version "2.3.0"
