@@ -53,12 +53,11 @@ import Form from 'Helpers/Form'
 import Sortable from 'Helpers/VueSortable'
 import Modal from 'components/Global/Modal'
 import PageElement from 'Helpers/PageElement'
-import FormBuilder from 'components/FormBuilder'
-import PageBuilder from 'components/Editors/PageBuilder'
+import PageBuilder from 'components/Editors/Page'
 
 export default {
   name: 'WebsitePageEditor',
-  components: { FormBuilder, Sortable, PageBuilder, Modal },
+  components: { Sortable, PageBuilder, Modal },
   data () {
     return {
       active_editor: '',

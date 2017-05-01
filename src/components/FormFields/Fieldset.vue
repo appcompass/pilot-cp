@@ -11,15 +11,17 @@
 </template>
 
 <script>
-import FormBuilder from 'components/FormBuilder'
-import _ from 'lodash'
 
 export default {
   name: 'Fieldset',
-  components: {
-    FormBuilder
+  props: {
+    field: {
+      required: true
+    },
+    form: {
+      required: true
+    }
   },
-  props: ['pointer', 'errors', 'field', 'form'],
   data () {
     return {
       isCollapsed: false

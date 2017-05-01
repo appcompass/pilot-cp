@@ -91,7 +91,7 @@ import MultiSelectList from 'components/ListTypes/MultiSelectList'
 import CardList from 'components/ListTypes/CardList'
 import Auth from 'States/Auth'
 import NavigationState from 'States/Navigation'
-import * as CreateTypes from 'components/CreateTypes'
+import CreateTypes from 'components/CreateTypes'
 import RouteHandling from 'Mixins/RouteHandling'
 
 export default {

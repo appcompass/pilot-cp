@@ -28,7 +28,6 @@
 
 <script>
 
-import FormBuilder from 'components/FormBuilder'
 import Form from 'Helpers/Form'
 import Auth from 'States/Auth'
 import Navigation from 'States/Navigation'
@@ -38,7 +37,6 @@ export default {
   name: 'CreateView',
   props: ['inline'],
   mixins: [RouteHandling],
-  components: {FormBuilder},
   data () {
     return {
       navigation: Navigation,

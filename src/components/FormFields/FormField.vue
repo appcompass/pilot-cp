@@ -15,7 +15,7 @@ div
 </template>
 
 <script>
-import * as Components from '../Components'
+import Components from 'components/FormFields'
 
 export default {
   name: 'FormField',

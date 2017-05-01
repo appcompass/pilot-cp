@@ -9,6 +9,8 @@ import App from './App'
 import router from './router'
 
 import { sync } from 'vuex-router-sync'
+// @TODO: this needs to be moved into assets/sass/
+import '../templates/assets/sass/app.scss'
 
 // - Vuex
 
@@ -17,6 +19,9 @@ import * as actions from './store/actions'
 import * as getters from './store/getters'
 import disks from './store/modules/disks'
 import modal from './store/modules/modal'
+
+import FormBuilder from 'components/FormBuilder'
+Vue.component('FormBuilder', FormBuilder)
 
 Vue.use(Vuex)
 
@@ -30,9 +35,6 @@ const store = new Vuex.Store({
 })
 
 // -
-
-// @TODO: this needs to be moved into assets/sass/
-import '../templates/assets/sass/app.scss'
 
 Vue.use(VueAxios, axios)
 Vue.use(VueSweetAlert)
