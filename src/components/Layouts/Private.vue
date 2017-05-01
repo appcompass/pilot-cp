@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import NavigationState from 'States/Navigation'
 import SiteHeader from 'components/Global/SiteHeader'
 import SiteFooter from 'components/Global/SiteFooter'
 import SideNavigation from 'components/Global/SideNavigation'

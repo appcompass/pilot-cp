@@ -15,6 +15,7 @@ export default {
   },
   mounted () {
     this.$store.dispatch('fetch')
+    this.$store.dispatch('nav.init')
   },
   methods: {
     csrf () {

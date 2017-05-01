@@ -1,6 +1,6 @@
 <template lang="pug">
   div.sidebar(
-    v-if="nav && allowed"
+    v-if="allowed"
   )
     nav.sidebar-nav-container
       h3.sidebar-nav-heading(
@@ -8,10 +8,9 @@
 
       ul.sidebar-nav
         li(
-          v-for="item in nav",
+          v-for="item in side_nav",
           :class="{'active': activeNav(item.url)}"
         )
-          //- router-link(:to="{name: 'sub', params: {model: navigation.left.model.split('/')[navigation.left.model.split('/').length - 2], id: $route.params.id, sub: item.url.split('/')[item.url.split('/').length - 1]}}")
           router-link(:to="{path: buildUrl(item.url)}")
             span.icon(:class="'icon-' + item.icon")
             | {{ item.title }}
@@ -19,7 +18,6 @@
 
 <script>
 import _ from 'lodash'
-import Navigation from 'States/Navigation'
 import RouteHandling from 'Mixins/RouteHandling'
 
 
@@ -28,42 +26,42 @@ export default {
   mixins: [RouteHandling],
   data () {
     return {
-      nav: undefined,
       allowed: false
     }
   },
-  created () {
-    this.init()
+  computed: {
+    side_nav ()  {
+      return this.$store.getters.side_nav
+    }
   },
   mounted () {
-    this.set()
+    this.init()
   },
   watch: {
+    // Note: on initial load, nav comes in after route.
+    '$store.getters.main_nav' (nav) {
+      this.subNavFrom(nav)
+    },
     '$route' (to, from) {
       this.init()
     }
   },
   methods: {
-    init () {
-      if (_.isEmpty(this.$route.params)) {
-        this.nav = undefined
-        this.allowed = false
-      } else {
-        this.set()
-        this.allowed = true
-      }
-    },
-    set () {
+    subNavFrom (nav) {
       let name = this.$route.name
       if (name) {
         let root = '/' + name.substring(0, name.indexOf('.'))
-        Navigation.get(root).then(branch => {
-          this.nav = branch
-        })
+        this.$store.dispatch('nav.side.set', {url: root, full_nav: nav})
       }
     },
-    current (item) {
-      return this.$route.fullPath === item.url
+    init () {
+      if (_.isEmpty(this.$route.params)) {
+        this.$store.dispatch('nav.side.reset')
+        this.allowed = false
+      } else {
+        this.subNavFrom(this.$store.getters.main_nav)
+        this.allowed = true
+      }
     }
   }
 }

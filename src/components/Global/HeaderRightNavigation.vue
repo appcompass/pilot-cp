@@ -10,7 +10,7 @@
         span.header-profile
           img(:src="auth.user.profile.gravatar_url", width="40px", height="40px")
       ul
-        li(v-for="cat in navigation.user")
+        li(v-for="cat in navigation")
           router-link(:to="cat.url" exact, :params="{current_user_id: user_id}", v-if="cat.url") {{ cat.title }}
         li
           a(@click="auth.logout()") Logout
@@ -25,7 +25,6 @@
 
 <script>
 import auth from 'States/Auth'
-import NavigationState from 'States/Navigation'
 import NotificationsState from 'States/Notifications.js'
 
 export default {
@@ -33,7 +32,6 @@ export default {
   data () {
     return {
       auth: auth,
-      navigation: NavigationState,
       user_id: undefined,
       notifications: NotificationsState
     }
@@ -48,6 +46,11 @@ export default {
       if (profile) {
         this.user_id = profile.id
       }
+    }
+  },
+  computed: {
+    navigation ()  {
+      return this.$store.getters.user_nav
     }
   },
   created () {

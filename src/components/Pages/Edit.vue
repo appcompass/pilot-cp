@@ -52,11 +52,6 @@ export default {
   methods: {
     routeChanged () {
       this.api = '/api' + this.$route.fullPath
-      // this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-      // this.route = this.model.split('/')[this.model.split('/').length - 2]
-      // this.setTabs(this.route)
-      // // this.api = this.navigation.api_url
-      // this.api = '/api' + this.$route.fullPath.split('_').join('/')
       this.refresh()
     },
     set (data) {

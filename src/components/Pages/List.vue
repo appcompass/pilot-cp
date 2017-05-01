@@ -90,7 +90,6 @@ import TableList from 'components/ListTypes/TableList'
 import MultiSelectList from 'components/ListTypes/MultiSelectList'
 import CardList from 'components/ListTypes/CardList'
 import Auth from 'States/Auth'
-import NavigationState from 'States/Navigation'
 import CreateTypes from 'components/CreateTypes'
 import RouteHandling from 'Mixins/RouteHandling'
 
@@ -115,7 +114,6 @@ export default {
       filter_results_toggle: false,
       pagination: {current_page: 1, surrounded: 3},
       can: Auth.abilities,
-      navigation: NavigationState,
       CreateTypes
     }
   },
@@ -162,7 +160,6 @@ export default {
     },
     update () {
       let vm = this
-      vm.navigation.left = null
       vm.loading = true
       vm.$http.get('/api' + vm.$route.path, {
         params: {
