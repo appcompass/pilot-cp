@@ -29,6 +29,7 @@ import auth from 'States/Auth'
 
 export default {
   name: 'LoginView',
+  props: ['view'],
   data () {
     return {
       email: null,
@@ -40,7 +41,6 @@ export default {
   methods: {
     login () {
       auth.login(this, this.email, this.password)
-      console.log(this.error)
     }
   }
 }

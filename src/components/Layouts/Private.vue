@@ -10,7 +10,7 @@
           .xsmall-12.columns
             Breadcrumbs
         .row
-          transition(name="route", mode="out-in")
+          transition(name="fade", mode="out-in")
             router-view
       SiteFooter
   Modal

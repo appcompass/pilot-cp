@@ -19,7 +19,6 @@
         div(
           v-if="can.has('create') && CreateTypes[create_type]",
           :is="CreateTypes[create_type]",
-          :model="model"
         )
 
       div.data-actions-container
@@ -76,7 +75,6 @@
           :loading="loading",
           :collection="collection",
           :owned="owned",
-          :model="model",
           :search="search",
           :forms="{form: form, edit: edit}"
         )
@@ -87,13 +85,13 @@
 </template>
 <script>
 import _ from 'lodash'
-import Pagination from './../Global/Pagination'
-import TableList from './../ListTypes/TableList'
-import MultiSelectList from './../ListTypes/MultiSelectList'
-import CardList from './../ListTypes/CardList'
+import Pagination from 'components/Global/Pagination'
+import TableList from 'components/ListTypes/TableList'
+import MultiSelectList from 'components/ListTypes/MultiSelectList'
+import CardList from 'components/ListTypes/CardList'
 import Auth from 'States/Auth'
 import NavigationState from 'States/Navigation'
-import * as CreateTypes from './../CreateTypes'
+import * as CreateTypes from 'components/CreateTypes'
 import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
@@ -110,7 +108,6 @@ export default {
       update_type: undefined,
       // @TODO: Owned is very specifict to a type of view. we need to clean up how the data is passed down to he view types.
       owned: [],
-      model: '',
       collection: {},
       search: {},
       sorters: {},
@@ -164,42 +161,38 @@ export default {
       this.update_type = null
     },
     update () {
-      this.navigation.left = null
-      this.loading = true
-      this.$http.get('/api/' + this.$route.path.slice(1), {
+      let vm = this
+      vm.navigation.left = null
+      vm.loading = true
+      vm.$http.get('/api' + vm.$route.path, {
         params: {
-          page: this.pagination.current_page,
-          search: this.search,
-          sorters: this.sorters
+          page: vm.pagination.current_page,
+          search: vm.search,
+          sorters: vm.sorters
         }
       })
         .then((response) => {
-          this.loading = false
+          vm.loading = false
           if (!response.data.form) {
-            this.form = undefined
+            vm.form = undefined
             return
           }
-          this.pagination = _.omit(response.data.collection, ['data'])
-          this.can.set(response.data.abilities)
-          this.collection = response.data.collection.data
-          Object.assign(this, _.omit(response.data, ['collection', 'abilities']))
-          // this.form = response.data.form
-          // this.owned = response.data.owned
-          // this.parameters = response.data.parameters
-          // this.view_types = response.data.view_types
-          // this.create_type = response.data.create_type
-          // this.update_type = response.data.update_type
+          vm.pagination = _.omit(response.data.collection, ['data'])
+          vm.can.set(response.data.abilities)
+          vm.collection = response.data.collection.data
+          Object.assign(vm, _.omit(response.data, ['collection', 'abilities']))
+
           // default view on load is always the first.
-          if (!this.list_layout) {
-            this.list_layout = this.view_types[0]
+          if (!vm.list_layout) {
+            vm.list_layout = vm.view_types[0]
           }
-          Object.freeze(this.can)
+          Object.freeze(vm.can)
         }, (response) => {
-          this.loading = false
+          vm.loading = false
           if (!Auth.user.authenticated) {
             return
           }
-          // this.$swal('Error!', response.data.errors, 'error')
+          // vm.$swal('Error!', response.data.errors, 'error')
         })
     },
     remove (id) {

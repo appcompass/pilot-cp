@@ -1,5 +1,5 @@
 <template lang="pug">
-.site
+div
   header.header.header-page-builder
     nav.page-builder-nav
       ul
@@ -123,7 +123,7 @@ export default {
       })
     },
     fetch (list) {
-      return this.$http.get('/api' + this.$route.fullPath + list)
+      return this.$http.get('/api' + this.$route.fullPath + '/' + list)
     },
     save () {
       return this.$http.put('/api' + this.$route.fullPath, {
