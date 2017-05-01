@@ -19,7 +19,7 @@
 <script>
 
 import Auth from 'States/Auth'
-import * as Editors from 'components/Editors'
+import Editors from 'components/Editors'
 import Form from 'Helpers/Form'
 import RouteHandling from 'Mixins/RouteHandling'
 

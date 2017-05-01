@@ -43,15 +43,13 @@
 import Sortable from 'Helpers/VueSortable'
 import Form from 'Helpers/Form'
 import Utils from 'Helpers/Utils'
-import MenuElement from 'components/FormBuilder/MenuElement'
-import FormBuilder from 'components/FormBuilder'
+import MenuElement from 'components/FormFields/MenuElement'
 import _ from 'lodash'
 
 export default {
   components: {
     Sortable,
-    MenuElement,
-    FormBuilder
+    MenuElement
   },
   props: [ 'form', 'data' ],
   name: 'MenuEditor',

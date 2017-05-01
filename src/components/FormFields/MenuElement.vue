@@ -36,15 +36,13 @@
 
 <script>
 import Sortable from 'Helpers/VueSortable'
-import FormBuilder from 'components/FormBuilder'
 import Form from 'Helpers/Form'
 import Modal from 'Helpers/Modal'
 //
 export default {
   name: 'MenuElement',
   components: {
-    Sortable,
-    FormBuilder
+    Sortable
   },
   props: ['menu'],
   data () {

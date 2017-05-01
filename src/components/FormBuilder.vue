@@ -26,12 +26,12 @@ div
 </template>
 
 <script>
-import * as Components from './Components'
+import Components from 'components/FormFields'
 import Sortable from 'Helpers/VueSortable'
 
 export default {
   name: 'FormBuilder',
-  props: [ 'form' ],
+  props: ['form'],
   components: { Sortable },
   data () {
     return {

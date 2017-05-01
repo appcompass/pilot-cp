@@ -1,16 +1,14 @@
 <template lang="pug">
-  App
+  #app
+    transition(name="fade", mode="out-in")
+      router-view
 </template>
 
 <script>
 /* global localStorage: false */
-import App from './components/Main'
 
 export default {
   name: 'app',
-  components: {
-    App
-  },
   created () {
     this.initApi()
     this.csrf()

@@ -4,8 +4,8 @@ import Router from 'vue-router'
 import axios from 'axios'
 import _ from 'lodash'
 
-import * as Layouts from './components/Layouts'
-import * as Pages from './components/Pages'
+import Layouts from 'components/Layouts'
+import Pages from 'components/Pages'
 
 Vue.use(Router)
 

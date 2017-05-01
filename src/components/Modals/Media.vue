@@ -34,10 +34,10 @@
 </template>
 
 <script>
-import Sortable from '../../Helpers/VueSortable'
-import MediaCard from '../Global/MediaCard'
-import SearchableDropdown from '../FormBuilder/DropdownSearch'
-import Dropzone from '../Dropzone'
+import Sortable from 'Helpers/VueSortable'
+import MediaCard from 'components/Global/MediaCard'
+import SearchableDropdown from 'components/FormFields/DropdownSearch'
+import Dropzone from 'components/Dropzone'
 
 export default {
   name: 'MediaModal',

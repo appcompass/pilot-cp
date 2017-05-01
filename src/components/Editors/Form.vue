@@ -19,17 +19,12 @@
 </template>
 
 <script>
-import * as Components from 'components/Components'
-import FormField from 'components/FormBuilder/FormField'
-import FormBuilder from 'components/FormBuilder'
 
 export default {
   name: 'FormEditor',
   props: ['form'],
-  components: { FormField, FormBuilder },
   data () {
     return {
-      Components,
       resource: undefined,
       loading: false,
       model: undefined,

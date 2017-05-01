@@ -76,15 +76,14 @@ div
 </template>
 
 <script>
-import FormBuilder from './../FormBuilder'
-import Sortable from 'Helpers/VueSortable'
 import _ from 'lodash'
-import Pagination from './../Global/Pagination'
+import Sortable from 'Helpers/VueSortable'
+import Pagination from 'components/Global/Pagination'
 
 export default {
   name: 'GalleryEditor',
   props: ['form'],
-  components: { FormBuilder, Sortable, Pagination },
+  components: { Sortable, Pagination },
   data () {
     return {
       size: 3,

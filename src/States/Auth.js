@@ -46,13 +46,13 @@ export default {
           }
         }, response => {
           if (cb) {
-            cb(false)
+            cb(null)
           }
           router.push({ name: 'login' })
         })
     } else {
       if (cb) {
-        cb(false)
+        cb(null)
       }
       router.push({ name: 'login' })
     }
