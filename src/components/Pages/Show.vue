@@ -1,4 +1,5 @@
 <template lang="pug">
+Private
   div.row
     div.xsmall-12.columns
       div.page-header
@@ -26,6 +27,7 @@
 
 <script>
 
+import Private from 'components/Layouts/Private'
 import Auth from 'States/Auth'
 import NavigationState from 'States/Navigation'
 import Form from 'Helpers/Form'
@@ -34,7 +36,7 @@ import RouteHandling from 'Mixins/RouteHandling'
 export default {
   name: 'ShowView',
   mixins: [RouteHandling],
-  components: {},
+  components: {Private},
   data () {
     return {
       submitted: false,

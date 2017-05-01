@@ -1,7 +1,6 @@
 <template lang="pug">
   div.row
     div.xsmall-12.columns
-      Breadcrumbs
       div.page-header(
         v-if="!inline"
       )
@@ -29,22 +28,19 @@
 
 <script>
 
-import * as Components from './../Components'
-import FormBuilder from './../FormBuilder'
+import FormBuilder from 'components/FormBuilder'
 import Form from 'Helpers/Form'
 import Auth from 'States/Auth'
 import Navigation from 'States/Navigation'
-import Breadcrumbs from './../Global/Breadcrumbs'
 import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
   name: 'CreateView',
   props: ['inline'],
   mixins: [RouteHandling],
-  components: {Breadcrumbs, FormBuilder},
+  components: {FormBuilder},
   data () {
     return {
-      Components,
       navigation: Navigation,
       api: null,
       form: new Form()

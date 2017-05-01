@@ -60,6 +60,7 @@ export default {
   login (context, email, password) {
     Vue.axios.post('/api/auth/login', { email: email, password: password })
       .then(response => {
+        let redirect = context.$route.query.redirect ? context.$route.query.redirect : '/dashboard'
         context.error = false
         localStorage.setItem('auth_token', response.data.token_type + ' ' + response.data.access_token)
         Vue.axios.defaults.headers.common['Authorization'] = localStorage.getItem('auth_token')
@@ -69,7 +70,7 @@ export default {
 
         NavigationState.init()
 
-        router.push({ name: 'login' })
+        context.$router.push(redirect)
       })
       .catch(error => {
         console.log(error)

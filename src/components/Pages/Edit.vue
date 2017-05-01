@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+  div
     div(
       v-if="!loading && Editors[form.form.editor]",
       :is="Editors[form.form.editor]",
@@ -26,8 +26,7 @@ import RouteHandling from 'Mixins/RouteHandling'
 export default {
   name: 'EditView',
   mixins: [RouteHandling],
-  components: {
-  },
+  components: {},
   data () {
     return {
       submitted: false,
