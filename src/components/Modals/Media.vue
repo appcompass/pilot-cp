@@ -40,7 +40,7 @@ import SearchableDropdown from 'components/FormFields/DropdownSearch'
 import Dropzone from 'components/Dropzone'
 
 export default {
-  name: 'MediaModal',
+  name: 'Media',
   components: { MediaCard, Dropzone, Sortable, SearchableDropdown },
   data: () => ({
     gallery: {

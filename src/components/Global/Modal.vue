@@ -1,6 +1,5 @@
 <template lang="pug">
-.modal-holder
-  div(:is="Modals[type]", @close="close")
+.modal-holderino(:is="Modals.default[config.type]", @close="close")
 </template>
 
 <script>
@@ -20,9 +19,10 @@ export default {
   },
   mounted () {
     this.modal = new tingle.modal({
-      cssClass: ['add-media-modal'],
+      cssClass: [this.config.css],
       footer: true,
       stickyFooter: true,
+      beforeClose: () => this.$store.dispatch('modal.hide')
     })
     this.modal.setContent(this.$el)
   },
@@ -39,8 +39,8 @@ export default {
     visible () {
       return this.$store.state.modal.visible
     },
-    type () {
-      return this.$store.state.modal.type
+    config () {
+      return this.$store.state.modal.config
     }
   }
 }

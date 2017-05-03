@@ -1,5 +1,5 @@
 <template lang="pug">
-.media-card(@click="$emit('select', {media: media})")
+.media-card(@click="$emit('select', media)")
   a.media-card-thumb
     span.thumb-container
       span.thumb-center
