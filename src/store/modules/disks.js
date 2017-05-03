@@ -1,12 +1,12 @@
 import Vue from 'src/main'
 
 const state = {
-  instances: {collection: {data: {}}},
+  instances: {},
   selected: undefined
 }
 
 const getters = {
-  instances: state => state.instances,
+  // instances: state => state.instances.collection.data,
   selected: state => state.selected
 }
 
@@ -21,7 +21,7 @@ const actions = {
 
 const mutations = {
   fetch (state, element) {
-    Vue.axios.get('/api/disks').then(response => { state.instances = response.data })
+    Vue.axios.get('/api/disks').then(response => { state.instances = response.data.collection.data })
   },
   set (state, id) {
     state.selected = id
