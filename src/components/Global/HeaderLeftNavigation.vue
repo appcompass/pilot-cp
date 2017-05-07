@@ -1,6 +1,6 @@
 <template lang="pug">
   ul.header-nav.header-nav-primary
-    li(v-for="cat in navigation.full")
+    li(v-for="cat in navigation")
       router-link(:to="cat.url" exact, v-if="cat.url") {{ cat.title }}
       a(v-else) {{ cat.title }}
       ul(v-if="cat.children")
@@ -9,20 +9,16 @@
 </template>
 
 <script>
-import NavigationState from 'States/Navigation'
-
 export default {
   name: 'HeaderLeftNavigation',
   data () {
     return {
-      navigation: NavigationState
     }
   },
-  created () {
-  },
-  mounted () {
-  },
-  updated () {
+  computed: {
+    navigation ()  {
+      return this.$store.getters.main_nav
+    }
   }
 }
 </script>

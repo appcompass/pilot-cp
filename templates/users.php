@@ -113,7 +113,7 @@
 								<td>
 									<a href="#" class="table-user-avatar"><span class="icon icon-user"></span></a>
 									<a href="#" class="table-row-link"><b>Imene</b></a>
-									<div class="table-row-actions"><a href="#" class="link-primary">Edit</a> | <a href="#" class="link-red">Delete</a></div>
+									<div class="table-row-actions small"><a href="#" class="link-primary">Edit</a> | <a href="#" class="link-red">Delete</a></div>
 								</td>
 								<td>Saidi</td>
 								<td><a href="">imene@email.com</a></td>

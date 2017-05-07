@@ -86,9 +86,12 @@
 }
 
 .table-row-actions {
-	font-size:em(14px);
 	color:$tertiary-text-color;
 	white-space: nowrap;
+}
+
+.table-row-actions.small {
+	font-size:em(14px);
 }
 
 .table-row-actions a {
@@ -324,7 +327,7 @@
 	margin-bottom:10px;
 }
 
-.nav-list, 
+.nav-list,
 .nav-list ul {
 	@extend .list-reset;
 }
@@ -337,9 +340,25 @@
 	margin-left:20px;
 }
 
+.nav-list li {
+	position:relative;
+}
+
 .nav-list li.hide-children ul {
 	display:none;
 }
+
+/*.nav-list .nav-option-item {
+	background:$secondary-color;
+	border:none;
+	margin-bottom:10px;
+	border-radius:3px;
+	padding:0;
+	position:relative;
+	overflow:hidden;
+	height:2px;
+	font-size:0;
+}*/
 
 .nav-item {
 	background:$primary-bg-color;
@@ -347,6 +366,14 @@
 	margin-bottom:10px;
 	border-radius:3px;
 	overflow:hidden;
+}
+
+.nav-list .nav-option-item {
+	padding:12px 70px 12px 20px;
+}
+
+.nav-list .nav-option-item-actions {
+	display:none;
 }
 
 .nav-item-header {
@@ -411,11 +438,31 @@
 	top:5px;
 }
 
-.nav-list-empty {
+.nav-list .sortable-ghost .nav-item {
+	background-color:$secondary-color;
+	border-color:$secondary-color;
+	color:#fff;
+}
+
+.nav-list .sortable-ghost .nav-item-actions .icon {
+	color:#fff;
+}
+
+/*.nav-list-empty {
 	border:2px dashed $border-color;
 	padding:20px;
 	color:$tertiary-text-color;
 	text-align:center;
+	margin-bottom:0!important;
+}*/
+
+.nav-list-empty {
+	//border:2px dashed $border-color;
+	height:40px;
+	margin-bottom:0!important;
+	margin-top:-40px;
+	z-index:99;
+	position:relative;
 }
 
 .upload-drop {
@@ -453,11 +500,11 @@
 
 .media-cards {
 	padding-top:20px;
-	margin-bottom:20px;
+	margin:0 -0.5% 20px;
 	display:flex;
 	flex-wrap:wrap;
 	align-items: stretch;
-	justify-content:space-between;
+	//justify-content:flex-start;
 }
 
 .media-card {
@@ -465,7 +512,7 @@
 	background-color:$primary-bg-color;
 	border-radius:3px;
 	padding:10px;
-	margin-bottom:20px;
+	margin:0 0.5% 20px;
 	@include breakpoint(medium) {
 		flex:0 1 32%;
 	}
@@ -571,6 +618,7 @@
 	display:flex;
 	align-items:flex-start;
 	margin-right:30px;
+	margin-bottom:0;
 }
 
 .data-actions-bulk .select {
@@ -618,15 +666,22 @@
   	margin-left:-10px;
 }
 
+.data-actions-filters-trigger .icon-filters {
+	position:relative;
+	top:1px;
+}
+
 .data-actions-filters-label {
 	display:none;
 	@include breakpoint(medium) {
 		display:inline;
+		margin-left:8px;
 	}
 }
 
 .data-actions-search {
 	flex:0 1 250px;
+	margin-bottom:0;
 }
 
 .data-actions-search .search-input {
@@ -666,7 +721,7 @@
 	color:$primary-neutral-color;
 }
 
-.data-actions-view a:hover, 
+.data-actions-view a:hover,
 .data-actions-view a.is-active {
 	color:$secondary-color;
 }
@@ -689,6 +744,10 @@
 	margin-bottom:30px;
 }
 
+.is-opaque {
+  opacity:0.5;
+}
+
 .table-default {
 	border-top:1px solid $border-color;
 }
@@ -701,8 +760,9 @@
 	color:$tertiary-text-color;
 	text-align:left;
 	height:60px;
-	padding:10px 0 10px 10px;
+	padding:10px;
 	position:relative;
+	vertical-align:middle;
 }
 
 .table-default th input[type="checkbox"],
@@ -713,8 +773,8 @@
 
 .table-default td {
 	color:$secondary-text-color;
-	height:60px;
-	padding:10px 0 10px 10px;
+	//height:60px;
+	padding:10px;
 	border-bottom:1px solid $border-color;
 	vertical-align:top;
 }
@@ -723,16 +783,16 @@
 	background-color:$primary-bg-color;
 }
 
-.table-default td a {
+.table-default a {
 	text-decoration:none;
-	color:$primary-text-color;
+	//color:$primary-text-color;
 	&:hover {
 		text-decoration:underline;
-		color:$primary-text-color;
+		//color:$primary-text-color;
 	}
 }
 
-.table-default td b, 
+.table-default td b,
 .table-default td strong {
 	color:$primary-text-color;
 }
@@ -748,8 +808,13 @@
 	cursor:pointer;
 }
 
-.pagination {
+.table-save {
+	text-align:right;
 	margin-bottom:20px;
+}
+
+.pagination {
+	margin:20px 0;
 	color:$tertiary-text-color;
 }
 
@@ -759,6 +824,7 @@
 
 .pagination li {
 	display:inline-block;
+  margin-right: 5px;
 }
 
 .pagination a {
@@ -803,4 +869,37 @@
 	border-radius:50%;
 	overflow:hidden;
 	vertical-align:middle;
+}
+
+.permission-view .permission-view-trigger:hover,
+.permission-view.is-active .permission-view-trigger {
+	color:$secondary-color!important;
+	text-decoration:none;
+}
+
+
+.permission-view-trigger .icon-plus {
+	font-size:12px;
+	position:relative;
+	display:inline-block;
+	transform:all 0.15s ease;
+}
+
+.permission-view.is-active .permission-view-trigger .icon-plus {
+	transform:rotate(45deg);
+}
+
+
+.permission-view-list {
+	padding-top:10px;
+	display:none;
+}
+
+.permission-view.is-active .permission-view-list {
+	display:block;
+}
+
+.permission-view-list ul {
+	margin:0 0 10px 22px;
+	padding:0;
 }

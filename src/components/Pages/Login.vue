@@ -16,11 +16,12 @@
             :to="{name: 'request-password-reset'}",
           ) Reset Password
 
-    router-link.link-text-tertiary.link-icon(
-      :to="{name: 'register'}",
-    )
-      span.icon-user
-      |  Resgister User
+    //-
+      router-link.link-text-tertiary.link-icon(
+        :to="{name: 'register'}",
+      )
+        span.icon-user
+        |  Resgister User
 </template>
 
 <script>
@@ -28,6 +29,7 @@ import auth from 'States/Auth'
 
 export default {
   name: 'LoginView',
+  props: ['view'],
   data () {
     return {
       email: null,
@@ -39,7 +41,6 @@ export default {
   methods: {
     login () {
       auth.login(this, this.email, this.password)
-      console.log(this.error)
     }
   }
 }
