@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+  div
     div(
       v-if="!loading && Editors[form.form.editor]",
       :is="Editors[form.form.editor]",
@@ -19,15 +19,14 @@ div
 <script>
 
 import Auth from 'States/Auth'
-import * as Editors from 'components/Editors'
+import Editors from 'components/Editors'
 import Form from 'Helpers/Form'
 import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
   name: 'EditView',
   mixins: [RouteHandling],
-  components: {
-  },
+  components: {},
   data () {
     return {
       submitted: false,
@@ -53,11 +52,6 @@ export default {
   methods: {
     routeChanged () {
       this.api = '/api' + this.$route.fullPath
-      // this.model = this.$route.params.model.split('_').join('/') + '/' + this.$route.params.id
-      // this.route = this.model.split('/')[this.model.split('/').length - 2]
-      // this.setTabs(this.route)
-      // // this.api = this.navigation.api_url
-      // this.api = '/api' + this.$route.fullPath.split('_').join('/')
       this.refresh()
     },
     set (data) {

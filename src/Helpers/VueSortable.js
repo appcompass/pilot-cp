@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 (function () {
   function buildDraggable (Sortable) {
     function removeNode (node) {
@@ -55,7 +57,7 @@
       clone: {
         type: Function,
         default: function _default (original) {
-          return original
+          return _.cloneDeep(original)
         }
       },
       element: {
@@ -204,10 +206,9 @@
         },
         onDragRemove: function onDragRemove (evt) {
           insertNodeAt(this.rootContainer, evt.item, evt.oldIndex)
-          var isCloning = !!evt.clone
+          var isCloning = (!!this.options) && (!!this.options.group) && (this.options.group.pull === 'clone')
           if (isCloning) {
-            // @TODO: figure out why this is breaking.
-            // removeNode(evt.clone)
+            removeNode(evt.clone)
             return
           }
           var oldIndex = this.context.index

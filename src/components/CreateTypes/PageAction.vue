@@ -2,13 +2,14 @@
   div.row
     div.xsmall-12.columns.text-right
       p
-        //- router-link.btn-primary(:to="$parent.formatLink('create')") Add New
+        router-link.btn-primary(:to="{name: getRouteName('create')}") Add New
 </template>
-
 <script>
+import RouteHandling from 'Mixins/RouteHandling'
+
 export default {
   name: 'PageAction',
-  props: ['model']
+  mixins: [RouteHandling]
 }
 
 </script>

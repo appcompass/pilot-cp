@@ -27,14 +27,12 @@
 <script>
 
 import Auth from 'States/Auth'
-import NavigationState from 'States/Navigation'
 import Form from 'Helpers/Form'
 import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
   name: 'ShowView',
   mixins: [RouteHandling],
-  components: {},
   data () {
     return {
       submitted: false,
@@ -72,11 +70,8 @@ export default {
     // },
     setTabs () {
       let url = this.reverseUrl()
-      url = url.substring(0, url.lastIndexOf('/:'));
-      NavigationState.get(url)
-        .then(subnav => {
-          this.tabs = subnav
-        })
+      url = url.substring(0, url.lastIndexOf('/:'))
+      // @TODO: use similar logic to side nav to set the 3rd level sub nav.
     }
   }
 }

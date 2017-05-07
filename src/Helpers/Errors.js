@@ -9,12 +9,12 @@ class Errors {
     this.errors = Object.assign({}, errors)
   }
 
-  get (path) {
+  get (path, prefix) {
     if (_.isEmpty(this.errors)) { return }
     if (path == null) {
       return this.errors
     }
-    return _.get(this.errors, path)
+    return _.get(this.errors, prefix ? `${prefix}.${path}` : path)
   }
 
   unset (path) {

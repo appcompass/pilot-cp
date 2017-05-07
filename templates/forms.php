@@ -76,6 +76,20 @@
 				</ul>
 			</div>
 			<div>
+				<div class="switch">
+					<input id="toggle-1" type="checkbox">
+					<label for="toggle-1"></label>
+				</div>
+				<label for="toggle-1">Switch</label>
+			</div>
+			<div>
+				<div class="switch switch-small">
+					<input id="toggle-2" type="checkbox">
+					<label for="toggle-2"></label>
+				</div>
+				<label for="toggle-2">Smaller Switch</label>
+			</div>
+			<div>
 				<label>Radio Group</label>
 				<ul class="radio-group">
 					<li>
@@ -293,6 +307,34 @@
 				<label>Media Upload/Selection</label>
 				<div class="add-media">
 					<button class="btn-secondary add-media-btn">Add Media</button></p>
+				</div>
+			</div>
+			<div>
+				<label>Sortable Field</label>
+				<div class="sortable-field">
+					<div class="sortable-field-drag">
+						<span class="icon-drag"></span>
+					</div>
+					<div class="sortable-field-input">
+						<input type="text">
+					</div>
+					<div class="sortable-field-delete">
+						<span class="icon-delete"></span>
+					</div>
+				</div>
+				<div class="sortable-field">
+					<div class="sortable-field-drag">
+						<span class="icon-drag"></span>
+					</div>
+					<div class="sortable-field-input">
+						<input type="text">
+					</div>
+					<div class="sortable-field-delete">
+						<span class="icon-delete"></span>
+					</div>
+				</div>
+				<div class="add-row">
+					<button class="btn-secondary">Add Row</button>
 				</div>
 			</div>
 			<div>

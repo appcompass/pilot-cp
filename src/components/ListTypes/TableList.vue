@@ -1,6 +1,8 @@
 <template lang="pug">
-  div.table-container
-    table
+  div.table-container(
+    :class="{'is-opaque': $parent.loading}"
+  )
+    table.table-default
       thead
         tr
           th
@@ -31,7 +33,7 @@
                 span.icon-cancel(
                   @click="$parent.toggleEdit(field)"
                 )
-      tbody(:class="{'is-opaque': $parent.loading}", v-if="collection.length")
+      tbody(v-if="collection.length")
         tr(v-for="row in collection")
           td
             input(type="checkbox" name="" value="")
@@ -42,21 +44,23 @@
               //- @TODO: this whole if/else flow is a bit ugly
               router-link.table-user-avatar(
                 v-if="row.card_photo && row.abilities.includes('edit')",
-                :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
+                :to="{name: getRouteName('show'), params: getRouteParams(row.id)}",
               )
                 img(:src="row.card_photo", width="32", height="32")
               a.table-user-avatar(v-else if="row.card_photo")
                 img(:src="row.card_photo", width="32", height="32")
-              router-link(
-                v-if="row.abilities.includes('edit')",
-                :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
-                v-html="value(field.name, row)"
+              b(
+                v-if="row.abilities.includes('edit')"
               )
+                router-link(
+                  :to="{name: getRouteName('show'), params: getRouteParams(row.id)}",
+                  v-html="value(field.name, row)"
+                )
               a(v-else, v-html="value(field.name, row)")
               div.table-row-actions
                 router-link.link-primary(
                   v-if="row.abilities.includes('edit')",
-                  :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(row.id)}",
+                  :to="{name: getRouteName('show'), params: getRouteParams(row.id)}",
                 ) Edit
                 = " | "
                 //- @TODO: add delete ability permissions to resources on API.
@@ -69,18 +73,15 @@
               v-if="index > 0",
               v-html="value(field.name, row)"
             )
-      tbody(v-else, :class="{'is-opaque': $parent.loading}")
-        tr
-          td.has-text-centered(:colspan="forms.form.fields.length + 1")
-            .notification.is-danger
-              .title No results found.
 </template>
 
 <script>
 import _ from 'lodash'
+import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
   name: 'TableList',
+  mixins: [RouteHandling],
   props: [ 'forms', 'collection' ],
   data () {
     return {

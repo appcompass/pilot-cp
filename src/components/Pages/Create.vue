@@ -1,7 +1,6 @@
 <template lang="pug">
   div.row
     div.xsmall-12.columns
-      Breadcrumbs
       div.page-header(
         v-if="!inline"
       )
@@ -29,36 +28,50 @@
 
 <script>
 
-import * as Components from './../Components'
-import FormBuilder from './../FormBuilder'
 import Form from 'Helpers/Form'
-import Navigation from 'States/Navigation'
-import Breadcrumbs from './../Global/Breadcrumbs'
+import Auth from 'States/Auth'
 import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
   name: 'CreateView',
   props: ['inline'],
   mixins: [RouteHandling],
-  components: {Breadcrumbs, FormBuilder},
   data () {
     return {
-      Components,
-      navigation: Navigation,
       api: null,
       form: new Form()
     }
   },
   created () {
-    this.model = this.$route.params.model.split('_').join('/')
-    this.api = '/api' + this.$route.fullPath.split('_').join('/')
-    // this.api = this.navigation.api_url
-
-    this.$http.get(this.api)
+    this.loading = true
+    this.$http.get('/api/' + this.getApiUrl('create'))
       .then((response) => {
+        this.loading = false
+        if (!response.data.form) {
+          this.form = undefined
+          return
+        }
+        this.pagination = _.omit(response.data.collection, ['data'])
+        // this.can.set(response.data.abilities)
+        // this.collection = response.data.collection.data
+        // Object.assign(this, _.omit(response.data, ['collection', 'abilities']))
         this.form.init(response.data.form)
-
-        this.create = response.data.form
+        this.owned = response.data.owned
+        this.parameters = response.data.parameters
+        this.view_types = response.data.view_types
+        this.create_type = response.data.create_type
+        this.update_type = response.data.update_type
+        // default view on load is always the first.
+        if (!this.list_layout) {
+          this.list_layout = this.view_types[0]
+        }
+        // Object.freeze(this.can)
+      }, (response) => {
+        this.loading = false
+        if (!Auth.user.authenticated) {
+          return
+        }
+        // this.$swal('Error!', response.data.errors, 'error')
       })
   },
   methods: {
