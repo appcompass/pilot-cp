@@ -1,5 +1,8 @@
 <template lang="pug">
-.page-section {{ element.name }}
+.page-section
+  .page-section-header {{ element.name }}
+    span.page-section-actions
+      span.icon.icon-delete(@click="remove(element)")
 </template>
 
 <script>
@@ -12,6 +15,12 @@ import Form from 'Helpers/Form'
 export default {
   name: 'sectionElement',
   props: ['element'],
+  methods: {
+    remove (element) {
+      console.log(element)
+      // remove current element from layout.
+    }
+  },
   mounted () {
     let form = new Form()
     form.init(this.element.formData(), this.element.collection())
