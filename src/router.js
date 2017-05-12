@@ -50,6 +50,26 @@ const router = new Router({
   ]
 })
 
+// // @TODO: replace much of this logic with something following the below convention,
+// // or set the component to be always the main App component and handle the sub views from there.
+// const createView = (path) => {
+//   console.log(this)
+// }
+// const router = new Router({
+//   mode: 'history',
+//   scrollBehavior: () => ({ y: 0 }),
+//   routes: [
+//     {
+//       path: '*',
+//       component: createView(this),
+//       beforeEnter: (to, from, next) => {
+//         console.log(to, from)
+//         next()
+//       }
+//     }
+//   ]
+// })
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // @TODO: instead of just relying on the token, switch to using store/local storage 'authenticated' value

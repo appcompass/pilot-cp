@@ -1,22 +1,20 @@
 <template lang="pug">
-input.checkbox(
-  type="checkbox",
-  v-bind:checked="data"
-  @click="toggle"
-)
+  div.switch
+    input(type="checkbox", :id="field.name", :checked="data", @click="toggle")
+    label(:for="field.name")
 </template>
 
 <script>
 export default {
   name: 'boolean',
-  props: [ 'pointer', 'data' ],
+  props: ['data', 'errors', 'field'],
   mounted () {
     this.checked = this.data
   },
   methods: {
     toggle () {
       this.checked = !this.checked
-      this.$emit('input', {value: this.checked, pointer: this.pointer})
+      this.$emit('input', {value: this.checked, pointer: this.field.name})
     }
   }
 }

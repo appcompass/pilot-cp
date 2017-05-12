@@ -18,7 +18,7 @@ export default class Form {
     this.form = _.cloneDeep(formStructure)
     this.fields = _.cloneDeep(formStructure.fields)
     _.unset(this.form, 'fields')
-    this.collection = collection
+    this.collection = collection || Object.create({})
     return this
   }
 
