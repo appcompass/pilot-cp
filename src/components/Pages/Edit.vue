@@ -61,9 +61,10 @@ export default {
       this.submitted = true
       this.$http.put(this.api, this.form.collection)
         .then((response) => {
-          this.$swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
-            this.refresh()
-          })
+          this.$swal({title: 'Success', text: response.data.message, type: 'success'})
+            .then(() => {
+              this.refresh()
+            })
         }, error => {
           if (error.response.status === 422) {
             this.form.fails(error.response.data)
