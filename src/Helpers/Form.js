@@ -4,7 +4,7 @@ import _ from 'lodash'
 export default class Form {
   constructor () {
     this.form = {}
-    this.collection = {}
+    this.collection = []
     this.fields = {}
     this.resource = {}
     this.errors = new Errors()
@@ -109,6 +109,17 @@ export default class Form {
       return field
     })
     this.fields = fields
+  }
+
+  asKeyValue (item) {
+    if (!this.fields.length) {
+      return {}
+    }
+    let res = {}
+    this.fields.forEach((field) => {
+      res[field.name] = _.get(item, field.name, '')
+    })
+    return res
   }
 
 }

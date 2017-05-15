@@ -30,7 +30,7 @@
 
     .view-container
       Sortable.media-cards(:list="gallery.photos", :element="'div'")
-        media-card.media-card(v-for="photo in gallery.photos", :media="photo", :key="photo.id", @select="select")
+        media-card.media-card(v-for="photo in gallery.photos", :media="photo", :key="photo.id", @select="select", :url="photo.url")
 </template>
 
 <script>
@@ -45,10 +45,10 @@ export default {
   data: () => ({
     gallery: {
       photos: [
-        {id: 1, path: 'http://placehold.it/320x213'},
-        {id: 2, path: 'http://placehold.it/320x213'},
-        {id: 3, path: 'http://placehold.it/320x213'},
-        {id: 4, path: 'http://placehold.it/320x213'}
+        {id: 1, url: 'http://placehold.it/320x213'},
+        {id: 2, url: 'http://placehold.it/320x213'},
+        {id: 3, url: 'http://placehold.it/320x213'},
+        {id: 4, url: 'http://placehold.it/320x213'}
       ]
     }
   }),

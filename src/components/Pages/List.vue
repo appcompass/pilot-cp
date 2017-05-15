@@ -16,10 +16,7 @@
             h1.page-title
               | {{ $route.params.sub || $route.params.model }}
           div.xsmall-4.columns.text-right
-        div(
-          v-if="can.has('create') && CreateTypes[create_type]",
-          :is="CreateTypes[create_type]",
-        )
+        div(v-if="can.has('create') && CreateTypes[create_type]", :is="CreateTypes[create_type]")
 
       div.data-actions-container
         div.data-actions
@@ -35,17 +32,13 @@
             a.data-actions-filters-trigger(v-on:click="filter_results_toggle = !filter_results_toggle")
               span.icon-filters
               span.data-actions-filters-label Filter Results
-          div.data-actions-view(
-            v-if="view_types.length > 1"
-          )
+          div.data-actions-view(v-if="view_types.length > 1")
             a.data-list-view(
               v-for="view_type in view_types",
               @click="list_layout = view_type",
               :class="{'is-active': view_type == list_layout}"
             )
-              span.icon(
-                :class="'icon-' + view_type.toLowerCase()"
-              )
+              span.icon(:class="'icon-' + view_type.toLowerCase()")
           form.data-actions-search
             div.search-input
               span.icon-search
