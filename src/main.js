@@ -23,6 +23,12 @@ sync(store, router)
 
 export default Vue
 
+Vue.prototype.filters = {
+  capitalize (word) {
+    return word.slice(0, 1).toUpperCase() + word.slice(1)
+  }
+}
+
 /* eslint-disable no-new */
 new Vue({
   router,

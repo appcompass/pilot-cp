@@ -1,8 +1,10 @@
 <template lang="pug">
-.modal-holderino(:is="Modals.default[config.type]", @close="close")
+.modal-holder(:is="Modals.default[config.type]", @close="close")
 </template>
 
 <script>
+// @NOTE this way of importing makes accessing single items awkward
+// import { foo } from './Bar' does not work
 import * as Modals from '../Modals'
 const tingle = window.tingle
 

@@ -1,7 +1,7 @@
 import Vue from 'src/main'
 
 const state = {
-  instances: {},
+  instances: [],
   selected: undefined
 }
 

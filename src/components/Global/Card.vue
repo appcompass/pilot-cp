@@ -18,8 +18,17 @@
 <script>
 
 export default {
-  name: 'MediaCard',
+  name: 'Card',
   props: ['info', 'url'],
   data: () => ({})
 }
 </script>
+
+<style scoped>
+.media-card ul.media-card-info li {
+  max-width: 20rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>
