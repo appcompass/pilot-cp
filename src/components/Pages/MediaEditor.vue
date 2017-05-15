@@ -24,7 +24,7 @@
 
     .view-container
       Sortable.media-cards(:list="form.collection", :element="'div'", :options="{animation: 50, group: {name: 'items', pull: 'clone', put: false}}")
-        card(v-for="card, index in form.collection", :info="form.asKeyValue(card)", :key="card.id", :url="card.url", @select="toggle(card.id)")
+        card(v-for="card, index in form.collection", :info="form.asKeyValue(card)", :key="card.id", :url="card.url", @select="select(card)")
 </template>
 
 <script>
