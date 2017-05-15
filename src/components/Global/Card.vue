@@ -3,7 +3,7 @@
   a.media-card-thumb
     span.thumb-container
       span.thumb-center
-        img(:src="url", width="320", height="213")
+        img(:src="src", width="320", height="213", @error="error")
   ul.media-card-info
     li(v-for="item, key in info")
       span {{ filters.capitalize(key) }}:
@@ -20,13 +20,21 @@
 export default {
   name: 'Card',
   props: ['info', 'url'],
-  data: () => ({})
+  data: () => ({src: undefined}),
+  mounted () {
+    this.src = this.url
+  },
+  methods: {
+    error () {
+      this.src = 'https://placehold.it/500x500'
+    }
+  }
 }
 </script>
 
 <style scoped>
 .media-card ul.media-card-info li {
-  max-width: 20rem;
+  max-width: 29rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
