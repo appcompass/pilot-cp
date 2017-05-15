@@ -1,6 +1,6 @@
 /* global localStorage */
 <template lang="pug">
-form.upload-drop(@input='set') Drop files here to uploads.
+div(@input='set') Drop files here to upload.
 </template>
 
 <script>
@@ -28,10 +28,10 @@ export default {
       addedfile: () => {
         if (!this.disk) {
           // this.removeAllFiles()
-          // vm.$swal('Error', 'Disk instance not selected', 'error')
+          this.$swal('Error', 'Disk instance not selected', 'error')
         }
       },
-      sending (something, xhr, formData) {
+      sending: (something, xhr, formData) => {
         formData.append('disk', this.disk)
       },
       success: (file, response) => {
@@ -57,3 +57,4 @@ export default {
   }
 }
 </script>
+

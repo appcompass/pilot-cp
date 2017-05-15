@@ -6,7 +6,6 @@ const state = {
 }
 
 const getters = {
-  // instances: state => state.instances.collection.data,
   selected: state => state.selected
 }
 
@@ -14,17 +13,19 @@ const actions = {
   fetch ({commit, state}, element) {
     commit('fetch', element)
   },
-  setDisk ({commit, state}, id) {
-    commit('set', id)
+  setDisk ({commit, state}, disk) {
+    commit('set', disk)
   }
 }
 
 const mutations = {
   fetch (state, element) {
-    Vue.axios.get('/api/disks').then(response => { state.instances = response.data.collection.data })
+    Vue.axios.get('/api/disks')
+      .then(response => { state.instances = response.data.collection.data })
   },
-  set (state, id) {
-    state.selected = id
+  set (state, disk) {
+    console.log(disk)
+    state.selected = disk
   }
 }
 
