@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   .media-modal-image
-    img(:src="data.url || 'https://placehold.it/400x400'")
+    img(:src="src", @error="error")
   .media-modal-content
     ul.media-modal-info
       li(v-for="value, key in data")
@@ -19,14 +19,20 @@ div
 export default {
   name: 'Form',
   props: ['form'],
-  data: () => ({}),
+  data: () => ({src: undefined}),
   methods: {
     swap () {
-      this.$store.dispatch('modal.show', {type: 'Media', css: 'add-media-modal'}, this.after)
+      this.$store.dispatch('modal.show', {type: 'SwapMedia', css: 'add-media-modal'})
     },
     after (modal) {
       console.log(modal)
+    },
+    error () {
+      this.src = 'https://placehold.it/600x400'
     }
+  },
+  mounted () {
+    this.src = this.data.url || 'https://placehold.it/600x400'
   },
   computed: {
     data () {
@@ -35,3 +41,12 @@ export default {
   }
 }
 </script>
+
+<style>
+.media-modal-content ul.media-modal-info li {
+  max-width: 29rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>

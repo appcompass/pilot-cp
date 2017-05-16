@@ -1,9 +1,9 @@
 <template lang="pug">
 .media-card
-  a.media-card-thumb
+  a.media-card-thumb(@click="$emit('select', info)")
     span.thumb-container
       span.thumb-center
-        img(:src="src", width="320", height="213", @error="error", @click="$emit('select', info)")
+        img(:src="src", width="320", height="213", @error="error")
   ul.media-card-info
     li(v-for="item, key in info")
       span {{ filters.capitalize(key) }}:
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     error () {
-      this.src = 'https://placehold.it/500x500'
+      this.src = 'https://placehold.it/600x400'
     }
   }
 }

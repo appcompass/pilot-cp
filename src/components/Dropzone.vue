@@ -5,6 +5,7 @@
 
 <script>
 import Dropzone from 'dropzone'
+// import swal from 'sweetalert2'
 
 export default {
   name: 'Dropzone',
@@ -36,8 +37,8 @@ export default {
       },
       success: (file, response) => {
         this.$emit('input', { pointer: null, value: response.model })
-        // this.$swal('Ok', 'Image(s) uploaded', 'success')
-        this.dropzone.removeFile(file)
+        // swal('Ok', 'Image(s) uploaded', 'success')
+        // this.dropzone.removeFile(file)
       },
       error: (file, errorMessage, xhr) => {
         // this.$swal('Error', errorMessage.error || 'Failed while uploading the image(s)', 'error')

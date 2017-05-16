@@ -7,10 +7,12 @@
           h1.page-title {{ $route.meta.title || $route.params.model }}
         .xsmall-4.columns.text-right
           .select
-            select(@change="disk")
+            select(@change="setDisk", v-model="selectedDisk")
+              option(:value="undefined") Please select a disk instance
               option(v-for="disk in disks", :value="disk.name") {{ disk.name }}
             span.icon-select
-          Dropzone(:url="$route.fullPath")
+          Dropzone(:url="$route.fullPath", v-if="selectedDisk", @input="input")
+          div.upload-drop(v-else) Please select disk instance before dropping files here!
 
       .data-actions-container
         .data-actions
@@ -31,7 +33,7 @@
 // @NOTES
 // this component fetches a media on the current route
 // it expects a specific structure
-// @TODO to be extended with videos (more?) - add
+// @TODO to be extended with videos (more?) -> leverage .type attribute
 import Form from '../../Helpers/Form.js'
 import Sortable from '../../Helpers/VueSortable'
 import Card from '../Global/Card'
@@ -46,23 +48,34 @@ export default {
   data: () => ({ form }),
   mounted () {
     this.axios.get('/api' + this.$route.fullPath)
-      .then((response) => form.init(response.data.form, response.data.collection.data))
+      .then((response) => {
+        form.init(response.data.form, response.data.collection.data)
+        if (response.data.api_url) {
+          form.setEndpoint(response.data.api_url)
+        }
+      })
   },
   methods: {
     // incoming from Card children
     select (card) {
       this.$store.dispatch('modal.show', {type: 'Photo', css: 'media-modal', data: this.form.asKeyValue(card), cb: this.set})
     },
-    disk (data) {
+    setDisk (data) {
       this.$store.dispatch('setDisk', data.target.value)
     },
     set () {
       console.log('modal closed')
+    },
+    input (data) {
+      form.collection.push(data.value)
     }
   },
   computed: {
-    disks ()  {
+    disks () {
       return this.$store.getters.getDisks
+    },
+    selectedDisk () {
+      return this.$store.getters.selected
     }
   }
 }
