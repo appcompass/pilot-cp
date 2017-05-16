@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .media-card ul.media-card-info li {
-  max-width: 29rem;
+  max-width: 15rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

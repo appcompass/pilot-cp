@@ -25,7 +25,8 @@
             button.btn-secondary Update
 
     .view-container
-      Sortable.media-cards(:list="form.collection", :element="'div'", :options="{animation: 50, group: {name: 'items', pull: 'clone', put: false}}")
+      Pagination(:p="pagination", v-if="pagination.last_page > 1", @page="page")
+      Sortable.media-cards(:list="form.collection", :element="'div'", :options="{animation: 150, group: 'items'}", @change="sort")
         card(v-for="card, index in form.collection", :info="form.asKeyValue(card)", :key="card.id", :url="card.url", @select="select(card)")
 </template>
 
@@ -38,22 +39,22 @@ import Form from '../../Helpers/Form.js'
 import Sortable from '../../Helpers/VueSortable'
 import Card from '../Global/Card'
 import Dropzone from '../Dropzone'
-import SearchableDropdown from '../FormFields/DropdownSearch'
+import Pagination from 'components/Global/Pagination'
 
 const form = new Form();
 
 export default {
   name: 'MediaEditor',
-  components: { Card, Sortable, SearchableDropdown, Dropzone },
-  data: () => ({ form }),
-  mounted () {
-    this.axios.get('/api' + this.$route.fullPath)
-      .then((response) => {
-        form.init(response.data.form, response.data.collection.data)
-        if (response.data.api_url) {
-          form.setEndpoint(response.data.api_url)
-        }
-      })
+  components: { Card, Sortable, Dropzone, Pagination },
+  data: () => ({
+    form,
+    pagination: {
+      page: 1,
+      per_page: 25
+    }
+  }),
+  created () {
+    this.update()
   },
   methods: {
     // incoming from Card children
@@ -63,11 +64,36 @@ export default {
     setDisk (data) {
       this.$store.dispatch('setDisk', data.target.value)
     },
-    set () {
-      console.log('modal closed')
-    },
     input (data) {
-      form.collection.push(data.value)
+      this.update()
+      // form.collection.push(data.value)
+    },
+    page (page) {
+      this.pagination.page = page
+      this.update()
+    },
+    sort () {
+      let order = _.map(this.form.collection, (photo) => { return photo.id })
+      this.axios.post('/api' + this.$route.fullPath + '/sort', {order: order})
+        .then((response) => {
+          this.update()
+        })
+    },
+    update () {
+      this.axios.get('/api' + this.$route.fullPath, {
+        params: {
+          page: this.pagination.page,
+          per_page: this.pagination.per_page
+        }
+      })
+        .then((response) => {
+          this.pagination = _.omit(response.data.collection, ['data'])
+          form.init(response.data.form, response.data.collection.data)
+          if (response.data.api_url) {
+            form.setEndpoint(response.data.api_url)
+          }
+          return Promise.resolve()
+        })
     }
   },
   computed: {

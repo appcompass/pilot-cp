@@ -122,7 +122,7 @@ export default class Form {
     }
     let res = {}
     this.fields.forEach((field) => {
-      res[field.name] = _.get(item, field.name, '')
+      res[field.name.split('.')[0]] = _.get(item, field.name, '')
     })
     return res
   }

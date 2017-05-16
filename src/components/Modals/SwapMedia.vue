@@ -1,7 +1,7 @@
 <template lang="pug">
 .add-media-modal-holder
   .add-media-header
-    h2.add-media-heading Swap Photo
+    h2.add-media-heading Swap Media
     span.add-media-header-close(@click="$emit('close')")
       span.icon-cancel
   .add-media-content
