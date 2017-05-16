@@ -1,9 +1,9 @@
 <template lang="pug">
-.media-card(@click="$emit('select', info)")
+.media-card
   a.media-card-thumb
     span.thumb-container
       span.thumb-center
-        img(:src="src", width="320", height="213", @error="error")
+        img(:src="src", width="320", height="213", @error="error", @click="$emit('select', info)")
   ul.media-card-info
     li(v-for="item, key in info")
       span {{ filters.capitalize(key) }}:

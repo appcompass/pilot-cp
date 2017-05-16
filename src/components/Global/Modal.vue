@@ -1,5 +1,5 @@
 <template lang="pug">
-.modal-holder(:is="Modals.default[config.type]", @close="close")
+div(:is="Modals.default[config.type]", @close="close")
 </template>
 
 <script>
@@ -20,17 +20,17 @@ export default {
     }
   },
   mounted () {
-    this.modal = new tingle.modal({
-      cssClass: [this.config.css],
-      footer: true,
-      stickyFooter: true,
-      beforeClose: () => this.$store.dispatch('modal.hide')
-    })
-    this.modal.setContent(this.$el)
   },
   watch: {
     visible (nv) {
       if (nv) {
+        this.modal = new tingle.modal({
+          cssClass: [this.config.css],
+          footer: true,
+          stickyFooter: true,
+          beforeClose: () => this.$store.dispatch('modal.hide')
+        })
+        this.modal.setContent(this.$el)
         this.modal.open()
       } else {
         this.modal.close()

@@ -57,7 +57,9 @@ export default {
   },
   mounted () {
     // @TODO where do we get gallery id
-    this.axios.get('/api/galleries/1').then((response) => console.log(response))
+    this.axios.get('/api/galleries/2').then((response) => {
+      this.gallery = response.data.collection
+    })
   },
   computed: {
     disks ()  {
