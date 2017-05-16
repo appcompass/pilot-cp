@@ -3,6 +3,7 @@
 const state = {
   visible: false,
   model: {},
+  data: undefined,
   config: {
     type: undefined,
     css: undefined
@@ -10,7 +11,8 @@ const state = {
 }
 
 const getters = {
-  visible: () => state.visible
+  data: state => state.data,
+  visible: state => state.visible
 }
 
 const actions = {
@@ -21,6 +23,7 @@ const actions = {
     state.config.type = config.type
     state.config.css = config.css
     state.visible = true
+    state.data = config.data || null
     commit('visibility')
   },
   'modal.hide' ({commit, state}) {

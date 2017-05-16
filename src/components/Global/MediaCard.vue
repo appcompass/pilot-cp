@@ -1,5 +1,5 @@
 <template lang="pug">
-.media-card()
+.media-card
   a.media-card-thumb
     span.thumb-container
       span.thumb-center
@@ -11,7 +11,8 @@
   .media-card-actions
     input.media-card-checkbox.left(type="checkbox", @click="$emit('select')")
     a.media-card-delete.right
-      span.icon-delete Delete
+      span.icon-delete
+      |  Delete
 </template>
 
 <script>

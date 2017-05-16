@@ -49,11 +49,15 @@ export default {
       .then((response) => form.init(response.data.form, response.data.collection.data))
   },
   methods: {
+    // incoming from Card children
     select (card) {
-      console.log(card)
+      this.$store.dispatch('modal.show', {type: 'Photo', css: 'media-modal', data: this.form.asKeyValue(card), cb: this.set})
     },
     disk (data) {
       this.$store.dispatch('setDisk', data.target.value)
+    },
+    set () {
+      console.log('modal closed')
     }
   },
   computed: {

@@ -24,7 +24,6 @@ export default {
       this.$store.dispatch('modal.show', {type: 'Form', css: 'media-modal', cb: this.set})
     },
     set (selection) {
-      console.log(selection)
       this.$emit('input', {pointer: this.field.name, value: selection.path})
     },
     placeholder (e) {

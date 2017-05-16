@@ -1,6 +1,6 @@
 /* global localStorage */
 <template lang="pug">
-div(@input='set') Drop files here to upload.
+.upload-drop(@input='set') Drop files here to upload.
 </template>
 
 <script>

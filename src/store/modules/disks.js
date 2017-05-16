@@ -24,7 +24,6 @@ const mutations = {
       .then(response => { state.instances = response.data.collection.data })
   },
   set (state, disk) {
-    console.log(disk)
     state.selected = disk
   }
 }
