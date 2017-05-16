@@ -60,7 +60,7 @@
       div.view-container
         div.view-loading(v-if="loading")
           img(src="~assets/images/content/loading.svg")
-        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
+        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1", @page="page")
         section(
           v-if="list_layout && list_layout + 'List'",
           :is="list_layout + 'List'",
@@ -74,7 +74,7 @@
         div.view-no-results(
           v-if="!collection.length"
         ) No Results Found
-        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
+        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1", @page="page")
 </template>
 <script>
 import _ from 'lodash'
@@ -105,19 +105,12 @@ export default {
       sorters: {},
       loading: true,
       filter_results_toggle: false,
-      pagination: {current_page: 1, surrounded: 3},
+      pagination: {current_page: 1, surrounded: 3, per_page: 25},
       can: Auth.abilities,
       CreateTypes
     }
   },
   watch: {
-    'pagination.current_page' (nv, ov) {
-      // prevent double firing on creation
-      if (ov == null) {
-        return
-      }
-      this.update()
-    },
     '$route' (to, from) {
       this.search = {}
       if (to.path === from.path) {
@@ -157,6 +150,7 @@ export default {
       vm.$http.get('/api' + vm.$route.path, {
         params: {
           page: vm.pagination.current_page,
+          per_page: vm.pagination.per_page,
           search: vm.search,
           sorters: vm.sorters
         }
@@ -226,6 +220,10 @@ export default {
         default:
           this.$set(this.sorters, field.name, 'ASC')
       }
+      this.update()
+    },
+    page (page) {
+      this.pagination.current_page = page
       this.update()
     }
   }
