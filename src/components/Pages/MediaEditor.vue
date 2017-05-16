@@ -18,16 +18,31 @@
         .data-actions
           form.data-actions-bulk
             div.select
-              select
-                option(value="") Bulk Actions
+              select(v-model="bulkAction")
+                option(value="undefined") Bulk Actions
                 option(value="delete") Delete
+                option(value="dunno") Dunno
               span.icon-select
-            button.btn-secondary Update
+            button.btn-secondary(:disabled="true", @click="bulk") Update
+          .data-actions
+            button.btn-secondary.is-small(@click="all") All
+            button.btn-secondary(@click="invert") Invert
+            button.btn-secondary(@click="none") None
+            button.btn-primary {{ selected.length }}
 
     .view-container
       Pagination(:p="pagination", v-if="pagination.last_page > 1", @page="page")
       Sortable.media-cards(:list="form.collection", :element="'div'", :options="{animation: 150, group: 'items'}", @change="sort")
-        card(v-for="card, index in form.collection", :info="form.asKeyValue(card)", :key="card.id", :url="card.url", @select="select(card)")
+        card(
+          v-for="card, index in form.collection",
+          :info="form.asKeyValue(card)",
+          :key="card.id",
+          :url="card.url",
+          :checked="isSelected(card.id)",
+          @select="select(card)",
+          @toggle="toggle(card.id)",
+          @unlink="unlink(card.id)"
+        )
 </template>
 
 <script>
@@ -40,6 +55,7 @@ import Sortable from '../../Helpers/VueSortable'
 import Card from '../Global/Card'
 import Dropzone from '../Dropzone'
 import Pagination from 'components/Global/Pagination'
+import swal from 'sweetalert2'
 
 const form = new Form();
 
@@ -48,10 +64,12 @@ export default {
   components: { Card, Sortable, Dropzone, Pagination },
   data: () => ({
     form,
+    selected: [],
     pagination: {
       page: 1,
       per_page: 25
-    }
+    },
+    bulkAction: undefined
   }),
   created () {
     this.update()
@@ -78,6 +96,53 @@ export default {
         .then((response) => {
           this.update()
         })
+    },
+    toggle (index) {
+      if (this.selected.indexOf(index) > -1) {
+        this.selected.splice(this.selected.indexOf(index), 1)
+      } else {
+        this.selected.push(index)
+      }
+    },
+    isSelected (index) {
+      return this.selected.indexOf(index) > -1
+    },
+    all () {
+      this.selected = []
+      this.form.collection.forEach((item) => {
+        this.selected.push(item.id)
+      })
+    },
+    invert () {
+      this.form.collection.forEach((item) => {
+        this.toggle(item.id)
+      })
+    },
+    none () {
+      this.selected = []
+    },
+    unlink (id) {
+      swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(() => {
+        this.axios.delete(`/api${this.$route.fullPath}/${id}`)
+          .then((response) => {
+            this.update()
+          }, (response) => {
+            if (response.status !== 403) {
+              this.$swal('Error', 'Error while deleting photo.', 'error')
+            }
+          })
+      })
+    },
+    bulk () {
+      console.log(this.bulkAction)
     },
     update () {
       this.axios.get('/api' + this.$route.fullPath, {

@@ -3,13 +3,13 @@
   a.media-card-thumb
     span.thumb-container
       span.thumb-center
-        img(:src="url", width="320", height="213")
+        img(:src="url", width="320", height="213", @click="$emit('select')")
   ul.media-card-info
     li(v-for="item, key in info")
       span {{ filters.capitalize(key) }}:
       |  {{ item }}
   .media-card-actions
-    input.media-card-checkbox.left(type="checkbox", @click="$emit('select')")
+    input.media-card-checkbox.left(type="checkbox", @click="$emit('check')")
     a.media-card-delete.right
       span.icon-delete
       |  Delete
