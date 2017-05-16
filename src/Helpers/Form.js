@@ -7,11 +7,16 @@ export default class Form {
     this.collection = []
     this.fields = {}
     this.resource = {}
+    this.endpoint = undefined
     this.errors = new Errors()
   }
 
   data (data) {
     this.collection = Object.assign({}, data)
+  }
+
+  setEndpoint (endpoint) {
+    this.endpoint = endpoint
   }
 
   init (formStructure, collection) {
