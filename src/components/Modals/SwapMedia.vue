@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import MediaCard from 'components/Global/MediaCard'
+import Card from 'components/Global/Card'
 import SearchableDropdown from 'components/FormFields/DropdownSearch'
 import Dropzone from 'components/Dropzone'
 
@@ -29,15 +29,15 @@ export default {
     },
     disk (data) {
       this.$store.dispatch('setDisk', data.value)
+    },
+    uploaded (event) {
+      console.log(event)
     }
   },
   mounted () {},
   computed: {
     disks ()  {
       return this.$store.getters.getDisks
-    },
-    uploaded (event) {
-      console.log(event)
     }
   }
 }

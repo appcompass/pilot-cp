@@ -22,28 +22,25 @@ const actions = {
     }
     state.config.type = config.type
     state.config.css = config.css
-    state.visible = true
     state.data = config.data || null
-    commit('visibility')
+    commit('VISIBILITY', true)
   },
   'modal.hide' ({commit, state}) {
-    state.visible = false
-    commit('visibility')
+    commit('VISIBILITY', false)
     return true
   },
   'modal.done' ({commit, state}, model) {
-    state.visible = false
     state.model = model
     if (state.config.cb) {
       state.config.cb(state.model)
     }
-    commit('visibility')
+    commit('VISIBILITY', false)
   }
 }
 
 const mutations = {
-  visibility (state) {
-    // do stuff if ya need
+  VISIBILITY (state, visible) {
+    state.visible = visible
   }
 }
 

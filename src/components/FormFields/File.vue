@@ -4,26 +4,24 @@ div(v-if="data")
   p
     strong Path:
     |  {{ data }}
-  //- a.btn(type="button", @click.prevent="media") Swap
 div(v-else)
-  a.btn(type="button", @click.prevent="media") Select
+  a.btn(type="button", @click.prevent="selectMedia") Select
 </template>
 
 <script>
-import Dropzone from '../Dropzone'
 
 export default {
   name: 'File',
-  components: { Dropzone },
   props: ['pointer', 'data', 'label', 'field'],
   methods: {
-    media () {
+    selectMedia () {
       this.$store.dispatch('modal.show', {type: 'Media', css: 'add-media-modal', cb: this.set})
     },
     card () {
-      this.$store.dispatch('modal.show', {type: 'Form', css: 'media-modal', cb: this.set})
+      this.$store.dispatch('modal.show', {type: 'Photo', css: 'media-modal', cb: this.set, data: {url: this.data}})
     },
     set (selection) {
+      console.log(selection)
       this.$emit('input', {pointer: this.field.name, value: selection.path})
     },
     placeholder (e) {
