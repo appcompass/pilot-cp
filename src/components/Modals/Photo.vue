@@ -17,8 +17,7 @@ div
 </template>
 <script>
 export default {
-  name: 'Form',
-  props: ['form'],
+  name: 'Photo',
   data: () => ({src: undefined}),
   methods: {
     swap () {
@@ -28,11 +27,11 @@ export default {
       console.log(modal)
     },
     error () {
-      this.src = 'https://placehold.it/600x400'
+      this.src = 'https://lorempixel.com/500/213/abstract/?77502'
     }
   },
   mounted () {
-    this.src = this.data.url || 'https://placehold.it/600x400'
+    this.src = this.data.url // || 'https://placehold.it/600x400'
   },
   computed: {
     data () {

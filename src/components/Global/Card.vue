@@ -1,9 +1,9 @@
-    <template lang="pug">
+<template lang="pug">
 .media-card
-  a.media-card-thumb(@click="$emit('select', info)")
+  a.media-card-thumb(@click="$emit('select')")
     span.thumb-container
       span.thumb-center
-        img(:src="src", width="320", height="213", @error="error", @click="$emit('select', {})")
+        img(:src="src", width="320", height="213", @error="error")
   ul.media-card-info
     li(v-for="item, key in info")
       span {{ filters.capitalize(key) }}:
@@ -19,7 +19,21 @@
 
 export default {
   name: 'Card',
-  props: ['info', 'url', 'checked'],
+  props: {
+    info: {
+      type: Object,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true
+    },
+    checked: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
   data: () => ({src: undefined}),
   mounted () {
     this.src = this.url
