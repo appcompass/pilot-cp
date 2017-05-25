@@ -15,10 +15,10 @@ export default {
   props: ['pointer', 'data', 'label', 'field'],
   methods: {
     selectMedia () {
-      this.$store.dispatch('modal.show', {type: 'Media', css: 'add-media-modal', cb: this.set})
+      this.$store.dispatch('modal.show', {type: 'Media', css: 'add-media-modal', canClose: true, cb: this.set})
     },
     card () {
-      this.$store.dispatch('modal.show', {type: 'Photo', css: 'media-modal', cb: this.set, data: {url: this.data}})
+      this.$store.dispatch('modal.show', {type: 'Photo', css: 'media-modal', canClose: true, cb: this.set, data: {url: this.data}})
     },
     set (selection) {
       console.log(selection)

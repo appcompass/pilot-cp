@@ -28,7 +28,8 @@ export default {
           cssClass: [this.config.css],
           footer: true,
           stickyFooter: true,
-          beforeClose: () => this.$store.dispatch('modal.hide')
+          // beforeClose: () => this.$store.dispatch('modal.hide')
+          beforeClose: () => this.config.canClose
         })
         this.modal.setContent(this.$el)
         this.modal.open()
