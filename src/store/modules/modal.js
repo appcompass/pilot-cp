@@ -1,4 +1,4 @@
-// import _ from 'lodash'
+import _ from 'lodash'
 
 const state = {
   visible: false,
@@ -6,7 +6,8 @@ const state = {
   data: undefined,
   config: {
     type: undefined,
-    css: undefined
+    css: undefined,
+    canClose: true
   }
 }
 
@@ -17,30 +18,37 @@ const getters = {
 
 const actions = {
   'modal.show' ({commit, state}, config) {
-    if (config.cb) {
-      state.config.cb = config.cb
-    }
-    state.config.type = config.type
-    state.config.css = config.css
-    state.data = config.data || null
+    commit('CONFIG', config)
     commit('VISIBILITY', true)
   },
   'modal.hide' ({commit, state}) {
-    commit('VISIBILITY', false)
-    return true
+    return commit('VISIBILITY', false)
   },
   'modal.done' ({commit, state}, model) {
-    state.model = model
+    let config = _.cloneDeep(state.config)
+    config.canClose = true
+    commit('CONFIG', config)
+    commit('MODEL', model)
+    commit('VISIBILITY', false)
     if (state.config.cb) {
       state.config.cb(state.model)
     }
-    commit('VISIBILITY', false)
   }
 }
 
 const mutations = {
+  CONFIG (state, config) {
+    state.config = config
+  },
   VISIBILITY (state, visible) {
+    if (!state.config.canClose && visible === false) {
+      return false
+    }
     state.visible = visible
+    return true
+  },
+  MODEL (state, model) {
+    state.model = model
   }
 }
 

@@ -26,11 +26,18 @@ import Modal from 'components/Global/Modal'
 
 export default {
   name: 'Private',
-  data () {
-    return {
-      // model: undefined,
-      // route: undefined
-    }
+  data: () =>  ({
+    lockTimeout: undefined
+  }),
+  mounted () {
+    this.$el.addEventListener('mousemove', () => {
+      clearTimeout(this.lockTimeout)
+      this.lockTimeout = setTimeout(() => this.$store.dispatch('modal.show', {
+        type: 'LockScreen',
+        css: 'lock-screen-modal-container',
+        canClose: false
+      }), 1000)
+    })
   },
   components: {
     SiteHeader,
