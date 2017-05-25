@@ -36,7 +36,7 @@ export default {
         type: 'LockScreen',
         css: 'lock-screen-modal-container',
         canClose: false
-      }), 1000)
+      }), 50000)
     })
   },
   components: {
