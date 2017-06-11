@@ -35,10 +35,11 @@
 </template>
 
 <script>
-import Sortable from 'Helpers/VueSortable'
+import api from '../../api'
 import Form from 'Helpers/Form'
 import Modal from 'Helpers/Modal'
-//
+import Sortable from 'Helpers/VueSortable'
+
 export default {
   name: 'MenuElement',
   components: {
@@ -88,7 +89,7 @@ export default {
               break
           }
         }
-        vm.$http.get(this.api_url + '/forms/' + vm.endpoint)
+        api.get(this.api_url + '/forms/' + vm.endpoint)
           .then((response) => {
             vm.$set(item, 'form', new Form().init(response.data, item))
           })

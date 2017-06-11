@@ -3,8 +3,8 @@ import _ from 'lodash'
 const state = {
   visible: false,
   model: {},
-  data: undefined,
   config: {
+    data: undefined,
     type: undefined,
     css: undefined,
     canClose: true
@@ -32,13 +32,15 @@ const actions = {
     commit('VISIBILITY', false)
     if (state.config.cb) {
       state.config.cb(state.model)
+      state.config.cb = undefined
     }
   }
 }
 
 const mutations = {
   CONFIG (state, config) {
-    state.config = config
+    // state.config = config
+    state.config = Object.assign(state.config, config)
   },
   VISIBILITY (state, visible) {
     if (!state.config.canClose && visible === false) {

@@ -25,8 +25,6 @@
 </template>
 
 <script>
-
-import Auth from 'States/Auth'
 import Form from 'Helpers/Form'
 import RouteHandling from 'Mixins/RouteHandling'
 
@@ -40,7 +38,7 @@ export default {
       route: undefined,
       tabs: [],
       api: undefined,
-      can: Auth.abilities,
+      can: this.$store.getters.abilities,
       form: new Form()
     }
   },

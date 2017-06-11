@@ -1,4 +1,4 @@
-import Vue from 'src/main'
+import api from '../../api'
 
 const state = {
   instances: [],
@@ -10,20 +10,24 @@ const getters = {
 }
 
 const actions = {
-  fetch ({commit, state}, element) {
-    commit('fetch', element)
+  FETCH_DISK_INSTANCES ({commit}, element) {
+    api.get('/api/disks')
+      .then(response => {
+        commit('INSTANCES', response.data.collection.data)
+      })
   },
+
   setDisk ({commit, state}, disk) {
-    commit('set', disk)
+    commit('DISK', disk)
   }
 }
 
 const mutations = {
-  fetch (state, element) {
-    Vue.axios.get('/api/disks')
-      .then(response => { state.instances = response.data.collection.data })
+  INSTANCES (state, instances) {
+    state.instances = instances
   },
-  set (state, disk) {
+
+  DISK (state, disk) {
     state.selected = disk
   }
 }

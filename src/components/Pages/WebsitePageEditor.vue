@@ -12,8 +12,7 @@ div
     .sidebar.sidebar-page-content(:class="{'is-active': checkEditor('Content')}")
       form.page-content-edit
         .page-section-edit(v-for="(row, index) in content", :key="row.id", :class="{'is-closed': row.isClosed}")
-          .page-section-edit-header
-            | {{ row.name }}
+          .page-section-edit-header {{ row.name }}
             span.icon.icon-box-down(@click="toggleForm(row)")
           .page-section-edit-content
             FormBuilder(:form="row.form")
@@ -49,6 +48,7 @@ div
 
 <script>
 import _ from 'lodash'
+import api from '../../api'
 import Form from 'Helpers/Form'
 import Sortable from 'Helpers/VueSortable'
 import Modal from 'components/Global/Modal'
@@ -142,10 +142,10 @@ export default {
       })
     },
     fetch (list) {
-      return this.$http.get('/api' + this.$route.fullPath + '/' + list)
+      return api.get('/api' + this.$route.fullPath + '/' + list)
     },
     save () {
-      return this.$http.put('/api' + this.$route.fullPath, {
+      return api.put('/api' + this.$route.fullPath, {
         layout: this.layout,
         deletions: this.deletions,
         page: this.page.collection

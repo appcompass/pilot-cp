@@ -1,5 +1,5 @@
 <template lang="pug">
-  ul.header-nav.header-nav-secondary(v-if="auth.user.authenticated")
+  ul.header-nav.header-nav-secondary(v-if="authenticated")
     li
       div.header-search
         div.search-input
@@ -8,12 +8,12 @@
     li
       a
         span.header-profile
-          img(:src="auth.user.profile.gravatar_url", width="40px", height="40px")
+          img(:src="user.gravatar_url", width="40px", height="40px")
       ul
         li(v-for="cat in navigation")
           router-link(:to="cat.url" exact, :params="{current_user_id: user_id}", v-if="cat.url") {{ cat.title }}
         li
-          a(@click="auth.logout()") Logout
+          a(@click="$store.dispatch('LOGOUT')") Logout
     li
       a.notifications-toggle(
         @click="notifications.toggleView()",
@@ -24,40 +24,46 @@
 </template>
 
 <script>
-import auth from 'States/Auth'
+// import auth from 'States/Auth'
 import NotificationsState from 'States/Notifications.js'
 
 export default {
   name: 'HeadeRightNavigation',
   data () {
     return {
-      auth: auth,
-      user_id: undefined,
+      // auth: auth,
+      // user_id: undefined,
       notifications: NotificationsState
     }
   },
   methods: {
-    logout () {
-      auth.logout()
-    }
+    // logout () {
+      // this.$store.dispatch('LOGOUT')
+      // auth.logout()
+    // }
   },
-  watch: {
-    'auth.user.profile' (profile) {
-      if (profile) {
-        this.user_id = profile.id
-      }
-    }
-  },
+  // watch: {
+  //   'auth.user.profile' (profile) {
+  //     if (profile) {
+  //       this.user_id = profile.id
+  //     }
+  //   }
+  // },
   computed: {
-    navigation ()  {
+    user_id () {
+      return this.$store.getters.user.id
+    },
+    authenticated () {
+      return this.$store.getters.authenticated
+    },
+    navigation () {
       return this.$store.getters.user_nav
+    },
+    user () {
+      return this.$store.getters.user
     }
-  },
-  created () {
-    auth.check()
   },
   mounted () {
-    this.user_id = auth.user.profile.id
     NotificationsState.init()
   }
 }

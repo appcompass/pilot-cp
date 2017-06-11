@@ -12,30 +12,27 @@ div
         span.icon-swap
         | Swap Image
       a.link-icon.link-red
-        span.icon-delete
+        span.icon-delete(@click="$emit('delete')")
         | Delete
 </template>
 <script>
 export default {
   name: 'Photo',
-  data: () => ({src: undefined}),
+  // props: ['src'],
   methods: {
     swap () {
-      this.$store.dispatch('modal.show', {type: 'SwapMedia', css: 'add-media-modal'})
-    },
-    after (modal) {
-      console.log(modal)
+      this.$store.dispatch('modal.show', {type: 'Media', css: 'add-media-modal', canClose: true})
     },
     error () {
       this.src = 'https://lorempixel.com/500/213/abstract/?77502'
     }
   },
-  mounted () {
-    this.src = this.data.url // || 'https://placehold.it/600x400'
-  },
   computed: {
     data () {
       return this.$store.getters.modal.data
+    },
+    src () {
+      return this.$store.getters.modal.config.src
     }
   }
 }

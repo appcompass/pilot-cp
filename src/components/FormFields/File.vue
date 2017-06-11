@@ -18,11 +18,12 @@ export default {
       this.$store.dispatch('modal.show', {type: 'Media', css: 'add-media-modal', canClose: true, cb: this.set})
     },
     card () {
-      this.$store.dispatch('modal.show', {type: 'Photo', css: 'media-modal', canClose: true, cb: this.set, data: {url: this.data}})
+      this.$store.dispatch('modal.show', {type: 'Photo', css: 'media-modal', canClose: true, cb: this.set, src: this.src})
     },
     set (selection) {
-      console.log(selection)
-      this.$emit('input', {pointer: this.field.name, value: selection.path})
+      // console.log(selection)
+      // @TODO card_photo
+      this.$emit('input', {pointer: this.field.name, value: selection.card_photo})
     },
     placeholder (e) {
       e.onerror = ''
