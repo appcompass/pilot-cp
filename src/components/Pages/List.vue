@@ -78,11 +78,13 @@
 </template>
 <script>
 import _ from 'lodash'
+import api from '../../api'
+import swal from 'sweetalert'
 import Pagination from 'components/Global/Pagination'
 import TableList from 'components/ListTypes/TableList'
 import MultiSelectList from 'components/ListTypes/MultiSelectList'
 import CardList from 'components/ListTypes/CardList'
-import Auth from 'States/Auth'
+// import Auth from 'States/Auth'
 import CreateTypes from 'components/CreateTypes'
 import RouteHandling from 'Mixins/RouteHandling'
 
@@ -106,7 +108,7 @@ export default {
       loading: true,
       filter_results_toggle: false,
       pagination: {current_page: 1, surrounded: 3, per_page: 25},
-      can: Auth.abilities,
+      can: this.$store.getters.abilities,
       CreateTypes
     }
   },
@@ -147,7 +149,7 @@ export default {
     update () {
       let vm = this
       vm.loading = true
-      vm.$http.get('/api' + vm.$route.path, {
+      api.get('/api' + vm.$route.path, {
         params: {
           page: vm.pagination.current_page,
           per_page: vm.pagination.per_page,
@@ -180,15 +182,15 @@ export default {
         })
     },
     remove (id) {
-      this.$swal({ title: 'Are you sure?', text: 'You will not be able to recover this', type: 'warning', showCancelButton: true, closeOnConfirm: false }, () => {
-        this.$http.delete('/api/' + this.$route.path.slice(1) + '/' + id)
+      swal({ title: 'Are you sure?', text: 'You will not be able to recover this', type: 'warning', showCancelButton: true, closeOnConfirm: false }, () => {
+        api.delete('/api/' + this.$route.path.slice(1) + '/' + id)
           .then((response) => {
-            this.$swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
+            swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
               return this.update()
             })
           })
           .catch((response) => {
-            this.$swal('Error!', response.data.message, 'error')
+            swal('Error!', response.data.message, 'error')
           })
       })
     },

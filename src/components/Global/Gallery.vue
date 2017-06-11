@@ -52,14 +52,10 @@ import Sortable from '../../Helpers/VueSortable'
 import Card from '../Global/Card'
 import Dropzone from '../Dropzone'
 import Pagination from './Pagination'
-import swal from 'sweetalert2'
+import swal from 'sweetalert'
+import api from '../../api'
 
 const form = new Form();
-
-// config: {
-//   upload: Boolean
-//   actions: Boolean
-// }
 
 export default {
   name: 'Gallery',
@@ -81,6 +77,7 @@ export default {
     bulkAction: undefined
   }),
   created () {
+    this.$store.dispatch('FETCH_DISK_INSTANCES')
     this.update()
   },
   methods: {
@@ -101,7 +98,7 @@ export default {
     },
     sort () {
       let order = _.map(this.form.collection, (photo) => { return photo.id })
-      this.axios.post('/api' + this.$route.fullPath + '/sort', {order: order})
+      api.post('/api' + this.$route.fullPath + '/sort', {order: order})
         .then((response) => {
           this.update()
         })
@@ -140,7 +137,7 @@ export default {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!'
       }).then(() => {
-        this.axios.delete(`/api${this.$route.fullPath}/${id}`)
+        api.destroy(`/api${this.$route.fullPath}/${id}`)
           .then((response) => {
             this.update()
           }, (response) => {
@@ -154,8 +151,7 @@ export default {
       console.log(this.bulkAction)
     },
     update () {
-      this.axios.get(this.route, {
-      // this.axios.get('/api' + this.$route.fullPath, {
+      api.get(this.route, {
         params: {
           page: this.pagination.page,
           per_page: this.pagination.per_page

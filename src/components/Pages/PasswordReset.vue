@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import auth from 'States/Auth'
-
 export default {
   name: 'PasswordReset',
   data () {
@@ -71,12 +69,13 @@ export default {
       }
     },
     resetPassword () {
-      auth.resetPassword(this, {
-        token: this.token,
-        email: this.email,
-        password: this.password,
-        password_confirmation: this.password_confirmation
-      })
+      // @TODO vvv
+      // auth.resetPassword(this, {
+      //   token: this.token,
+      //   email: this.email,
+      //   password: this.password,
+      //   password_confirmation: this.password_confirmation
+      // })
     }
   }
 }

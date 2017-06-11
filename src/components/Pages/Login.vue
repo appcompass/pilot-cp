@@ -2,19 +2,15 @@
   div
     .logout-box
       form
-        label(for='') Email Address
+        label Email Address
         input(type="email", placeholder="Email", v-model="email", @keydown="error = false", @keyup.enter="login")
-        label(for='') Password
+        label Password
         input(type="password", placeholder="Password", v-model="password", @keyup.enter="login", @keydown="error = false")
-        ul.form-error(
-          v-if="error"
-        )
+        ul.form-error(v-if="error")
           li {{ response.message }}
         .align-space-between
           button.btn-primary(@click.prevent="login") Log In
-          router-link.link-text-tertiary(
-            :to="{name: 'request-password-reset'}",
-          ) Reset Password
+          router-link.link-text-tertiary(:to="{name: 'request-password-reset'}") Reset Password
 
     //-
       router-link.link-text-tertiary.link-icon(
@@ -25,8 +21,6 @@
 </template>
 
 <script>
-import auth from 'States/Auth'
-
 export default {
   name: 'LoginView',
   props: ['view'],
@@ -40,7 +34,16 @@ export default {
   },
   methods: {
     login () {
-      auth.login(this, this.email, this.password)
+      this.$store.dispatch('ATTEMPT', {
+        email: this.email,
+        password: this.password
+      })
+        .then(() => {
+          this.$router.push('/dashboard')
+        })
+        .catch(error => {
+          this.error = error
+        })
     }
   }
 }

@@ -17,8 +17,8 @@
 </template>
 
 <script>
-
-import Auth from 'States/Auth'
+import api from '../../api'
+import swal from 'sweetalert'
 import Editors from 'components/Editors'
 import Form from 'Helpers/Form'
 import RouteHandling from 'Mixins/RouteHandling'
@@ -34,8 +34,7 @@ export default {
       model: undefined,
       route: undefined,
       tabs: undefined,
-      api: undefined,
-      can: Auth.abilities,
+      can: this.$store.getters.abilities,
       data: {},
       form: new Form(),
       Editors
@@ -51,7 +50,6 @@ export default {
   },
   methods: {
     routeChanged () {
-      this.api = '/api' + this.$route.fullPath
       this.refresh()
     },
     set (data) {
@@ -59,23 +57,24 @@ export default {
     },
     update () {
       this.submitted = true
-      this.$http.put(this.api, this.form.collection)
-        .then((response) => {
-          this.$swal({title: 'Success', text: response.data.message, type: 'success'})
-            .then(() => {
-              this.refresh()
-            })
-        }, error => {
+      let vm = this
+      api.put(`/api${this.$route.fullPath}`, this.form.collection)
+        .then(response => {
+          swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
+            return vm.refresh()
+          })
+        })
+        .catch(error => {
           if (error.response.status === 422) {
             this.form.fails(error.response.data)
           } else if (error.response.status !== 403) {
-            this.$swal({title: 'Error', text: error.response.data.errors, type: 'error'})
+            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
           }
         })
     },
     refresh () {
       this.loading = true
-      this.$http.get(this.api, {
+      api.get(`/api${this.$route.fullPath}`, {
         params: {
           page: 1
         }
@@ -85,10 +84,10 @@ export default {
           this.form.init(response.data.form, response.data.collection)
           this.loading = false
         }, (error) => {
-          if (!Auth.user.authenticated) {
+          if (!this.$store.authenticated) {
             return
           } else if (error.response.status !== 403) {
-            this.$swal({title: 'Error', text: error.response.data.errors, type: 'error'})
+            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
           }
         })
     }

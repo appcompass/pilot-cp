@@ -1,4 +1,4 @@
-import Vue from 'src/main'
+import api from '../../api'
 
 function findObject (url, haystack, res) {
   for (let i = 0; i < haystack.length; i++) {
@@ -28,22 +28,28 @@ const getters = {
 }
 
 const actions = {
-  'nav.init' ({commit, state}) {
-    Vue.axios.get('/api/content/menus')
+  INIT_NAVIGATION ({commit, state}) {
+    api.get('/api/content/menus')
       .then(response => {
-        commit('getNav', response.data)
+        commit('NAVIGATION', response.data)
       })
   },
+
+  LOGGED ({commit, dispatch}) {
+    dispatch('INIT_NAVIGATION')
+  },
+
   'nav.side.set' ({commit, state}, {url, full_nav}) {
     commit('setSideNav', findObject(url, full_nav))
   },
+
   'nav.side.reset' ({commit, state}) {
     state.side_nav = {}
   }
 }
 
 const mutations = {
-  getNav (state, nav) {
+  NAVIGATION (state, nav) {
     state.navigation = nav
   },
   setSideNav (state, nav) {

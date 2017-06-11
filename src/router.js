@@ -73,7 +73,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // @TODO: instead of just relying on the token, switch to using store/local storage 'authenticated' value
-    if (!localStorage.getItem('auth_token')) {
+    if (!localStorage.getItem('token')) {
       next({
         path: '/login',
         query: { redirect: to.fullPath }

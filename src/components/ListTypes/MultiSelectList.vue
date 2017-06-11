@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import api from '../../api'
+
 export default {
   name: 'MultiSelectList',
   props: ['forms', 'collection', 'owned'],
@@ -37,7 +39,7 @@ export default {
       return this.update()
     },
     update () {
-      this.$http.post('/api/' + this.$route.path, this.owned)
+      api.post('/api/' + this.$route.path, this.owned)
         .then(function (response) {
           console.log(response)
         })

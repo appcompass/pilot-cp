@@ -27,9 +27,9 @@
 </template>
 
 <script>
-
+import api from '../../api'
+import swal from 'sweetalert'
 import Form from 'Helpers/Form'
-import Auth from 'States/Auth'
 import RouteHandling from 'Mixins/RouteHandling'
 
 export default {
@@ -44,7 +44,7 @@ export default {
   },
   created () {
     this.loading = true
-    this.$http.get('/api/' + this.getApiUrl('create'))
+    api.get('/api/' + this.getApiUrl('create'))
       .then((response) => {
         this.loading = false
         if (!response.data.form) {
@@ -79,7 +79,7 @@ export default {
       this.form.set(data)
     },
     save () {
-      this.$http.post(this.api, this.form.collection)
+      api.post(this.api, this.form.collection)
       // this.resource.save(this.form.collection)
         .then((response) => {
           this.$swal({title: 'Success', text: response.data.message, type: 'success'
@@ -87,10 +87,11 @@ export default {
             this.$router.push({name: this.$route.name + '-id-edit', params: {id: response.data.model.id}})
           })
         }, error => {
+          console.log('here')
           if (error.response.status === 422) {
             this.form.fails(error.response.data)
           } else if (error.response.status !== 403) {
-            this.$swal({title: 'Error', text: error.response.data.errors, type: 'error'})
+            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
           }
         })
     }

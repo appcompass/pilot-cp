@@ -40,12 +40,13 @@
 </template>
 
 <script>
-
-import Sortable from 'Helpers/VueSortable'
+import _ from 'lodash'
+import api from '../../api'
+import swal from 'sweetalert'
 import Form from 'Helpers/Form'
 import Utils from 'Helpers/Utils'
+import Sortable from 'Helpers/VueSortable'
 import MenuElement from 'components/FormFields/MenuElement'
-import _ from 'lodash'
 
 export default {
   components: {
@@ -80,9 +81,8 @@ export default {
       }
     },
     storeLink () {
-      console.log(this.$route.params.websites)
       // get a MenuItem instance from the backend
-      this.$http.post(this.api_url + 'links', this.link_form.collection)
+      api.post(this.api_url + 'links', this.link_form.collection)
         .then((response) => {
           this.form.collection.repo.links.push(response.data.link)
           this.form.collection.menu.push(response.data.menuitem)
@@ -93,26 +93,26 @@ export default {
       // fetch desired item and pop up a modal
       // this.modal.active = true
       let vm = this
-      this.$http.get(this.api_url + 'forms/' + item)
+      api.get(this.api_url + 'forms/' + item)
         .then(function (response) {
           vm.link_form.init(response.data)
         })
     },
     deleteLink (link) {
       // deletes a Link
-      this.$swal({
+      swal({
         title: 'Are you sure?',
         text: 'This will eliminate every instance of this widget from the website',
         type: 'warning',
         showCancelButton: true
       }).then(() => {
-        this.$http.delete(this.api_url + 'links/' + link.id)
+        api.delete(this.api_url + 'links/' + link.id)
           .then(response => {
             this.form.collection.repo.links.splice(this.form.collection.repo.links.indexOf(link), 1)
             this.form.collection.menu.splice(this.form.collection.menu.indexOf(link), 1)
-            this.$swal({title: 'Deleted', type: 'success', timer: 1000, showConfirmButton: false})
+            swal({title: 'Deleted', type: 'success', timer: 1000, showConfirmButton: false})
           }, response => {
-            this.$swal({title: 'Error', text: 'Errors while deleting widget', type: 'error'})
+            swal({title: 'Error', text: 'Errors while deleting widget', type: 'error'})
           })
       })
     }

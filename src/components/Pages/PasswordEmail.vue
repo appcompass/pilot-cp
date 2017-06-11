@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import auth from 'States/Auth'
-
 export default {
   name: 'PasswordReset',
   data () {
@@ -41,9 +39,10 @@ export default {
   },
   methods: {
     requestReset () {
-      auth.requestReset(this, {
-        email: this.email
-      })
+      // @TODO vvvvv
+      // auth.requestReset(this, {
+      //   email: this.email
+      // })
     }
   }
 }
