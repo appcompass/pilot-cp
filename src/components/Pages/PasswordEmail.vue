@@ -9,7 +9,8 @@
           li(v-if="response.email", v-for="line in response.email") {{line}}
         button.btn-primary(@click.prevent="requestReset") Reset Password
     router-link.link-text-tertiary.link-icon(:to="{name: 'login'}")
-      span.icon-arrow-back Back to Log In
+      span.icon-arrow-back
+      | Back to Log In
 </template>
 
 <script>
