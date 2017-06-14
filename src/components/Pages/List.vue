@@ -69,11 +69,11 @@
           :collection="collection",
           :owned="owned",
           :search="search",
-          :forms="{form: form, edit: edit}"
+          :forms="{form: form, edit: edit}",
+          @sort="sort",
+          @search="applyFilter"
         )
-        div.view-no-results(
-          v-if="!collection.length"
-        ) No Results Found
+        div.view-no-results(v-if="!collection.length") No Results Found
         Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1", @page="page")
 </template>
 <script>
@@ -84,7 +84,6 @@ import Pagination from 'components/Global/Pagination'
 import TableList from 'components/ListTypes/TableList'
 import MultiSelectList from 'components/ListTypes/MultiSelectList'
 import CardList from 'components/ListTypes/CardList'
-// import Auth from 'States/Auth'
 import CreateTypes from 'components/CreateTypes'
 import RouteHandling from 'Mixins/RouteHandling'
 
@@ -100,7 +99,8 @@ export default {
       view_types: [],
       create_type: undefined,
       update_type: undefined,
-      // @TODO: Owned is very specifict to a type of view. we need to clean up how the data is passed down to he view types.
+      // @TODO: Owned is very specifict to a type of view (MultiSelectList). we need to clean up how the data is passed down to he view types.
+      // true, this would be solved by moving single/multi (edit/list) states into vuex modules, every view would now what to expect in there -f
       owned: [],
       collection: {},
       search: {},
@@ -119,7 +119,6 @@ export default {
         return
       }
       this.reset()
-      // we trigger an update only if page stays the same, otherwise we let pagination watcher fire the query
       if (this.pagination.current_page === 1) {
         this.update()
       } else {
@@ -183,7 +182,7 @@ export default {
     },
     remove (id) {
       swal({ title: 'Are you sure?', text: 'You will not be able to recover this', type: 'warning', showCancelButton: true, closeOnConfirm: false }, () => {
-        api.delete('/api/' + this.$route.path.slice(1) + '/' + id)
+        api.destroy('/api/' + this.$route.path.slice(1) + '/' + id)
           .then((response) => {
             swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
               return this.update()
@@ -194,34 +193,8 @@ export default {
           })
       })
     },
-    toggleEdit (field) {
-      if (this.edit.indexOf(field.id) > -1) {
-        delete this.search[field.name]
-        this.edit.splice(this.edit.indexOf(field.id), 1)
-        if (this.pagination.current_page > 1) {
-          this.pagination.current_page = 1
-        } else {
-          this.update()
-        }
-      } else {
-        this.edit.push(field.id)
-      }
-    },
-    toggleSorter (field) {
-      if (!field.config.sortable) {
-        return
-      }
-      let sorter = this.sorters[field.name]
-      switch (sorter) {
-        case 'ASC':
-          this.$set(this.sorters, field.name, 'DESC')
-          break
-        case 'DESC':
-          this.$delete(this.sorters, field.name)
-          break
-        default:
-          this.$set(this.sorters, field.name, 'ASC')
-      }
+    sort (sorters) {
+      this.sorters = sorters
       this.update()
     },
     page (page) {
