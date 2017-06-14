@@ -21,7 +21,7 @@ http.interceptors.response.use(response => {
 })
 
 const api = {
-  get: (path, params) => http.get(path, {params: params}),
+  get: (path, params) => http.get(path, params),
   post: (path, params) => http.post(path, params),
   put: (path, params) => http.put(path, params),
   destroy: (path, params) => http.delete(path, {params: params}),

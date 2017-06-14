@@ -51,3 +51,17 @@ export function LOGOUT ({commit, state, rootState}) {
 export function login ({commit, state}, token) {
   commit('LOGIN', token)
 }
+
+export function REQUEST_RESET ({commit}, email) {
+  api.post('/api/auth/password/email', {email: email})
+    .then((response) => {
+      console.log(response)
+    })
+}
+
+export function RESET_PASSWORD ({commit}, payload) {
+  api.post('/api/auth/password/reset', payload)
+    .then(response => {
+      console.log(response)
+    })
+}

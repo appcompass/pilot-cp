@@ -20,14 +20,13 @@
           label(v-if="response.token", v-for="line in response.token")
             span.required {{line}}
         button.btn-primary(@click.prevent="resetPassword") Reset Password
-    router-link.link-text-tertiary.link-icon(
-      :to="{name: 'login'}",
-    )
-      span.icon-arrow-back
-      |  Back to Log In
+    router-link.link-text-tertiary.link-icon(:to="{name: 'login'}")
+      span.icon-arrow-back Back to Log In
 </template>
 
 <script>
+import swal from 'sweetalert'
+
 export default {
   name: 'PasswordReset',
   data () {
@@ -63,19 +62,18 @@ export default {
       if (vm.$route.params.reset_password) {
         this.token = vm.$route.params.reset_password
       } else {
-        vm.$swal('Ok', 'Bad Link!', 'error').then(function(){
+        swal('Ok', 'Bad Link!', 'error').then(function(){
           vm.$router.push({ name: 'login' })
         });
       }
     },
     resetPassword () {
-      // @TODO vvv
-      // auth.resetPassword(this, {
-      //   token: this.token,
-      //   email: this.email,
-      //   password: this.password,
-      //   password_confirmation: this.password_confirmation
-      // })
+      this.$store.dispatch('RESET_PASSWORD', {
+          token: this.token,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.password_confirmation
+      })
     }
   }
 }
