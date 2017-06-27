@@ -1,24 +1,19 @@
 <template lang="pug">
   div
     .logout-box
-      p
-        | Please enter your email address. We will send you a link to create a new password.
+      p Please enter your email address. We will send you a link to create a new password.
       form(v-on:submit.prevent="requestReset")
-        label(for='') Email Address
-        input(type="email", placeholder="Email", :class="{'error': error}", v-model="email", @keydown="error = false")
+        label(for='email') Email Address
+        input#email(type="email", placeholder="Email", :class="{'error': error}", v-model="email", @keydown="error = false")
         ul.form-error(v-if="error")
           li(v-if="response.email", v-for="line in response.email") {{line}}
         button.btn-primary(@click.prevent="requestReset") Reset Password
-    router-link.link-text-tertiary.link-icon(
-      :to="{name: 'login'}",
-    )
+    router-link.link-text-tertiary.link-icon(:to="{name: 'login'}")
       span.icon-arrow-back
-      |  Back to Log In
+      | Back to Log In
 </template>
 
 <script>
-import auth from 'States/Auth'
-
 export default {
   name: 'PasswordReset',
   data () {
@@ -41,9 +36,7 @@ export default {
   },
   methods: {
     requestReset () {
-      auth.requestReset(this, {
-        email: this.email
-      })
+      this.$store.dispatch('REQUEST_RESET', this.email)
     }
   }
 }

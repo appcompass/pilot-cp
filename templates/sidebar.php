@@ -19,6 +19,7 @@
 		<h3 class="sidebar-nav-heading">Example.com</h3>
 		<ul class="sidebar-nav">
 			<li><a href=""><span class="icon icon-pages"></span> Pages</a></li>
+			<li><a href=""><span class="icon icon-layouts"></span> Layouts</a></li>
 			<li><a href=""><span class="icon icon-page"></span> Blog</a></li>
 			<li><a href=""><span class="icon icon-navigation"></span> Navigation</a></li>
 			<li><a href=""><span class="icon icon-redirect"></span> Redirects</a></li>

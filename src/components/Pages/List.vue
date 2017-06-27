@@ -16,10 +16,7 @@
             h1.page-title
               | {{ $route.params.sub || $route.params.model }}
           div.xsmall-4.columns.text-right
-        div(
-          v-if="can.has('create') && CreateTypes[create_type]",
-          :is="CreateTypes[create_type]",
-        )
+        div(v-if="can.has('create') && CreateTypes[create_type]", :is="CreateTypes[create_type]")
 
       div.data-actions-container
         div.data-actions
@@ -35,17 +32,13 @@
             a.data-actions-filters-trigger(v-on:click="filter_results_toggle = !filter_results_toggle")
               span.icon-filters
               span.data-actions-filters-label Filter Results
-          div.data-actions-view(
-            v-if="view_types.length > 1"
-          )
+          div.data-actions-view(v-if="view_types.length > 1")
             a.data-list-view(
               v-for="view_type in view_types",
               @click="list_layout = view_type",
               :class="{'is-active': view_type == list_layout}"
             )
-              span.icon(
-                :class="'icon-' + view_type.toLowerCase()"
-              )
+              span.icon(:class="'icon-' + view_type.toLowerCase()")
           form.data-actions-search
             div.search-input
               span.icon-search
@@ -67,7 +60,7 @@
       div.view-container
         div.view-loading(v-if="loading")
           img(src="~assets/images/content/loading.svg")
-        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
+        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1", @page="page")
         section(
           v-if="list_layout && list_layout + 'List'",
           :is="list_layout + 'List'",
@@ -76,20 +69,21 @@
           :collection="collection",
           :owned="owned",
           :search="search",
-          :forms="{form: form, edit: edit}"
+          :forms="{form: form, edit: edit}",
+          @sort="sort",
+          @search="applyFilter"
         )
-        div.view-no-results(
-          v-if="!collection.length"
-        ) No Results Found
-        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1")
+        div.view-no-results(v-if="!collection.length") No Results Found
+        Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1", @page="page")
 </template>
 <script>
 import _ from 'lodash'
+import api from '../../api'
+import swal from 'sweetalert'
 import Pagination from 'components/Global/Pagination'
 import TableList from 'components/ListTypes/TableList'
 import MultiSelectList from 'components/ListTypes/MultiSelectList'
 import CardList from 'components/ListTypes/CardList'
-import Auth from 'States/Auth'
 import CreateTypes from 'components/CreateTypes'
 import RouteHandling from 'Mixins/RouteHandling'
 
@@ -105,33 +99,26 @@ export default {
       view_types: [],
       create_type: undefined,
       update_type: undefined,
-      // @TODO: Owned is very specifict to a type of view. we need to clean up how the data is passed down to he view types.
+      // @TODO: Owned is very specifict to a type of view (MultiSelectList). we need to clean up how the data is passed down to he view types.
+      // true, this would be solved by moving single/multi (edit/list) states into vuex modules, every view would now what to expect in there -f
       owned: [],
       collection: {},
       search: {},
       sorters: {},
       loading: true,
       filter_results_toggle: false,
-      pagination: {current_page: 1, surrounded: 3},
-      can: Auth.abilities,
+      pagination: {current_page: 1, surrounded: 3, per_page: 25},
+      can: this.$store.getters.abilities,
       CreateTypes
     }
   },
   watch: {
-    'pagination.current_page' (nv, ov) {
-      // prevent double firing on creation
-      if (ov == null) {
-        return
-      }
-      this.update()
-    },
     '$route' (to, from) {
       this.search = {}
       if (to.path === from.path) {
         return
       }
       this.reset()
-      // we trigger an update only if page stays the same, otherwise we let pagination watcher fire the query
       if (this.pagination.current_page === 1) {
         this.update()
       } else {
@@ -161,9 +148,10 @@ export default {
     update () {
       let vm = this
       vm.loading = true
-      vm.$http.get('/api' + vm.$route.path, {
+      api.get('/api' + vm.$route.path, {
         params: {
           page: vm.pagination.current_page,
+          per_page: vm.pagination.per_page,
           search: vm.search,
           sorters: vm.sorters
         }
@@ -193,46 +181,24 @@ export default {
         })
     },
     remove (id) {
-      this.$swal({ title: 'Are you sure?', text: 'You will not be able to recover this', type: 'warning', showCancelButton: true, closeOnConfirm: false }, () => {
-        this.$http.delete('/api/' + this.$route.path.slice(1) + '/' + id)
+      swal({ title: 'Are you sure?', text: 'You will not be able to recover this', type: 'warning', showCancelButton: true, closeOnConfirm: false }, () => {
+        api.destroy('/api/' + this.$route.path.slice(1) + '/' + id)
           .then((response) => {
-            this.$swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
+            swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
               return this.update()
             })
           })
           .catch((response) => {
-            this.$swal('Error!', response.data.message, 'error')
+            swal('Error!', response.data.message, 'error')
           })
       })
     },
-    toggleEdit (field) {
-      if (this.edit.indexOf(field.id) > -1) {
-        delete this.search[field.name]
-        this.edit.splice(this.edit.indexOf(field.id), 1)
-        if (this.pagination.current_page > 1) {
-          this.pagination.current_page = 1
-        } else {
-          this.update()
-        }
-      } else {
-        this.edit.push(field.id)
-      }
+    sort (sorters) {
+      this.sorters = sorters
+      this.update()
     },
-    toggleSorter (field) {
-      if (!field.config.sortable) {
-        return
-      }
-      let sorter = this.sorters[field.name]
-      switch (sorter) {
-        case 'ASC':
-          this.$set(this.sorters, field.name, 'DESC')
-          break
-        case 'DESC':
-          this.$delete(this.sorters, field.name)
-          break
-        default:
-          this.$set(this.sorters, field.name, 'ASC')
-      }
+    page (page) {
+      this.pagination.current_page = page
       this.update()
     }
   }

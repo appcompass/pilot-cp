@@ -4,9 +4,10 @@ import _ from 'lodash'
 export default class Form {
   constructor () {
     this.form = {}
-    this.collection = {}
+    this.collection = []
     this.fields = {}
     this.resource = {}
+    this.endpoint = undefined
     this.errors = new Errors()
   }
 
@@ -14,11 +15,15 @@ export default class Form {
     this.collection = Object.assign({}, data)
   }
 
+  setEndpoint (endpoint) {
+    this.endpoint = endpoint
+  }
+
   init (formStructure, collection) {
     this.form = _.cloneDeep(formStructure)
     this.fields = _.cloneDeep(formStructure.fields)
     _.unset(this.form, 'fields')
-    this.collection = collection
+    this.collection = collection || Object.create({})
     return this
   }
 
@@ -109,6 +114,17 @@ export default class Form {
       return field
     })
     this.fields = fields
+  }
+
+  asKeyValue (item) {
+    if (!this.fields.length) {
+      return {}
+    }
+    let res = {}
+    this.fields.forEach((field) => {
+      res[field.name.split('.')[0]] = _.get(item, field.name, '')
+    })
+    return res
   }
 
 }

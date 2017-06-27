@@ -1,50 +1,27 @@
 <template lang="pug">
-  div.media-cards
-    div.media-card(v-for="(card, index) in collection")
-      //- v-if="card.abilities.includes('edit')",
-      //- @TODO: fix, repetative inside the link.
-      router-link.media-card-thumb(
-        v-if="card.abilities.includes('edit')",
-        :to="{name: $parent.getRouteName('show'), params: $parent.getRouteParams(card.id)}"
-      )
-        span.thumb-container
-          span.thumb-center
-            img(:src="card.card_photo")
-      a.media-card-thumb(
-        v-else
-      )
-        span.thumb-container
-          span.thumb-center
-            img(:src="card.card_photo")
-      ul.media-card-info
-        li(v-for="(field, index) in forms.form.fields")
-          span {{ field.label }}:
-          =" "
-          | {{ value(field.name, card) }}
-      div.media-card-actions
-        input.media-card-checkbox.left(type="checkbox")
-        //- @TODO: add delete ability permissions to resources on API.
-        //- v-if="card.abilities.includes('delete')",
-        a.media-card-delete.right(
-          @click="$parent.remove(card.id)"
-        )
-          span.icon-delete
-          | Delete
+div.media-cards
+  card.media-card(v-for="card, index in form.collection", :info="card", :key="card.id", :url="$route.fullPath + '/' + card.id", @select="select(card)")
 </template>
 
 <script>
-// @TODO: most of this is common between list view types, lets consolidate if possible?
 import _ from 'lodash'
+import Form from '../../Helpers/Form'
+import Card from '../Global/Card'
+
+let form = new Form()
 
 export default {
   name: 'CardList',
   props: [ 'forms', 'collection' ],
-  data () {
-    return {
-      _
-    }
+  components: { Card },
+  mounted () {
+    this.form.init(this.forms.form, this.collection)
   },
+  data: () =>  ({ form }),
   methods: {
+    select (item) {
+      this.$router.push(`${this.$route.fullPath}/${item.id}`)
+    },
     value (name, row) {
       return _.get(row, name)
     }

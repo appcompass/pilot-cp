@@ -12,7 +12,8 @@
           h2.nav-options-title Links
           a.btn-secondary.btn-small.nav-options-trigger(@click="createLink('create-link')") Add Link
         form.nav-options-form(
-          :class="{'is-active' : add_link_toggle }"
+          :class="{'is-active' : add_link_toggle }",
+          v-on:submit.prevent="storeLink"
         )
           FormBuilder(
             v-if="link_form",
@@ -32,19 +33,20 @@
       .nav-pages
         //- @TODO: This should be dynamic, i.e. the menu name.
         h2 {{menu_name}}
-        MenuElement(:menu="form.collection.menu", @deleted="deleted", :list_class="'nav-list'")
+        MenuElement(:menu="form.collection.menu", @deleted="deleted", :list_class="'nav-list'", :api_url="api_url")
         Sortable.nav-list-empty(v-if="!form.collection.menu.length", :list="form.collection.menu",  :options="{handle: 'li', animation: 50, group: {name: 'items', pull: true, put: true}}")
           | Drag items from the left into your menu.
 
 </template>
 
 <script>
-
-import Sortable from 'Helpers/VueSortable'
+import _ from 'lodash'
+import api from '../../api'
+import swal from 'sweetalert'
 import Form from 'Helpers/Form'
 import Utils from 'Helpers/Utils'
+import Sortable from 'Helpers/VueSortable'
 import MenuElement from 'components/FormFields/MenuElement'
-import _ from 'lodash'
 
 export default {
   components: {
@@ -57,16 +59,20 @@ export default {
     return {
       menu_name: undefined,
       link: {new_tab: false, clickable: false},
-      link_form: undefined,
+      link_form: new Form(),
+      api_url: undefined,
+      link_collection: undefined,
       add_link_toggle: false
     }
   },
   created () {
     this.menu_name = Utils.ucWords(this.data.title.replace(/_/g,' '))
+    this.api_url = '/api/websites/' + this.$route.params.websites + '/menus/'
   },
   methods: {
     add (item) {
-      this.form.collection.menu.push(_.clone(item, {}, true))
+      item.new = true
+      this.form.collection.menu.push(_.clone(item))
     },
     deleted (item) {
       // mark items for deletion
@@ -74,9 +80,9 @@ export default {
         this.form.collection.deletions.push(item.id)
       }
     },
-    storeLink (payload) {
+    storeLink () {
       // get a MenuItem instance from the backend
-      this.$http.post('/api/menus/', payload)
+      api.post(this.api_url + 'links', this.link_form.collection)
         .then((response) => {
           this.form.collection.repo.links.push(response.data.link)
           this.form.collection.menu.push(response.data.menuitem)
@@ -87,26 +93,26 @@ export default {
       // fetch desired item and pop up a modal
       // this.modal.active = true
       let vm = this
-      this.$http.get('/api/menus/forms/' + item)
+      api.get(this.api_url + 'forms/' + item)
         .then(function (response) {
-          vm.link_form = new Form().init(response.data)
+          vm.link_form.init(response.data)
         })
     },
     deleteLink (link) {
       // deletes a Link
-      this.$swal({
+      swal({
         title: 'Are you sure?',
         text: 'This will eliminate every instance of this widget from the website',
         type: 'warning',
-        showCancelButton: true,
-        closeOnConfirm: true
-      }, () => {
-        this.$http.delete('/api/menus/links/' + link.id)
+        showCancelButton: true
+      }).then(() => {
+        api.delete(this.api_url + 'links/' + link.id)
           .then(response => {
             this.form.collection.repo.links.splice(this.form.collection.repo.links.indexOf(link), 1)
-            this.$swal({title: 'Deleted', type: 'success', timer: 500, showConfirmButton: false})
+            this.form.collection.menu.splice(this.form.collection.menu.indexOf(link), 1)
+            swal({title: 'Deleted', type: 'success', timer: 1000, showConfirmButton: false})
           }, response => {
-            this.$swal({title: 'Error', text: 'Errors while deleting widget', type: 'error'})
+            swal({title: 'Error', text: 'Errors while deleting widget', type: 'error'})
           })
       })
     }

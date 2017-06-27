@@ -17,11 +17,9 @@
 <script>
 import Modal from 'Helpers/Modal'
 import * as Components from './../Components'
-import FormBuilder from './../FormBuilder'
 
 export default {
   name: 'ModalComponent',
-  components: { FormBuilder },
   data () {
     return {
       data: {},

@@ -119,11 +119,11 @@ $page-layout-gutter: 10px !default;
 	font-size:em(14px);
 }
 
-.sidebar-page-layout-item {	
+.sidebar-page-layout-item {
 	border-style:dashed;
 }
 
-.sidebar-page-section-item {	
+.sidebar-page-section-item {
 	background-color:$secondary-neutral-color;
 }
 
@@ -264,17 +264,27 @@ $page-layout-gutter: 10px !default;
 	display:block;
 }
 
-.show-layout-ui .page-layout-header .icon {
-	position:absolute;
-	top:50%;
-	margin-top:-8px;
-	right:10px;
+.show-layout-ui .page-layout-header .page-layout-actions {
+  position:absolute;
+  top:50%;
+  margin-top:-8px;
+  right:10px;
+}
+
+.show-layout-ui .page-layout-header .icon, .page-section-header .icon {
+  margin-left:10px;
+  color:$tertiary-text-color;
+  cursor:pointer;
+  display:inline-block;
+  &:hover {
+    color:$secondary-color;
+  }
 	color:$primary-neutral-color;
 	cursor:pointer;
 	transition:transform 0.15s ease;
 }
 
-.show-layout-ui .page-layout.is-closed .page-layout-header .icon {
+.show-layout-ui .page-layout.is-closed .page-layout-header .icon-box-down {
 	transform:rotate(180deg);
 }
 
@@ -295,6 +305,13 @@ $page-layout-gutter: 10px !default;
 	position:relative;
 	cursor:pointer;
 	overflow:hidden;
+}
+
+.page-section-header .page-section-actions {
+  position:absolute;
+  top:50%;
+  margin-top:-8px;
+  right:10px;
 }
 
 .show-layout-ui .page-section {

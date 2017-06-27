@@ -28,6 +28,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-layouts:before {
+  content: "\e91c";
+}
 .icon-plus:before {
   content: "\e91b";
 }
