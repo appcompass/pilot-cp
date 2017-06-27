@@ -3,7 +3,7 @@ import store from '../store'
 import swal from 'sweetalert'
 
 const http = axios.create({
-  timeout: 6000
+  // timeout: 6000 // some operations may take longer than 6 seconds. Especially when dealing with client specific environments.
 })
 
 http.interceptors.response.use(response => {
