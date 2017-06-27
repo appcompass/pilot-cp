@@ -1,10 +1,11 @@
 /* global localStorage */
 <template lang="pug">
-form.upload-drop(@input='set') Drop files here to uploads.
+.upload-drop(@input='set') Drop files here to upload.
 </template>
 
 <script>
 import Dropzone from 'dropzone'
+import swal from 'sweetalert'
 
 export default {
   name: 'Dropzone',
@@ -23,24 +24,21 @@ export default {
       addRemoveLinks: false,
       parallelUploads: 10,
       headers: {
-        'Authorization': window.localStorage.getItem('auth_token')
+        'Authorization': this.$store.getters.token
       },
       addedfile: () => {
         if (!this.disk) {
-          // this.removeAllFiles()
-          // vm.$swal('Error', 'Disk instance not selected', 'error')
+          swal('Error', 'Disk instance not selected', 'error')
         }
       },
-      sending (something, xhr, formData) {
+      sending: (something, xhr, formData) => {
         formData.append('disk', this.disk)
       },
       success: (file, response) => {
         this.$emit('input', { pointer: null, value: response.model })
-        // this.$swal('Ok', 'Image(s) uploaded', 'success')
-        this.dropzone.removeFile(file)
       },
       error: (file, errorMessage, xhr) => {
-        // this.$swal('Error', errorMessage.error || 'Failed while uploading the image(s)', 'error')
+        swal('Error', errorMessage.error || 'Failed while uploading the image(s)', 'error')
       }
     })
   },
@@ -57,3 +55,4 @@ export default {
   }
 }
 </script>
+

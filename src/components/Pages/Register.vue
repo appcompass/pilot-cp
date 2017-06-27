@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import auth from 'States/Auth'
+// import auth from 'States/Auth'
 // @TODO: Use FormBuilder for above since we don't know the any new fields that will
 // be needed in any given implementation.
 export default {
@@ -37,9 +37,10 @@ export default {
     }
   },
   methods: {
-    register () {
-      auth.register(this, this.form)
-    }
+    // @TODO
+    // register () {
+    //   auth.register(this, this.form)
+    // }
   }
 }
 </script>

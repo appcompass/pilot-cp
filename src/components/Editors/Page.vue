@@ -1,6 +1,6 @@
 <template lang="pug">
 Sortable(:list="elements", :element="'div'", :options="{group: 'items', animation: 300}")
-  div(v-for="(element, index) in elements", :key="index", :is="element.type + 'Element'", :element="element", @formData="formData")
+  div(v-for="(element, index) in elements", :key="index", :is="element.type + 'Element'", :element="element", :index="index", @formData="formData", @remove="remove")
 </template>
 
 <script>
@@ -10,11 +10,14 @@ import sectionElement from 'components/PageBuilder/Section'
 
 export default {
   name: 'PageBuilder',
-  props: [ 'elements' ],
+  props: ['elements'],
   components: { Sortable, containerElement, sectionElement },
   methods: {
     formData (formData) {
       this.$emit('formData', formData)
+    },
+    remove (data) {
+      this.$emit('remove', data)
     }
   }
 }

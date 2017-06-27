@@ -1,7 +1,11 @@
 <template lang="pug">
-div
-  h1 DropdownSearch
-  v-select(:label="'name'", :options="source", :placeholder="field.placeholder", :value.sync="data", :multiple="field.config.multiple", @input="change")
+v-select(
+  @input="change",
+  :label="'name'",
+  :options="source",
+  :value.sync="data",
+  :placeholder="field.placeholder",
+  :multiple="field.config.multiple")
 </template>
 
 <script>

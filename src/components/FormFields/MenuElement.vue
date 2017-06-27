@@ -1,5 +1,5 @@
 <template lang="pug">
-  Sortable(:list="menu", :element="'ul'", :options="options", :class="'nav-list'")
+  Sortable(:list="menu", :element="'ul'", :options="options", :class="'nav-list'", :style="{marginTop: child ? '10px' : '0'}")
     li(
       v-if="menu.length > 0"
       v-for="(item, index) in menu",
@@ -26,25 +26,26 @@
             )
               span.icon-delete
               |  Delete
-      MenuElement(v-if="item.children.length && !item.isCollapsed", :menu="item.children", @deleted="deleted")
-      Sortable(v-if="!item.children.length", :element="'ul'", :list="item.children",  :options="options")
+      MenuElement(v-if="item.children.length && !item.isCollapsed", :menu="item.children", @deleted="deleted", :api_url="api_url", :child="true")
+      Sortable(v-if="!item.children.length", :element="'ul'", :list="item.children",  :options="options", :class="'nav-list'")
         li
-          .nav-list-empty(style="margin-bottom: 10px;")
+          .nav-list-empty
     li(v-else)
       .nav-list-empty(style="margin-bottom: 10px;") Drag items from the left into your menu.
 </template>
 
 <script>
-import Sortable from 'Helpers/VueSortable'
+import api from '../../api'
 import Form from 'Helpers/Form'
 import Modal from 'Helpers/Modal'
-//
+import Sortable from 'Helpers/VueSortable'
+
 export default {
   name: 'MenuElement',
   components: {
     Sortable
   },
-  props: ['menu'],
+  props: ['menu', 'api_url', 'child'],
   data () {
     return {
       endpoint: null,
@@ -88,7 +89,7 @@ export default {
               break
           }
         }
-        vm.$http.get('/api/menus/forms/' + vm.endpoint)
+        api.get(this.api_url + '/forms/' + vm.endpoint)
           .then((response) => {
             vm.$set(item, 'form', new Form().init(response.data, item))
           })

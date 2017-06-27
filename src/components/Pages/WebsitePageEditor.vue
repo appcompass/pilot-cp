@@ -12,8 +12,7 @@ div
     .sidebar.sidebar-page-content(:class="{'is-active': checkEditor('Content')}")
       form.page-content-edit
         .page-section-edit(v-for="(row, index) in content", :key="row.id", :class="{'is-closed': row.isClosed}")
-          .page-section-edit-header
-            | {{ row.name }}
+          .page-section-edit-header {{ row.name }}
             span.icon.icon-box-down(@click="toggleForm(row)")
           .page-section-edit-content
             FormBuilder(:form="row.form")
@@ -43,12 +42,13 @@ div
           .xsmall-12.columns
             h2.page-builder-title {{ page.title }}
         .page-builder(:class="{'show-layout-ui': checkEditor('Layout'), 'hide-layout-ui': !checkEditor('Layout')}", v-if="layout.length")
-          PageBuilder(:elements="layout", @formData="formData")
+          PageBuilder(:elements="layout", @formData="formData", @remove="remove")
   Modal
 </template>
 
 <script>
 import _ from 'lodash'
+import api from '../../api'
 import Form from 'Helpers/Form'
 import Sortable from 'Helpers/VueSortable'
 import Modal from 'components/Global/Modal'
@@ -63,6 +63,7 @@ export default {
       active_editor: '',
       page: new Form(),
       layout: [],
+      deletions: [],
       content: [],
       containers: [],
       sections: [],
@@ -80,6 +81,25 @@ export default {
   methods: {
     formData (formData) {
       this.content.push(formData)
+    },
+    remove (keys) {
+      // _.unset doesn't work with vue data objects :(
+      this.deepClean(this.layout, keys)
+    },
+    deepClean (obj, keys) {
+      if (keys.length === 0) return
+
+      let currkey = keys[0]
+
+      if (keys.length === 1) {
+        if (obj[currkey].id) {
+          this.deletions.push(obj[currkey].id)
+        }
+        obj.splice(currkey, 1)
+      } else {
+        keys.splice(0, 1)
+        this.deepClean(obj[currkey], keys)
+      }
     },
     setForm (structure, data) {
       return this.settings.init(structure, data)
@@ -122,12 +142,12 @@ export default {
       })
     },
     fetch (list) {
-      return this.$http.get('/api' + this.$route.fullPath + '/' + list)
+      return api.get('/api' + this.$route.fullPath + '/' + list)
     },
     save () {
-      return this.$http.put('/api' + this.$route.fullPath, {
+      return api.put('/api' + this.$route.fullPath, {
         layout: this.layout,
-        deletions: [],
+        deletions: this.deletions,
         page: this.page.collection
       }).then(response => {
         console.log(response)

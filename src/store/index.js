@@ -4,13 +4,10 @@ import modules from './modules'
 import * as actions from './actions'
 import * as getters from './getters'
 
-import FormBuilder from 'components/FormBuilder'
-Vue.component('FormBuilder', FormBuilder)
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  modules: modules,
+  modules,
   getters,
   actions
 })

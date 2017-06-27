@@ -1,47 +1,36 @@
 <template lang="pug">
-  div.pagination(v-if="p.last_page")
+  div.pagination(v-if="pagination.last_page")
     ul
       li.prev(
-        :class="{'is-disabled': p.current_page === 1}",
+        :class="{'is-disabled': pagination.current_page === 1}",
         @click="turn(-1)",
         :disabled="disabled"
       )
         a
           span.icon-arrow-back
 
-      li(
-        :class="{'is-active': p.current_page === 1}",
-        @click.prevent="goto(1)"
-      )
-        a(
-        ) 1
+      li(:class="{'is-active': pagination.current_page === 1}", @click.prevent="goto(1)")
+        a() 1
 
-      li(
-        v-if="p.current_page >= 6"
-      ) ...
-
+      li(v-if="pagination.current_page >= 6") ...
       li(
         v-for="page in pages",
-        v-if="page !== 1 && page !== p.last_page && page > p.current_page-4 && page < p.current_page+4",
-        :class="{'is-active': p.current_page === page}",
+        v-if="page !== 1 && page !== pagination.last_page && page > pagination.current_page-4 && page < pagination.current_page+4",
+        :class="{'is-active': pagination.current_page === page}",
         @click.prevent="goto(page)"
       )
-        a(
-        ) {{ page }}
+        a() {{ page }}
+
+      li(v-if="pagination.current_page <= pagination.last_page-5") ...
 
       li(
-        v-if="p.current_page <= p.last_page-5"
-      ) ...
-
-      li(
-        :class="{'is-active': p.current_page === p.last_page}",
-        @click.prevent="goto(p.last_page)"
+        :class="{'is-active': pagination.current_page === pagination.last_page}",
+        @click.prevent="goto(pagination.last_page)"
       )
-        a(
-        ) {{ p.last_page }}
+        a() {{ pagination.last_page }}
 
       li.next(
-        :class="{'is-disabled': p.last_page === p.current_page}",
+        :class="{'is-disabled': pagination.last_page === pagination.current_page}",
         @click.prevent="turn(1)",
         :disabled="disabled"
       )
@@ -55,19 +44,25 @@ import _ from 'lodash'
 export default {
   name: 'pagination',
   props: ['p', 'disabled'],
+  data: () => ({pagination: {}}),
   computed: {
     pages () {
-      return _.range(1, this.p.last_page + 1)
+      return _.range(1, this.pagination.last_page + 1)
     }
+  },
+  mounted () {
+    this.pagination = this.p
   },
   methods: {
     turn (amt) {
-      if (this.p.current_page + amt > 0 && this.p.current_page + amt <= this.p.last_page) {
-        this.p.current_page += amt
+      if (this.pagination.current_page + amt > 0 && this.pagination.current_page + amt <= this.pagination.last_page) {
+        this.pagination.current_page += amt
       }
+      this.$emit('page', this.pagination.current_page)
     },
     goto (page) {
-      this.p.current_page = page
+      this.pagination.current_page = page
+      this.$emit('page', this.pagination.current_page)
     }
   }
 }

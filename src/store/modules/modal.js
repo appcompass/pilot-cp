@@ -1,46 +1,56 @@
-// import _ from 'lodash'
+import _ from 'lodash'
 
 const state = {
   visible: false,
   model: {},
   config: {
+    data: undefined,
     type: undefined,
-    css: undefined
+    css: undefined,
+    canClose: true
   }
 }
 
 const getters = {
-  visible: () => state.visible
+  data: state => state.data,
+  visible: state => state.visible
 }
 
 const actions = {
   'modal.show' ({commit, state}, config) {
-    if (config.cb) {
-      state.config.cb = config.cb
-    }
-    state.config.type = config.type
-    state.config.css = config.css
-    state.visible = true
-    commit('visibility')
+    commit('CONFIG', config)
+    commit('VISIBILITY', true)
   },
   'modal.hide' ({commit, state}) {
-    state.visible = false
-    commit('visibility')
-    return true
+    return commit('VISIBILITY', false)
   },
   'modal.done' ({commit, state}, model) {
-    state.visible = false
-    state.model = model
+    let config = _.cloneDeep(state.config)
+    config.canClose = true
+    commit('CONFIG', config)
+    commit('MODEL', model)
+    commit('VISIBILITY', false)
     if (state.config.cb) {
       state.config.cb(state.model)
+      state.config.cb = undefined
     }
-    commit('visibility')
   }
 }
 
 const mutations = {
-  visibility (state) {
-    // do stuff if ya need
+  CONFIG (state, config) {
+    // state.config = config
+    state.config = Object.assign(state.config, config)
+  },
+  VISIBILITY (state, visible) {
+    if (!state.config.canClose && visible === false) {
+      return false
+    }
+    state.visible = visible
+    return true
+  },
+  MODEL (state, model) {
+    state.model = model
   }
 }
 

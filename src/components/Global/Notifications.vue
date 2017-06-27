@@ -1,6 +1,6 @@
 <template lang="pug">
   div.notifications-panel(
-    v-if="notifications && auth.user.authenticated",
+    v-if="notifications && authenticated",
     :class="{'is-active': notifications.is_open}"
   )
     div.notifications-header
@@ -34,15 +34,13 @@
 </template>
 
 <script>
-import auth from 'States/Auth'
 import NotificationsState from 'States/Notifications.js'
 
 export default {
   name: 'Notifications',
   data () {
     return {
-      notifications: NotificationsState,
-      auth: auth
+      notifications: NotificationsState
     }
   },
   methods: {
@@ -54,7 +52,9 @@ export default {
     }
   },
   computed: {
-
+    authenticated () {
+      return this.$store.getters.authenticated
+    }
   },
   mounted () {
     this.init()
