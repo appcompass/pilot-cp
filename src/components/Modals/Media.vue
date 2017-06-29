@@ -5,7 +5,7 @@
     span.add-media-header-close(@click="$emit('close')")
       span.icon-cancel
   .add-media-content
-    Gallery(:route="'/api/galleries/2/photos'", @select="select", :config="{upload: true}")
+    Gallery(:route="'/api/galleries/36/photos'", @select="select", :config="{upload: true}")
 </template>
 
 <script>

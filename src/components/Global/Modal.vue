@@ -1,5 +1,5 @@
 <template lang="pug">
-div(:is="Modals.default[config.type]", @close="close", v-if="visible")
+div(:is="Modals[config.type]", @close="close", v-if="visible")
 </template>
 
 <script>
@@ -23,6 +23,7 @@ export default {
   },
   watch: {
     visible (nv) {
+      console.log('Modal Visibility: ' + nv)
       if (nv) {
         this.modal = new tingle.modal({
           cssClass: [this.config.css],
@@ -40,11 +41,11 @@ export default {
   },
   computed: {
     visible () {
-      return false
-      // return this.$store.state.modal.visible
+      // return false
+      return this.$store.state.modal.visible
     },
     config () {
-      // return this.$store.state.modal.config
+      return this.$store.state.modal.config
     }
   }
 }
