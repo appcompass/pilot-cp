@@ -13,6 +13,8 @@ div(v-else)
 export default {
   name: 'File',
   props: ['pointer', 'data', 'label', 'field'],
+  mounted () {
+  },
   methods: {
     selectMedia () {
       this.$store.dispatch('modal.show', {type: 'Media', css: 'add-media-modal', canClose: true, cb: this.set})
