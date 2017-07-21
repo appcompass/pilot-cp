@@ -1,8 +1,9 @@
 /* global localStorage: false */
 import Vue from 'vue'
 import Router from 'vue-router'
-import axios from 'axios'
+// import axios from 'axios'
 import _ from 'lodash'
+import api from './api'
 
 import Layouts from 'components/Layouts'
 import Pages from 'components/Pages'
@@ -88,7 +89,7 @@ router.beforeEach((to, from, next) => {
 
 // @TODO: we need to prevent any routing attempts until after the api request.
 // i.e. a loading screen on every initial hard load or something.
-axios.get('/api/routes')
+api.get('/api/routes')
   .then((response) => {
     let routes = response.data.routes
     processRoutes(routes)
