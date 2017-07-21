@@ -25,14 +25,13 @@ export function CHECK_AUTH ({commit, state, rootState, dispatch}, cb) {
   let token = localStorage.getItem('token')
   // @TODO ??? vvv some assignemnt must be off
   if (token === 'null' || token === null) {
-    console.log('here')
     return router.push('/login')
   }
   dispatch('TOKEN', token)
-  dispatch('LOGGED')
   return new Promise((resolve, reject) => {
     api.get('/api/auth/user')
       .then(response => {
+        dispatch('LOGGED')
         commit('LOGIN', true)
         commit('USER', response.data)
         return resolve(true)

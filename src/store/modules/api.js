@@ -5,7 +5,7 @@ const state = {
   token: undefined,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
-    'Authorization': undefined,
+    'Authorization': localStorage.getItem('token') || undefined,
     'X-Csrf-Token': undefined
   }
 }
