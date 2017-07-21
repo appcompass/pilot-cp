@@ -1,8 +1,14 @@
+/* global localStorage: false */
 import axios from 'axios'
 import store from '../store'
 import swal from 'sweetalert'
 
 const http = axios.create({
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest',
+    'Authorization': localStorage.getItem('token') || undefined,
+    'X-Csrf-Token': undefined
+  }
   // timeout: 6000 // some operations may take longer than 6 seconds. Especially when dealing with client specific environments.
 })
 
