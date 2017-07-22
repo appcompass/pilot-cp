@@ -47,7 +47,48 @@ const router = new Router({
   scrollBehavior: () => ({ y: 0 }),
   // linkActiveClass: 'is-active',
   routes: [
-    {path: '', redirect: '/dashboard'}
+    {
+      path: '',
+      redirect: '/dashboard'
+    },
+    {
+      path: '',
+      component: 'Public',
+      children: [
+        {
+          path: '/login',
+          name: 'login',
+          meta: {
+            title: 'Login'
+          },
+          component: 'Login'
+        },
+        {
+          path: '/register',
+          name: 'register',
+          meta: {
+            title: 'Register'
+          },
+          component: 'Register'
+        },
+        {
+          path: '/request-password-reset',
+          name: 'request-password-reset',
+          meta: {
+            title: 'Request Password Reset'
+          },
+          component: 'PasswordEmail'
+        },
+        {
+          path: '/reset-password/:reset_password',
+          name: 'reset-password',
+          meta: {
+            title: 'Reset Password'
+          },
+          component: 'PasswordReset'
+        }
+      ]
+    }
   ]
 })
 
