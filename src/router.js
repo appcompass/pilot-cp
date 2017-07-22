@@ -53,7 +53,7 @@ const router = new Router({
     },
     {
       path: '',
-      component: 'Public',
+      component: Layouts['Public'],
       children: [
         {
           path: '/login',
@@ -61,7 +61,7 @@ const router = new Router({
           meta: {
             title: 'Login'
           },
-          component: 'Login'
+          component: Pages['Login']
         },
         {
           path: '/register',
@@ -69,7 +69,7 @@ const router = new Router({
           meta: {
             title: 'Register'
           },
-          component: 'Register'
+          component: Pages['Register']
         },
         {
           path: '/request-password-reset',
@@ -77,7 +77,7 @@ const router = new Router({
           meta: {
             title: 'Request Password Reset'
           },
-          component: 'PasswordEmail'
+          component: Pages['PasswordEmail']
         },
         {
           path: '/reset-password/:reset_password',
@@ -85,7 +85,7 @@ const router = new Router({
           meta: {
             title: 'Reset Password'
           },
-          component: 'PasswordReset'
+          component: Pages['PasswordReset']
         }
       ]
     }
