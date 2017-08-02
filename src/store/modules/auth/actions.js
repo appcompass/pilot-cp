@@ -10,6 +10,7 @@ export function ATTEMPT ({commit, state, dispatch}, credentials) {
         let token = `${response.data.token_type} ${response.data.access_token}`
         commit('LOGIN', true)
         dispatch('TOKEN', token)
+        // dispatch('INIT_ROUTER') // @TODO: we need to re-fire router fetching after login, otherwise the user will continue to see guest navigation pending a hard refresh.
         commit('USER', response.data.user)
         dispatch('LOGGED')
         return resolve(true)
