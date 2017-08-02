@@ -9,6 +9,8 @@ export default {
   name: 'app',
   mounted () {
     this.$store.dispatch('CHECK_AUTH')
+      .then(() => {})
+      .catch((e) => console.error('Needs to login'))
   }
 }
 

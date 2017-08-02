@@ -8,6 +8,8 @@ import directives from './directives'
 import { sync } from 'vuex-router-sync'
 import '../templates/assets/sass/app.scss'
 
+// LockScreen is loaded per-view (Private.vue)
+
 Vue.component('FormBuilder', FormBuilder)
 
 Vue.config.silent = true

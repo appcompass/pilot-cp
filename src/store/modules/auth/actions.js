@@ -3,14 +3,13 @@ import router from 'src/router'
 import api from '../../../api'
 
 export function ATTEMPT ({commit, state, dispatch}, credentials) {
-  commit('ATTEMPT', credentials)
   return new Promise((resolve, reject) => {
+    commit('ATTEMPT', credentials)
     api.post('/api/auth/login', state.attempt)
       .then((response) => {
         let token = `${response.data.token_type} ${response.data.access_token}`
-        commit('LOGIN', true)
         dispatch('TOKEN', token)
-        // dispatch('INIT_ROUTER') // @TODO: we need to re-fire router fetching after login, otherwise the user will continue to see guest navigation pending a hard refresh.
+        commit('LOGIN', true)
         commit('USER', response.data.user)
         dispatch('LOGGED')
         return resolve(true)
@@ -22,23 +21,24 @@ export function ATTEMPT ({commit, state, dispatch}, credentials) {
   })
 }
 
-export function CHECK_AUTH ({commit, state, rootState, dispatch}, cb) {
-  let token = localStorage.getItem('token')
-  // @TODO ??? vvv some assignemnt must be off
-  if (token === 'null' || token === null) {
-    return router.push('/login')
-  }
-  dispatch('TOKEN', token)
+export function CHECK_AUTH ({commit, state, dispatch}, cb) {
   return new Promise((resolve, reject) => {
+    if (!localStorage.hasOwnProperty('token')) {
+      commit('LOGIN', false)
+      router.push('/login')
+      return reject(new Error('Unauthorized'))
+    } else {
+      dispatch('TOKEN', localStorage.getItem('token'))
+    }
     api.get('/api/auth/user')
       .then(response => {
-        dispatch('LOGGED')
         commit('LOGIN', true)
         commit('USER', response.data)
+        dispatch('LOGGED')
         return resolve(true)
       }, response => {
         router.push('/login')
-        return resolve(true)
+        return resolve(false)
       })
   })
 }
