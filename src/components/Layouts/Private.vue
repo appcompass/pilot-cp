@@ -36,7 +36,7 @@ export default {
         type: 'LockScreen',
         css: 'lock-screen-modal-container',
         canClose: false
-      }), 50000)
+      }), 60 * 5 * 1000) // 5 minutes lock
     })
   },
   components: {

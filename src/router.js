@@ -3,7 +3,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import axios from 'axios'
 import _ from 'lodash'
-import api from './api'
 
 import Layouts from 'components/Layouts'
 import Pages from 'components/Pages'
@@ -41,7 +40,6 @@ function processRoutes (obj) {
 
 // // variable used to track if we've called the router api end point yet.
 // let callCheck = false
-
 const router = new Router({
   mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
@@ -115,6 +113,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // @TODO: instead of just relying on the token, switch to using store/local storage 'authenticated' value
+    // why? -f
     if (!localStorage.getItem('token')) {
       next({
         path: '/login',
@@ -128,13 +127,5 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-// @TODO: we need to prevent any routing attempts until after the api request.
-// i.e. a loading screen on every initial hard load or something.
-api.get('/api/routes')
-  .then((response) => {
-    let routes = response.data.routes
-    processRoutes(routes)
-    router.addRoutes(routes)
-  })
-
 export default router
+export { processRoutes }
