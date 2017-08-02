@@ -1,10 +1,9 @@
 <template lang="pug">
 v-select(
   @input="change",
-  :label="'name'",
-  :options="source",
+  :options="field.source",
   :value.sync="data",
-  :placeholder="field.placeholder",
+  :placeholder="field.config.placeholder",
   :multiple="field.config.multiple")
 </template>
 
@@ -20,8 +19,18 @@ export default {
   props: ['field', 'data', 'errors', 'source', 'label'],
   methods: {
     change (e) {
-      this.$emit('input', {pointer: this.field.name, value: e.id})
+      console.log(e)
+      this.$emit('input', {pointer: this.field.name, value: e})
     }
   }
 }
 </script>
+<style>
+  .v-select {
+    font-family:inherit;
+  }
+  .v-select .selected-tag {
+    height:auto;
+    margin:4px 1px 4px 3px;
+  }
+</style>
