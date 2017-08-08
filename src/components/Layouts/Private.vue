@@ -30,14 +30,14 @@ export default {
     lockTimeout: undefined
   }),
   mounted () {
-    this.$el.addEventListener('mousemove', () => {
-      clearTimeout(this.lockTimeout)
-      this.lockTimeout = setTimeout(() => this.$store.dispatch('modal.show', {
-        type: 'LockScreen',
-        css: 'lock-screen-modal-container',
-        canClose: false
-      }), 60 * 5 * 1000) // 5 minutes lock
-    })
+    // this.$el.addEventListener('mousemove', () => {
+    //   clearTimeout(this.lockTimeout)
+    //   this.lockTimeout = setTimeout(() => this.$store.dispatch('modal.show', {
+    //     type: 'LockScreen',
+    //     css: 'lock-screen-modal-container',
+    //     canClose: false
+    //   }), 60 * 5 * 1000) // 5 minutes lock
+    // })
   },
   components: {
     SiteHeader,
