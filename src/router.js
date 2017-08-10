@@ -62,6 +62,16 @@ const router = new Router({
           component: Pages['Login']
         },
         {
+          path: '/logout',
+          name: 'logout',
+          component: {
+            mounted () {
+              this.$store.dispatch('LOGOUT')
+              this.$router.push({name: 'login'})
+            }
+          }
+        },
+        {
           path: '/register',
           name: 'register',
           meta: {
