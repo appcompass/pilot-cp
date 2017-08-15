@@ -39,7 +39,7 @@ const actions = {
   },
 
   INIT_NAVIGATION ({commit, state}) {
-    api.get('/api/content/menus')
+    api.get('/api/menus')
       .then(response => {
         commit('NAVIGATION', response.data)
       })
