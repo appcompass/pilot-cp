@@ -7,10 +7,10 @@ export function ATTEMPT ({commit, state, dispatch}, credentials) {
     commit('ATTEMPT', credentials)
     api.post('/api/auth/login', state.attempt)
       .then((response) => {
-        let token = `${response.data.token_type} ${response.data.access_token}`
+        let token = `${response.data.data.token_type} ${response.data.data.access_token}`
         dispatch('TOKEN', token)
         commit('LOGIN', true)
-        commit('USER', response.data.user)
+        commit('USER', response.data.data.user)
         dispatch('LOGGED')
         return resolve(true)
       })
@@ -33,7 +33,7 @@ export function CHECK_AUTH ({commit, state, dispatch}, cb) {
     api.get('/api/auth/user')
       .then(response => {
         commit('LOGIN', true)
-        commit('USER', response.data)
+        commit('USER', response.data.data)
         dispatch('LOGGED')
         return resolve(true)
       }, response => {
