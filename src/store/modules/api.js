@@ -18,9 +18,9 @@ const getters = {
 const actions = {
   TOKEN ({commit, state, dispatch}, token) {
     commit('TOKEN', token)
-    dispatch('FETCH_CSRF')
-    dispatch('ADD_HEADER', {key: 'X-Requested-With', value: 'XMLHttpRequest'})
     dispatch('ADD_HEADER', {key: 'Authorization', value: token})
+    localStorage.setItem('token', token)
+    dispatch('FETCH_CSRF')
   },
 
   FETCH_CSRF ({commit, dispatch}) {
@@ -41,9 +41,8 @@ const actions = {
 
 const mutations = {
   TOKEN (state, token) {
-    localStorage.setItem('token', token)
-    state.token = token
-    api.http.defaults.headers.common['Authorization'] = 'Bearer ' + token
+    state.headers.Authorization = `${token}`
+    api.http.defaults.headers.common.Authorization = token
   },
 
   LOGOUT (state) {
