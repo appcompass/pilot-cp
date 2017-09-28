@@ -1,10 +1,11 @@
+/* global localStorage: false */
 import axios from 'axios'
 import store from '../store'
 import swal from 'sweetalert'
 
-const http = axios.create({
-  timeout: 6000
-})
+localStorage.hasOwnProperty('token')
+
+const http = axios.create()
 
 http.interceptors.response.use(response => {
   if (response.headers['Authorization']) {
@@ -21,7 +22,9 @@ http.interceptors.response.use(response => {
 })
 
 const api = {
-  get: (path, params) => http.get(path, params),
+  get: (path, params) => {
+    return http.get(path, params)
+  },
   post: (path, params) => http.post(path, params),
   put: (path, params) => http.put(path, params),
   destroy: (path, params) => http.delete(path, {params: params}),

@@ -9,11 +9,11 @@
             span.icon-search.table-column-search-trigger(v-if="field.config.searchable", @click="toggleEdit(field, index)")
             span(@click="toggleSorter(field)", :class="{'table-sort': field.config.sortable, 'is-active': $parent.sorters[field.name], 'is-reverse': $parent.sorters[field.name] === 'ASC'}") {{ field.label }}
               span.arrow-down
-            form.table-column-search(:class="{'is-active': edit.indexOf(field.id) > -1}")
+            form.table-column-search(:class="{'is-active': edit.indexOf(field.id) > -1}", @submit.prevent="")
               div.search-input
                 span.icon-search
-                input(type="search", v-model="search[field.name]", :placeholder="field.label", @keyup="$emit('search', search)", ref="field")
-                span.icon-cancel(@click="toggleEdit(field)")
+                input(v-if="edit.indexOf(field.id) > -1", type="search", v-model="search[field.name]", :placeholder="field.label", @keyup="$emit('search', search)", ref="field")
+                span.icon-cancel(@click="toggleEdit(field, index)")
       tbody(v-if="collection.length")
         tr(v-for="row in collection")
           td
@@ -52,11 +52,9 @@ import RouteHandling from 'Mixins/RouteHandling'
 export default {
   name: 'TableList',
   mixins: [RouteHandling],
-  props: [ 'forms', 'collection', 'search' ],
+  props: [ 'forms', 'collection', 'search', 'sorters', 'edit' ],
   data () {
     return {
-      sorters: {},
-      edit: [],
       _
     }
   },
@@ -89,7 +87,7 @@ export default {
       } else {
         this.edit.push(field.id)
         if (index) {
-          this.$refs.field[index].focus()
+          // this.$refs.field[index].focus()
           setTimeout(() => {
             this.$refs.field[index].focus()
           }, 400)

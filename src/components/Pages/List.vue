@@ -64,14 +64,15 @@
         section(
           v-if="list_layout && list_layout + 'List'",
           :is="list_layout + 'List'",
-          :sorters="sorters",
           :loading="loading",
+          :search="search",
+          :sorters="sorters",
+          :edit="edit",
           :collection="collection",
           :owned="owned",
-          :search="search",
           :forms="{form: form, edit: edit}",
           @sort="sort",
-          @search="applyFilter"
+          @search="doSearch"
         )
         div.view-no-results(v-if="!collection.length") No Results Found
         Pagination(:p="pagination", :disabled="loading", v-if="pagination.last_page > 1", @page="page")
@@ -174,10 +175,10 @@ export default {
           Object.freeze(vm.can)
         }, (response) => {
           vm.loading = false
-          if (!Auth.user.authenticated) {
-            return
-          }
-          // vm.$swal('Error!', response.data.errors, 'error')
+          // if (!Auth.user.authenticated) {
+            // return
+          // }
+          swal('Error!', response.data.errors, 'error')
         })
     },
     remove (id) {
@@ -196,6 +197,10 @@ export default {
     sort (sorters) {
       this.sorters = sorters
       this.update()
+    },
+    doSearch (search) {
+      this.search = search
+      this.applyFilter()
     },
     page (page) {
       this.pagination.current_page = page

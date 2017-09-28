@@ -18,6 +18,7 @@ const getters = {
 
 const actions = {
   'modal.show' ({commit, state}, config) {
+    console.log('here')
     commit('CONFIG', config)
     commit('VISIBILITY', true)
   },

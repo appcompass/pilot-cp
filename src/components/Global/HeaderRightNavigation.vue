@@ -24,31 +24,15 @@
 </template>
 
 <script>
-// import auth from 'States/Auth'
 import NotificationsState from 'States/Notifications.js'
 
 export default {
   name: 'HeadeRightNavigation',
   data () {
     return {
-      // auth: auth,
-      // user_id: undefined,
       notifications: NotificationsState
     }
   },
-  methods: {
-    // logout () {
-      // this.$store.dispatch('LOGOUT')
-      // auth.logout()
-    // }
-  },
-  // watch: {
-  //   'auth.user.profile' (profile) {
-  //     if (profile) {
-  //       this.user_id = profile.id
-  //     }
-  //   }
-  // },
   computed: {
     user_id () {
       return this.$store.getters.user.id
