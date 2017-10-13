@@ -51,10 +51,10 @@ export default {
           this.form = undefined
           return
         }
-        this.pagination = _.omit(response.data.collection, ['data'])
+        this.pagination = response.data.pagination
         // this.can.set(response.data.abilities)
-        // this.collection = response.data.collection.data
-        // Object.assign(this, _.omit(response.data, ['collection', 'abilities']))
+        // this.collection = response.data.data
+        // Object.assign(this, _.omit(response.data, ['data', 'abilities']))
         this.form.init(response.data.form)
         this.owned = response.data.owned
         this.parameters = response.data.parameters

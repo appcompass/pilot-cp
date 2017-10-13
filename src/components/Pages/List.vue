@@ -163,10 +163,10 @@ export default {
             vm.form = undefined
             return
           }
-          vm.pagination = _.omit(response.data.collection, ['data'])
+          vm.pagination = response.data.pagination
           vm.can.set(response.data.abilities)
-          vm.collection = response.data.collection.data
-          Object.assign(vm, _.omit(response.data, ['collection', 'abilities']))
+          vm.collection = response.data.data
+          Object.assign(vm, _.omit(response.data, ['data', 'abilities']))
 
           // default view on load is always the first.
           if (!vm.list_layout) {
