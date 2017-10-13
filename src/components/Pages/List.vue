@@ -69,7 +69,7 @@
           :sorters="sorters",
           :edit="edit",
           :collection="collection",
-          :owned="owned",
+          :selectable="selectable",
           :forms="{form: form, edit: edit}",
           @sort="sort",
           @search="doSearch"
