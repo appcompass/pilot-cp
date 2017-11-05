@@ -122,21 +122,21 @@ export default {
     load () {
       // set page data
       this.fetch('').then(response => {
-        response.data.collection.layout.forEach((layout) => {
+        response.data.layout.forEach((layout) => {
           this.layout.push(new PageElement(layout))
         })
-        this.page.init(response.data.form, response.data.collection.page)
+        this.page.init(response.data.form, response.data.page)
         this.active_editor = this.layout.length ? 'Content' : 'Settings'
       })
       // set containers available for the page
       this.fetch('containers').then(response => {
-        response.data.collection.forEach(container => {
+        response.data.data.forEach(container => {
           this.containers.push(new PageElement(container))
         })
       })
       // set sections available for the page
       this.fetch('sections').then(response => {
-        response.data.collection.forEach(section => {
+        response.data.data.forEach(section => {
           this.sections.push(new PageElement(section))
         })
       })
