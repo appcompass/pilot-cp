@@ -32,8 +32,8 @@
                 span.icon-cancel(
                   @click="$parent.toggleEdit(field)"
                 )
-      tbody(v-if="collection.length")
-        tr(v-for="row in collection")
+      tbody(v-if="selectable.length")
+        tr(v-for="row in selectable")
           td
             .switch.switch-small
               input(type="checkbox", :id="'toggle-' + row.id", v-bind:checked="has(row.id)", @click="toggle(row.id)")
@@ -49,36 +49,48 @@ import api from '../../api'
 
 export default {
   name: 'MultiSelectList',
-  props: ['forms', 'collection', 'owned'],
+  props: ['forms', 'collection', 'selectable'],
   data () {
     return {
+      removed: [],
+      added: [],
+      owned: [],
       endpoint: undefined
     }
   },
   mounted () {
+    this.owned = this.collection.map(i => i.id)
   },
   methods: {
     value (name, row) {
       return _.get(row, name)
     },
     has (id) {
-      if (!this.owned) {
+      if (!this.collection) {
         return false
       }
-      return this.owned.indexOf(id) > -1
+      return this.collection.findIndex(i => i.id === id) > -1
     },
     toggle (id) {
       if (this.has(id)) {
-        this.owned.splice(this.owned.indexOf(id), 1)
+        this.removed.push(id)
       } else {
-        this.owned.push(id)
+        this.added.push(id)
       }
       return this.update()
     },
+    reset () {
+      this.added = []
+      this.removed = []
+    },
     update () {
-      api.post('/api/' + this.$route.path, this.owned)
+      let vm = this
+      console.log({removed: this.removed, added: this.added})
+      api.post('/api/' + this.$route.path, {removed: this.removed, added: this.added})
         .then(function (response) {
           console.log(response)
+          vm.reset()
+          // vm.collection = response.data.data
         })
     }
   }

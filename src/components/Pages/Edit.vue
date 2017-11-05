@@ -80,8 +80,8 @@ export default {
         }
       })
         .then((response) => {
-          this.data = response.data.collection
-          this.form.init(response.data.form, response.data.collection)
+          this.data = response.data.data
+          this.form.init(response.data.form, response.data.data)
           this.loading = false
         }, (error) => {
           if (!this.$store.authenticated) {
