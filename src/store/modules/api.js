@@ -20,7 +20,7 @@ const actions = {
     commit('TOKEN', token)
     dispatch('ADD_HEADER', {key: 'Authorization', value: token})
     localStorage.setItem('token', token)
-    dispatch('FETCH_CSRF')
+    // dispatch('FETCH_CSRF')
   },
 
   FETCH_CSRF ({commit, dispatch}) {
@@ -50,7 +50,7 @@ const mutations = {
     state.token = undefined
     api.http.defaults.headers.common = state.headers
     localStorage.removeItem('token')
-    localStorage.removeItem('csrf_token')
+    // localStorage.removeItem('csrf_token')
   },
 
   HEADER (state, {key, value}) {
