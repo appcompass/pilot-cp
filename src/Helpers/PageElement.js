@@ -16,6 +16,7 @@ class PageElement {
     this.children = children
     this.type = this.section.type
     this.name = this.section.name
+    this.form = this.section.form
     this.isClosed = false
   }
   type () {
