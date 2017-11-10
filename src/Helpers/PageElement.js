@@ -1,30 +1,42 @@
+// import Form from 'Helpers/Form'
+
 //
 // Page Element
 // used in the layout builder
 //
 class PageElement {
   constructor (data) {
-    let children = []
-    if (typeof data.children === 'undefined') {
-      this.children = []
-    } else {
+    this.config = Object.assign({width: undefined}, data.section.config)
+    this.type = data.section.type
+    this.name = data.section.name
+    // this.form = data.form
+    this.isClosed = false
+    this.children = []
+
+    // this.form = new Form()
+    // this.form = data.form
+    // this.form.init(data.form, data.content)
+
+    if (Array.isArray(data.children)) {
+      let children = []
       data.children.forEach((child) => {
         children.push(new PageElement(child))
       })
+      this.children = children
     }
-    Object.assign(this, data)
-    this.children = children
-    this.type = this.section.type
-    this.name = this.section.name
-    this.form = this.section.form
-    this.isClosed = false
+
+    // this.children = children
+    return this
   }
+
   type () {
     return this.type
   }
+
   formData () {
     return this.form
   }
+
   collection () {
     return this.content
   }

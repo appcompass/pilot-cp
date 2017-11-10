@@ -2,28 +2,39 @@ import Errors from './Errors'
 import _ from 'lodash'
 
 export default class Form {
-  constructor () {
+  constructor (form, collection) {
     this.form = {}
-    this.collection = []
+    this.collection = {}
     this.fields = {}
     this.resource = {}
     this.endpoint = undefined
     this.errors = new Errors()
+    if (form && collection) {
+      this.init(form, collection)
+    }
   }
 
   data (data) {
-    this.collection = Object.assign({}, data)
+    this.collection = data
+    // this.collection = Object.assign({}, data)
   }
 
   setEndpoint (endpoint) {
     this.endpoint = endpoint
   }
 
-  init (formStructure, collection) {
-    this.form = _.cloneDeep(formStructure)
-    this.fields = _.cloneDeep(formStructure.fields)
-    _.unset(this.form, 'fields')
-    this.collection = collection || Object.create({})
+  init (form, collection) {
+    if (!form) {
+      throw new Error('No structure passed, aborting From init')
+    }
+    if (form.fields && form.fields.length) {
+      this.fields = _.cloneDeep(form.fields)
+      _.unset(form, 'fields')
+    }
+    this.form = _.cloneDeep(form)
+    if (collection) {
+      this.data(collection)
+    }
     return this
   }
 
@@ -61,12 +72,16 @@ export default class Form {
     // does field have a linked form associated?
     if (this.fields[fieldIndex].fields.length) {
       this.fields[fieldIndex].fields.forEach((field) => {
-        dataObject[field.name] = null
+        dataObject[field.name] = ''
         if (field.fields.length) {
           dataObject[field.name].fields = this.clone(field.fields)
         }
       })
+      if (!Array.isArray(this.collection[fieldName])) {
+        this.collection[fieldName] = []
+      }
       this.collection[fieldName].push(dataObject)
+      console.log(this.collection)
       return dataObject
     // field has no sub-form associated, so it's a single field repeatable
     } else {
