@@ -16,13 +16,14 @@ export default {
   name: 'sectionElement',
   props: ['element', 'index'],
   mounted () {
-    let form = new Form()
-    form.init(this.element.formData(), this.element.collection())
-    this.$emit('formData', {
-      name: this.element.name,
-      instance: this,
-      form
-    })
+    // console.log(this.element.form)
+    // let form = new Form()
+    // form.init(this.element.formData(), this.element.collection())
+    // this.$emit('formData', {
+    //   name: this.element.name,
+    //   instance: this,
+    //   form
+    // })
   }
 }
 </script>

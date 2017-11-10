@@ -15,7 +15,7 @@ div
           .page-section-edit-header {{ row.name }}
             span.icon.icon-box-down(@click="toggleForm(row)")
           .page-section-edit-content
-            FormBuilder(:form="row.form")
+            FormBuilder(:form="row")
     .sidebar.sidebar-page-layout(:class="{'is-active': checkEditor('Layout')}")
       .sidebar-page-layout-options
         .sidebar-page-layout-header
@@ -79,9 +79,9 @@ export default {
     this.load()
   },
   methods: {
-    formData (formData) {
-      this.content.push(formData)
-    },
+    // formData (formData) {
+    //   this.content.push(formData)
+    // },
     remove (keys) {
       // _.unset doesn't work with vue data objects :(
       this.deepClean(this.layout, keys)
@@ -122,9 +122,15 @@ export default {
     load () {
       // set page data
       this.fetch('').then(response => {
-        response.data.layout.forEach((layout) => {
+        let page = response.data.page
+        page.structure.forEach((layout) => {
           this.layout.push(new PageElement(layout))
         })
+
+        Object.keys(page.form).forEach(key => {
+          this.content.push(new Form(page.form[key], page.content[key]))
+        })
+
         this.page.init(response.data.form, response.data.page)
         this.active_editor = this.layout.length ? 'Content' : 'Settings'
       })
