@@ -13,19 +13,19 @@ const state = {
 
 const getters = {
   data: state => state.data,
+  config: state => state.config,
   visible: state => state.visible
 }
 
 const actions = {
-  'modal.show' ({commit, state}, config) {
-    console.log('here')
+  'modal.show' ({ commit, state }, config) {
     commit('CONFIG', config)
     commit('VISIBILITY', true)
   },
-  'modal.hide' ({commit, state}) {
+  'modal.hide' ({ commit, state }) {
     return commit('VISIBILITY', false)
   },
-  'modal.done' ({commit, state}, model) {
+  'modal.done' ({ commit, state }, model) {
     let config = _.cloneDeep(state.config)
     config.canClose = true
     commit('CONFIG', config)
@@ -48,7 +48,6 @@ const mutations = {
       return false
     }
     state.visible = visible
-    return true
   },
   MODEL (state, model) {
     state.model = model

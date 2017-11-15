@@ -1,5 +1,5 @@
 <template lang="pug">
-.page-layout-column(:style="{'width': element.section.config.width ? element.section.config.width : '100%'}")
+.page-layout-column(:style="{'width': element.config.width ? element.config.width : '100%'}")
   .page-layout(:class="{'is-closed': element.isClosed}")
     .page-layout-header {{ element.name }}
       span.page-layout-actions
