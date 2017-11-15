@@ -58,7 +58,7 @@ import PageBuilder from 'components/Editors/Page'
 export default {
   name: 'WebsitePageEditor',
   components: { Sortable, PageBuilder, Modal },
-  data () {
+  data() {
     return {
       active_editor: '',
       page: new Form(),
@@ -69,24 +69,24 @@ export default {
       sections: [],
       settings: new Form(),
       tabs: [
-        {name: 'Content', layout: true },
-        {name: 'Layout', layout: false },
-        {name: 'Settings', layout: false }
+        { name: 'Content', layout: true },
+        { name: 'Layout', layout: false },
+        { name: 'Settings', layout: false }
       ]
     }
   },
-  created () {
+  created() {
     this.load()
   },
   methods: {
     // formData (formData) {
     //   this.content.push(formData)
     // },
-    remove (keys) {
+    remove(keys) {
       // _.unset doesn't work with vue data objects :(
       this.deepClean(this.layout, keys)
     },
-    deepClean (obj, keys) {
+    deepClean(obj, keys) {
       if (keys.length === 0) return
 
       let currkey = keys[0]
@@ -101,37 +101,36 @@ export default {
         this.deepClean(obj[currkey], keys)
       }
     },
-    setForm (structure, data) {
+    setForm(structure, data) {
       return this.settings.init(structure, data)
     },
-    add (item) {
+    add(item) {
       console.log(item)
     },
-    requiresLayout (bool) {
+    requiresLayout(bool) {
       return bool ? this.layout.length : true
     },
-    checkEditor (editor) {
+    checkEditor(editor) {
       return this.active_editor === editor
     },
-    toggleEditor (editor) {
+    toggleEditor(editor) {
       this.active_editor = editor
     },
-    toggleForm (item) {
+    toggleForm(item) {
       this.$set(item, 'isClosed', !item.isClosed)
     },
-    load () {
+    load() {
       // set page data
       this.fetch('').then(response => {
         let page = response.data.page
-        page.structure.forEach((layout) => {
+        page.structure.forEach(layout => {
           this.layout.push(new PageElement(layout))
         })
 
         Object.keys(page.form).forEach(key => {
-          this.content.push(new Form(page.form[key], page.content[key]))
+          this.content.push(new Form(page.form[key], page.content[key], key))
         })
-
-        this.page.init(response.data.form, response.data.page)
+        this.page.init(response.data.form, response.data.meta)
         this.active_editor = this.layout.length ? 'Content' : 'Settings'
       })
       // set containers available for the page
@@ -147,19 +146,35 @@ export default {
         })
       })
     },
-    fetch (list) {
+    fetch(list) {
       return api.get('/api' + this.$route.fullPath + '/' + list)
     },
-    save () {
-      return api.put('/api' + this.$route.fullPath, {
-        layout: this.layout,
-        deletions: this.deletions,
-        page: this.page.collection
-      }).then(response => {
-        console.log(response)
+    getContent() {
+      let response = {}
+      this.content.forEach(form => {
+        let data = form.getData()
+        response[data.key] = data.collection
       })
+      return response
     },
-    update () {}
+    save() {
+      let payload = {
+        layout: this.layout,
+        content: this.getContent(),
+        deletions: this.deletions,
+        meta: this.page.getData()
+      }
+      console.log(payload.content)
+      return api
+        .put('/api' + this.$route.fullPath, payload)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    update() {}
   }
 }
 </script>

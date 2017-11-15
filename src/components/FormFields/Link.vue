@@ -66,7 +66,7 @@ export default {
       page: undefined
     }
   }),
-  mounted () {
+  mounted() {
     // @NOTE data is saved as string, this helps transitioning
     if (!_.isObject(this.data) && this.data !== 'null') {
       this.content.type = 'external'
@@ -77,12 +77,12 @@ export default {
   },
   components: { String },
   methods: {
-    set (e) {
+    set(e) {
       this.$set(this.content, e.pointer, e.value)
       this.input()
     },
-    input () {
-      this.$emit('input', {pointer: this.field.name, value: this.content})
+    input() {
+      this.$emit('input', { pointer: this.field.name, value: this.content })
     }
   }
 }

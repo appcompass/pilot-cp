@@ -2,8 +2,9 @@ import Errors from './Errors'
 import _ from 'lodash'
 
 export default class Form {
-  constructor (form, collection) {
+  constructor (form, collection, contentKey) {
     this.form = {}
+    this.contentKey = contentKey
     this.collection = {}
     this.fields = {}
     this.resource = {}
@@ -14,9 +15,13 @@ export default class Form {
     }
   }
 
-  data (data) {
+  data (data, contentKey) {
     this.collection = data
-    // this.collection = Object.assign({}, data)
+    if (contentKey) {
+      this.contentKey = contentKey
+    } else {
+      this.collection = Object.assign({}, data)
+    }
   }
 
   setEndpoint (endpoint) {
@@ -34,6 +39,7 @@ export default class Form {
     this.form = _.cloneDeep(form)
     if (collection) {
       this.data(collection)
+      console.log(this.collection)
     }
     return this
   }
@@ -54,8 +60,17 @@ export default class Form {
     if (index >= 0) {
       _.set(this.collection, data.pointer + `[${index}]`, data.value)
     } else {
+      console.log(this.collection[data.pointer])
       _.set(this.collection, data.pointer, data.value)
+      console.log(this.collection[data.pointer])
     }
+  }
+
+  getData () {
+    if (this.contentKey) {
+      return { key: this.contentKey, collection: this.collection }
+    }
+    return this.collection
   }
 
   fails (errors) {
@@ -71,7 +86,7 @@ export default class Form {
     let dataObject = Object.create({})
     // does field have a linked form associated?
     if (this.fields[fieldIndex].fields.length) {
-      this.fields[fieldIndex].fields.forEach((field) => {
+      this.fields[fieldIndex].fields.forEach(field => {
         dataObject[field.name] = ''
         if (field.fields.length) {
           dataObject[field.name].fields = this.clone(field.fields)
@@ -81,9 +96,9 @@ export default class Form {
         this.collection[fieldName] = []
       }
       this.collection[fieldName].push(dataObject)
-      console.log(this.collection)
+      // console.log(this.collection)
       return dataObject
-    // field has no sub-form associated, so it's a single field repeatable
+      // field has no sub-form associated, so it's a single field repeatable
     } else {
       let path = fieldName.split('.').join(`[0]`)
       let target = _.get(this.collection, path)
@@ -136,11 +151,10 @@ export default class Form {
       return {}
     }
     let res = {}
-    this.fields.forEach((field) => {
+    this.fields.forEach(field => {
       res[field.name.split('.')[0]] = _.get(item, field.name, '')
     })
     return res
   }
-
 }
 // export default Form

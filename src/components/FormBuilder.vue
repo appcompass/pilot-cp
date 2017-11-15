@@ -19,8 +19,7 @@ div
         button.btn-secondary(v-if="field.config.repeatable", @click.prevent="form.clone(getPath(field.name), fieldIndex)") Add Row
 
       div.form-error.row(v-if="!Components[field.type]")
-        .xsmall-12.columns
-          | {{ field.type }} Is not an installed component template.  Please install or create it.
+        .xsmall-12.columns {{ field.type }} Is not an installed component template.  Please install or create it.
       ul.form-error
         li(v-for="error in form.getErrors(field.name)") {{ error }}
 </template>
@@ -33,32 +32,32 @@ export default {
   name: 'FormBuilder',
   props: ['form'],
   components: { Sortable },
-  data () {
+  data() {
     return {
       Components
     }
   },
   methods: {
-    getPath (fieldname) {
+    getPath(fieldname) {
       return fieldname
     },
-    value (field, index) {
+    value(field, index) {
       return this.form.get(field, index)
     },
-    isRequired (field) {
+    isRequired(field) {
       return field.validation && field.validation.indexOf('required') >= 0
     },
     // sets a value
-    set (data, index) {
+    set(data, index) {
       // index only applies to single field repeatables
       this.form.set(data, index)
     },
     // collapse a structure
-    collapse (item, collapsed) {
+    collapse(item, collapsed) {
       this.$set(item, 'isCollapsed', collapsed)
     },
     // remove branch
-    unlink (field, index) {
+    unlink(field, index) {
       this.form.collection[field.name].splice(index, 1)
     }
   }

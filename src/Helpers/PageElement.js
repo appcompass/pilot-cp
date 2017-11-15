@@ -6,7 +6,8 @@
 //
 class PageElement {
   constructor (data) {
-    this.config = Object.assign({width: undefined}, data.section.config)
+    // Object.assign(this, data)
+    this.config = Object.assign({ width: undefined }, data.section.config)
     this.type = data.section.type
     this.name = data.section.name
     // this.form = data.form
@@ -19,13 +20,21 @@ class PageElement {
 
     if (Array.isArray(data.children)) {
       let children = []
-      data.children.forEach((child) => {
+      data.children.forEach(child => {
         children.push(new PageElement(child))
       })
       this.children = children
     }
 
-    // this.children = children
+    this.section = {
+      id: data.section.id
+    }
+
+    this.id = data.id
+    this.parent_id = data.parent_id
+    this.section_id = data.section_id
+    this.page_id = data.page_id
+    // this.children = data.children
     return this
   }
 
