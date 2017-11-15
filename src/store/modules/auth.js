@@ -11,7 +11,7 @@ class Abilities {
     if (!Array.isArray(abilities)) {
       console.error('Abilities must be an array.')
     }
-    abilities.forEach((ability) => {
+    abilities.forEach(ability => {
       this.abilities.push(ability)
     })
   }
@@ -22,16 +22,20 @@ class Abilities {
     }
     return this.abilities.includes(ability)
   }
-
 }
 
 export default {
   state: {
     authenticated: false,
     abilities: new Abilities(),
+    error: undefined,
     user: {
       profile: {
         gravatar_url: null
+      },
+      company: {
+        current: {},
+        available: []
       }
     },
     attempt: {
