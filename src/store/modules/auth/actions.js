@@ -42,7 +42,7 @@ export function CHECK_AUTH ({ commit, state, dispatch }, cb) {
   return new Promise((resolve, reject) => {
     if (!localStorage.hasOwnProperty('token')) {
       commit('LOGIN', false)
-      // router.push('/login')
+      router.push('/login')
       return reject(new Error('Unauthorized'))
     } else {
       dispatch('TOKEN', localStorage.getItem('token'))
@@ -64,8 +64,7 @@ export function CHECK_AUTH ({ commit, state, dispatch }, cb) {
         return resolve(true)
       })
       .catch(e => {
-        console.log(e)
-        // router.push('/login')
+        router.push('/login')
         return resolve(false)
       })
   })
@@ -75,7 +74,6 @@ export function SET_COMPANY ({ commit, state }, company) {
   api
     .post('/api/auth/select-company', { company_id: company.id })
     .then(r => {
-      console.log(r)
       commit('SET_COMPANY', r.data.data.current_company)
     })
     .catch(e => {
