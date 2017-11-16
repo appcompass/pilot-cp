@@ -5,7 +5,7 @@ const state = {
   token: undefined,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
-    'Authorization': undefined,
+    Authorization: undefined,
     'X-Csrf-Token': undefined
   }
 }
@@ -16,25 +16,24 @@ const getters = {
 }
 
 const actions = {
-  TOKEN ({commit, state, dispatch}, token) {
+  TOKEN ({ commit, state, dispatch }, token) {
     commit('TOKEN', token)
-    dispatch('ADD_HEADER', {key: 'Authorization', value: token})
+    dispatch('ADD_HEADER', { key: 'Authorization', value: token })
     localStorage.setItem('token', token)
     // dispatch('FETCH_CSRF')
   },
 
-  FETCH_CSRF ({commit, dispatch}) {
-    api.get('/api/web-forms/token')
-      .then((response) => {
-        dispatch('ADD_HEADER', {key: 'X-Csrf-Token', value: response.data})
-      })
+  FETCH_CSRF ({ commit, dispatch }) {
+    api.get('/api/web-forms/token').then(response => {
+      dispatch('ADD_HEADER', { key: 'X-Csrf-Token', value: response.data })
+    })
   },
 
-  LOGOUT ({commit}) {
+  LOGOUT ({ commit }) {
     commit('LOGOUT')
   },
 
-  ADD_HEADER ({commit}, header) {
+  ADD_HEADER ({ commit }, header) {
     commit('HEADER', header)
   }
 }
@@ -53,7 +52,7 @@ const mutations = {
     // localStorage.removeItem('csrf_token')
   },
 
-  HEADER (state, {key, value}) {
+  HEADER (state, { key, value }) {
     state.headers[key] = value
     api.http.defaults.headers.common = state.headers
   }
