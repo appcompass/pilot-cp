@@ -3,8 +3,7 @@ div
   h1 Select your Company
   table
     tr(v-for="company in companies")
-      td {{ company.id }}
-      td {{ company.name }}
+      td {{ company.label }}
       td(v-if="current && current.id")
         button.btn-secondary(v-if="current.id !== company.id" @click="setCompany(company.id)") Select
         button.btn-primary(v-else @click="hide") Selected
