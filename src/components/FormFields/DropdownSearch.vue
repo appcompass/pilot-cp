@@ -8,7 +8,7 @@ v-select(
 </template>
 
 <script>
-import vSelect from "vue-select"
+import vSelect from 'vue-select'
 
 // @CONVENTION takes an array of objects in the form
 // [{id: <int/string>, name: <string>}, {}]
@@ -18,19 +18,18 @@ export default {
   components: { vSelect },
   props: ['field', 'data', 'errors', 'source', 'label'],
   methods: {
-    change (e) {
-      console.log(e)
-      this.$emit('input', {pointer: this.field.name, value: e})
+    change(e) {
+      this.$emit('input', { pointer: this.field.name, value: e })
     }
   }
 }
 </script>
 <style>
-  .v-select {
-    font-family:inherit;
-  }
-  .v-select .selected-tag {
-    height:auto;
-    margin:4px 1px 4px 3px;
-  }
+.v-select {
+  font-family: inherit;
+}
+.v-select .selected-tag {
+  height: auto;
+  margin: 4px 1px 4px 3px;
+}
 </style>
