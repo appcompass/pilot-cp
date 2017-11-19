@@ -4,8 +4,9 @@
       h3.sidebar-nav-heading {{ side_nav.title }}
       ul.sidebar-nav
         li(v-for="item in side_nav.children")
-          a(:href="item.url")
-            span.icon(:class="'icon-' + item.icon") {{ item.title }}
+          router-link(:to="{name: item.url, params: $route.params}")
+            span.icon(:class="'icon-' + item.icon") 
+            | {{ item.title }}
 </template>
 
 <script>
