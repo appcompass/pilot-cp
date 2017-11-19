@@ -48,6 +48,9 @@ export default {
       this.routeChanged()
     }
   },
+  destroyed() {
+    this.$store.dispatch('CLEAR_NAV', 'side_nav')
+  },
   methods: {
     routeChanged() {
       this.refresh()
@@ -84,12 +87,23 @@ export default {
       this.loading = true
       api
         .get(`/api${this.$route.fullPath}`, {
-          params: {
-            page: 1
-          }
+          params: { page: 1 }
         })
         .then(
           response => {
+            let navigation = {
+              side_nav: {
+                children: [
+                  { title: 'Sub1', icon: '' },
+                  { title: 'Sub2', icon: '' }
+                ],
+                title: 'SubNav',
+                icon: ''
+              }
+            }
+            if (navigation) {
+              this.$store.dispatch('UPDATE_NAV', navigation)
+            }
             this.data = response.data.data
             this.form.init(response.data.form, response.data.data)
             this.loading = false

@@ -30,20 +30,6 @@ const api = {
     return http
       .get(path, params)
       .then(r => {
-        // @TODO move this check into the Edit view, it's the only one that cares about side-nav
-        let navigation = {
-          side_nav: {
-            children: [
-              { title: 'Sub1', icon: '' },
-              { title: 'Sub2', icon: '' }
-            ],
-            title: 'SubNav',
-            icon: ''
-          }
-        }
-        if (navigation) {
-          store.dispatch('UPDATE_NAV', navigation)
-        }
         return Promise.resolve(r)
       })
       .catch(e => Promise.reject(e))

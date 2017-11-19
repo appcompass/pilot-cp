@@ -25,6 +25,10 @@ const getters = {
   side_nav: state => state.side_nav
 }
 
+/**
+ * Actions
+ */
+
 const actions = {
   LOGGED ({ commit, dispatch }) {
     dispatch('INIT_ROUTES')
@@ -44,20 +48,18 @@ const actions = {
     })
   },
 
-  ROUTE_CHANGED ({ commit }, route) {},
-
   UPDATE_NAV ({ commit }, nav) {
     commit('UPDATE_NAV', nav)
   },
 
-  SET_SIDE_NAV ({ commit, state }, subNav) {
-    commit('SET_SIDE_NAV', subNav)
-  },
-
-  'nav.side.reset' ({ commit, state }) {
-    state.side_nav = {}
+  CLEAR_NAV ({ commit }, navName) {
+    commit('CLEAR_NAV', navName)
   }
 }
+
+/**
+ * MuTaTiOnS
+ */
 
 const mutations = {
   NAVIGATION (state, nav) {
@@ -72,21 +74,17 @@ const mutations = {
     Object.assign(state, nav)
   },
 
+  CLEAR_NAV (state, navName) {
+    state[navName] = {}
+  },
+
+  // @TODO get rid of this, make it human readable
   ROUTES (state, routes) {
-    // @TODO every request gets fired multiple times. i have no idea why
-    // routes nesting? parent resolves -> fires // children resolves -> fires
-    // quadruple-check the beforeEveryRoute or whatever that's called and semaphore the crap out of it
-    // THUS, FOR NOW: to prevent a ton of dupes warning from vue router we only inject if
-    // there's nothing there
     if (_.isEmpty(state.routes)) {
       processRoutes(routes)
       router.addRoutes(routes)
       state.routes = routes
     }
-  },
-
-  ROUTE_CHANGED (state, nav) {
-    state.sub_nav = nav
   }
 }
 
