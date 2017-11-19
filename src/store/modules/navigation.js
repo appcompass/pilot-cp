@@ -4,9 +4,6 @@ import _ from 'lodash'
 
 /**
  * STATE
- * @NOTE state.navigation is being updated on init
- * while steate.side_nav etc is about navigation pieces that will be updated with payloads
- * @TODO unify routes and move check for navigation payload into Edit and List components (or just edit actually)
  */
 const state = {
   navigation: {
@@ -49,6 +46,7 @@ const actions = {
   },
 
   UPDATE_NAV ({ commit }, nav) {
+    console.log(nav)
     commit('UPDATE_NAV', nav)
   },
 

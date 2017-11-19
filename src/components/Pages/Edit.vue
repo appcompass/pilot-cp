@@ -91,19 +91,7 @@ export default {
         })
         .then(
           response => {
-            let navigation = {
-              side_nav: {
-                children: [
-                  { title: 'Sub1', icon: '' },
-                  { title: 'Sub2', icon: '' }
-                ],
-                title: 'SubNav',
-                icon: ''
-              }
-            }
-            if (navigation) {
-              this.$store.dispatch('UPDATE_NAV', navigation)
-            }
+            this.$store.dispatch('UPDATE_NAV', response.data.navigation || {})
             this.data = response.data.data
             this.form.init(response.data.form, response.data.data)
             this.loading = false
@@ -120,6 +108,7 @@ export default {
             }
           }
         )
+        .catch(e => console.error(e))
     }
   }
 }

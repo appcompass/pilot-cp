@@ -160,6 +160,7 @@ export default {
         })
         .then(
           response => {
+            this.$store.dispatch('UPDATE_NAV', response.data.navigation || {})
             vm.loading = false
             if (!response.data.form) {
               vm.form = undefined
