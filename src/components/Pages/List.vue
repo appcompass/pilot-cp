@@ -91,8 +91,8 @@ import RouteHandling from 'Mixins/RouteHandling'
 export default {
   name: 'ListView',
   mixins: [RouteHandling],
-  components: {Pagination, TableList, MultiSelectList, CardList},
-  data () {
+  components: { Pagination, TableList, MultiSelectList, CardList },
+  data() {
     return {
       edit: [],
       form: undefined,
@@ -101,20 +101,20 @@ export default {
       create_type: undefined,
       update_type: undefined,
       // @TODO: Owned is very specifict to a type of view (MultiSelectList). we need to clean up how the data is passed down to he view types.
-      // true, this would be solved by moving single/multi (edit/list) states into vuex modules, every view would now what to expect in there -f
+      // true, this would be solved by moving single/multi (edit/list) states into vuex modules, every view would know what to expect in there -f
       owned: [],
       collection: {},
       search: {},
       sorters: {},
       loading: true,
       filter_results_toggle: false,
-      pagination: {current_page: 1, surrounded: 3, per_page: 25},
+      pagination: { current_page: 1, surrounded: 3, per_page: 25 },
       can: this.$store.getters.abilities,
       CreateTypes
     }
   },
   watch: {
-    '$route' (to, from) {
+    $route(to, from) {
       this.search = {}
       if (to.path === from.path) {
         return
@@ -127,18 +127,18 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.update()
   },
   methods: {
-    applyFilter: _.debounce(function () {
+    applyFilter: _.debounce(function() {
       if (this.pagination.current_page > 1) {
         this.pagination.current_page = 1
       } else {
         this.update()
       }
     }, 500),
-    reset () {
+    reset() {
       this.loading = true
       this.sorters = {}
       this.search = {}
@@ -146,63 +146,84 @@ export default {
       this.create_type = null
       this.update_type = null
     },
-    update () {
+    update() {
       let vm = this
       vm.loading = true
-      api.get('/api' + vm.$route.path, {
-        params: {
-          page: vm.pagination.current_page,
-          per_page: vm.pagination.per_page,
-          search: vm.search,
-          sorters: vm.sorters
-        }
-      })
-        .then((response) => {
-          vm.loading = false
-          if (!response.data.form) {
-            vm.form = undefined
-            return
+      api
+        .get('/api' + vm.$route.path, {
+          params: {
+            page: vm.pagination.current_page,
+            per_page: vm.pagination.per_page,
+            search: vm.search,
+            sorters: vm.sorters
           }
-          vm.pagination = response.data.pagination
-          vm.can.set(response.data.abilities)
-          vm.collection = response.data.data
-          Object.assign(vm, _.omit(response.data, ['data', 'abilities']))
-
-          // default view on load is always the first.
-          if (!vm.list_layout) {
-            vm.list_layout = vm.view_types[0]
-          }
-          Object.freeze(vm.can)
-        }, (response) => {
-          vm.loading = false
-          // if (!Auth.user.authenticated) {
-            // return
-          // }
-          swal('Error!', response.data.errors, 'error')
         })
+        .then(
+          response => {
+            vm.loading = false
+            if (!response.data.form) {
+              vm.form = undefined
+              return
+            }
+            vm.pagination = response.data.pagination
+            vm.can.set(response.data.abilities)
+            vm.collection = response.data.data
+            Object.assign(vm, _.omit(response.data, ['data', 'abilities']))
+
+            // default view on load is always the first.
+            if (!vm.list_layout) {
+              vm.list_layout = vm.view_types[0]
+            }
+            Object.freeze(vm.can)
+          },
+          response => {
+            vm.loading = false
+            // if (!Auth.user.authenticated) {
+            // return
+            // }
+            swal('Error!', response.data.errors, 'error')
+          }
+        )
     },
-    remove (id) {
-      swal({ title: 'Are you sure?', text: 'You will not be able to recover this', type: 'warning', showCancelButton: true, closeOnConfirm: false }, () => {
-        api.destroy('/api/' + this.$route.path.slice(1) + '/' + id)
-          .then((response) => {
-            swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
-              return this.update()
+    remove(id) {
+      swal(
+        {
+          title: 'Are you sure?',
+          text: 'You will not be able to recover this',
+          type: 'warning',
+          showCancelButton: true,
+          closeOnConfirm: false
+        },
+        () => {
+          api
+            .destroy('/api/' + this.$route.path.slice(1) + '/' + id)
+            .then(response => {
+              swal(
+                {
+                  title: 'Success',
+                  text: response.data.message,
+                  type: 'success'
+                },
+                () => {
+                  return this.update()
+                }
+              )
             })
-          })
-          .catch((response) => {
-            swal('Error!', response.data.message, 'error')
-          })
-      })
+            .catch(response => {
+              swal('Error!', response.data.message, 'error')
+            })
+        }
+      )
     },
-    sort (sorters) {
+    sort(sorters) {
       this.sorters = sorters
       this.update()
     },
-    doSearch (search) {
+    doSearch(search) {
       this.search = search
       this.applyFilter()
     },
-    page (page) {
+    page(page) {
       this.pagination.current_page = page
       this.update()
     }

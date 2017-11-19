@@ -2,18 +2,12 @@ import api from '../../api'
 import { default as router, processRoutes } from '../../router'
 import _ from 'lodash'
 
-function findObject (url, haystack, res) {
-  for (let i = 0; i < haystack.length; i++) {
-    let current = haystack[i]
-    if (current.url === url) {
-      res = current.children
-    } else if (current.children.length) {
-      res = findObject(url, current.children, res)
-    }
-  }
-  return res
-}
-
+/**
+ * STATE
+ * @NOTE state.navigation is being updated on init
+ * while steate.side_nav etc is about navigation pieces that will be updated with payloads
+ * @TODO unify routes and move check for navigation payload into Edit and List components (or just edit actually)
+ */
 const state = {
   navigation: {
     main_nav: {},
@@ -32,31 +26,35 @@ const getters = {
 }
 
 const actions = {
-
-  LOGGED ({commit, dispatch}) {
+  LOGGED ({ commit, dispatch }) {
     dispatch('INIT_ROUTES')
     dispatch('INIT_NAVIGATION')
   },
 
-  INIT_NAVIGATION ({commit, state}) {
-    api.get('/api/menus')
-      .then(response => {
-        commit('NAVIGATION', response.data)
-      })
+  INIT_NAVIGATION ({ commit, state }) {
+    api.get('/api/menus').then(response => {
+      delete response.data.debug
+      commit('NAVIGATION', response.data)
+    })
   },
 
-  INIT_ROUTES ({commit, state}) {
-    api.get('/api/routes')
-      .then(response => {
-        commit('ROUTES', response.data.routes)
-      })
+  INIT_ROUTES ({ commit, state }) {
+    api.get('/api/routes').then(response => {
+      commit('ROUTES', response.data.routes)
+    })
   },
 
-  'nav.side.set' ({commit, state}, {url, full_nav}) {
-    commit('setSideNav', findObject(url, full_nav))
+  ROUTE_CHANGED ({ commit }, route) {},
+
+  UPDATE_NAV ({ commit }, nav) {
+    commit('UPDATE_NAV', nav)
   },
 
-  'nav.side.reset' ({commit, state}) {
+  SET_SIDE_NAV ({ commit, state }, subNav) {
+    commit('SET_SIDE_NAV', subNav)
+  },
+
+  'nav.side.reset' ({ commit, state }) {
     state.side_nav = {}
   }
 }
@@ -65,9 +63,15 @@ const mutations = {
   NAVIGATION (state, nav) {
     state.navigation = nav
   },
-  setSideNav (state, nav) {
-    state.side_nav = nav
+
+  SET_SIDE_NAV (state, sideNav) {
+    state.side_nav = sideNav
   },
+
+  UPDATE_NAV (state, nav) {
+    Object.assign(state, nav)
+  },
+
   ROUTES (state, routes) {
     // @TODO every request gets fired multiple times. i have no idea why
     // routes nesting? parent resolves -> fires // children resolves -> fires
@@ -79,6 +83,10 @@ const mutations = {
       router.addRoutes(routes)
       state.routes = routes
     }
+  },
+
+  ROUTE_CHANGED (state, nav) {
+    state.sub_nav = nav
   }
 }
 
