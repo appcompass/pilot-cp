@@ -4,8 +4,7 @@
       div.page-header
         div.row
           div.xsmall-8.columns
-            h1.page-title
-              | {{ $route.params.sub || $route.params.model || $route.name }}
+            h1.page-title TItulo
           div.xsmall-4.columns.text-right
             p
               //- router-link.btn-primary(v-if="can.has('create')", :to="formatLink('create')", style="margin-left: 1rem", ) Add New
@@ -31,7 +30,7 @@ import RouteHandling from 'Mixins/RouteHandling'
 export default {
   name: 'ShowView',
   mixins: [RouteHandling],
-  data () {
+  data() {
     return {
       submitted: false,
       loading: true,
@@ -42,16 +41,16 @@ export default {
       form: new Form()
     }
   },
-  created () {
+  created() {
     this.routeChanged()
   },
   watch: {
-    '$route' (to, from) {
+    $route(to, from) {
       this.routeChanged()
     }
   },
   methods: {
-    routeChanged () {
+    routeChanged() {
       this.api = '/api' + this.$route.fullPath
       this.tabs = []
       this.setTabs()
@@ -66,7 +65,7 @@ export default {
     //   }
     //   return obj
     // },
-    setTabs () {
+    setTabs() {
       let url = this.reverseUrl()
       url = url.substring(0, url.lastIndexOf('/:'))
       // @TODO: use similar logic to side nav to set the 3rd level sub nav.
