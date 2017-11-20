@@ -27,7 +27,7 @@ export default {
   name: 'EditView',
   mixins: [RouteHandling],
   components: {},
-  data () {
+  data() {
     return {
       submitted: false,
       loading: true,
@@ -40,56 +40,75 @@ export default {
       Editors
     }
   },
-  created () {
+  created() {
     this.routeChanged()
   },
   watch: {
-    '$route' (to, from) {
+    $route(to, from) {
       this.routeChanged()
     }
   },
+  destroyed() {
+    this.$store.dispatch('CLEAR_NAV', 'side_nav')
+  },
   methods: {
-    routeChanged () {
+    routeChanged() {
       this.refresh()
     },
-    set (data) {
+    set(data) {
       this.form.set(data)
     },
-    update () {
+    update() {
       this.submitted = true
       let vm = this
-      api.put(`/api${this.$route.fullPath}`, this.form.collection)
+      api
+        .put(`/api${this.$route.fullPath}`, this.form.collection)
         .then(response => {
-          swal({title: 'Success', text: response.data.message, type: 'success'}, () => {
-            return vm.refresh()
-          })
+          swal(
+            { title: 'Success', text: response.data.message, type: 'success' },
+            () => {
+              return vm.refresh()
+            }
+          )
         })
         .catch(error => {
           if (error.response.status === 422) {
             this.form.fails(error.response.data)
           } else if (error.response.status !== 403) {
-            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
+            swal({
+              title: 'Error',
+              text: error.response.data.errors,
+              type: 'error'
+            })
           }
         })
     },
-    refresh () {
+    refresh() {
       this.loading = true
-      api.get(`/api${this.$route.fullPath}`, {
-        params: {
-          page: 1
-        }
-      })
-        .then((response) => {
-          this.data = response.data.data
-          this.form.init(response.data.form, response.data.data)
-          this.loading = false
-        }, (error) => {
-          if (!this.$store.authenticated) {
-            return
-          } else if (error.response.status !== 403) {
-            swal({title: 'Error', text: error.response.data.errors, type: 'error'})
-          }
+      api
+        .get(`/api${this.$route.fullPath}`, {
+          params: { page: 1 }
         })
+        .then(
+          response => {
+            this.$store.dispatch('UPDATE_NAV', response.data.navigation || {})
+            this.data = response.data.data
+            this.form.init(response.data.form, response.data.data)
+            this.loading = false
+          },
+          error => {
+            if (!this.$store.authenticated) {
+              return
+            } else if (error.response.status !== 403) {
+              swal({
+                title: 'Error',
+                text: error.response.data.errors,
+                type: 'error'
+              })
+            }
+          }
+        )
+        .catch(e => console.error(e))
     }
   }
 }
