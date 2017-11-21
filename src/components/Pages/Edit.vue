@@ -91,6 +91,7 @@ export default {
         })
         .then(
           response => {
+            // Update navigation
             this.$store.dispatch('UPDATE_NAV', response.data.navigation || {})
             this.data = response.data.data
             this.form.init(response.data.form, response.data.data)

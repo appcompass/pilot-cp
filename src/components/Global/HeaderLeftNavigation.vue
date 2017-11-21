@@ -5,7 +5,7 @@ ul.header-nav.header-nav-primary(v-if="navigation")
     a(v-else) {{ cat.title }}
     ul(v-if="cat.children")
       li(v-for="item in cat.children")
-        router-link(:to="item.url") {{ item.title }}
+        router-link(:to="{path: item.url}") {{ item.title }}
 </template>
 
 <script>
