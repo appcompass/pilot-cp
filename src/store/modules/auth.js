@@ -47,8 +47,13 @@ const actions = {
           dispatch('AVAILABLE_COMPANIES', user.companies)
           if (user.current_company) {
             dispatch('SET_COMPANY', user.current_company)
+          } else {
+            if (user.companies.length > 1) {
+              dispatch('modal.show', { type: 'Company' })
+            } else {
+              dispatch('SET_COMPANY', user.companies[0])
+            }
           }
-          dispatch('modal.show', { type: 'Company' })
           commit('LOGIN', true)
           commit('USER', response.data.data.user)
           dispatch('LOGGED')
@@ -76,7 +81,7 @@ const actions = {
         .then(response => {
           let user = response.data.data
           dispatch('AVAILABLE_COMPANIES', user.companies)
-          if (user.current_company) {
+          if (user.current_company && user.companies.length > 1) {
             dispatch('SET_COMPANY', user.current_company)
           } else {
             dispatch('modal.show', { type: 'Company' })

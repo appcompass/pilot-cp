@@ -30,9 +30,15 @@ const api = {
     return http
       .get(path, params)
       .then(r => {
+        if (r.data.breadcrumbs) {
+          store.dispatch('SET_BREADCRUMBS', r.data.breadcrumbs)
+        }
         return Promise.resolve(r)
       })
-      .catch(e => Promise.reject(e))
+      .catch(e => {
+        console.log(e)
+        Promise.reject(e)
+      })
   },
   post: (path, params) => http.post(path, params),
   put: (path, params) => http.put(path, params),

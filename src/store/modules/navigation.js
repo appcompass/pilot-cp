@@ -11,6 +11,7 @@ const state = {
     user_nav: {}
   },
   routes: {},
+  breadcrumbs: [],
   side_nav: {}
 }
 
@@ -19,7 +20,8 @@ const getters = {
   main_nav: state => state.navigation.main_nav,
   user_nav: state => state.navigation.user_nav,
   routes: state => state.routes,
-  side_nav: state => state.side_nav
+  side_nav: state => state.side_nav,
+  breadcrumbs: state => state.breadcrumbs
 }
 
 /**
@@ -46,12 +48,18 @@ const actions = {
   },
 
   UPDATE_NAV ({ commit }, nav) {
-    console.log(nav)
+    if (Array.isArray(nav) && nav.length === 0) {
+      commit('CLEAR_NAV', 'side_nav')
+    }
     commit('UPDATE_NAV', nav)
   },
 
   CLEAR_NAV ({ commit }, navName) {
     commit('CLEAR_NAV', navName)
+  },
+
+  SET_BREADCRUMBS ({ commit }, breadcrumbs) {
+    commit('SET_BREADCRUMBS', breadcrumbs)
   }
 }
 
@@ -83,6 +91,10 @@ const mutations = {
       router.addRoutes(routes)
       state.routes = routes
     }
+  },
+
+  SET_BREADCRUMBS (state, breadcrumbs) {
+    state.breadcrumbs = breadcrumbs
   }
 }
 
