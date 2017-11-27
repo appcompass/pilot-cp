@@ -43,9 +43,8 @@ export default {
           this.$router.push('/dashboard')
         })
         .catch(error => {
-          console.log(error)
-          this.error = error
-          this.response = { message: error }
+          this.error = error.message
+          this.response = { message: error.message }
         })
     }
   }
