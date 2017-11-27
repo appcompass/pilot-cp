@@ -41,6 +41,10 @@ const actions = {
     })
   },
 
+  LOGOUT ({ commit }) {
+    commit('LOGOUT')
+  },
+
   INIT_ROUTES ({ commit, state }) {
     api.get('/api/routes').then(response => {
       commit('ROUTES', response.data.routes)
@@ -95,6 +99,15 @@ const mutations = {
 
   SET_BREADCRUMBS (state, breadcrumbs) {
     state.breadcrumbs = breadcrumbs
+  },
+
+  LOGOUT (state) {
+    state.side_nav = {}
+    state.breadcrumbs = []
+    state.navigation = {
+      main_nav: {},
+      user_nav: {}
+    }
   }
 }
 
