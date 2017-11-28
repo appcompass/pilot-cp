@@ -1,6 +1,5 @@
 module.exports = {
-  created: function () {
-  },
+  created: function () {},
   methods: {
     activeNav (url) {
       return this.buildUrl(url) === this.$route.fullPath
