@@ -32,29 +32,27 @@ const state = {
 
 const actions = {
   ATTEMPT ({ commit, state, dispatch }, credentials) {
-    let companies = [
-      { id: '1', name: 'Plus 3 Interactive' },
-      { id: '2', name: 'Triton' }
-    ]
-    dispatch('AVAILABLE_COMPANIES', companies)
-
     return new Promise((resolve, reject) => {
       commit('ATTEMPT', credentials)
       api
         .post('/api/auth/login', state.attempt)
         .then(response => {
-          let user = response.data.data.user
+          let data = response.data.data
+          let user = data.user
 
           // set api token
-          let token = `${response.data.data.token_type} ${response.data.data
-            .access_token}`
+          let token = `${data.token_type} ${data.access_token}`
           dispatch('TOKEN', token)
 
           dispatch('AVAILABLE_COMPANIES', user.companies)
           if (user.current_company) {
             dispatch('SET_COMPANY', user.current_company)
           }
-          dispatch('modal.show', { type: 'Company' })
+          if (user.companies.length > 1) {
+            dispatch('modal.show', { type: 'Company' })
+          } else {
+            dispatch('SET_COMPANY', user.companies[0])
+          }
           commit('LOGIN', true)
           commit('USER', response.data.data.user)
           dispatch('LOGGED')
@@ -85,7 +83,11 @@ const actions = {
           if (user.current_company) {
             dispatch('SET_COMPANY', user.current_company)
           } else {
-            dispatch('modal.show', { type: 'Company' })
+            if (user.companies.length > 1) {
+              dispatch('modal.show', { type: 'Company' })
+            } else {
+              dispatch('SET_COMPANY', user.companies[0])
+            }
           }
           commit('LOGIN', true)
           commit('USER', response.data.data)

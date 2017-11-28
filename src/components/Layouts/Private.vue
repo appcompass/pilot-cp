@@ -2,7 +2,8 @@
 .site
   SiteHeader
   .content-container
-    SideNavigation
+    //- only show subnav if main nav is there
+    SideNavigation(v-if="nav")
     Notifications
     .main-container
       main.main
@@ -26,10 +27,15 @@ import Modal from 'components/Global/Modal'
 
 export default {
   name: 'Private',
-  data: () =>  ({
+  data: () => ({
     lockTimeout: undefined
   }),
-  mounted () {
+  computed: {
+    nav() {
+      return this.$store.getters.navigation
+    }
+  },
+  mounted() {
     // this.$el.addEventListener('mousemove', () => {
     //   clearTimeout(this.lockTimeout)
     //   this.lockTimeout = setTimeout(() => this.$store.dispatch('modal.show', {
