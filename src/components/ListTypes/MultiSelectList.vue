@@ -36,8 +36,8 @@
         tr(v-for="row in selectable")
           td
             .switch.switch-small
-              input(type="checkbox", :id="'toggle-' + row.id", v-bind:checked="has(row.id)", @click="toggle(row.id)")
               label(:for="'toggle-' + row.id")
+                input(type="checkbox", :id="'toggle-' + row.id", :checked="has(row.id)", @click="toggle(row.id)")
           td(v-for="(field, index) in forms.form.fields")
             span(
               v-html="value(field.name, row)"
@@ -50,7 +50,7 @@ import api from '../../api'
 export default {
   name: 'MultiSelectList',
   props: ['forms', 'collection', 'selectable'],
-  data () {
+  data() {
     return {
       removed: [],
       added: [],
@@ -58,20 +58,20 @@ export default {
       endpoint: undefined
     }
   },
-  mounted () {
+  mounted() {
     this.owned = this.collection.map(i => i.id)
   },
   methods: {
-    value (name, row) {
+    value(name, row) {
       return _.get(row, name)
     },
-    has (id) {
+    has(id) {
       if (!this.collection) {
         return false
       }
       return this.collection.findIndex(i => i.id === id) > -1
     },
-    toggle (id) {
+    toggle(id) {
       if (this.has(id)) {
         this.removed.push(id)
       } else {
@@ -79,15 +79,19 @@ export default {
       }
       return this.update()
     },
-    reset () {
+    reset() {
       this.added = []
       this.removed = []
     },
-    update () {
+    update() {
       let vm = this
-      console.log({removed: this.removed, added: this.added})
-      api.post('/api/' + this.$route.path, {removed: this.removed, added: this.added})
-        .then(function (response) {
+      console.log({ removed: this.removed, added: this.added })
+      api
+        .post('/api/' + this.$route.path, {
+          removed: this.removed,
+          added: this.added
+        })
+        .then(function(response) {
           console.log(response)
           vm.reset()
           // vm.collection = response.data.data

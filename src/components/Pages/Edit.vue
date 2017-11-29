@@ -1,8 +1,8 @@
 <template lang="pug">
   div
     div(
-      v-if="!loading && Editors[form.form.editor]",
-      :is="Editors[form.form.editor]",
+      v-if="!loading && Editors[form.editor]",
+      :is="Editors[form.editor]",
       :data="data",
       :form="form",
       @refresh="refresh",
@@ -62,18 +62,28 @@ export default {
       this.submitted = true
       let vm = this
       api
-        .put(`/api${this.$route.fullPath}`, this.form.collection)
+        .put(
+          `/api${this.$route.fullPath}`,
+          this.$store.getters.collection(null)
+        )
         .then(response => {
           swal(
-            { title: 'Success', text: response.data.message, type: 'success' },
+            {
+              title: 'Success',
+              text: response.data.message,
+              type: 'success'
+            },
             () => {
-              return vm.refresh()
+              this.$store.dispatch('SET_FORM', {
+                form: response.data.form,
+                collection: response.data.data
+              })
             }
           )
         })
         .catch(error => {
           if (error.response.status === 422) {
-            this.form.fails(error.response.data)
+            this.$store.dispatch('FORM_ERRORS', error.response.data)
           } else if (error.response.status !== 403) {
             swal({
               title: 'Error',
@@ -95,6 +105,10 @@ export default {
             this.$store.dispatch('UPDATE_NAV', response.data.navigation || {})
             this.data = response.data.data
             this.form.init(response.data.form, response.data.data)
+            this.$store.dispatch('SET_FORM', {
+              form: response.data.form,
+              collection: response.data.data
+            })
             this.loading = false
           },
           error => {

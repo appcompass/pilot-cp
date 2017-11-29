@@ -1,12 +1,12 @@
 <template lang="pug">
-div
-  .control
-    label.checkbox
-      input(type="checkbox", v-model="edit")
-      |  Change Password
+div 
+  .switch.switch-small
+    input(type="checkbox" v-model="edit" :id="'toggle-' + _uid" :checked="edit")
+    label(:for="'toggle-' + _uid")
   .control(v-if="edit")
-    input.input(type="password", v-model="password", placeholder="Password", @input="input", :class="{'is-danger': errors}")
-    input.input(type="password", v-model="password_confirmation", placeholder="Password Again", @input="input", :class="{'is-danger': errors}")
+    input.input(type="password" v-model="password" placeholder="Password" @input="input" :class="{'error': errors}")
+    input.input(type="password" v-model="password_confirmation" placeholder="Password Again" @input="input" :class="{'error': errors}")
+    slot
 
 </template>
 
@@ -14,17 +14,25 @@ div
 export default {
   name: 'secret',
   props: ['errors', 'field'],
-  data () {
+  data() {
     return {
+      uid: this._uid,
       edit: false,
       password: undefined,
       password_confirmation: undefined
     }
   },
   methods: {
-    input () {
-        this.$emit('input', {value: this.password, pointer: this.field.name})
-        this.$emit('input', {value: this.password_confirmation, pointer: this.field.name + '_confirmation'})
+    input() {
+      this.$emit('input', { value: this.password, pointer: 'password' })
+      this.$emit('input', {
+        value: this.password_confirmation,
+        pointer: this.field.name + '_confirmation'
+      })
+    },
+    toggle() {
+      console.log('here')
+      this.edit = false
     }
   }
 }

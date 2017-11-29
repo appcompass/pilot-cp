@@ -15,14 +15,14 @@
         h1.title.is-4 Edit: {{ this.$route.fullPath.slice(0,-1).split('/').pop() }}
         .row
           .xsmall-12.columns
-            FormBuilder(:form="form", @set="set")
+            FormBuilder(:form="form")
 </template>
 
 <script>
 export default {
   name: 'FormEditor',
   props: ['form'],
-  data () {
+  data() {
     return {
       resource: undefined,
       loading: false,
@@ -31,11 +31,11 @@ export default {
       visible: true
     }
   },
-  created () {
+  created() {
     this.model = this.$route.fullPath
   },
   methods: {
-    set (data) {
+    set(data) {
       this.$emit('set', data)
     }
   }
