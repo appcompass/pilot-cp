@@ -3,6 +3,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import axios from 'axios'
 import _ from 'lodash'
+// import store from './store'
 
 import Layouts from 'components/Layouts'
 import Pages from 'components/Pages'
@@ -67,7 +68,7 @@ const router = new Router({
           component: {
             mounted () {
               this.$store.dispatch('LOGOUT')
-              this.$router.push({name: 'login'})
+              this.$router.push({ name: 'login' })
             }
           }
         },
@@ -100,30 +101,8 @@ const router = new Router({
   ]
 })
 
-// // @TODO: replace much of this logic with something following the below convention,
-// // or set the component to be always the main App component and handle the sub views from there.
-// const createView = (path) => {
-//   console.log(this)
-// }
-// const router = new Router({
-//   mode: 'history',
-//   scrollBehavior: () => ({ y: 0 }),
-//   routes: [
-//     {
-//       path: '*',
-//       component: createView(this),
-//       beforeEnter: (to, from, next) => {
-//         console.log(to, from)
-//         next()
-//       }
-//     }
-//   ]
-// })
-
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // @TODO: instead of just relying on the token, switch to using store/local storage 'authenticated' value
-    // why? -f
     if (!localStorage.getItem('token')) {
       next({
         path: '/login',

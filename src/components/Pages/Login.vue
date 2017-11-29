@@ -24,7 +24,7 @@
 export default {
   name: 'LoginView',
   props: ['view'],
-  data () {
+  data() {
     return {
       email: null,
       password: null,
@@ -33,16 +33,18 @@ export default {
     }
   },
   methods: {
-    login () {
-      this.$store.dispatch('ATTEMPT', {
-        email: this.email,
-        password: this.password
-      })
+    login() {
+      this.$store
+        .dispatch('ATTEMPT', {
+          email: this.email,
+          password: this.password
+        })
         .then(() => {
           this.$router.push('/dashboard')
         })
         .catch(error => {
-          this.error = error
+          this.error = error.message
+          this.response = { message: error.message }
         })
     }
   }

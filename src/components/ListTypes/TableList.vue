@@ -15,54 +15,40 @@
                 input(v-if="edit.indexOf(field.id) > -1", type="search", v-model="search[field.name]", :placeholder="field.label", @keyup="$emit('search', search)", ref="field")
                 span.icon-cancel(@click="toggleEdit(field, index)")
       tbody(v-if="collection.length")
-        tr(v-for="row in collection")
+        tr(v-for="row in collection" track-by="row.id")
+          //- Checkbox to select a row for mass-actions
           td
-            input(type="checkbox" name="" value="")
+            input(type="checkbox" @click="toggleSelect(row.id)")
+          //- Build row remainder based on avail fields
           td(v-for="(field, index) in forms.form.fields")
-            span(v-if="index === 0")
-              router-link.table-user-avatar(
-                v-if="row.card_photo && row.abilities.includes('edit')",
-                :to="{name: getRouteName('show'), params: getRouteParams(row.id)}",
-              )
-                img(:src="row.card_photo", width="32", height="32")
-              a.table-user-avatar(v-else if="row.card_photo")
-                img(:src="row.card_photo", width="32", height="32")
-              b(v-if="row.abilities.includes('edit')")
-                router-link(
-                  :to="{name: getRouteName('show'), params: getRouteParams(row.id)}",
-                  v-html="value(field.name, row)"
-                )
-              a(v-else, v-html="value(field.name, row)")
-              div.table-row-actions
-                router-link.link-primary(
-                  v-if="row.abilities.includes('edit')",
-                  :to="{name: getRouteName('show'), params: getRouteParams(row.id)}",
-                ) Edit
-                = " | "
-                //- @TODO: add delete ability permissions to resources on API.
-                //- v-if="row.abilities.includes('delete')",
-                a.link-red(@click="$parent.remove(row.id)") Delete
-
-            span(v-if="index > 0", v-html="value(field.name, row)")
+            //- On first field we need specific behavior
+            span(v-if="index === 0", :is="'FirstFieldList'", :content="value(field.name, row)", :row="row", :field="field")
+            //- otherwise we dynamically link by field type
+            div(v-else :is="`${field.type}List`", :content="value(field.name, row)") 
 </template>
 <script>
 import _ from 'lodash'
 import RouteHandling from 'Mixins/RouteHandling'
+import * as ListFields from 'components/ListFields'
 
 export default {
   name: 'TableList',
   mixins: [RouteHandling],
-  props: [ 'forms', 'collection', 'search', 'sorters', 'edit' ],
-  data () {
+  components: ListFields,
+  props: ['forms', 'collection', 'search', 'sorters', 'edit'],
+  data() {
     return {
       _
     }
   },
   methods: {
-    value (name, row) {
+    value(name, row) {
       return _.get(row, name)
     },
-    toggleSorter (field, index) {
+    toggleSelect(id) {
+      console.log(`Toggle ${id}`)
+    },
+    toggleSorter(field, index) {
       if (!field.config.sortable) {
         return
       }
@@ -79,7 +65,7 @@ export default {
       }
       this.$emit('sort', this.sorters)
     },
-    toggleEdit (field, index) {
+    toggleEdit(field, index) {
       if (this.edit.indexOf(field.id) > -1) {
         delete this.search[field.name]
         this.edit.splice(this.edit.indexOf(field.id), 1)

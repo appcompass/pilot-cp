@@ -21,16 +21,16 @@ export default {
       required: true
     }
   },
-  data () {
+  data() {
     return {
       isCollapsed: false
     }
   },
   methods: {
-    input (data) {
-      this.$emit('input', {pointer: data.pointer, value: data.value})
+    input(data) {
+      this.$emit('input', { pointer: data.pointer, value: data.value })
     },
-    collapse () {
+    collapse() {
       this.isCollapsed = !this.isCollapsed
     }
   }

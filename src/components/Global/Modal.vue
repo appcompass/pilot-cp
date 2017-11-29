@@ -1,29 +1,24 @@
 <template lang="pug">
-div(:is="Modals[config.type]", @close="close", v-if="visible")
+div(:is="config.type", @close="close", v-if="visible")
 </template>
 
 <script>
-// @NOTE this way of importing makes accessing single items awkward
-// import { foo } from './Bar' does not work
-import * as Modals from '../Modals'
+import { Media, Photo, SwapMedia, LockScreen, Company } from '../Modals'
 const tingle = window.tingle
 
 export default {
   name: 'Modal',
+  components: { Media, Photo, SwapMedia, LockScreen, Company },
   data: () => ({
-    modal: undefined,
-    Modals
+    visibility: false
   }),
   methods: {
-    close () {
+    close() {
       this.$store.dispatch('modal.hide')
     }
   },
-  mounted () {
-  },
   watch: {
-    visible (nv) {
-      console.log('Modal Visibility: ' + nv)
+    visibility: function(nv) {
       if (nv) {
         this.modal = new tingle.modal({
           cssClass: [this.config.css],
@@ -40,13 +35,31 @@ export default {
     }
   },
   computed: {
-    visible () {
-      // return false
-      return this.$store.state.modal.visible
+    visible() {
+      this.visibility = this.$store.getters.visible
+      return this.$store.getters.visible
     },
-    config () {
-      return this.$store.state.modal.config
+    config() {
+      return this.$store.getters.config
     }
   }
+  // watch: {
+  //   vibile: function(nv) {
+  //     console.log('Modal Visibility: ' + nv)
+  //     if (nv) {
+  //       this.modal = new tingle.modal({
+  //         cssClass: [this.config.css],
+  //         footer: true,
+  //         stickyFooter: true,
+  //         beforeClose: () => this.$store.dispatch('modal.hide')
+  //         // beforeClose: () => this.config.canClose
+  //       })
+  //       this.modal.setContent(this.$el)
+  //       this.modal.open()
+  //     } else {
+  //       this.modal.close()
+  //     }
+  //   }
+  // }
 }
 </script>
