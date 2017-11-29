@@ -8,6 +8,7 @@ div
     :value="data",
     :class="{'error': errors}"
   )
+  slot 
 </template>
 
 <script>
