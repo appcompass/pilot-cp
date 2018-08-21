@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/82835871.svg)](https://zenodo.org/badge/latestdoi/82835871)
+
 ## [AppCompass Control Panel](https://pilot-io.com) developed and provided by [Plus 3 Interactive, LLC](http://www.plus3interactive.com).
 
 ## Team
