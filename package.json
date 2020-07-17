@@ -72,7 +72,7 @@
     "shelljs": "^0.7.4",
     "shx": "^0.2.2",
     "style-loader": "^0.18.2",
-    "stylus": "^0.54.5",
+    "stylus": "^0.54.8",
     "stylus-loader": "^3.0.1",
     "url-loader": "^0.5.7",
     "vue-ace-editor": "^1.0.2",
