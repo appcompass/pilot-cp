@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.0",
     "brace": "^0.10.0",
     "dropzone": "^5.1.0",
     "highlight.js": "^9.10.0",
